@@ -1,0 +1,81 @@
+
+body {
+	background-color: #999;
+}
+
+h1, h2, h3 {
+  color: #000;
+}
+h1 {
+  font-size: 2.5em
+}
+
+h2 {
+  font-size: 2em
+}
+
+h3 {
+  font-size: 1.5em
+}
+
+a {
+  text-decoration: none;
+  color: #09f;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.horiz-container {
+	display: flex;
+	flex-direction: row;
+}
+
+.vert-container {
+	display: flex;
+	flex-direction: column;
+}
+
+.stretch-container {
+  flex-grow: 1;
+}
+
+.extender {
+  flex-grow: 1;
+}
+
+.planeta-header {
+  align-items: stretch;
+}
+
+.lhead {
+
+}
+
+.lhead .extender {
+  background-image: url(../images/lhead-extend.png);
+  background-repeat: repeat-x; 
+}
+
+.mhead {
+  width: auto;
+  flex-grow: 1; 
+}
+
+.mhead .extender {
+  background-image: url(../images/mhead-extend.png);
+  background-repeat: repeat-x; 
+}
+
+.mhead .logo {
+  position: absolute; 
+  top: 12px;
+  right: 100px;
+}
+
+@media(max-width: 600px) {
+  .lhead {
+    display: none; 
+  }
+}

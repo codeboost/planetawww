@@ -13,8 +13,38 @@
 
 (defcard-rg site-logo (site-header/planeta-header))
 
-;(defcard-rg home-page-card
-;  [core/home-page])
+
+(defn mindic[]
+  [:div.horiz-container.mindic
+   [:img {:src "images/mindic-left.png"}]
+   [:div.extend]
+   [:img {:src "images/mindic-right.png"}]])
+
+(defn nav-menu[]
+  [:div.vert-container
+   (mindic)
+   [:div.horiz-container.nav-menu
+    [:div.left-border]
+    [:div.contents "Hello this is it"]
+    [:div.right-border]
+    ]])
+
+(defn site-content[]
+  [:div.horiz-container.site-content
+   (nav-menu)
+   [:div.vert-container.extender
+    (mindic)
+    [:div.contents "Hello this is the content"]]])
+
+(defn all-site []
+  [:div.vert-container.planeta-site
+   (site-header/planeta-header)
+   (site-content)])
+
+
+
+(defcard-rg all-site (all-site))
+
 
 (reagent/render [:div] (.getElementById js/document "app"))
 

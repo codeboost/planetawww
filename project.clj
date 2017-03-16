@@ -16,6 +16,7 @@
                  [org.clojure/clojurescript "1.9.473"
                   :scope "provided"]
                  [secretary "1.2.3"]
+                 [cljsjs/typedjs "1.1.1-0"]
                  [venantius/accountant "0.1.7"
                   :exclusions [org.clojure/tools.reader]]]
 
@@ -46,7 +47,8 @@
    {"resources/public/css/site.min.css" "resources/public/css/site.css"}}
 
   :cljsbuild
-  {:builds {:min
+  {:builds {
+            :min
             {:source-paths ["src/cljs" "src/cljc" "env/prod/cljs"]
              :compiler
              {:output-to "target/cljsbuild/public/js/app.js"
@@ -55,6 +57,7 @@
               :pretty-print  false}}
             :app
             {:source-paths ["src/cljs" "src/cljc" "env/dev/cljs"]
+             :figwheel {:websocket-host "192.168.1.37"}
              :compiler
              {:main "plawww.dev"
               :asset-path "/js/out"
@@ -87,9 +90,10 @@
    :nrepl-middleware ["cemerick.piggieback/wrap-cljs-repl"
                       ]
    :css-dirs ["resources/public/css"]
-   :ring-handler plawww.handler/app
-   }
+   :ring-handler plawww.handler/app}
 
+  :less {:source-paths ["src/less"]
+         :target-path "resources/public/css"}
 
 
   :profiles {:dev {:repl-options {:init-ns plawww.repl
@@ -107,7 +111,7 @@
 
                    :source-paths ["env/dev/clj"]
                    :plugins [[lein-figwheel "0.5.8"]
-                             ]
+                             [lein-less "1.7.5"]]
 
                    :injections [(require 'pjstadig.humane-test-output)
                                 (pjstadig.humane-test-output/activate!)]

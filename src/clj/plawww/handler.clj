@@ -1,7 +1,7 @@
 (ns plawww.handler
   (:require [compojure.core :refer [GET defroutes]]
             [compojure.route :refer [not-found resources]]
-            [hiccup.page :refer [include-js include-css html5]]
+            [hiccup.page :refer [include-js include-css html5 html4]]
             [plawww.middleware :refer [wrap-middleware]]
             [config.core :refer [env]]))
 
@@ -12,31 +12,45 @@
        [:b "lein figwheel"]
        " in order to start the compiler"]])
 
-(defn head []
+(defn head [css-includes]
   [:head
    [:meta {:charset "utf-8"}]
    [:meta {:name "viewport"
            :content "width=device-width, initial-scale=1"}]
-   (include-css (if (env :dev) "/css/site.css" "/css/site.min.css"))])
+   (map (fn[css-include]
+          (include-css css-include)) css-includes)
+   ])
 
-(defn loading-page []
+(def classic-css [(if (env :dev) "/css/site.css" "/css/site.min.css")
+                  "https://fonts.googleapis.com/css?family=Orbitron:700"])
+
+(defn main-page [which-css]
   (html5
-    (head)
+    (head which-css)
     [:body {:class "body-container"}
      mount-target
      (include-js "/js/app.js")]))
 
-(defn cards-page []
+(defn cards-page [which-css]
   (html5
-    (head)
+    (head which-css)
     [:body
      mount-target
      (include-js "/js/app_devcards.js")]))
 
+
+(def crt-css ["/css/crt/crt.css"])
+
+(defn crt-site [request]
+  (main-page crt-css))
+
+
 (defroutes routes
-  (GET "/" [] (loading-page))
-  (GET "/about" [] (loading-page))
-  (GET "/cards" [] (cards-page))
+  (GET "/" [] (main-page crt-css))
+  (GET "/about" [] (main-page crt-css))
+  (GET "/cards" [] (cards-page classic-css))
+           (GET "/crt" [] crt-site)
+
   (resources "/")
   (not-found "Not Found"))
 

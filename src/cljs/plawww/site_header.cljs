@@ -7,13 +7,16 @@
 
 (def nbsp {:dangerouslySetInnerHTML {:__html "&nbsp;"}})
 
-(defn logo-lhead []
+(defn lhead []
   [:div.horiz-container.lhead
    (image "lhead-left.png")
    [:div.extender]
-   (image "lhead-right.png")])
+   (image "lhead-right.png")
+   [:div.content-c
+    [:div.content-i
+     (image "pm-logo.png")]]])
 
-(defn logo-mhead []
+(defn mhead []
   [:div.horiz-container.mhead
    (image "mhead-left.png")
    [:div.extender]
@@ -22,8 +25,10 @@
 
 (defn planeta-header []
   [:div.horiz-container.planeta-header
-   (logo-lhead)
-   (logo-mhead)])
+   (lhead)
+   (mhead)])
+
+
 
 
 

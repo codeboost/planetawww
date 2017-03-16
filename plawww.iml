@@ -28,10 +28,12 @@
     <orderEntry type="library" name="Leiningen: clj-time:0.11.0" level="project" />
     <orderEntry type="library" name="Leiningen: clj-tuple:0.2.1" level="project" />
     <orderEntry type="library" name="Leiningen: cljs-react-reload:0.1.1" level="project" />
+    <orderEntry type="library" name="Leiningen: cljsjs/jquery:2.1.4-0" level="project" />
     <orderEntry type="library" name="Leiningen: cljsjs/react-dom-server:15.2.1-0" level="project" />
     <orderEntry type="library" name="Leiningen: cljsjs/react-dom:15.2.1-0" level="project" />
     <orderEntry type="library" name="Leiningen: cljsjs/react:0.14.3-0" level="project" />
     <orderEntry type="library" name="Leiningen: cljsjs/showdown:0.4.0-1" level="project" />
+    <orderEntry type="library" name="Leiningen: cljsjs/typedjs:1.1.1-0" level="project" />
     <orderEntry type="library" name="Leiningen: clojure-complete:0.2.4" level="project" />
     <orderEntry type="library" name="Leiningen: clout:2.1.2" level="project" />
     <orderEntry type="library" name="Leiningen: com.amazonaws/aws-java-sdk-core:1.9.0" level="project" />

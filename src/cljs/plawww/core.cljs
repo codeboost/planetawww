@@ -2,19 +2,29 @@
     (:require [reagent.core :as reagent :refer [atom]]
               [reagent.session :as session]
               [secretary.core :as secretary :include-macros true]
-              [accountant.core :as accountant]))
+              [accountant.core :as accountant]
+              [clojure.string :as str]
+              [plawww.crt :refer [crt-page]]
+              [plawww.welcome :as welcome]
+              [cljsjs.typedjs]))
 
 ;; -------------------------
 ;; Views
 
-
-(defn home-page []
-  [:div [:h2 "Welcome to plawww eee!!!"]
-   [:div [:a {:href "/about"} "go to about page"]]])
-
 (defn about-page []
   [:div [:h2 "About plawww?"]
    [:div [:a {:href "/"} "go to the home page"]]])
+
+
+(defn linklist[]
+  (map (fn [name]
+         [:li [:a {:href (str/lower-case name)} name]])
+       ["Bespredeluri"
+        "Marazmuri"
+        "Gruzuri"
+        "Peredoaze"
+        "About"]))
+
 
 (defn current-page []
   [:div [(session/get :current-page)]])
@@ -23,15 +33,19 @@
 ;; Routes
 
 (secretary/defroute "/" []
-  (session/put! :current-page #'home-page))
+  (session/put! :current-page #'welcome/page))
 
 (secretary/defroute "/about" []
   (session/put! :current-page #'about-page))
+
+(secretary/defroute "/crt" []
+                    (session/put! :current-page #'crt-page))
 
 ;; -------------------------
 ;; Initialize app
 
 (defn mount-root []
+  (welcome/on-init)
   (reagent/render [current-page] (.getElementById js/document "app")))
 
 (defn init! []

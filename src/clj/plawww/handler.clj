@@ -39,7 +39,8 @@
      (include-js "/js/app_devcards.js")]))
 
 
-(def crt-css ["/css/crt/crt.css"])
+(def crt-css ["/css/crt/crt.css"
+              "/css/animations.css"])
 
 (defn crt-site [request]
   (main-page crt-css))

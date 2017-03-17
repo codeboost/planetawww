@@ -24,13 +24,24 @@ In scurt timp toate tarile de pe Pamant s-au refugiat in spatiu, au cerut azil p
     [:div.content
      [:p#story-text]
      [:h1#continue-button.ok-button
+      [:a#cont-a {:href "/main"} "CONTINUARE"]]]))
 
-      [:a {:href "/main"} "CONTINUARE"]]]))
+
+(defn a-link []
+  (-> (js/$ "#cont-a")
+      (.on "click touchstart" (fn [e]
+                                (.log js/console "A link click")
+                                (-> e
+                                    (.preventDefault))
+                                (-> (js/$ ".content")
+                                    (.addClass "scale-out-animation"))
+                                (js/setTimeout (fn []
+                                                 (aset js/location "href" "/main")) 1000)))))
 
 (defn continue-on-click[]
+  (comment (a-link))
   (-> (js/$ "body")
       (.on "click touchstart" (fn[]
-                     (.log js/console "Yes it works")
                    (-> (js/jQuery "#continue-button")
                        (.fadeIn 1000))))))
 

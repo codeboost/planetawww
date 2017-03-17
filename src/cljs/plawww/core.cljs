@@ -1,12 +1,13 @@
 (ns plawww.core
-    (:require [reagent.core :as reagent :refer [atom]]
-              [reagent.session :as session]
-              [secretary.core :as secretary :include-macros true]
-              [accountant.core :as accountant]
-              [clojure.string :as str]
-              [plawww.crt :refer [crt-page]]
-              [plawww.welcome :as welcome]
-              [cljsjs.typedjs]))
+  (:require [reagent.core :as reagent :refer [atom]]
+            [reagent.session :as session]
+            [secretary.core :as secretary :include-macros true]
+            [accountant.core :as accountant]
+            [clojure.string :as str]
+            [plawww.crt :refer [crt-page]]
+            [plawww.welcome :as welcome]
+            [plawww.plamain :as plamain]
+            [cljsjs.typedjs]))
 
 ;; -------------------------
 ;; Views
@@ -16,14 +17,7 @@
    [:div [:a {:href "/"} "go to the home page"]]])
 
 
-(defn linklist[]
-  (map (fn [name]
-         [:li [:a {:href (str/lower-case name)} name]])
-       ["Bespredeluri"
-        "Marazmuri"
-        "Gruzuri"
-        "Peredoaze"
-        "About"]))
+
 
 
 (defn current-page []
@@ -38,8 +32,8 @@
 (secretary/defroute "/about" []
   (session/put! :current-page #'about-page))
 
-(secretary/defroute "/crt" []
-                    (session/put! :current-page #'crt-page))
+(secretary/defroute "/main" []
+                    (session/put! :current-page #'plamain/page))
 
 ;; -------------------------
 ;; Initialize app

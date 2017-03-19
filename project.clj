@@ -13,12 +13,11 @@
                  [compojure "1.5.1"]
                  [hiccup "1.0.5"]
                  [yogthos/config "0.8"]
-                 [org.clojure/clojurescript "1.9.473"
-                  :scope "provided"]
+                 [org.clojure/clojurescript "1.9.473" :scope "provided"]
                  [secretary "1.2.3"]
                  [cljsjs/typedjs "1.1.1-0"]
-                 [venantius/accountant "0.1.7"
-                  :exclusions [org.clojure/tools.reader]]]
+                 [venantius/accountant "0.1.7" :exclusions [org.clojure/tools.reader]]
+                 [clj-http "2.3.0"]]
 
   :plugins [[lein-environ "1.0.2"]
             [lein-cljsbuild "1.1.1"]
@@ -78,17 +77,17 @@
                         :output-dir "target/cljsbuild/public/js/devcards_out"
                         :source-map-timestamp true
                         :optimizations :none
-                        :pretty-print true}}
-            }
-   }
+                        :pretty-print true}}}}
+
+
 
 
   :figwheel
   {:http-server-root "public"
    :server-port 3449
    :nrepl-port 7002
-   :nrepl-middleware ["cemerick.piggieback/wrap-cljs-repl"
-                      ]
+   :nrepl-middleware ["cemerick.piggieback/wrap-cljs-repl"]
+
    :css-dirs ["resources/public/css"]
    :ring-handler plawww.handler/app}
 
@@ -106,8 +105,8 @@
                                   [org.clojure/tools.nrepl "0.2.12"]
                                   [com.cemerick/piggieback "0.2.2-SNAPSHOT"]
                                   [devcards "0.2.1-7"]
-                                  [pjstadig/humane-test-output "0.8.1"]
-                                  ]
+                                  [pjstadig/humane-test-output "0.8.1"]]
+
 
                    :source-paths ["env/dev/clj"]
                    :plugins [[lein-figwheel "0.5.8"]

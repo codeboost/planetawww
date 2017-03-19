@@ -42,8 +42,8 @@ In scurt timp toate tarile de pe Pamant s-au refugiat in spatiu, au cerut azil p
   (comment (a-link))
   (-> (js/$ "body")
       (.on "click touchstart" (fn[]
-                   (-> (js/jQuery "#continue-button")
-                       (.fadeIn 1000))))))
+                               (-> (js/jQuery "#continue-button")
+                                   (.fadeIn 1000))))))
 
 (defn on-init[]
   (js/$ (fn []

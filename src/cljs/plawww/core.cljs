@@ -18,7 +18,7 @@
 
 
 
-
+(secretary/set-config! :prefix "#")
 
 (defn current-page []
   [:div [(session/get :current-page)]])

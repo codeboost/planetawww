@@ -31,7 +31,7 @@
             })
 
 (defn media->menu-items[media-items]
-  (let [result (mapv (fn[{:keys [title id]}]
+  (let [result (map (fn[{:keys [title id]}]
                 {:id id
                  :text title
                  :handler (str "/media/" id)}) media-items)]
@@ -46,48 +46,63 @@
               :items (media->menu-items media-items)}]
   (menu->tags menu false)))
 
+
 (defn render-all-media [media]
-  (map (fn [part]
+  (into [:div.media-items.horiz-container] (map (fn [part]
          (render-media-menu "PRAGOANELE" part))
-       (partition 20 media)))
+       (partition 20 media))))
 
 (defn items-for-tag [media-items tag]
   "Returns items from media-items which contain the tag `tag`."
-  (vec (filter (fn [{:keys [tags]}]
-                 (some (fn [a-tag]
-                         (= a-tag tag)) tags)) media-items)))
+  (filter (fn [{:keys [tags]}]
+            (some (fn [a-tag]
+                    (= a-tag tag)) tags)) media-items))
 
 (defn tags-from-items [media-items]
-  (let [tags (map (fn [{:keys [tags]}] tags) media-items)
-        tags (apply concat tags)
-        tags (map str/trim tags)
-        tags (set tags)]
-    tags))
+  (->> media-items
+       (map (fn [{:keys [tags]}] tags))
+       (apply concat)
+       (map str/trim)
+       (set)))
+
+(comment
+  (group-by (fn [{:keys [title]}]
+              (str/upper-case (first title))) (:media ALLMEDIA))
+  )
 
 (defn by-tags [media-items]
-  "Returns a list of maps which contain the tag-name, the media items that contain that tag."
+  "Returns a list of maps with following keys: [:tag :items :count]"
   (let [tags (tags-from-items media-items)]
     (reverse
-      (sort-by :count
-               (map (fn [tag]
-                      (let [items (items-for-tag media-items tag)]
-                        {:tag   tag
-                         :items items
-                         :count (count items)})) tags)))))
+      (sort-by
+        :count
+        (map (fn [tag]
+               (let [items (items-for-tag media-items tag)]
+                 {:tag   tag
+                  :items items
+                  :count (count items)})) tags)))))
 
 (defn render-by-tags [media-items]
   (let [tagged (by-tags media-items)
         results
         (map (fn [{:keys [tag items]}]
-               (render-media-menu tag items)) tagged)]
-    results))
+               (let  [tag (if (str/blank? tag) "diverse" tag)]
+                        (render-media-menu tag items))) tagged)]
+    (into [:div.media-items.horiz-container] results)))
+
+
+(defn grouped-by-first-letter [media-items]
+  (into (sorted-map) (group-by (fn [{:keys [title]}]
+                          (str/upper-case (first title))) media-items)))
+
+(defn render-by-letter [media-items]
+  (let [grouped (grouped-by-first-letter media-items)
+        results (map (fn[[first-letter item]]
+                       (render-media-menu first-letter item)) grouped)]
+    (into [:div.media-items.horiz-container] results)))
 
 (comment
-  (render-all-media (:media ALLMEDIA))
-  (render-by-tags (take 1 (:media ALLMEDIA)))
-  (->> (:media ALLMEDIA)
-       (take 10)
-       (by-tags))
+  (render-by-letter (:media ALLMEDIA))
   )
 
 (defn random-search-prompt []
@@ -104,22 +119,42 @@
                               :dirty true
                               :search-string ""})
 
+
+(defn search-in-items [media-items search-string]
+  (filter (fn [{:keys [title]}]
+            (or (str/blank? search-string)
+                (str/starts-with?
+                  (str/lower-case title)
+                  (str/lower-case search-string)))) media-items))
+
+
+(defn media-items-component [media-items search-settings]
+  (let [search-string (:search-string search-settings)
+        group-by (:group-by search-settings)
+        filtered-items (search-in-items media-items search-string)]
+
+    (cond
+      (= group-by :tag) (render-by-tags filtered-items)
+      (= group-by :plain) (render-by-letter filtered-items))))
+
 (defn media-page [filter-name]
   (let [search-settings (r/atom default-search-settings)
         search-prompt (random-search-prompt)]
     (fn []
-      (crt-page
+      [crt-page
         [:div.media-page
          [:h2.page-title "PLANETA MOLDOVA"]
          [search-component search-prompt search-settings]
          [:div.v16px]
-         [:div.media-items.horiz-container
-          (let [search-string (:search-string @search-settings)]
-            (render-by-tags (filter (fn [{:keys [title]}]
-                                      (or (str/blank? search-string)
-                                          (str/starts-with?
-                                            (str/lower-case title)
-                                            (str/lower-case search-string)))) (:media ALLMEDIA))))]]))))
+         [media-items-component (:media ALLMEDIA) @search-settings]
+          ]])))
+
+(comment
+  (let [the-atom ])
+  (render-media-items (take 1 (:media ALLMEDIA)) default-search-settings)
+  (render-all-media (take 100 (:media ALLMEDIA)))
+  )
+
 
 (defn menu-page [menu-name]
   (print "Menu name: " menu-name)

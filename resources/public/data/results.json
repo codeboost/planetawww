@@ -20,8 +20,8 @@
       "popularity_dislikes": 0,
       "media_id": 8,
       "tags": [
-        "reclama",
-        "moldovneste"
+        "moldovneste",
+        "reclama"
       ]
     },
     {
@@ -67,11 +67,11 @@
       "popularity_dislikes": 0,
       "media_id": 11,
       "tags": [
-        "mat-peremat",
         "viol",
-        "pragon",
+        "mat-peremat",
         "bratva",
-        "porno"
+        "porno",
+        "pragon"
       ]
     },
     {
@@ -80,7 +80,7 @@
       "slug": "10-lei",
       "publish_on": "2017-03-01T22:08:22.000Z",
       "publish_until": null,
-      "title": "10 Lei",
+      "title": "Zece Lei",
       "subtitle": null,
       "description": null,
       "description_plain": "",
@@ -94,8 +94,8 @@
       "popularity_dislikes": 0,
       "media_id": 12,
       "tags": [
-        "stire",
-        "guerilla"
+        "guerilla",
+        "stire"
       ]
     },
     {
@@ -145,8 +145,8 @@
       "popularity_dislikes": 0,
       "media_id": 14,
       "tags": [
-        "moldovneste",
-        "hit"
+        "hit",
+        "moldovneste"
       ]
     },
     {
@@ -169,10 +169,10 @@
       "popularity_dislikes": 0,
       "media_id": 15,
       "tags": [
-        "ves",
         "pragon",
-        "capusta",
-        "teatru"
+        "teatru",
+        "ves",
+        "capusta"
       ]
     },
     {
@@ -195,10 +195,10 @@
       "popularity_dislikes": 0,
       "media_id": 16,
       "tags": [
-        "pragon",
-        "capusta",
         "teatru",
-        "ves"
+        "ves",
+        "capusta",
+        "pragon"
       ]
     },
     {
@@ -248,8 +248,8 @@
       "tags": [
         "sineala",
         "mat-peremat",
-        "pragon",
         "sf",
+        "pragon",
         "moldovneste"
       ]
     },
@@ -297,8 +297,8 @@
       "media_id": 39,
       "tags": [
         "pragon",
-        "copii",
-        "parinti"
+        "parinti",
+        "copii"
       ]
     },
     {
@@ -326,6 +326,31 @@
       ]
     },
     {
+      "id": 54,
+      "type": "audio",
+      "slug": "cuvantul-cheie-monty-pythons-usage-of-fuck-r",
+      "publish_on": "2017-03-02T22:08:41.000Z",
+      "publish_until": null,
+      "title": "Cuvantul Cheie",
+      "subtitle": null,
+      "description": "<p>Monty Python's 'Usage of Fuck' Remake</p>",
+      "description_plain": "Monty Python's 'Usage of Fuck' Remake",
+      "notes": null,
+      "duration": 0,
+      "views": 0,
+      "likes": 0,
+      "dislikes": 0,
+      "popularity_points": 0,
+      "popularity_likes": 0,
+      "popularity_dislikes": 0,
+      "media_id": 54,
+      "tags": [
+        "teatru",
+        "mat-peremat",
+        "emisiune"
+      ]
+    },
+    {
       "id": 55,
       "type": "audio",
       "slug": "draga-redactie-gelozia",
@@ -345,10 +370,10 @@
       "popularity_dislikes": 0,
       "media_id": 55,
       "tags": [
-        "kidos",
+        "redactie",
         "mat-peremat",
         "violenta",
-        "redactie"
+        "kidos"
       ]
     },
     {
@@ -371,9 +396,9 @@
       "popularity_dislikes": 0,
       "media_id": 56,
       "tags": [
+        "scrisoare",
         "pragon",
-        "redactie",
-        "scrisoare"
+        "redactie"
       ]
     },
     {
@@ -396,9 +421,9 @@
       "popularity_dislikes": 0,
       "media_id": 57,
       "tags": [
-        "scrisoare",
         "politia",
-        "redactie"
+        "redactie",
+        "scrisoare"
       ]
     },
     {
@@ -446,9 +471,9 @@
       "popularity_dislikes": 0,
       "media_id": 65,
       "tags": [
+        "poveste",
         "teatru",
-        "doctor",
-        "poveste"
+        "doctor"
       ]
     },
     {
@@ -471,8 +496,8 @@
       "popularity_dislikes": 0,
       "media_id": 98,
       "tags": [
-        "droguri",
-        "music"
+        "music",
+        "droguri"
       ]
     },
     {
@@ -519,9 +544,9 @@
       "popularity_dislikes": 0,
       "media_id": 100,
       "tags": [
-        "hituri",
         "hitolog",
-        "emisiune"
+        "emisiune",
+        "hituri"
       ]
     },
     {
@@ -639,8 +664,8 @@
       "popularity_dislikes": 0,
       "media_id": 105,
       "tags": [
-        "guerilla",
-        "stiri"
+        "stiri",
+        "guerilla"
       ]
     },
     {
@@ -663,8 +688,8 @@
       "popularity_dislikes": 0,
       "media_id": 106,
       "tags": [
-        "stiri",
-        "guerilla"
+        "guerilla",
+        "stiri"
       ]
     },
     {
@@ -687,9 +712,9 @@
       "popularity_dislikes": 0,
       "media_id": 109,
       "tags": [
-        "interviu",
         "guerilla",
-        "stiri"
+        "stiri",
+        "interviu"
       ]
     },
     {
@@ -712,9 +737,9 @@
       "popularity_dislikes": 0,
       "media_id": 110,
       "tags": [
-        "guerilla",
         "stiri",
-        "interviu"
+        "interviu",
+        "guerilla"
       ]
     },
     {
@@ -737,10 +762,10 @@
       "popularity_dislikes": 0,
       "media_id": 115,
       "tags": [
-        "patrie",
-        "politica",
         "moldovneste",
-        "kidos"
+        "kidos",
+        "patrie",
+        "politica"
       ]
     },
     {
@@ -763,8 +788,8 @@
       "popularity_dislikes": 0,
       "media_id": 116,
       "tags": [
-        "stiri",
-        "guerilla"
+        "guerilla",
+        "stiri"
       ]
     },
     {
@@ -810,8 +835,8 @@
       "popularity_dislikes": 0,
       "media_id": 120,
       "tags": [
-        "moldovneste",
-        "reclama"
+        "reclama",
+        "moldovneste"
       ]
     },
     {
@@ -857,8 +882,8 @@
       "popularity_dislikes": 0,
       "media_id": 122,
       "tags": [
-        "mat-peremat",
-        "moldovneste"
+        "moldovneste",
+        "mat-peremat"
       ]
     },
     {
@@ -881,10 +906,10 @@
       "popularity_dislikes": 0,
       "media_id": 123,
       "tags": [
-        "mat-peremat",
         "moldovneste",
-        "droguri",
-        "peredoz"
+        "mat-peremat",
+        "peredoz",
+        "droguri"
       ]
     },
     {
@@ -907,8 +932,8 @@
       "popularity_dislikes": 0,
       "media_id": 124,
       "tags": [
-        "jurist",
-        "probleme"
+        "probleme",
+        "jurist"
       ]
     },
     {
@@ -931,9 +956,9 @@
       "popularity_dislikes": 0,
       "media_id": 125,
       "tags": [
-        "moldovneste",
         "kidos",
-        "magazin"
+        "magazin",
+        "moldovneste"
       ]
     },
     {
@@ -956,9 +981,9 @@
       "popularity_dislikes": 0,
       "media_id": 126,
       "tags": [
-        "interviu",
         "emisiune",
-        "moldovneste"
+        "moldovneste",
+        "interviu"
       ]
     },
     {
@@ -1030,10 +1055,10 @@
       "popularity_dislikes": 0,
       "media_id": 129,
       "tags": [
-        "specialist",
         "savant",
         "legamant",
-        "interviu"
+        "interviu",
+        "specialist"
       ]
     },
     {
@@ -1056,10 +1081,10 @@
       "popularity_dislikes": 0,
       "media_id": 130,
       "tags": [
-        "savant",
-        "legamant",
         "interviu",
-        "specialist"
+        "specialist",
+        "savant",
+        "legamant"
       ]
     },
     {
@@ -1082,10 +1107,10 @@
       "popularity_dislikes": 0,
       "media_id": 131,
       "tags": [
-        "interviu",
-        "specialist",
         "savant",
-        "legamant"
+        "legamant",
+        "interviu",
+        "specialist"
       ]
     },
     {
@@ -1108,10 +1133,10 @@
       "popularity_dislikes": 0,
       "media_id": 132,
       "tags": [
-        "savant",
         "legamant",
         "interviu",
-        "specialist"
+        "specialist",
+        "savant"
       ]
     },
     {
@@ -1134,10 +1159,10 @@
       "popularity_dislikes": 0,
       "media_id": 133,
       "tags": [
-        "legamant",
         "interviu",
         "specialist",
-        "savant"
+        "savant",
+        "legamant"
       ]
     },
     {
@@ -1160,10 +1185,10 @@
       "popularity_dislikes": 0,
       "media_id": 134,
       "tags": [
-        "interviu",
-        "specialist",
         "savant",
-        "legamant"
+        "legamant",
+        "interviu",
+        "specialist"
       ]
     },
     {
@@ -1186,10 +1211,10 @@
       "popularity_dislikes": 0,
       "media_id": 135,
       "tags": [
-        "savant",
         "legamant",
         "interviu",
-        "specialist"
+        "specialist",
+        "savant"
       ]
     },
     {
@@ -1235,9 +1260,9 @@
       "popularity_dislikes": 0,
       "media_id": 137,
       "tags": [
-        "emisiune",
         "mat-peremat",
-        "porno"
+        "porno",
+        "emisiune"
       ]
     },
     {
@@ -1260,9 +1285,9 @@
       "popularity_dislikes": 0,
       "media_id": 138,
       "tags": [
+        "telefon",
         "sot-sotie",
-        "moldovneste",
-        "telefon"
+        "moldovneste"
       ]
     },
     {
@@ -1285,9 +1310,9 @@
       "popularity_dislikes": 0,
       "media_id": 139,
       "tags": [
-        "limba",
         "magazin",
-        "moldovneste"
+        "moldovneste",
+        "limba"
       ]
     },
     {
@@ -1334,9 +1359,9 @@
       "popularity_dislikes": 0,
       "media_id": 141,
       "tags": [
-        "kidos",
+        "sex",
         "porno",
-        "sex"
+        "kidos"
       ]
     },
     {
@@ -1360,8 +1385,8 @@
       "media_id": 142,
       "tags": [
         "mat-peremat",
-        "moldovneste",
-        "telefon"
+        "telefon",
+        "moldovneste"
       ]
     },
     {
@@ -1385,8 +1410,8 @@
       "media_id": 143,
       "tags": [
         "telefon",
-        "mat-peremat",
-        "moldovneste"
+        "moldovneste",
+        "mat-peremat"
       ]
     },
     {
@@ -1410,8 +1435,8 @@
       "media_id": 144,
       "tags": [
         "moldovneste",
-        "porno",
-        "sot-sotie"
+        "sot-sotie",
+        "porno"
       ]
     },
     {
@@ -1458,9 +1483,9 @@
       "popularity_dislikes": 0,
       "media_id": 146,
       "tags": [
-        "moldovneste",
         "ruseste",
-        "emisiune"
+        "emisiune",
+        "moldovneste"
       ]
     },
     {
@@ -1484,9 +1509,9 @@
       "media_id": 147,
       "tags": [
         "educatie",
-        "mat-peremat",
         "peredoz",
-        "familie"
+        "familie",
+        "mat-peremat"
       ]
     },
     {
@@ -1557,10 +1582,10 @@
       "popularity_dislikes": 0,
       "media_id": 150,
       "tags": [
+        "sport",
         "mat-peremat",
         "violenta",
-        "emisiune",
-        "sport"
+        "emisiune"
       ]
     },
     {
@@ -1583,8 +1608,8 @@
       "popularity_dislikes": 0,
       "media_id": 151,
       "tags": [
-        "doctor",
-        "psihiatru"
+        "psihiatru",
+        "doctor"
       ]
     },
     {
@@ -1607,8 +1632,8 @@
       "popularity_dislikes": 0,
       "media_id": 152,
       "tags": [
-        "interview",
         "sanatate",
+        "interview",
         "emisiune"
       ]
     },
@@ -1632,8 +1657,8 @@
       "popularity_dislikes": 0,
       "media_id": 153,
       "tags": [
-        "magazin",
-        "moldovneste"
+        "moldovneste",
+        "magazin"
       ]
     },
     {
@@ -1726,9 +1751,9 @@
       "popularity_dislikes": 0,
       "media_id": 157,
       "tags": [
+        "doctor",
         "moldovneste",
-        "morga",
-        "doctor"
+        "morga"
       ]
     },
     {
@@ -1774,9 +1799,9 @@
       "popularity_dislikes": 0,
       "media_id": 159,
       "tags": [
-        "music",
+        "moldovneste",
         "mat-peremat",
-        "moldovneste"
+        "music"
       ]
     },
     {
@@ -1799,8 +1824,8 @@
       "popularity_dislikes": 0,
       "media_id": 160,
       "tags": [
-        "poveste",
-        "moldovneste"
+        "moldovneste",
+        "poveste"
       ]
     },
     {
@@ -1823,9 +1848,9 @@
       "popularity_dislikes": 0,
       "media_id": 161,
       "tags": [
-        "nekrotitanium",
         "poveste",
-        "pragon"
+        "pragon",
+        "nekrotitanium"
       ]
     },
     {
@@ -1942,8 +1967,8 @@
       "popularity_dislikes": 0,
       "media_id": 166,
       "tags": [
-        "guerilla",
-        "stiri"
+        "stiri",
+        "guerilla"
       ]
     },
     {
@@ -1966,8 +1991,8 @@
       "popularity_dislikes": 0,
       "media_id": 167,
       "tags": [
-        "moldovneste",
-        "doctor"
+        "doctor",
+        "moldovneste"
       ]
     },
     {
@@ -2013,9 +2038,9 @@
       "popularity_dislikes": 0,
       "media_id": 169,
       "tags": [
-        "peredoz",
         "sf",
-        "moldovneste"
+        "moldovneste",
+        "peredoz"
       ]
     },
     {
@@ -2038,8 +2063,8 @@
       "popularity_dislikes": 0,
       "media_id": 170,
       "tags": [
-        "tzatzaka",
-        "moldovneste"
+        "moldovneste",
+        "tzatzaka"
       ]
     },
     {
@@ -2062,9 +2087,9 @@
       "popularity_dislikes": 0,
       "media_id": 171,
       "tags": [
-        "moldovneste",
+        "violenta",
         "mat-peremat",
-        "violenta"
+        "moldovneste"
       ]
     },
     {
@@ -2087,10 +2112,10 @@
       "popularity_dislikes": 0,
       "media_id": 172,
       "tags": [
-        "restaurant",
-        "telefon",
         "kidos",
-        "mancare"
+        "mancare",
+        "restaurant",
+        "telefon"
       ]
     },
     {
@@ -2136,8 +2161,8 @@
       "popularity_dislikes": 0,
       "media_id": 174,
       "tags": [
-        "stiri",
-        "guerilla"
+        "guerilla",
+        "stiri"
       ]
     },
     {
@@ -2184,8 +2209,8 @@
       "popularity_dislikes": 0,
       "media_id": 176,
       "tags": [
-        "profesor",
         "scoala",
+        "profesor",
         "copii"
       ]
     },
@@ -2234,9 +2259,9 @@
       "media_id": 178,
       "tags": [
         "telefon",
+        "crima",
         "kidos",
-        "politia",
-        "crima"
+        "politia"
       ]
     },
     {
@@ -2259,8 +2284,8 @@
       "popularity_dislikes": 0,
       "media_id": 179,
       "tags": [
-        "pompe funebre",
-        "kidos"
+        "kidos",
+        "pompe funebre"
       ]
     },
     {
@@ -2283,9 +2308,9 @@
       "popularity_dislikes": 0,
       "media_id": 180,
       "tags": [
-        "poveste",
         "pragon",
-        "moldovneste"
+        "moldovneste",
+        "poveste"
       ]
     },
     {
@@ -2308,9 +2333,9 @@
       "popularity_dislikes": 0,
       "media_id": 181,
       "tags": [
-        "moldovneste",
         "telefon",
-        "absurd"
+        "absurd",
+        "moldovneste"
       ]
     },
     {
@@ -2357,8 +2382,8 @@
       "popularity_dislikes": 0,
       "media_id": 183,
       "tags": [
-        "telefon",
-        "patriotism"
+        "patriotism",
+        "telefon"
       ]
     },
     {
@@ -2382,8 +2407,8 @@
       "media_id": 184,
       "tags": [
         "poveste",
-        "moldovneste",
-        "prikoke"
+        "prikoke",
+        "moldovneste"
       ]
     },
     {
@@ -2429,8 +2454,8 @@
       "popularity_dislikes": 0,
       "media_id": 186,
       "tags": [
-        "psiholog",
         "doctor",
+        "psiholog",
         "pacient"
       ]
     },
@@ -2454,8 +2479,8 @@
       "popularity_dislikes": 0,
       "media_id": 187,
       "tags": [
-        "guerilla",
-        "stiri"
+        "stiri",
+        "guerilla"
       ]
     },
     {
@@ -2478,8 +2503,8 @@
       "popularity_dislikes": 0,
       "media_id": 188,
       "tags": [
-        "stiri",
-        "guerilla"
+        "guerilla",
+        "stiri"
       ]
     },
     {
@@ -2574,8 +2599,8 @@
       "popularity_dislikes": 0,
       "media_id": 192,
       "tags": [
-        "guerilla",
-        "stiri"
+        "stiri",
+        "guerilla"
       ]
     },
     {
@@ -2598,8 +2623,8 @@
       "popularity_dislikes": 0,
       "media_id": 193,
       "tags": [
-        "stiri",
-        "guerilla"
+        "guerilla",
+        "stiri"
       ]
     },
     {
@@ -2622,10 +2647,10 @@
       "popularity_dislikes": 0,
       "media_id": 194,
       "tags": [
+        "moldovneste",
         "telefon",
-        "mafia",
         "crima",
-        "moldovneste"
+        "mafia"
       ]
     },
     {
@@ -2648,8 +2673,8 @@
       "popularity_dislikes": 0,
       "media_id": 195,
       "tags": [
-        "moldovneste",
-        "restaurant"
+        "restaurant",
+        "moldovneste"
       ]
     },
     {
@@ -2672,10 +2697,10 @@
       "popularity_dislikes": 0,
       "media_id": 196,
       "tags": [
-        "moldonveste",
-        "animale",
         "restaurant",
-        "kidos"
+        "animale",
+        "kidos",
+        "moldonveste"
       ]
     },
     {
@@ -2722,8 +2747,8 @@
       "popularity_dislikes": 0,
       "media_id": 198,
       "tags": [
-        "abuz",
         "restaurant",
+        "abuz",
         "kidos",
         "moldovneste"
       ]
@@ -2821,9 +2846,9 @@
       "popularity_dislikes": 0,
       "media_id": 202,
       "tags": [
-        "pragon",
         "moldovneste",
-        "poveste"
+        "poveste",
+        "pragon"
       ]
     },
     {
@@ -2846,9 +2871,9 @@
       "popularity_dislikes": 0,
       "media_id": 203,
       "tags": [
+        "telefon",
         "moldovneste",
         "salvarea",
-        "telefon",
         "doctor"
       ]
     },
@@ -2872,10 +2897,10 @@
       "popularity_dislikes": 0,
       "media_id": 204,
       "tags": [
-        "interviu",
         "porno",
         "angajare",
-        "mat-peremat"
+        "mat-peremat",
+        "interviu"
       ]
     },
     {
@@ -2924,9 +2949,9 @@
       "popularity_dislikes": 0,
       "media_id": 206,
       "tags": [
+        "pragon",
         "kidos",
-        "romaneste",
-        "pragon"
+        "romaneste"
       ]
     },
     {
@@ -2950,9 +2975,9 @@
       "media_id": 207,
       "tags": [
         "porno",
-        "sex",
         "mat-peremat",
-        "emisiune"
+        "emisiune",
+        "sex"
       ]
     },
     {
@@ -2975,8 +3000,8 @@
       "popularity_dislikes": 0,
       "media_id": 208,
       "tags": [
-        "guerilla",
-        "stiri"
+        "stiri",
+        "guerilla"
       ]
     },
     {
@@ -2999,9 +3024,9 @@
       "popularity_dislikes": 0,
       "media_id": 209,
       "tags": [
-        "tarani",
         "pragon",
-        "moldovneste"
+        "moldovneste",
+        "tarani"
       ]
     },
     {
@@ -3024,9 +3049,9 @@
       "popularity_dislikes": 0,
       "media_id": 210,
       "tags": [
+        "interviu",
         "sfat",
-        "telefon",
-        "interviu"
+        "telefon"
       ]
     },
     {
@@ -3049,8 +3074,8 @@
       "popularity_dislikes": 0,
       "media_id": 211,
       "tags": [
-        "stiri",
-        "guerilla"
+        "guerilla",
+        "stiri"
       ]
     },
     {
@@ -3074,8 +3099,8 @@
       "media_id": 212,
       "tags": [
         "guerilla",
-        "copii",
         "sfat",
+        "copii",
         "familie"
       ]
     },
@@ -3099,8 +3124,8 @@
       "popularity_dislikes": 0,
       "media_id": 213,
       "tags": [
-        "pragon",
-        "music"
+        "music",
+        "pragon"
       ]
     },
     {
@@ -3123,8 +3148,8 @@
       "popularity_dislikes": 0,
       "media_id": 214,
       "tags": [
-        "guerilla",
-        "stiri"
+        "stiri",
+        "guerilla"
       ]
     },
     {
@@ -3148,8 +3173,8 @@
       "media_id": 215,
       "tags": [
         "emisiune",
-        "absurd",
-        "limbaj"
+        "limbaj",
+        "absurd"
       ]
     },
     {
@@ -3196,8 +3221,8 @@
       "popularity_dislikes": 0,
       "media_id": 217,
       "tags": [
-        "absurd",
-        "stiri"
+        "stiri",
+        "absurd"
       ]
     },
     {
@@ -3220,8 +3245,8 @@
       "popularity_dislikes": 0,
       "media_id": 218,
       "tags": [
-        "absurd",
-        "stiri"
+        "stiri",
+        "absurd"
       ]
     },
     {
@@ -3268,8 +3293,8 @@
       "popularity_dislikes": 0,
       "media_id": 220,
       "tags": [
-        "absurd",
-        "stiri"
+        "stiri",
+        "absurd"
       ]
     },
     {
@@ -3292,8 +3317,8 @@
       "popularity_dislikes": 0,
       "media_id": 221,
       "tags": [
-        "absurd",
-        "stiri"
+        "stiri",
+        "absurd"
       ]
     },
     {
@@ -3340,8 +3365,8 @@
       "popularity_dislikes": 0,
       "media_id": 223,
       "tags": [
-        "absurd",
-        "stiri"
+        "stiri",
+        "absurd"
       ]
     },
     {
@@ -3388,8 +3413,8 @@
       "popularity_dislikes": 0,
       "media_id": 225,
       "tags": [
-        "absurd",
-        "stiri"
+        "stiri",
+        "absurd"
       ]
     },
     {
@@ -3412,8 +3437,8 @@
       "popularity_dislikes": 0,
       "media_id": 226,
       "tags": [
-        "absurd",
-        "stiri"
+        "stiri",
+        "absurd"
       ]
     },
     {
@@ -3460,8 +3485,8 @@
       "popularity_dislikes": 0,
       "media_id": 228,
       "tags": [
-        "absurd",
-        "stiri"
+        "stiri",
+        "absurd"
       ]
     },
     {
@@ -3484,8 +3509,8 @@
       "popularity_dislikes": 0,
       "media_id": 229,
       "tags": [
-        "absurd",
-        "stiri"
+        "stiri",
+        "absurd"
       ]
     },
     {
@@ -3532,8 +3557,8 @@
       "popularity_dislikes": 0,
       "media_id": 231,
       "tags": [
-        "absurd",
-        "stiri"
+        "stiri",
+        "absurd"
       ]
     },
     {
@@ -3580,8 +3605,8 @@
       "popularity_dislikes": 0,
       "media_id": 233,
       "tags": [
-        "absurd",
-        "stiri"
+        "stiri",
+        "absurd"
       ]
     },
     {
@@ -3604,8 +3629,8 @@
       "popularity_dislikes": 0,
       "media_id": 234,
       "tags": [
-        "absurd",
-        "stiri"
+        "stiri",
+        "absurd"
       ]
     },
     {
@@ -3652,8 +3677,8 @@
       "popularity_dislikes": 0,
       "media_id": 236,
       "tags": [
-        "absurd",
-        "stiri"
+        "stiri",
+        "absurd"
       ]
     },
     {
@@ -3747,9 +3772,9 @@
       "media_id": 240,
       "tags": [
         "conversatie",
+        "profesori",
         "scoala",
-        "violenta",
-        "profesori"
+        "violenta"
       ]
     },
     {
@@ -3892,9 +3917,9 @@
       "popularity_dislikes": 0,
       "media_id": 246,
       "tags": [
-        "vrajitoare",
         "poveste",
-        "shaman"
+        "shaman",
+        "vrajitoare"
       ]
     },
     {
@@ -3942,9 +3967,9 @@
       "popularity_dislikes": 0,
       "media_id": 248,
       "tags": [
-        "mat-peremat",
+        "sot-sotie",
         "peredoz",
-        "sot-sotie"
+        "mat-peremat"
       ]
     },
     {
@@ -4016,8 +4041,8 @@
       "popularity_dislikes": 0,
       "media_id": 251,
       "tags": [
-        "emisiune",
-        "politic"
+        "politic",
+        "emisiune"
       ]
     },
     {
@@ -4032,7 +4057,7 @@
       "description_plain": "",
       "notes": null,
       "duration": 0,
-      "views": 1,
+      "views": 2,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
@@ -4672,29 +4697,6 @@
       "publish_on": "2017-03-02T22:08:18.000Z",
       "publish_until": null,
       "title": "Curajul",
-      "subtitle": null,
-      "description": null,
-      "description_plain": null,
-      "notes": null,
-      "duration": 0,
-      "views": 0,
-      "likes": 0,
-      "dislikes": 0,
-      "popularity_points": 0,
-      "popularity_likes": 0,
-      "popularity_dislikes": 0,
-      "media_id": null,
-      "tags": [
-        ""
-      ]
-    },
-    {
-      "id": 54,
-      "type": "audio",
-      "slug": "cuvantul-cheie-monty-pythons-usage-of-fuck-r",
-      "publish_on": "2017-03-02T22:08:41.000Z",
-      "publish_until": null,
-      "title": "Cuvantul Cheie (Monty Python's 'Usage of Fuck' Remake)",
       "subtitle": null,
       "description": null,
       "description_plain": null,

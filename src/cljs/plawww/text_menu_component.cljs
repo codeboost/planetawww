@@ -12,23 +12,23 @@
 
 (defn- back-menu-item [index]
   "Generic back menu item"
-  ^{:key "backbutton"} [:li [:a {:href "javascript:history.go(-1);"} (menu-text index menu-back-text)]])
+  ^{:key 999999} [:li [:a {:href "javascript:history.go(-1);"} (menu-text index menu-back-text)]])
 
 (defn- menu-item-tag [index {:keys [text handler id]}]
   "Menu item to hiccup."
   (let [text (menu-text index text)
         href (if handler handler "/menu/")]
-    ^{:key id} [:li
-                [:a {:href href} text]]))
+    ^{:key index} [:li [:a {:href href} text]]))
 
 (defn menu->tags [{:keys [title items] :as menu} show-back?]
   "Renders a menu and its items"
   [:div.menu
    [:div.title title]
-   [:ul.items
-    (map-indexed menu-item-tag items)
-    (when show-back? (back-menu-item (count items)))]])
-
+   (let [list-items (map-indexed menu-item-tag items)
+         list-items (if show-back?
+                      (conj list-items (back-menu-item (count items)))
+                      list-items)]
+     (into [:ul.items] list-items))])
 
 (comment
   ;Sample menu

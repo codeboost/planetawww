@@ -17,7 +17,8 @@
                  [secretary "1.2.3"]
                  [cljsjs/typedjs "1.1.1-0"]
                  [venantius/accountant "0.1.7" :exclusions [org.clojure/tools.reader]]
-                 [clj-http "2.3.0"]]
+                 [clj-http "2.3.0"]
+                 [garden "1.3.2"]]
 
   :plugins [[lein-environ "1.0.2"]
             [lein-cljsbuild "1.1.1"]

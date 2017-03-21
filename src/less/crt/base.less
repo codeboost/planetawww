@@ -1,0 +1,54 @@
+// set main colors
+
+@console-color: #14fdce;
+@console-bg: #031e11;
+
+
+// global settings
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: #383838;
+  color: @console-color;
+  font-family: 'VT323';
+  font-size: 24px;
+  -webkit-font-smoothing: none;
+  line-height: 1.2;
+}
+
+h1 {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  font-weight: normal;
+}
+
+p {
+  margin-bottom: 2rem;
+}
+
+a,
+a:visited {
+  //border-bottom: 0.2rem solid @console-color;
+  color: @console-color;
+  text-decoration: none;
+}
+
+a:active,
+a:focus,
+a:hover {
+  background-color: @console-color;
+  color: @console-bg;
+}
+
+li {
+  list-style: none;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+}

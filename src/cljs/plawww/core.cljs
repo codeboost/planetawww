@@ -32,8 +32,21 @@
 (secretary/defroute "/about" []
   (session/put! :current-page #'about-page))
 
-(secretary/defroute "/main" []
-                    (session/put! :current-page #'plamain/page))
+
+(secretary/defroute "/menu/" []
+                    (session/put! :current-page (fn[] (plamain/menu-page "main"))))
+
+(secretary/defroute "/menu/:menu-name" {menu-name :menu-name}
+                    (session/put! :current-page (fn[] (plamain/menu-page menu-name))))
+
+
+(secretary/defroute "/media/" []
+                    (session/put! :current-page (fn[] (plamain/media-page ""))))
+
+(secretary/defroute "/media/:id" {id :id}
+                    (session/put! :current-page (fn[] (plamain/media-page id))))
+
+(secretary/locate-route "/menu/")
 
 ;; -------------------------
 ;; Initialize app

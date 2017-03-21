@@ -1,0 +1,48 @@
+.plamain > input {
+  background-color: transparent;
+  border: none;
+}
+.media-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.media-page .page-title {
+  text-align: center;
+}
+.media-items {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+}
+.media-items .menu {
+  min-width: 300px;
+}
+.menu .title {
+  color: red;
+}
+.search-component {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.search-component .search-text {
+  text-align: center;
+}
+.search-component .filters {
+  margin-top: 8px;
+  height: 48px;
+  float: left;
+}
+button.toggle-button {
+  width: 24px;
+  background-color: transparent;
+  margin-right: 16px;
+  border: none;
+}
+button.toggle-button img {
+  width: 24px;
+}
+.button-icon {
+  width: 24px;
+}

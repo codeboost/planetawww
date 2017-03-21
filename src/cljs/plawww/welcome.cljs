@@ -24,7 +24,7 @@ In scurt timp toate tarile de pe Pamant s-au refugiat in spatiu, au cerut azil p
     [:div.content
      [:p#story-text]
      [:h1#continue-button.ok-button
-      [:a#cont-a {:href "/main"} "CONTINUARE"]]]))
+      [:a#cont-a {:href "/menu"} "CONTINUARE"]]]))
 
 
 (defn a-link []
@@ -36,7 +36,7 @@ In scurt timp toate tarile de pe Pamant s-au refugiat in spatiu, au cerut azil p
                                 (-> (js/$ ".content")
                                     (.addClass "scale-out-animation"))
                                 (js/setTimeout (fn []
-                                                 (aset js/location "href" "/main")) 1000)))))
+                                                 (aset js/location "href" "/menu")) 1000)))))
 
 (defn continue-on-click[]
   (comment (a-link))

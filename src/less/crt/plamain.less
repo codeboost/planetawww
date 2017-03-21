@@ -1,0 +1,67 @@
+//---
+
+.plamain {
+
+}
+
+
+.plamain > input {
+	background-color: transparent;
+	border: none;
+}
+
+
+.media-page {
+	display: flex; 
+	flex-direction: column;
+	justify-content: center; 
+}
+
+.media-page .page-title {
+	text-align: center;
+}
+
+.media-items {
+	display: flex; 
+	flex-flow: row wrap;
+	justify-content: space-around;
+}
+
+.media-items .menu {
+	min-width: 300px;
+}
+
+.menu .title {
+	color: red;
+}
+
+
+.search-component {
+	display: flex; 
+	flex-direction: column;
+	align-items: center; 
+}
+
+.search-component .search-text {
+	text-align: center; 
+}
+.search-component .filters {
+	margin-top: 8px;
+	height: 48px;
+	float: left; 
+}
+
+button.toggle-button {
+	background-color: transparent;
+	margin-right: 16px;
+	border: 1px solid darken(@console-color, 30%);
+	img {
+		width: 24px;
+	}
+	color: @console-color;
+}
+
+.button-icon {
+	width: 24px;
+}
+

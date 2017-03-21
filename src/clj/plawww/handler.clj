@@ -6,6 +6,9 @@
             [config.core :refer [env]]
             [clj-http.client :as http-client]))
 
+(def MEDIA_JSON "/Users/florinbraghis/code/yo/planeta/planeta-www/plawww/resources/public/data/results.json")
+
+
 (def mount-target
   [:div#app
    [:h3 "ClojureScript has not been compiled!"]
@@ -19,7 +22,9 @@
    [:meta {:name    "viewport"
            :content "width=device-width, initial-scale=1"}]
    (map (fn [css-include]
-          (include-css css-include)) css-includes)])
+          (include-css css-include)) css-includes)
+   [:script
+    (str "var kolbasulPlanetar = " (slurp MEDIA_JSON) ";")]])
 
 
 (def classic-css [(if (env :dev) "/css/site.css" "/css/site.min.css")
@@ -48,7 +53,8 @@
 
 
 ;Make sure to increase the maximum number of media results in the media drop admin panel (Data API -> API Settings).
-(def all-media-url "http://localhost:8080/api/media?type=audio&api_key=U3rD1T5OiUt7FldwGTD")
+(def all-media-url "http://localhost:8080/api/media?api_key=U3rD1T5OiUt7FldwGTD&limit=4000")
+
 
 (defn update-data[]
   (try
@@ -58,7 +64,7 @@
         (not (= status 200)) {:status  "error"
                               :message (str "Server returned unknown result: " status)}
         :else (do
-                (spit "/Users/florinbraghis/code/yo/planeta/planeta-www/plawww/resources/public/data/results.json" body)
+                (spit MEDIA_JSON body)
                 {:status "success"}
                 )))
     (catch Exception e {:status "error"
@@ -66,8 +72,8 @@
 
 (defroutes routes
            (GET "/" [] (main-page crt-css))
-           (GET "/main" [] (main-page crt-css))
-           (GET "/about" [] (main-page crt-css))
+           (GET "/menu/*" [] (main-page crt-css))
+           (GET "/media/*" [] (main-page crt-css))
            (GET "/cards" [] (cards-page classic-css))
            (GET "/crt" [] crt-site)
            (GET "/update-data" [] (update-data))

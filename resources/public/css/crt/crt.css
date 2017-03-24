@@ -73,7 +73,7 @@ h1.ok-button {
   justify-content: flex-around;
 }
 .media-items > .menu {
-  min-width: 200px;
+  min-width: 240px;
 }
 .menu .title {
   color: red;
@@ -102,6 +102,114 @@ button.toggle-button img {
 }
 .button-icon {
   width: 24px;
+}
+.vstack {
+  display: flex;
+  flex-direction: column;
+}
+.hstack {
+  display: flex;
+  flex-direction: row;
+}
+.window {
+  border: 2px solid #14fdce;
+  background-color: #031e11;
+  opacity: 0.9;
+  border-radius: 23px;
+}
+.window .toolbar {
+  border-bottom: 1px solid #14fdce;
+  height: 40px;
+}
+.window .content {
+  margin: 8px;
+}
+.lv-cell .image-area {
+  flex-grow: 0;
+  width: 80px;
+  height: 80px;
+  min-width: 80px;
+  min-height: 80px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+}
+.lv-cell .image-area img.image {
+  margin: 0 auto;
+  height: 100%;
+  width: auto;
+}
+.lv-cell .content-area {
+  padding-left: 16px;
+  flex-grow: 2;
+}
+.lv-cell .accessory-area {
+  flex-grow: 0;
+  width: 50px;
+}
+.grow8 {
+  flex-grow: 8;
+}
+.grow2 {
+  flex-grow: 2;
+}
+.player {
+  z-index: 999;
+  position: absolute;
+  bottom: 16px;
+  height: 150px;
+  justify-content: center;
+  align-items: stretch;
+  align-content: stretch;
+  left: 20%;
+  right: 20%;
+}
+@media (max-width: 478px) {
+  .player {
+    left: 8px;
+    right: 8px;
+  }
+}
+.player .bottom-part {
+  margin-top: 10px;
+}
+.player .content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.player .controls .title-label {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.player .controls .time-label {
+  text-align: right;
+}
+.player .controls .progress-bar {
+  flex-grow: 0;
+  height: 6px;
+  border: 1px solid #14fdce;
+}
+.player .controls .progress-bar .progress-bar-progress {
+  background-color: #14fdce;
+  height: 100%;
+}
+.player .controls .player-buttons .button {
+  border: 1px solid #01775f;
+  border-radius: 6px;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+.player .controls .player-buttons .button:hover {
+  background-color: #14fdce;
+}
+.player .accessory-button {
+  display: block;
+  margin: auto;
+  width: 32px;
+  height: 32px;
 }
 .horiz-container {
   display: flex;
@@ -185,7 +293,6 @@ input.search-box:focus {
   background-color: #031e11;
   overflow: scroll;
   position: absolute;
-  padding: 3rem 2rem;
   pointer-events: auto;
   text-shadow: 0rem 0.2rem 1rem #0c7b46;
   z-index: -1;

@@ -146,8 +146,7 @@
          [:h2.page-title "PLANETA MOLDOVA"]
          [search-component search-prompt search-settings]
          [:div.v16px]
-         [media-items-component (:media ALLMEDIA) @search-settings]
-          ]])))
+         [media-items-component (:media ALLMEDIA) @search-settings]]])))
 
 (comment
   (let [the-atom ])

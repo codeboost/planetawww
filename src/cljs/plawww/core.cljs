@@ -40,12 +40,19 @@
 (secretary/defroute "/menu/:menu-name" {menu-name :menu-name}
                     (session/put! :current-page (fn[] (plamain/menu-page menu-name))))
 
+(comment
+  (let [test {:one 1
+              :two 2}
+        test (assoc test :image "image")] test)
 
+  )
 
 (defn update-player-state [id]
-  (print "Update-state" id)
   (when-let [media-item (plawww.plamain/media-item-for-id id)]
-    (session/update-in! [:player-state] merge {:title  (:title media-item)})))
+    (let [image-path (str "/data/images/media/" id "s.jpg")
+          media-item (assoc media-item :image image-path)]
+      (session/update-in! [:player-state] merge {:position 0
+                                                 :item     media-item}))))
 
 (secretary/defroute "/media/" []
                     (session/put! :current-page (fn[] (plamain/media-page ""))))

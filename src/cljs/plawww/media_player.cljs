@@ -2,11 +2,10 @@
   (:require [reagent.core :as r]
             [reagent.session :as session]))
 
-(defonce default-state (r/atom {:title ""
-                           :image ""
-                           :duration 0.0
-                           :position 0.0
-                           :playback-state :stopped}))
+(defonce default-state (r/atom {:item           {:title "" :image ""}
+                                :duration       0.0
+                                :position       0.0
+                                :playback-state :stopped}))
 
 
 (defn list-view-cell[image content accessory-view]
@@ -28,8 +27,9 @@
 (defn time-label [timestamp]
   [:div.grow2.time-label.playback-time (format-time timestamp)])
 
-(defn player-controls [state]
-  (let [{:keys [title duration position]} state]
+(defn player-controls [state item]
+  (let [{:keys [duration position]} state
+        {:keys [title]} item]
     [:div.controls.vstack
      [:div.hstack
       [:div.title-label.grow8 title]
@@ -45,38 +45,23 @@
 (defn accessory-view [])
 
 (defn player-view [state]
-    [list-view-cell (:image state)
-     [player-controls state] [accessory-view]])
-
-
-(defn get-state []
-  (let [{:keys [title]} (session/get :player-state)]
-    {:image    "/images/Coperta240.jpg"
-     :duration 120
-     :position 1.54}))
+  (let [item (:item state)]
+    [list-view-cell (:image item)
+     [player-controls state item] [accessory-view]]))
 
 (defn player []
-  (let [cursor (session/cursor [:player-state])]
+  (let [player-state (session/cursor [:player-state])]
     (fn []
       [:div.player.window.vstack
        [:div.toolbar]
        [:div.content
-        [player-view @cursor]]])))
+        [player-view @player-state]]])))
 
 (comment
 
-  (session/update-in! [:player-state] merge {:title    "Resetat"
-                                             :image    "/images/Coperta240.jpg"
+  (session/update-in! [:player-state] merge {:item     {:title "Resetat"
+                                                        :image "/data/images/media/9l.jpg"}
                                              :duration 120
-                                             :position 0.3} )
+                                             :position 0.3})
 
-  (def cana {:title    "Cana cu apa"
-             :image    "/images/Coperta240.jpg"
-             :duration 120
-             :position 0.3})
-
-  (session/reset!      {:title    "Ce mai zicem oare ?"
-                        :image    "/images/Coperta240.jpg"
-                        :duration 120
-                        :position 1.54}))
-
+  )

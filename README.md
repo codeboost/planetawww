@@ -2,17 +2,20 @@
 
 Site-ul proiectului. 
 
-
 Setup:
+- Create a symbolic link to the mediadrop's `data` directory:
+
+    $ ln -s /path/to/mediadrop-data data
+
+- Run the database extraction tool:
+TODO: automate this step
+    $ node extract-media.js > plawww/public/db/results.json
 
 
-
-
-
-Pornire:
+Start the app:
     $ lein figwheel app
 
-Si in alt terminal, auto-watcherul pentru less:
+Start the less watcher:
     $ lein less auto
 
 

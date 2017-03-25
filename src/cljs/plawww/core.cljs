@@ -7,6 +7,7 @@
             [plawww.crt :refer [crt-page]]
             [plawww.welcome :as welcome]
             [plawww.plamain :as plamain]
+            [plawww.media-player :as player]
             [cljsjs.typedjs]))
 
 ;; -------------------------
@@ -40,11 +41,18 @@
                     (session/put! :current-page (fn[] (plamain/menu-page menu-name))))
 
 
+
+(defn update-player-state [id]
+  (print "Update-state" id)
+  (when-let [media-item (plawww.plamain/media-item-for-id id)]
+    (session/update-in! [:player-state] merge {:title  (:title media-item)})))
+
 (secretary/defroute "/media/" []
                     (session/put! :current-page (fn[] (plamain/media-page ""))))
 
 (secretary/defroute "/media/:id" {id :id}
-                    (session/put! :current-page (fn[] (plamain/media-page id))))
+                    (do (session/put! :current-page (fn [] (plamain/media-page id)))
+                        (update-player-state (js/parseInt id))))
 
 (secretary/locate-route "/menu/")
 

@@ -11,6 +11,10 @@
 
 (defonce ALLMEDIA (js->clj js/kolbasulPlanetar :keywordize-keys true))
 
+(defn media-item-for-id [search-id]
+  (first (filter (fn [{:keys [id]}]
+                   (= id search-id)) (:media ALLMEDIA))))
+
 (def MENUS {
             :main {:title "MAIN"
                    :items [{:text "SCENETE & EMISIUNI" :handler "/menu/scenete"}

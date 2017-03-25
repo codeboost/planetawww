@@ -1,4 +1,12 @@
-(ns plawww.media-player)
+(ns plawww.media-player
+  (:require [reagent.core :as r]
+            [reagent.session :as session]))
+
+(defonce default-state (r/atom {:title ""
+                           :image ""
+                           :duration 0.0
+                           :position 0.0
+                           :playback-state :stopped}))
 
 
 (defn list-view-cell[image content accessory-view]
@@ -12,31 +20,63 @@
 (defn progress-bar [progress]
   [:div.progress-bar
    [:div.progress-bar-progress
-    {:style {:width (str (* 100 progress) "%")}}]])
+    {:style {:width (str (* 100 (min 1 progress)) "%")}}]])
+
+(defn format-time [timestamp]
+  (str timestamp "s"))
+
+(defn time-label [timestamp]
+  [:div.grow2.time-label.playback-time (format-time timestamp)])
+
+(defn player-controls [state]
+  (let [{:keys [title duration position]} state]
+    [:div.controls.vstack
+     [:div.hstack
+      [:div.title-label.grow8 title]
+      [time-label (* position duration)]]
+     [progress-bar position]
+     [:div.hstack.bottom-part
+      [:div.player-buttons.grow8.hstack
+       [:div.button.play-button [:a {:href "#"} "PLAI"]]
+       [:div.sp]]
+      [time-label duration]]]))
 
 
-(defn player-controls [title]
-  [:div.controls.vstack
-   [:div.hstack
-    [:div.title-label.grow8 title]
-    [:div.grow2.time-label.playback-time "1:16"]]
-   [progress-bar 0.4]
-   [:div.hstack.bottom-part
-    [:div.player-buttons.grow8.hstack
-     [:div.button.play-button [:a {:href "#"} "PLAY"]]
-     [:div.sp]]
-    [:div.grow2.time-label.total-time "2:20"]]])
+(defn accessory-view [])
+
+(defn player-view [state]
+    [list-view-cell (:image state)
+     [player-controls state] [accessory-view]])
 
 
-(defn player-view [image title accessory]
-  [list-view-cell image
-   [player-controls title] accessory])
+(defn get-state []
+  (let [{:keys [title]} (session/get :player-state)]
+    {:image    "/images/Coperta240.jpg"
+     :duration 120
+     :position 1.54}))
 
-(defn accessory-view []
-  )
+(defn player []
+  (let [cursor (session/cursor [:player-state])]
+    (fn []
+      [:div.player.window.vstack
+       [:div.toolbar]
+       [:div.content
+        [player-view @cursor]]])))
 
-(defn player[]
-  [:div.player.window.vstack
-   [:div.toolbar]
-   [:div.content
-    [player-view "/images/lidasicolea.jpg" "Biznis pas cu pas 1" [accessory-view]]]])
+(comment
+
+  (session/update-in! [:player-state] merge {:title    "Resetat"
+                                             :image    "/images/Coperta240.jpg"
+                                             :duration 120
+                                             :position 0.3} )
+
+  (def cana {:title    "Cana cu apa"
+             :image    "/images/Coperta240.jpg"
+             :duration 120
+             :position 0.3})
+
+  (session/reset!      {:title    "Ce mai zicem oare ?"
+                        :image    "/images/Coperta240.jpg"
+                        :duration 120
+                        :position 1.54}))
+

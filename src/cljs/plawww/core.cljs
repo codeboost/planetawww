@@ -7,7 +7,9 @@
             [plawww.crt :refer [crt-page]]
             [plawww.welcome :as welcome]
             [plawww.plamain :as plamain]
-            [plawww.media-player :as player]
+            [plawww.media-player :as media-player]
+            [plawww.audio-player :as audio-player]
+            [cljs.core.async :refer [put!]]
             [cljsjs.typedjs]))
 
 ;; -------------------------
@@ -20,6 +22,24 @@
 
 
 (secretary/set-config! :prefix "#")
+
+(defn hook-up-the-stuff
+  []
+  (let [channel (plawww.audio-player/init)]
+    (session/put! :audio-player-control-channel channel)
+    (reagent/track! (fn []
+                      (when-let [filename (session/get-in [:player-state :item :filename])]
+                        (let [filename (str "/data/media/" filename)]
+                          (put! channel {:command :load
+                                         :filename filename
+                                         :should-play true})))))))
+
+(defn update-player-state [id]
+  (when-let [media-item (plawww.plamain/media-item-for-id id)]
+    (let [image-path (str "/data/images/media/" id "s.jpg")
+          media-item (assoc media-item :image image-path)]
+      (session/update-in! [:player-state] merge {:position 0
+                                                 :item     media-item}))))
 
 (defn current-page []
   [:div [(session/get :current-page)]])
@@ -40,19 +60,6 @@
 (secretary/defroute "/menu/:menu-name" {menu-name :menu-name}
                     (session/put! :current-page (fn[] (plamain/menu-page menu-name))))
 
-(comment
-  (let [test {:one 1
-              :two 2}
-        test (assoc test :image "image")] test)
-
-  )
-
-(defn update-player-state [id]
-  (when-let [media-item (plawww.plamain/media-item-for-id id)]
-    (let [image-path (str "/data/images/media/" id "s.jpg")
-          media-item (assoc media-item :image image-path)]
-      (session/update-in! [:player-state] merge {:position 0
-                                                 :item     media-item}))))
 
 (secretary/defroute "/media/" []
                     (session/put! :current-page (fn[] (plamain/media-page ""))))
@@ -79,4 +86,5 @@
      (fn [path]
        (secretary/locate-route path))})
   (accountant/dispatch-current!)
-  (mount-root))
+  (mount-root)
+  (hook-up-the-stuff))

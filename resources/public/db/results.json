@@ -20,9 +20,14 @@
       "popularity_dislikes": 0,
       "media_id": 8,
       "tags": [
-        "moldovneste",
-        "reclama"
-      ]
+        "reclama",
+        "moldovneste"
+      ],
+      "unique_id": "7-univers.mp3",
+      "filename": "7-univers.mp3",
+      "size": 445329,
+      "width": null,
+      "height": null
     },
     {
       "id": 9,
@@ -36,7 +41,7 @@
       "description_plain": "",
       "notes": null,
       "duration": 0,
-      "views": 4,
+      "views": 5,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
@@ -45,7 +50,12 @@
       "media_id": 9,
       "tags": [
         "plam"
-      ]
+      ],
+      "unique_id": "8-colonia.mp3",
+      "filename": "8-colonia.mp3",
+      "size": 1557733,
+      "width": null,
+      "height": null
     },
     {
       "id": 11,
@@ -58,7 +68,7 @@
       "description": "<p>Interview pentru angajare pe postul de balerina.</p>",
       "description_plain": "Interview pentru angajare pe postul de balerina.",
       "notes": null,
-      "duration": 0,
+      "duration": 100.76242857142857,
       "views": 3,
       "likes": 0,
       "dislikes": 0,
@@ -67,12 +77,17 @@
       "popularity_dislikes": 0,
       "media_id": 11,
       "tags": [
-        "viol",
-        "mat-peremat",
+        "pragon",
         "bratva",
         "porno",
-        "pragon"
-      ]
+        "viol",
+        "mat-peremat"
+      ],
+      "unique_id": "51-balerina.mp3",
+      "filename": "51-balerina.mp3",
+      "size": 709423,
+      "width": null,
+      "height": null
     },
     {
       "id": 12,
@@ -85,7 +100,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 49.330625,
       "views": 4,
       "likes": 0,
       "dislikes": 0,
@@ -96,7 +111,12 @@
       "tags": [
         "guerilla",
         "stire"
-      ]
+      ],
+      "unique_id": "53-10lei.mp3",
+      "filename": "53-10lei.mp3",
+      "size": 398731,
+      "width": null,
+      "height": null
     },
     {
       "id": 13,
@@ -109,7 +129,7 @@
       "description": "<p>Crima-i crima, da dovada-i dovada si cu alibi n-ai incotro.</p>",
       "description_plain": "Crima-i crima, da dovada-i dovada si cu alibi n-ai incotro.",
       "notes": null,
-      "duration": 0,
+      "duration": 263.514375,
       "views": 2,
       "likes": 0,
       "dislikes": 0,
@@ -123,7 +143,12 @@
         "taran",
         "politie",
         "pragon"
-      ]
+      ],
+      "unique_id": "57-alibi.mp3",
+      "filename": "57-alibi.mp3",
+      "size": 2112272,
+      "width": null,
+      "height": null
     },
     {
       "id": 14,
@@ -136,7 +161,7 @@
       "description": "<p>Vestitul hit.</p>",
       "description_plain": "Vestitul hit.",
       "notes": null,
-      "duration": 0,
+      "duration": 104.29885714285714,
       "views": 2,
       "likes": 0,
       "dislikes": 0,
@@ -145,9 +170,14 @@
       "popularity_dislikes": 0,
       "media_id": 14,
       "tags": [
-        "hit",
-        "moldovneste"
-      ]
+        "moldovneste",
+        "hit"
+      ],
+      "unique_id": "58-alimentara.mp3",
+      "filename": "58-alimentara.mp3",
+      "size": 734178,
+      "width": null,
+      "height": null
     },
     {
       "id": 15,
@@ -160,7 +190,7 @@
       "description": "<p>Domnul Buga in conversatie cu Alonzo.</p>",
       "description_plain": "Domnul Buga in conversatie cu Alonzo.",
       "notes": null,
-      "duration": 0,
+      "duration": 100.223,
       "views": 1,
       "likes": 0,
       "dislikes": 0,
@@ -173,7 +203,12 @@
         "teatru",
         "ves",
         "capusta"
-      ]
+      ],
+      "unique_id": "59-alonzo.mp3",
+      "filename": "59-alonzo.mp3",
+      "size": 805941,
+      "width": null,
+      "height": null
     },
     {
       "id": 16,
@@ -186,7 +221,7 @@
       "description": "<p>A doua conversatie.</p>",
       "description_plain": "A doua conversatie.",
       "notes": null,
-      "duration": 0,
+      "duration": 137.4475,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -199,7 +234,12 @@
         "ves",
         "capusta",
         "pragon"
-      ]
+      ],
+      "unique_id": "60-alonzo2.mp3",
+      "filename": "60-alonzo2.mp3",
+      "size": 1103737,
+      "width": null,
+      "height": null
     },
     {
       "id": 18,
@@ -212,7 +252,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 18.713125,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -224,7 +264,12 @@
         "guerilla",
         "radio",
         "stire"
-      ]
+      ],
+      "unique_id": "62-anestezium.mp3",
+      "filename": "62-anestezium.mp3",
+      "size": 153791,
+      "width": null,
+      "height": null
     },
     {
       "id": 19,
@@ -237,7 +282,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 103.17728571428572,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -248,10 +293,15 @@
       "tags": [
         "sineala",
         "mat-peremat",
-        "sf",
         "pragon",
+        "sf",
         "moldovneste"
-      ]
+      ],
+      "unique_id": "63-angajarea.mp3",
+      "filename": "63-angajarea.mp3",
+      "size": 726398,
+      "width": null,
+      "height": null
     },
     {
       "id": 30,
@@ -264,7 +314,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 287.875125,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -274,7 +324,12 @@
       "media_id": 30,
       "tags": [
         "music"
-      ]
+      ],
+      "unique_id": "74-boreajuku.mp3",
+      "filename": "74-boreajuku.mp3",
+      "size": 6909952,
+      "width": null,
+      "height": null
     },
     {
       "id": 39,
@@ -287,7 +342,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 25.87275,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -299,7 +354,12 @@
         "pragon",
         "parinti",
         "copii"
-      ]
+      ],
+      "unique_id": "83-ceinseamnabanii.mp3",
+      "filename": "83-ceinseamnabanii.mp3",
+      "size": 211068,
+      "width": null,
+      "height": null
     },
     {
       "id": 41,
@@ -312,7 +372,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 67.850625,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -321,9 +381,14 @@
       "popularity_dislikes": 0,
       "media_id": 41,
       "tags": [
-        "guerilla",
-        "stire"
-      ]
+        "stire",
+        "guerilla"
+      ],
+      "unique_id": "85-ceremonia-greva.mp3",
+      "filename": "85-ceremonia-greva.mp3",
+      "size": 546891,
+      "width": null,
+      "height": null
     },
     {
       "id": 54,
@@ -336,7 +401,7 @@
       "description": "<p>Monty Python's 'Usage of Fuck' Remake</p>",
       "description_plain": "Monty Python's 'Usage of Fuck' Remake",
       "notes": null,
-      "duration": 0,
+      "duration": 189.73883333333333,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -348,7 +413,12 @@
         "teatru",
         "mat-peremat",
         "emisiune"
-      ]
+      ],
+      "unique_id": "98-cuvantulcheiemontypythonsusageoffuckremake.mp3",
+      "filename": "98-cuvantulcheiemontypythonsusageoffuckremake.mp3",
+      "size": 2277880,
+      "width": null,
+      "height": null
     },
     {
       "id": 55,
@@ -361,7 +431,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 138.022125,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -374,7 +444,12 @@
         "mat-peremat",
         "violenta",
         "kidos"
-      ]
+      ],
+      "unique_id": "99-drgelozia.mp3",
+      "filename": "99-drgelozia.mp3",
+      "size": 1108315,
+      "width": null,
+      "height": null
     },
     {
       "id": 56,
@@ -387,7 +462,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 75.511125,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -396,10 +471,15 @@
       "popularity_dislikes": 0,
       "media_id": 56,
       "tags": [
+        "redactie",
         "scrisoare",
-        "pragon",
-        "redactie"
-      ]
+        "pragon"
+      ],
+      "unique_id": "100-drpensionarul.mp3",
+      "filename": "100-drpensionarul.mp3",
+      "size": 608246,
+      "width": null,
+      "height": null
     },
     {
       "id": 57,
@@ -412,7 +492,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 224.25465,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -421,10 +501,15 @@
       "popularity_dislikes": 0,
       "media_id": 57,
       "tags": [
+        "scrisoare",
         "politia",
-        "redactie",
-        "scrisoare"
-      ]
+        "redactie"
+      ],
+      "unique_id": "101-drpolitia.mp3",
+      "filename": "101-drpolitia.mp3",
+      "size": 8974528,
+      "width": null,
+      "height": null
     },
     {
       "id": 58,
@@ -437,7 +522,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 101.24175,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -449,7 +534,12 @@
         "redactie",
         "pragon",
         "scrisoare"
-      ]
+      ],
+      "unique_id": "102-drsatana.mp3",
+      "filename": "102-drsatana.mp3",
+      "size": 814183,
+      "width": null,
+      "height": null
     },
     {
       "id": 65,
@@ -462,7 +552,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 183.187875,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -474,7 +564,12 @@
         "poveste",
         "teatru",
         "doctor"
-      ]
+      ],
+      "unique_id": "109-doctoruli.mp3",
+      "filename": "109-doctoruli.mp3",
+      "size": 1466517,
+      "width": null,
+      "height": null
     },
     {
       "id": 98,
@@ -487,7 +582,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 170.936375,
       "views": 1,
       "likes": 0,
       "dislikes": 0,
@@ -498,7 +593,12 @@
       "tags": [
         "music",
         "droguri"
-      ]
+      ],
+      "unique_id": "142-himka.mp3",
+      "filename": "142-himka.mp3",
+      "size": 1371648,
+      "width": null,
+      "height": null
     },
     {
       "id": 99,
@@ -511,7 +611,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 349.709875,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -522,7 +622,12 @@
       "tags": [
         "mat-peremat",
         "music"
-      ]
+      ],
+      "unique_id": "143-hip-hopblea.mp3",
+      "filename": "143-hip-hopblea.mp3",
+      "size": 5596372,
+      "width": null,
+      "height": null
     },
     {
       "id": 100,
@@ -535,7 +640,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 302.280125,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -547,7 +652,12 @@
         "hitolog",
         "emisiune",
         "hituri"
-      ]
+      ],
+      "unique_id": "144-hiturile.mp3",
+      "filename": "144-hiturile.mp3",
+      "size": 2419255,
+      "width": null,
+      "height": null
     },
     {
       "id": 101,
@@ -560,7 +670,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 363.485,
       "views": 1,
       "likes": 0,
       "dislikes": 0,
@@ -571,7 +681,12 @@
       "tags": [
         "droguri",
         "interviu"
-      ]
+      ],
+      "unique_id": "145-iarbaneagra.mp3",
+      "filename": "145-iarbaneagra.mp3",
+      "size": 2908894,
+      "width": null,
+      "height": null
     },
     {
       "id": 102,
@@ -584,7 +699,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 55.07575,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -595,7 +710,12 @@
       "tags": [
         "guerilla",
         "stiri"
-      ]
+      ],
+      "unique_id": "146-icre-mure.mp3",
+      "filename": "146-icre-mure.mp3",
+      "size": 444692,
+      "width": null,
+      "height": null
     },
     {
       "id": 103,
@@ -608,7 +728,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 79.4157,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -619,7 +739,12 @@
       "tags": [
         "febre39",
         "muzica"
-      ]
+      ],
+      "unique_id": "147-imnulcurvarului.mp3",
+      "filename": "147-imnulcurvarului.mp3",
+      "size": 3180766,
+      "width": null,
+      "height": null
     },
     {
       "id": 104,
@@ -632,7 +757,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 138.248625,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -642,7 +767,12 @@
       "media_id": 104,
       "tags": [
         "music"
-      ]
+      ],
+      "unique_id": "148-imnul.mp3",
+      "filename": "148-imnul.mp3",
+      "size": 2216116,
+      "width": null,
+      "height": null
     },
     {
       "id": 105,
@@ -655,7 +785,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 38.254,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -664,9 +794,14 @@
       "popularity_dislikes": 0,
       "media_id": 105,
       "tags": [
-        "stiri",
-        "guerilla"
-      ]
+        "guerilla",
+        "stiri"
+      ],
+      "unique_id": "149-informania.mp3",
+      "filename": "149-informania.mp3",
+      "size": 310118,
+      "width": null,
+      "height": null
     },
     {
       "id": 106,
@@ -679,7 +814,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 30.57275,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -690,7 +825,12 @@
       "tags": [
         "guerilla",
         "stiri"
-      ]
+      ],
+      "unique_id": "150-insectele.mp3",
+      "filename": "150-insectele.mp3",
+      "size": 248668,
+      "width": null,
+      "height": null
     },
     {
       "id": 109,
@@ -703,7 +843,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 137,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -715,7 +855,12 @@
         "guerilla",
         "stiri",
         "interviu"
-      ]
+      ],
+      "unique_id": "153-interviuprofesorul.mp3",
+      "filename": "153-interviuprofesorul.mp3",
+      "size": 1650816,
+      "width": null,
+      "height": null
     },
     {
       "id": 110,
@@ -728,7 +873,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 198,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -740,7 +885,12 @@
         "stiri",
         "interviu",
         "guerilla"
-      ]
+      ],
+      "unique_id": "154-interviurautatea.mp3",
+      "filename": "154-interviurautatea.mp3",
+      "size": 2376150,
+      "width": null,
+      "height": null
     },
     {
       "id": 115,
@@ -753,7 +903,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 190.104625,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -766,7 +916,12 @@
         "kidos",
         "patrie",
         "politica"
-      ]
+      ],
+      "unique_id": "159-iurasivolodea.mp3",
+      "filename": "159-iurasivolodea.mp3",
+      "size": 1524923,
+      "width": null,
+      "height": null
     },
     {
       "id": 116,
@@ -779,7 +934,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 24.748375,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -790,7 +945,12 @@
       "tags": [
         "guerilla",
         "stiri"
-      ]
+      ],
+      "unique_id": "160-josmafia.mp3",
+      "filename": "160-josmafia.mp3",
+      "size": 202073,
+      "width": null,
+      "height": null
     },
     {
       "id": 119,
@@ -803,7 +963,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 114.355125,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -813,7 +973,12 @@
       "media_id": 119,
       "tags": [
         "music"
-      ]
+      ],
+      "unique_id": "163-koblevo.mp3",
+      "filename": "163-koblevo.mp3",
+      "size": 918979,
+      "width": null,
+      "height": null
     },
     {
       "id": 120,
@@ -826,7 +991,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 19.21525,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -837,7 +1002,12 @@
       "tags": [
         "reclama",
         "moldovneste"
-      ]
+      ],
+      "unique_id": "164-kokiletproba.mp3",
+      "filename": "164-kokiletproba.mp3",
+      "size": 157860,
+      "width": null,
+      "height": null
     },
     {
       "id": 121,
@@ -850,7 +1020,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 34.55025,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -860,7 +1030,12 @@
       "media_id": 121,
       "tags": [
         "reclama"
-      ]
+      ],
+      "unique_id": "165-kokilet.mp3",
+      "filename": "165-kokilet.mp3",
+      "size": 280540,
+      "width": null,
+      "height": null
     },
     {
       "id": 122,
@@ -873,7 +1048,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 64.8315,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -884,7 +1059,12 @@
       "tags": [
         "moldovneste",
         "mat-peremat"
-      ]
+      ],
+      "unique_id": "166-koleasilionea.mp3",
+      "filename": "166-koleasilionea.mp3",
+      "size": 393127,
+      "width": null,
+      "height": null
     },
     {
       "id": 123,
@@ -897,7 +1077,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 84.706125,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -910,7 +1090,12 @@
         "mat-peremat",
         "peredoz",
         "droguri"
-      ]
+      ],
+      "unique_id": "167-kubinskie.mp3",
+      "filename": "167-kubinskie.mp3",
+      "size": 681787,
+      "width": null,
+      "height": null
     },
     {
       "id": 124,
@@ -923,7 +1108,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 73.2645,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -934,7 +1119,12 @@
       "tags": [
         "probleme",
         "jurist"
-      ]
+      ],
+      "unique_id": "168-lajurist.mp3",
+      "filename": "168-lajurist.mp3",
+      "size": 590254,
+      "width": null,
+      "height": null
     },
     {
       "id": 125,
@@ -947,7 +1137,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 280.1805,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -959,7 +1149,12 @@
         "kidos",
         "magazin",
         "moldovneste"
-      ]
+      ],
+      "unique_id": "169-lamagazin.mp3",
+      "filename": "169-lamagazin.mp3",
+      "size": 2245582,
+      "width": null,
+      "height": null
     },
     {
       "id": 126,
@@ -972,7 +1167,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 236.686625,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -981,10 +1176,15 @@
       "popularity_dislikes": 0,
       "media_id": 126,
       "tags": [
+        "interviu",
         "emisiune",
-        "moldovneste",
-        "interviu"
-      ]
+        "moldovneste"
+      ],
+      "unique_id": "170-lavolan.mp3",
+      "filename": "170-lavolan.mp3",
+      "size": 1897631,
+      "width": null,
+      "height": null
     },
     {
       "id": 127,
@@ -997,7 +1197,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 52.882125,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -1008,7 +1208,12 @@
       "tags": [
         "guerilla",
         "stiri"
-      ]
+      ],
+      "unique_id": "171-lacustele.mp3",
+      "filename": "171-lacustele.mp3",
+      "size": 427143,
+      "width": null,
+      "height": null
     },
     {
       "id": 128,
@@ -1021,7 +1226,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 61.381142857142855,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -1030,10 +1235,15 @@
       "popularity_dislikes": 0,
       "media_id": 128,
       "tags": [
+        "mat-peremat",
         "copii",
-        "scoala",
-        "mat-peremat"
-      ]
+        "scoala"
+      ],
+      "unique_id": "172-lectiadeschisa.mp3",
+      "filename": "172-lectiadeschisa.mp3",
+      "size": 433806,
+      "width": null,
+      "height": null
     },
     {
       "id": 129,
@@ -1046,7 +1256,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 406.8614285714286,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -1059,7 +1269,12 @@
         "legamant",
         "interviu",
         "specialist"
-      ]
+      ],
+      "unique_id": "173-legamant7.mp3",
+      "filename": "173-legamant7.mp3",
+      "size": 2852116,
+      "width": null,
+      "height": null
     },
     {
       "id": 130,
@@ -1072,7 +1287,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 422.41725,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -1081,11 +1296,16 @@
       "popularity_dislikes": 0,
       "media_id": 130,
       "tags": [
+        "legamant",
         "interviu",
         "specialist",
-        "savant",
-        "legamant"
-      ]
+        "savant"
+      ],
+      "unique_id": "174-legamant6.mp3",
+      "filename": "174-legamant6.mp3",
+      "size": 3383476,
+      "width": null,
+      "height": null
     },
     {
       "id": 131,
@@ -1098,7 +1318,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 325.294,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -1107,11 +1327,16 @@
       "popularity_dislikes": 0,
       "media_id": 131,
       "tags": [
+        "specialist",
         "savant",
         "legamant",
-        "interviu",
-        "specialist"
-      ]
+        "interviu"
+      ],
+      "unique_id": "175-legamant5.mp3",
+      "filename": "175-legamant5.mp3",
+      "size": 2606490,
+      "width": null,
+      "height": null
     },
     {
       "id": 132,
@@ -1124,7 +1349,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 408.363375,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -1133,11 +1358,16 @@
       "popularity_dislikes": 0,
       "media_id": 132,
       "tags": [
+        "savant",
         "legamant",
         "interviu",
-        "specialist",
-        "savant"
-      ]
+        "specialist"
+      ],
+      "unique_id": "176-legamant4.mp3",
+      "filename": "176-legamant4.mp3",
+      "size": 3271045,
+      "width": null,
+      "height": null
     },
     {
       "id": 133,
@@ -1150,7 +1380,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 681.6825,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -1163,7 +1393,12 @@
         "specialist",
         "savant",
         "legamant"
-      ]
+      ],
+      "unique_id": "177-legamant3.mp3",
+      "filename": "177-legamant3.mp3",
+      "size": 5457598,
+      "width": null,
+      "height": null
     },
     {
       "id": 134,
@@ -1176,7 +1411,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 291.96175,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -1189,7 +1424,12 @@
         "legamant",
         "interviu",
         "specialist"
-      ]
+      ],
+      "unique_id": "178-legamant2.mp3",
+      "filename": "178-legamant2.mp3",
+      "size": 2339832,
+      "width": null,
+      "height": null
     },
     {
       "id": 135,
@@ -1202,7 +1442,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 308.18375,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -1215,7 +1455,12 @@
         "interviu",
         "specialist",
         "savant"
-      ]
+      ],
+      "unique_id": "179-legamant1.mp3",
+      "filename": "179-legamant1.mp3",
+      "size": 2469608,
+      "width": null,
+      "height": null
     },
     {
       "id": 136,
@@ -1228,7 +1473,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 236.57066666666665,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -1238,7 +1483,12 @@
       "media_id": 136,
       "tags": [
         "pragon"
-      ]
+      ],
+      "unique_id": "180-lumeaasta.mp3",
+      "filename": "180-lumeaasta.mp3",
+      "size": 5678710,
+      "width": null,
+      "height": null
     },
     {
       "id": 137,
@@ -1251,7 +1501,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 176.213125,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -1263,7 +1513,12 @@
         "mat-peremat",
         "porno",
         "emisiune"
-      ]
+      ],
+      "unique_id": "181-lichidele.mp3",
+      "filename": "181-lichidele.mp3",
+      "size": 1410719,
+      "width": null,
+      "height": null
     },
     {
       "id": 138,
@@ -1276,7 +1531,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 35.961625,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -1285,10 +1540,15 @@
       "popularity_dislikes": 0,
       "media_id": 138,
       "tags": [
+        "moldovneste",
         "telefon",
-        "sot-sotie",
-        "moldovneste"
-      ]
+        "sot-sotie"
+      ],
+      "unique_id": "182-lidasicolea.mp3",
+      "filename": "182-lidasicolea.mp3",
+      "size": 291831,
+      "width": null,
+      "height": null
     },
     {
       "id": 139,
@@ -1301,7 +1561,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 75.95525,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -1313,7 +1573,12 @@
         "magazin",
         "moldovneste",
         "limba"
-      ]
+      ],
+      "unique_id": "183-limbadestat1.mp3",
+      "filename": "183-limbadestat1.mp3",
+      "size": 611780,
+      "width": null,
+      "height": null
     },
     {
       "id": 140,
@@ -1326,7 +1591,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 71.984625,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -1337,7 +1602,12 @@
       "tags": [
         "moldovneste",
         "ruseste"
-      ]
+      ],
+      "unique_id": "184-limbajul.mp3",
+      "filename": "184-limbajul.mp3",
+      "size": 576891,
+      "width": null,
+      "height": null
     },
     {
       "id": 141,
@@ -1350,7 +1620,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 195.96175,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -1362,7 +1632,12 @@
         "sex",
         "porno",
         "kidos"
-      ]
+      ],
+      "unique_id": "185-liniafierbinte.mp3",
+      "filename": "185-liniafierbinte.mp3",
+      "size": 1571832,
+      "width": null,
+      "height": null
     },
     {
       "id": 142,
@@ -1375,7 +1650,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 45.209,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -1387,7 +1662,12 @@
         "mat-peremat",
         "telefon",
         "moldovneste"
-      ]
+      ],
+      "unique_id": "186-lionea.mp3",
+      "filename": "186-lionea.mp3",
+      "size": 365810,
+      "width": null,
+      "height": null
     },
     {
       "id": 143,
@@ -1400,7 +1680,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 45.209,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -1412,7 +1692,12 @@
         "telefon",
         "moldovneste",
         "mat-peremat"
-      ]
+      ],
+      "unique_id": "187-lionea.mp3",
+      "filename": "187-lionea.mp3",
+      "size": 365810,
+      "width": null,
+      "height": null
     },
     {
       "id": 144,
@@ -1425,7 +1710,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 144.246,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -1437,7 +1722,12 @@
         "moldovneste",
         "sot-sotie",
         "porno"
-      ]
+      ],
+      "unique_id": "188-liubasikolea1.mp3",
+      "filename": "188-liubasikolea1.mp3",
+      "size": 1158106,
+      "width": null,
+      "height": null
     },
     {
       "id": 145,
@@ -1450,7 +1740,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 53.119,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -1459,9 +1749,14 @@
       "popularity_dislikes": 0,
       "media_id": 145,
       "tags": [
-        "guerilla",
-        "stiri"
-      ]
+        "stiri",
+        "guerilla"
+      ],
+      "unique_id": "189-magnatulmormintelor.mp3",
+      "filename": "189-magnatulmormintelor.mp3",
+      "size": 429038,
+      "width": null,
+      "height": null
     },
     {
       "id": 146,
@@ -1474,7 +1769,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 133.442125,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -1486,7 +1781,12 @@
         "ruseste",
         "emisiune",
         "moldovneste"
-      ]
+      ],
+      "unique_id": "190-manipulare.mp3",
+      "filename": "190-manipulare.mp3",
+      "size": 2136088,
+      "width": null,
+      "height": null
     },
     {
       "id": 147,
@@ -1499,7 +1799,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 126.9898125,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -1512,7 +1812,12 @@
         "peredoz",
         "familie",
         "mat-peremat"
-      ]
+      ],
+      "unique_id": "191-marazmuri1.mp3",
+      "filename": "191-marazmuri1.mp3",
+      "size": 2035975,
+      "width": null,
+      "height": null
     },
     {
       "id": 148,
@@ -1525,7 +1830,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 116.5930625,
       "views": 2,
       "likes": 0,
       "dislikes": 0,
@@ -1534,10 +1839,15 @@
       "popularity_dislikes": 0,
       "media_id": 148,
       "tags": [
-        "droguri",
         "familie",
-        "peredoaze"
-      ]
+        "peredoaze",
+        "droguri"
+      ],
+      "unique_id": "192-marazmuri2.mp3",
+      "filename": "192-marazmuri2.mp3",
+      "size": 1869627,
+      "width": null,
+      "height": null
     },
     {
       "id": 149,
@@ -1550,7 +1860,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 481.549875,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -1560,7 +1870,12 @@
       "media_id": 149,
       "tags": [
         "reclama"
-      ]
+      ],
+      "unique_id": "193-masiniledespalat.mp3",
+      "filename": "193-masiniledespalat.mp3",
+      "size": 7708936,
+      "width": null,
+      "height": null
     },
     {
       "id": 150,
@@ -1573,7 +1888,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 268.738875,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -1582,11 +1897,16 @@
       "popularity_dislikes": 0,
       "media_id": 150,
       "tags": [
+        "emisiune",
         "sport",
         "mat-peremat",
-        "violenta",
-        "emisiune"
-      ]
+        "violenta"
+      ],
+      "unique_id": "194-meciul.mp3",
+      "filename": "194-meciul.mp3",
+      "size": 2154049,
+      "width": null,
+      "height": null
     },
     {
       "id": 151,
@@ -1599,7 +1919,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 216.258875,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -1610,7 +1930,12 @@
       "tags": [
         "psihiatru",
         "doctor"
-      ]
+      ],
+      "unique_id": "195-memoria.mp3",
+      "filename": "195-memoria.mp3",
+      "size": 1734209,
+      "width": null,
+      "height": null
     },
     {
       "id": 152,
@@ -1623,7 +1948,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 555.249875,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -1635,7 +1960,12 @@
         "sanatate",
         "interview",
         "emisiune"
-      ]
+      ],
+      "unique_id": "196-merisor.mp3",
+      "filename": "196-merisor.mp3",
+      "size": 4446137,
+      "width": null,
+      "height": null
     },
     {
       "id": 153,
@@ -1648,7 +1978,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 134.574,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -1659,7 +1989,12 @@
       "tags": [
         "moldovneste",
         "magazin"
-      ]
+      ],
+      "unique_id": "197-mezeluri.mp3",
+      "filename": "197-mezeluri.mp3",
+      "size": 1080730,
+      "width": null,
+      "height": null
     },
     {
       "id": 154,
@@ -1672,7 +2007,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 120.3546875,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -1682,7 +2017,12 @@
       "media_id": 154,
       "tags": [
         "music"
-      ]
+      ],
+      "unique_id": "198-misadelabalti.mp3",
+      "filename": "198-misadelabalti.mp3",
+      "size": 1929889,
+      "width": null,
+      "height": null
     },
     {
       "id": 155,
@@ -1695,7 +2035,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 354.26375,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -1706,7 +2046,12 @@
       "tags": [
         "moldanium",
         "emisiune"
-      ]
+      ],
+      "unique_id": "199-sanatateinaintedetoate-moldanium2.mp3",
+      "filename": "199-sanatateinaintedetoate-moldanium2.mp3",
+      "size": 2838248,
+      "width": null,
+      "height": null
     },
     {
       "id": 156,
@@ -1719,7 +2064,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 462.09725,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -1729,7 +2074,12 @@
       "media_id": 156,
       "tags": [
         "emisiune"
-      ]
+      ],
+      "unique_id": "200-sanatateinaintedetoate-moldanium1.mp3",
+      "filename": "200-sanatateinaintedetoate-moldanium1.mp3",
+      "size": 3700916,
+      "width": null,
+      "height": null
     },
     {
       "id": 157,
@@ -1742,7 +2092,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 126.554375,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -1754,7 +2104,12 @@
         "doctor",
         "moldovneste",
         "morga"
-      ]
+      ],
+      "unique_id": "201-morga.mp3",
+      "filename": "201-morga.mp3",
+      "size": 1016573,
+      "width": null,
+      "height": null
     },
     {
       "id": 158,
@@ -1767,7 +2122,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 151.62045833333335,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -1777,7 +2132,12 @@
       "media_id": 158,
       "tags": [
         "music"
-      ]
+      ],
+      "unique_id": "202-mutantii.mp3",
+      "filename": "202-mutantii.mp3",
+      "size": 3639905,
+      "width": null,
+      "height": null
     },
     {
       "id": 159,
@@ -1790,7 +2150,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 180.25066666666666,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -1799,10 +2159,15 @@
       "popularity_dislikes": 0,
       "media_id": 159,
       "tags": [
+        "music",
         "moldovneste",
-        "mat-peremat",
-        "music"
-      ]
+        "mat-peremat"
+      ],
+      "unique_id": "203-n-aisi-ifasi.mp3",
+      "filename": "203-n-aisi-ifasi.mp3",
+      "size": 4327030,
+      "width": null,
+      "height": null
     },
     {
       "id": 160,
@@ -1815,7 +2180,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 256.13925,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -1824,9 +2189,14 @@
       "popularity_dislikes": 0,
       "media_id": 160,
       "tags": [
-        "moldovneste",
-        "poveste"
-      ]
+        "poveste",
+        "moldovneste"
+      ],
+      "unique_id": "204-nekrotitanium1.mp3",
+      "filename": "204-nekrotitanium1.mp3",
+      "size": 4102366,
+      "width": null,
+      "height": null
     },
     {
       "id": 161,
@@ -1839,7 +2209,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 418.2029375,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -1848,10 +2218,15 @@
       "popularity_dislikes": 0,
       "media_id": 161,
       "tags": [
+        "nekrotitanium",
         "poveste",
-        "pragon",
-        "nekrotitanium"
-      ]
+        "pragon"
+      ],
+      "unique_id": "205-nekrotitanium2.mp3",
+      "filename": "205-nekrotitanium2.mp3",
+      "size": 6695385,
+      "width": null,
+      "height": null
     },
     {
       "id": 162,
@@ -1864,7 +2239,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 209.388625,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -1874,7 +2249,12 @@
       "media_id": 162,
       "tags": [
         "music"
-      ]
+      ],
+      "unique_id": "206-ni-iraununta.mp3",
+      "filename": "206-ni-iraununta.mp3",
+      "size": 1679247,
+      "width": null,
+      "height": null
     },
     {
       "id": 163,
@@ -1887,7 +2267,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 271.629875,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -1896,9 +2276,14 @@
       "popularity_dislikes": 0,
       "media_id": 163,
       "tags": [
-        "music",
-        "album"
-      ]
+        "album",
+        "music"
+      ],
+      "unique_id": "207-nisporeni.mp3",
+      "filename": "207-nisporeni.mp3",
+      "size": 4350216,
+      "width": null,
+      "height": null
     },
     {
       "id": 164,
@@ -1911,7 +2296,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 93.405,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -1921,7 +2306,12 @@
       "media_id": 164,
       "tags": [
         "music"
-      ]
+      ],
+      "unique_id": "208-nuvagruziti.mp3",
+      "filename": "208-nuvagruziti.mp3",
+      "size": 751378,
+      "width": null,
+      "height": null
     },
     {
       "id": 165,
@@ -1934,7 +2324,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 48.284,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -1945,7 +2335,12 @@
       "tags": [
         "guerilla",
         "stiri"
-      ]
+      ],
+      "unique_id": "209-oilebova.mp3",
+      "filename": "209-oilebova.mp3",
+      "size": 390358,
+      "width": null,
+      "height": null
     },
     {
       "id": 166,
@@ -1958,7 +2353,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 56.697125,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -1967,9 +2362,14 @@
       "popularity_dislikes": 0,
       "media_id": 166,
       "tags": [
-        "stiri",
-        "guerilla"
-      ]
+        "guerilla",
+        "stiri"
+      ],
+      "unique_id": "210-omarhayam.mp3",
+      "filename": "210-omarhayam.mp3",
+      "size": 457663,
+      "width": null,
+      "height": null
     },
     {
       "id": 167,
@@ -1982,7 +2382,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 231.04425,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -1993,7 +2393,12 @@
       "tags": [
         "doctor",
         "moldovneste"
-      ]
+      ],
+      "unique_id": "211-pacientulfericit.mp3",
+      "filename": "211-pacientulfericit.mp3",
+      "size": 1849368,
+      "width": null,
+      "height": null
     },
     {
       "id": 168,
@@ -2006,7 +2411,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 38.54175,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -2016,7 +2421,12 @@
       "media_id": 168,
       "tags": [
         "reclama"
-      ]
+      ],
+      "unique_id": "212-pastadedinti.mp3",
+      "filename": "212-pastadedinti.mp3",
+      "size": 312420,
+      "width": null,
+      "height": null
     },
     {
       "id": 169,
@@ -2029,7 +2439,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 108.4116,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -2041,7 +2451,12 @@
         "sf",
         "moldovneste",
         "peredoz"
-      ]
+      ],
+      "unique_id": "213-peorbita.mp3",
+      "filename": "213-peorbita.mp3",
+      "size": 4340726,
+      "width": null,
+      "height": null
     },
     {
       "id": 170,
@@ -2054,7 +2469,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 34.76,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -2065,7 +2480,12 @@
       "tags": [
         "moldovneste",
         "tzatzaka"
-      ]
+      ],
+      "unique_id": "214-petrushka.mp3",
+      "filename": "214-petrushka.mp3",
+      "size": 282218,
+      "width": null,
+      "height": null
     },
     {
       "id": 171,
@@ -2078,7 +2498,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 30.893875,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -2090,7 +2510,12 @@
         "violenta",
         "mat-peremat",
         "moldovneste"
-      ]
+      ],
+      "unique_id": "215-pizdon.mp3",
+      "filename": "215-pizdon.mp3",
+      "size": 251289,
+      "width": null,
+      "height": null
     },
     {
       "id": 172,
@@ -2103,7 +2528,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 190.7895,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -2112,11 +2537,16 @@
       "popularity_dislikes": 0,
       "media_id": 172,
       "tags": [
+        "telefon",
         "kidos",
         "mancare",
-        "restaurant",
-        "telefon"
-      ]
+        "restaurant"
+      ],
+      "unique_id": "216-pizzeria.mp3",
+      "filename": "216-pizzeria.mp3",
+      "size": 1530454,
+      "width": null,
+      "height": null
     },
     {
       "id": 173,
@@ -2129,7 +2559,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 118.6045625,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -2139,7 +2569,12 @@
       "media_id": 173,
       "tags": [
         "music"
-      ]
+      ],
+      "unique_id": "217-planetanoastra.mp3",
+      "filename": "217-planetanoastra.mp3",
+      "size": 1901811,
+      "width": null,
+      "height": null
     },
     {
       "id": 174,
@@ -2152,7 +2587,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 61.372375,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -2163,7 +2598,12 @@
       "tags": [
         "guerilla",
         "stiri"
-      ]
+      ],
+      "unique_id": "218-platonsocraten.mp3",
+      "filename": "218-platonsocraten.mp3",
+      "size": 495065,
+      "width": null,
+      "height": null
     },
     {
       "id": 175,
@@ -2176,7 +2616,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 77.9345,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -2187,7 +2627,12 @@
       "tags": [
         "guerilla",
         "stiri"
-      ]
+      ],
+      "unique_id": "219-poduldeaur.mp3",
+      "filename": "219-poduldeaur.mp3",
+      "size": 627562,
+      "width": null,
+      "height": null
     },
     {
       "id": 176,
@@ -2200,7 +2645,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 297.0455,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -2209,10 +2654,15 @@
       "popularity_dislikes": 0,
       "media_id": 176,
       "tags": [
+        "copii",
         "scoala",
-        "profesor",
-        "copii"
-      ]
+        "profesor"
+      ],
+      "unique_id": "220-pofesorulmotivant.mp3",
+      "filename": "220-pofesorulmotivant.mp3",
+      "size": 2377378,
+      "width": null,
+      "height": null
     },
     {
       "id": 177,
@@ -2225,7 +2675,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 178.210775,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -2234,9 +2684,14 @@
       "popularity_dislikes": 0,
       "media_id": 177,
       "tags": [
-        "poveste",
-        "mat-peremat"
-      ]
+        "mat-peremat",
+        "poveste"
+      ],
+      "unique_id": "221-poiana.mp3",
+      "filename": "221-poiana.mp3",
+      "size": 7132690,
+      "width": null,
+      "height": null
     },
     {
       "id": 178,
@@ -2249,7 +2704,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 146.42445,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -2258,11 +2713,16 @@
       "popularity_dislikes": 0,
       "media_id": 178,
       "tags": [
-        "telefon",
-        "crima",
+        "politia",
         "kidos",
-        "politia"
-      ]
+        "telefon",
+        "crima"
+      ],
+      "unique_id": "222-politia.mp3",
+      "filename": "222-politia.mp3",
+      "size": 5861320,
+      "width": null,
+      "height": null
     },
     {
       "id": 179,
@@ -2275,7 +2735,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 112.329975,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -2286,7 +2746,12 @@
       "tags": [
         "kidos",
         "pompe funebre"
-      ]
+      ],
+      "unique_id": "223-pompefunebre.mp3",
+      "filename": "223-pompefunebre.mp3",
+      "size": 4497465,
+      "width": null,
+      "height": null
     },
     {
       "id": 180,
@@ -2299,7 +2764,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 158.946125,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -2311,7 +2776,12 @@
         "pragon",
         "moldovneste",
         "poveste"
-      ]
+      ],
+      "unique_id": "224-porcul.mp3",
+      "filename": "224-porcul.mp3",
+      "size": 1275707,
+      "width": null,
+      "height": null
     },
     {
       "id": 181,
@@ -2324,7 +2794,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 107.276,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -2333,10 +2803,15 @@
       "popularity_dislikes": 0,
       "media_id": 181,
       "tags": [
-        "telefon",
         "absurd",
-        "moldovneste"
-      ]
+        "moldovneste",
+        "telefon"
+      ],
+      "unique_id": "225-portugalia.mp3",
+      "filename": "225-portugalia.mp3",
+      "size": 862346,
+      "width": null,
+      "height": null
     },
     {
       "id": 182,
@@ -2349,7 +2824,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 122.244125,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -2360,7 +2835,12 @@
       "tags": [
         "music",
         "mat-peremat"
-      ]
+      ],
+      "unique_id": "226-prashmandovka.mp3",
+      "filename": "226-prashmandovka.mp3",
+      "size": 982091,
+      "width": null,
+      "height": null
     },
     {
       "id": 183,
@@ -2373,7 +2853,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 101.633625,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -2384,7 +2864,12 @@
       "tags": [
         "patriotism",
         "telefon"
-      ]
+      ],
+      "unique_id": "227-presedintele.mp3",
+      "filename": "227-presedintele.mp3",
+      "size": 817207,
+      "width": null,
+      "height": null
     },
     {
       "id": 184,
@@ -2397,7 +2882,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 406.4825,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -2409,7 +2894,12 @@
         "poveste",
         "prikoke",
         "moldovneste"
-      ]
+      ],
+      "unique_id": "228-prikoke.mp3",
+      "filename": "228-prikoke.mp3",
+      "size": 3255946,
+      "width": null,
+      "height": null
     },
     {
       "id": 185,
@@ -2422,7 +2912,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 84.000875,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -2432,7 +2922,12 @@
       "media_id": 185,
       "tags": [
         "music"
-      ]
+      ],
+      "unique_id": "229-promisiunea.mp3",
+      "filename": "229-promisiunea.mp3",
+      "size": 676145,
+      "width": null,
+      "height": null
     },
     {
       "id": 186,
@@ -2445,7 +2940,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 137.21225,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -2457,7 +2952,12 @@
         "doctor",
         "psiholog",
         "pacient"
-      ]
+      ],
+      "unique_id": "230-psihologul.mp3",
+      "filename": "230-psihologul.mp3",
+      "size": 1101836,
+      "width": null,
+      "height": null
     },
     {
       "id": 187,
@@ -2470,7 +2970,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 80,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -2481,7 +2981,12 @@
       "tags": [
         "stiri",
         "guerilla"
-      ]
+      ],
+      "unique_id": "231-radioshopapa.mp3",
+      "filename": "231-radioshopapa.mp3",
+      "size": 966784,
+      "width": null,
+      "height": null
     },
     {
       "id": 188,
@@ -2494,7 +2999,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 130,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -2505,7 +3010,12 @@
       "tags": [
         "guerilla",
         "stiri"
-      ]
+      ],
+      "unique_id": "232-radioshoppumnul.mp3",
+      "filename": "232-radioshoppumnul.mp3",
+      "size": 1559465,
+      "width": null,
+      "height": null
     },
     {
       "id": 189,
@@ -2518,7 +3028,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 159,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -2529,7 +3039,12 @@
       "tags": [
         "guerilla",
         "stiri"
-      ]
+      ],
+      "unique_id": "233-radioshoppernele.mp3",
+      "filename": "233-radioshoppernele.mp3",
+      "size": 1908864,
+      "width": null,
+      "height": null
     },
     {
       "id": 190,
@@ -2542,7 +3057,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 116,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -2551,9 +3066,14 @@
       "popularity_dislikes": 0,
       "media_id": 190,
       "tags": [
-        "guerilla",
-        "stiri"
-      ]
+        "stiri",
+        "guerilla"
+      ],
+      "unique_id": "234-radioshopoglinzile.mp3",
+      "filename": "234-radioshopoglinzile.mp3",
+      "size": 1394816,
+      "width": null,
+      "height": null
     },
     {
       "id": 191,
@@ -2566,7 +3086,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 75,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -2577,7 +3097,12 @@
       "tags": [
         "guerilla",
         "stiri"
-      ]
+      ],
+      "unique_id": "235-radioshopmireasa.mp3",
+      "filename": "235-radioshopmireasa.mp3",
+      "size": 899268,
+      "width": null,
+      "height": null
     },
     {
       "id": 192,
@@ -2590,7 +3115,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 65,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -2599,9 +3124,14 @@
       "popularity_dislikes": 0,
       "media_id": 192,
       "tags": [
-        "stiri",
-        "guerilla"
-      ]
+        "guerilla",
+        "stiri"
+      ],
+      "unique_id": "236-radioshopcuierele.mp3",
+      "filename": "236-radioshopcuierele.mp3",
+      "size": 786560,
+      "width": null,
+      "height": null
     },
     {
       "id": 193,
@@ -2614,7 +3144,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 109,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -2625,7 +3155,12 @@
       "tags": [
         "guerilla",
         "stiri"
-      ]
+      ],
+      "unique_id": "237-radioshopcosmetica.mp3",
+      "filename": "237-radioshopcosmetica.mp3",
+      "size": 1313465,
+      "width": null,
+      "height": null
     },
     {
       "id": 194,
@@ -2638,7 +3173,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 98.655625,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -2647,11 +3182,16 @@
       "popularity_dislikes": 0,
       "media_id": 194,
       "tags": [
+        "mafia",
         "moldovneste",
         "telefon",
-        "crima",
-        "mafia"
-      ]
+        "crima"
+      ],
+      "unique_id": "238-raketul.mp3",
+      "filename": "238-raketul.mp3",
+      "size": 793383,
+      "width": null,
+      "height": null
     },
     {
       "id": 195,
@@ -2664,7 +3204,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 84.209875,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -2675,7 +3215,12 @@
       "tags": [
         "restaurant",
         "moldovneste"
-      ]
+      ],
+      "unique_id": "239-restaurant1.mp3",
+      "filename": "239-restaurant1.mp3",
+      "size": 677817,
+      "width": null,
+      "height": null
     },
     {
       "id": 196,
@@ -2688,7 +3233,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 190.73725,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -2701,7 +3246,12 @@
         "animale",
         "kidos",
         "moldonveste"
-      ]
+      ],
+      "unique_id": "240-restaurant2.mp3",
+      "filename": "240-restaurant2.mp3",
+      "size": 1530036,
+      "width": null,
+      "height": null
     },
     {
       "id": 197,
@@ -2714,7 +3264,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 216,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -2725,7 +3275,12 @@
       "tags": [
         "restaurant",
         "kidos"
-      ]
+      ],
+      "unique_id": "241-restaurantfurculite.mp3",
+      "filename": "241-restaurantfurculite.mp3",
+      "size": 2594944,
+      "width": null,
+      "height": null
     },
     {
       "id": 198,
@@ -2738,7 +3293,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 191,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -2751,7 +3306,12 @@
         "abuz",
         "kidos",
         "moldovneste"
-      ]
+      ],
+      "unique_id": "242-restaurantkidos.mp3",
+      "filename": "242-restaurantkidos.mp3",
+      "size": 2291862,
+      "width": null,
+      "height": null
     },
     {
       "id": 199,
@@ -2764,7 +3324,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 57.1125,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -2775,7 +3335,12 @@
       "tags": [
         "guerilla",
         "stiri"
-      ]
+      ],
+      "unique_id": "243-romania.mp3",
+      "filename": "243-romania.mp3",
+      "size": 460986,
+      "width": null,
+      "height": null
     },
     {
       "id": 200,
@@ -2788,7 +3353,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 74.70125,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -2797,11 +3362,16 @@
       "popularity_dislikes": 0,
       "media_id": 200,
       "tags": [
+        "droguri",
         "mat-peremat",
         "music",
-        "peredoz",
-        "droguri"
-      ]
+        "peredoz"
+      ],
+      "unique_id": "244-romparkin.mp3",
+      "filename": "244-romparkin.mp3",
+      "size": 601748,
+      "width": null,
+      "height": null
     },
     {
       "id": 201,
@@ -2814,7 +3384,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 207,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -2824,7 +3394,12 @@
       "media_id": 201,
       "tags": [
         "music"
-      ]
+      ],
+      "unique_id": "245-ruletkamoldoveneasca.mp3",
+      "filename": "245-ruletkamoldoveneasca.mp3",
+      "size": 6596224,
+      "width": null,
+      "height": null
     },
     {
       "id": 202,
@@ -2837,7 +3412,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 390.756875,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -2846,10 +3421,15 @@
       "popularity_dislikes": 0,
       "media_id": 202,
       "tags": [
-        "moldovneste",
         "poveste",
+        "moldovneste",
         "pragon"
-      ]
+      ],
+      "unique_id": "246-s-ul.mp3",
+      "filename": "246-s-ul.mp3",
+      "size": 3127069,
+      "width": null,
+      "height": null
     },
     {
       "id": 203,
@@ -2862,7 +3442,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 250.752825,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -2875,7 +3455,12 @@
         "moldovneste",
         "salvarea",
         "doctor"
-      ]
+      ],
+      "unique_id": "247-salvarea.mp3",
+      "filename": "247-salvarea.mp3",
+      "size": 10034375,
+      "width": null,
+      "height": null
     },
     {
       "id": 204,
@@ -2888,7 +3473,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 136.32425,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -2897,11 +3482,16 @@
       "popularity_dislikes": 0,
       "media_id": 204,
       "tags": [
+        "interviu",
         "porno",
         "angajare",
-        "mat-peremat",
-        "interviu"
-      ]
+        "mat-peremat"
+      ],
+      "unique_id": "248-secretara.mp3",
+      "filename": "248-secretara.mp3",
+      "size": 1094732,
+      "width": null,
+      "height": null
     },
     {
       "id": 205,
@@ -2914,7 +3504,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 284.17725,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -2925,9 +3515,14 @@
       "tags": [
         "kidos",
         "pasapoarte",
-        "organe",
-        "politia"
-      ]
+        "politia",
+        "organe"
+      ],
+      "unique_id": "249-sectiadepasapoarte.mp3",
+      "filename": "249-sectiadepasapoarte.mp3",
+      "size": 2277556,
+      "width": null,
+      "height": null
     },
     {
       "id": 206,
@@ -2940,7 +3535,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 335,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -2949,10 +3544,15 @@
       "popularity_dislikes": 0,
       "media_id": 206,
       "tags": [
+        "romaneste",
         "pragon",
-        "kidos",
-        "romaneste"
-      ]
+        "kidos"
+      ],
+      "unique_id": "250-sectiadepasapoarte1.mp3",
+      "filename": "250-sectiadepasapoarte1.mp3",
+      "size": 4016256,
+      "width": null,
+      "height": null
     },
     {
       "id": 207,
@@ -2965,7 +3565,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 189.378875,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -2978,7 +3578,12 @@
         "mat-peremat",
         "emisiune",
         "sex"
-      ]
+      ],
+      "unique_id": "251-sex-express.mp3",
+      "filename": "251-sex-express.mp3",
+      "size": 1519169,
+      "width": null,
+      "height": null
     },
     {
       "id": 208,
@@ -2991,7 +3596,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 30.495375,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -3002,7 +3607,12 @@
       "tags": [
         "stiri",
         "guerilla"
-      ]
+      ],
+      "unique_id": "252-sex-shop.mp3",
+      "filename": "252-sex-shop.mp3",
+      "size": 248049,
+      "width": null,
+      "height": null
     },
     {
       "id": 209,
@@ -3015,7 +3625,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 36.954375,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -3024,10 +3634,15 @@
       "popularity_dislikes": 0,
       "media_id": 209,
       "tags": [
+        "tarani",
         "pragon",
-        "moldovneste",
-        "tarani"
-      ]
+        "moldovneste"
+      ],
+      "unique_id": "253-sfada.mp3",
+      "filename": "253-sfada.mp3",
+      "size": 299773,
+      "width": null,
+      "height": null
     },
     {
       "id": 210,
@@ -3040,7 +3655,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 275,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -3052,7 +3667,12 @@
         "interviu",
         "sfat",
         "telefon"
-      ]
+      ],
+      "unique_id": "254-sfatulmorgan.mp3",
+      "filename": "254-sfatulmorgan.mp3",
+      "size": 3301504,
+      "width": null,
+      "height": null
     },
     {
       "id": 211,
@@ -3065,7 +3685,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 45.177125,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -3076,7 +3696,12 @@
       "tags": [
         "guerilla",
         "stiri"
-      ]
+      ],
+      "unique_id": "255-shaolin.mp3",
+      "filename": "255-shaolin.mp3",
+      "size": 365503,
+      "width": null,
+      "height": null
     },
     {
       "id": 212,
@@ -3089,7 +3714,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 93.24175,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -3102,7 +3727,12 @@
         "sfat",
         "copii",
         "familie"
-      ]
+      ],
+      "unique_id": "256-soarta.mp3",
+      "filename": "256-soarta.mp3",
+      "size": 750020,
+      "width": null,
+      "height": null
     },
     {
       "id": 213,
@@ -3115,7 +3745,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 195.4829375,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -3126,7 +3756,12 @@
       "tags": [
         "music",
         "pragon"
-      ]
+      ],
+      "unique_id": "257-somnusor.mp3",
+      "filename": "257-somnusor.mp3",
+      "size": 3131865,
+      "width": null,
+      "height": null
     },
     {
       "id": 214,
@@ -3139,7 +3774,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 44.732875,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -3150,7 +3785,12 @@
       "tags": [
         "stiri",
         "guerilla"
-      ]
+      ],
+      "unique_id": "258-sonofonie.mp3",
+      "filename": "258-sonofonie.mp3",
+      "size": 361949,
+      "width": null,
+      "height": null
     },
     {
       "id": 215,
@@ -3163,7 +3803,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 194.77957142857142,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -3175,7 +3815,12 @@
         "emisiune",
         "limbaj",
         "absurd"
-      ]
+      ],
+      "unique_id": "259-stiluri.mp3",
+      "filename": "259-stiluri.mp3",
+      "size": 1367543,
+      "width": null,
+      "height": null
     },
     {
       "id": 216,
@@ -3188,7 +3833,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 239.74275,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -3197,9 +3842,14 @@
       "popularity_dislikes": 0,
       "media_id": 216,
       "tags": [
-        "absurd",
-        "stiri"
-      ]
+        "stiri",
+        "absurd"
+      ],
+      "unique_id": "260-stiri2.mp3",
+      "filename": "260-stiri2.mp3",
+      "size": 1922124,
+      "width": null,
+      "height": null
     },
     {
       "id": 217,
@@ -3212,7 +3862,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 295.1485,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -3223,7 +3873,12 @@
       "tags": [
         "stiri",
         "absurd"
-      ]
+      ],
+      "unique_id": "261-stiri1.mp3",
+      "filename": "261-stiri1.mp3",
+      "size": 2365370,
+      "width": null,
+      "height": null
     },
     {
       "id": 218,
@@ -3236,7 +3891,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 54,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -3247,7 +3902,12 @@
       "tags": [
         "stiri",
         "absurd"
-      ]
+      ],
+      "unique_id": "262-stirilemeteo02.mp3",
+      "filename": "262-stirilemeteo02.mp3",
+      "size": 655488,
+      "width": null,
+      "height": null
     },
     {
       "id": 219,
@@ -3260,7 +3920,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 38,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -3271,7 +3931,12 @@
       "tags": [
         "absurd",
         "stiri"
-      ]
+      ],
+      "unique_id": "263-stirilemeteo01.mp3",
+      "filename": "263-stirilemeteo01.mp3",
+      "size": 454319,
+      "width": null,
+      "height": null
     },
     {
       "id": 220,
@@ -3284,7 +3949,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 53,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -3295,7 +3960,12 @@
       "tags": [
         "stiri",
         "absurd"
-      ]
+      ],
+      "unique_id": "264-stirilefulger16.mp3",
+      "filename": "264-stirilefulger16.mp3",
+      "size": 643200,
+      "width": null,
+      "height": null
     },
     {
       "id": 221,
@@ -3308,7 +3978,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 109,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -3319,7 +3989,12 @@
       "tags": [
         "stiri",
         "absurd"
-      ]
+      ],
+      "unique_id": "265-stirilefulger15.mp3",
+      "filename": "265-stirilefulger15.mp3",
+      "size": 1315341,
+      "width": null,
+      "height": null
     },
     {
       "id": 222,
@@ -3332,7 +4007,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 157,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -3341,9 +4016,14 @@
       "popularity_dislikes": 0,
       "media_id": 222,
       "tags": [
-        "stiri",
-        "absurd"
-      ]
+        "absurd",
+        "stiri"
+      ],
+      "unique_id": "266-stirilefulger14.mp3",
+      "filename": "266-stirilefulger14.mp3",
+      "size": 1886336,
+      "width": null,
+      "height": null
     },
     {
       "id": 223,
@@ -3356,7 +4036,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 59,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -3367,7 +4047,12 @@
       "tags": [
         "stiri",
         "absurd"
-      ]
+      ],
+      "unique_id": "267-stirilefulger13.mp3",
+      "filename": "267-stirilefulger13.mp3",
+      "size": 714880,
+      "width": null,
+      "height": null
     },
     {
       "id": 224,
@@ -3380,7 +4065,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 112,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -3389,9 +4074,14 @@
       "popularity_dislikes": 0,
       "media_id": 224,
       "tags": [
-        "absurd",
-        "stiri"
-      ]
+        "stiri",
+        "absurd"
+      ],
+      "unique_id": "268-stirilefulger12.mp3",
+      "filename": "268-stirilefulger12.mp3",
+      "size": 1345664,
+      "width": null,
+      "height": null
     },
     {
       "id": 225,
@@ -3404,7 +4094,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 107,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -3415,7 +4105,12 @@
       "tags": [
         "stiri",
         "absurd"
-      ]
+      ],
+      "unique_id": "269-stirilefulger11.mp3",
+      "filename": "269-stirilefulger11.mp3",
+      "size": 1290368,
+      "width": null,
+      "height": null
     },
     {
       "id": 226,
@@ -3428,7 +4123,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 141,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -3439,7 +4134,12 @@
       "tags": [
         "stiri",
         "absurd"
-      ]
+      ],
+      "unique_id": "270-stirilefulger10.mp3",
+      "filename": "270-stirilefulger10.mp3",
+      "size": 1693824,
+      "width": null,
+      "height": null
     },
     {
       "id": 227,
@@ -3452,7 +4152,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 121,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -3463,7 +4163,12 @@
       "tags": [
         "absurd",
         "stiri"
-      ]
+      ],
+      "unique_id": "271-stirilefulger09.mp3",
+      "filename": "271-stirilefulger09.mp3",
+      "size": 1460937,
+      "width": null,
+      "height": null
     },
     {
       "id": 228,
@@ -3476,7 +4181,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 87,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -3487,7 +4192,12 @@
       "tags": [
         "stiri",
         "absurd"
-      ]
+      ],
+      "unique_id": "272-stirilefulger08.mp3",
+      "filename": "272-stirilefulger08.mp3",
+      "size": 1046656,
+      "width": null,
+      "height": null
     },
     {
       "id": 229,
@@ -3500,7 +4210,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 39,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -3511,7 +4221,12 @@
       "tags": [
         "stiri",
         "absurd"
-      ]
+      ],
+      "unique_id": "273-stirilefulger07.mp3",
+      "filename": "273-stirilefulger07.mp3",
+      "size": 473216,
+      "width": null,
+      "height": null
     },
     {
       "id": 230,
@@ -3524,7 +4239,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 132,
       "views": 1,
       "likes": 0,
       "dislikes": 0,
@@ -3533,9 +4248,14 @@
       "popularity_dislikes": 0,
       "media_id": 230,
       "tags": [
-        "stiri",
-        "absurd"
-      ]
+        "absurd",
+        "stiri"
+      ],
+      "unique_id": "274-stirilefulger06.mp3",
+      "filename": "274-stirilefulger06.mp3",
+      "size": 1591424,
+      "width": null,
+      "height": null
     },
     {
       "id": 231,
@@ -3548,7 +4268,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 54,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -3559,7 +4279,12 @@
       "tags": [
         "stiri",
         "absurd"
-      ]
+      ],
+      "unique_id": "275-stirilefulger05.mp3",
+      "filename": "275-stirilefulger05.mp3",
+      "size": 645248,
+      "width": null,
+      "height": null
     },
     {
       "id": 232,
@@ -3572,7 +4297,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 41,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -3581,9 +4306,14 @@
       "popularity_dislikes": 0,
       "media_id": 232,
       "tags": [
-        "absurd",
-        "stiri"
-      ]
+        "stiri",
+        "absurd"
+      ],
+      "unique_id": "276-stirilefulger04.mp3",
+      "filename": "276-stirilefulger04.mp3",
+      "size": 489600,
+      "width": null,
+      "height": null
     },
     {
       "id": 233,
@@ -3596,7 +4326,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 87,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -3607,7 +4337,12 @@
       "tags": [
         "stiri",
         "absurd"
-      ]
+      ],
+      "unique_id": "277-stirilefulger03.mp3",
+      "filename": "277-stirilefulger03.mp3",
+      "size": 1044608,
+      "width": null,
+      "height": null
     },
     {
       "id": 234,
@@ -3620,7 +4355,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 79,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -3631,7 +4366,12 @@
       "tags": [
         "stiri",
         "absurd"
-      ]
+      ],
+      "unique_id": "278-stirilefulger02.mp3",
+      "filename": "278-stirilefulger02.mp3",
+      "size": 956544,
+      "width": null,
+      "height": null
     },
     {
       "id": 235,
@@ -3644,7 +4384,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 79,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -3655,7 +4395,12 @@
       "tags": [
         "absurd",
         "stiri"
-      ]
+      ],
+      "unique_id": "279-stirilefulger02.mp3",
+      "filename": "279-stirilefulger02.mp3",
+      "size": 956544,
+      "width": null,
+      "height": null
     },
     {
       "id": 236,
@@ -3668,7 +4413,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 71,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -3679,7 +4424,12 @@
       "tags": [
         "stiri",
         "absurd"
-      ]
+      ],
+      "unique_id": "280-stirilefulger01.mp3",
+      "filename": "280-stirilefulger01.mp3",
+      "size": 850048,
+      "width": null,
+      "height": null
     },
     {
       "id": 237,
@@ -3692,7 +4442,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 55.80925,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -3702,7 +4452,12 @@
       "media_id": 237,
       "tags": [
         "pragon"
-      ]
+      ],
+      "unique_id": "281-teapa.mp3",
+      "filename": "281-teapa.mp3",
+      "size": 450560,
+      "width": null,
+      "height": null
     },
     {
       "id": 238,
@@ -3715,7 +4470,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 37.21,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -3726,7 +4481,12 @@
       "tags": [
         "stiri",
         "guerilla"
-      ]
+      ],
+      "unique_id": "282-tanga.mp3",
+      "filename": "282-tanga.mp3",
+      "size": 301766,
+      "width": null,
+      "height": null
     },
     {
       "id": 239,
@@ -3739,7 +4499,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 57.26616666666666,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -3749,7 +4509,12 @@
       "media_id": 239,
       "tags": [
         "music"
-      ]
+      ],
+      "unique_id": "283-tarakanshik.mp3",
+      "filename": "283-tarakanshik.mp3",
+      "size": 1375402,
+      "width": null,
+      "height": null
     },
     {
       "id": 240,
@@ -3762,7 +4527,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 158.815625,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -3775,7 +4540,12 @@
         "profesori",
         "scoala",
         "violenta"
-      ]
+      ],
+      "unique_id": "284-terofesorii.mp3",
+      "filename": "284-terofesorii.mp3",
+      "size": 1274663,
+      "width": null,
+      "height": null
     },
     {
       "id": 241,
@@ -3788,7 +4558,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 55.683375,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -3798,7 +4568,12 @@
       "media_id": 241,
       "tags": [
         "reclama"
-      ]
+      ],
+      "unique_id": "285-universulgospodarului.mp3",
+      "filename": "285-universulgospodarului.mp3",
+      "size": 449605,
+      "width": null,
+      "height": null
     },
     {
       "id": 242,
@@ -3811,7 +4586,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 203.1368125,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -3821,7 +4596,12 @@
       "media_id": 242,
       "tags": [
         "music"
-      ]
+      ],
+      "unique_id": "286-valera.mp3",
+      "filename": "286-valera.mp3",
+      "size": 3254327,
+      "width": null,
+      "height": null
     },
     {
       "id": 243,
@@ -3834,7 +4614,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 182.4739375,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -3846,7 +4626,12 @@
         "mat-peremat",
         "origini",
         "music"
-      ]
+      ],
+      "unique_id": "287-vaneakatok.mp3",
+      "filename": "287-vaneakatok.mp3",
+      "size": 2923721,
+      "width": null,
+      "height": null
     },
     {
       "id": 244,
@@ -3859,7 +4644,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 268.974,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -3868,9 +4653,14 @@
       "popularity_dislikes": 0,
       "media_id": 244,
       "tags": [
-        "reclama",
-        "pragon"
-      ]
+        "pragon",
+        "reclama"
+      ],
+      "unique_id": "288-x-reflect.mp3",
+      "filename": "288-x-reflect.mp3",
+      "size": 2152806,
+      "width": null,
+      "height": null
     },
     {
       "id": 245,
@@ -3883,7 +4673,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 284.960875,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -3892,10 +4682,15 @@
       "popularity_dislikes": 0,
       "media_id": 245,
       "tags": [
+        "shaman",
         "vrajitoare",
-        "poveste",
-        "shaman"
-      ]
+        "poveste"
+      ],
+      "unique_id": "289-vrajitoarea2.mp3",
+      "filename": "289-vrajitoarea2.mp3",
+      "size": 2283825,
+      "width": null,
+      "height": null
     },
     {
       "id": 246,
@@ -3908,7 +4703,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 341.176375,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -3917,10 +4712,15 @@
       "popularity_dislikes": 0,
       "media_id": 246,
       "tags": [
+        "vrajitoare",
         "poveste",
-        "shaman",
-        "vrajitoare"
-      ]
+        "shaman"
+      ],
+      "unique_id": "290-vrajitoarea1.mp3",
+      "filename": "290-vrajitoarea1.mp3",
+      "size": 2733549,
+      "width": null,
+      "height": null
     },
     {
       "id": 247,
@@ -3933,7 +4733,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 120.404125,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -3945,7 +4745,12 @@
         "music",
         "mat-peremat",
         "porno"
-      ]
+      ],
+      "unique_id": "291-vocilereproducerii.mp3",
+      "filename": "291-vocilereproducerii.mp3",
+      "size": 2891776,
+      "width": null,
+      "height": null
     },
     {
       "id": 248,
@@ -3958,7 +4763,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 77.757625,
       "views": 1,
       "likes": 0,
       "dislikes": 0,
@@ -3970,7 +4775,12 @@
         "sot-sotie",
         "peredoz",
         "mat-peremat"
-      ]
+      ],
+      "unique_id": "292-vais-amar.mp3",
+      "filename": "292-vais-amar.mp3",
+      "size": 626199,
+      "width": null,
+      "height": null
     },
     {
       "id": 249,
@@ -3983,7 +4793,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 65.689125,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -3992,10 +4802,15 @@
       "popularity_dislikes": 0,
       "media_id": 249,
       "tags": [
+        "vama",
         "politie",
-        "droguri",
-        "vama"
-      ]
+        "droguri"
+      ],
+      "unique_id": "293-vama.mp3",
+      "filename": "293-vama.mp3",
+      "size": 529651,
+      "width": null,
+      "height": null
     },
     {
       "id": 250,
@@ -4008,7 +4823,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 161.75365,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
@@ -4019,7 +4834,12 @@
       "tags": [
         "music",
         "febre39"
-      ]
+      ],
+      "unique_id": "294-viatzame.mp3",
+      "filename": "294-viatzame.mp3",
+      "size": 6474535,
+      "width": null,
+      "height": null
     },
     {
       "id": 251,
@@ -4032,7 +4852,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 140,
       "views": 2,
       "likes": 0,
       "dislikes": 0,
@@ -4043,7 +4863,12 @@
       "tags": [
         "politic",
         "emisiune"
-      ]
+      ],
+      "unique_id": "295-viitorulnatiunii.mp3",
+      "filename": "295-viitorulnatiunii.mp3",
+      "size": 1675392,
+      "width": null,
+      "height": null
     },
     {
       "id": 252,
@@ -4056,7 +4881,7 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 27.620875,
       "views": 2,
       "likes": 0,
       "dislikes": 0,
@@ -4065,9 +4890,14 @@
       "popularity_dislikes": 0,
       "media_id": 252,
       "tags": [
-        "stiri",
-        "guerilla"
-      ]
+        "guerilla",
+        "stiri"
+      ],
+      "unique_id": "296-vindeprietenul.mp3",
+      "filename": "296-vindeprietenul.mp3",
+      "size": 225053,
+      "width": null,
+      "height": null
     },
     {
       "id": 17,
@@ -4080,17 +4910,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 319.965,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 17,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "61-anecdoate.mp3",
+      "filename": "61-anecdoate.mp3",
+      "size": 2563982,
+      "width": null,
+      "height": null
     },
     {
       "id": 21,
@@ -4103,17 +4938,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 308.52585714285715,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 21,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "65-aria.mp3",
+      "filename": "65-aria.mp3",
+      "size": 2163838,
+      "width": null,
+      "height": null
     },
     {
       "id": 22,
@@ -4126,17 +4966,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 288.9315,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 22,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "66-astral.mp3",
+      "filename": "66-astral.mp3",
+      "size": 2315609,
+      "width": null,
+      "height": null
     },
     {
       "id": 23,
@@ -4149,17 +4994,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 251.785375,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 23,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "67-beciulsrl.mp3",
+      "filename": "67-beciulsrl.mp3",
+      "size": 2015297,
+      "width": null,
+      "height": null
     },
     {
       "id": 24,
@@ -4172,17 +5022,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 122.3923125,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 24,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "68-balada.mp3",
+      "filename": "68-balada.mp3",
+      "size": 1962434,
+      "width": null,
+      "height": null
     },
     {
       "id": 25,
@@ -4195,17 +5050,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 657.7347142857143,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 25,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "69-biznespascupas1.mp3",
+      "filename": "69-biznespascupas1.mp3",
+      "size": 4608229,
+      "width": null,
+      "height": null
     },
     {
       "id": 26,
@@ -4218,17 +5078,22 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 314.24425,
       "views": 1,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 26,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "70-biznespascupas2pt1.mp3",
+      "filename": "70-biznespascupas2pt1.mp3",
+      "size": 2518111,
+      "width": null,
+      "height": null
     },
     {
       "id": 28,
@@ -4241,17 +5106,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 217.956875,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 28,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "72-biznespascupas2pt2.mp3",
+      "filename": "72-biznespascupas2pt2.mp3",
+      "size": 1747812,
+      "width": null,
+      "height": null
     },
     {
       "id": 29,
@@ -4264,17 +5134,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 56.800375,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 29,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "73-bombashugar.mp3",
+      "filename": "73-bombashugar.mp3",
+      "size": 458489,
+      "width": null,
+      "height": null
     },
     {
       "id": 32,
@@ -4287,17 +5162,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 435,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 32,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "76-boreasivitea.mp3",
+      "filename": "76-boreasivitea.mp3",
+      "size": 13980295,
+      "width": null,
+      "height": null
     },
     {
       "id": 33,
@@ -4310,17 +5190,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 246.12645,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 33,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "77-bufnita1.mp3",
+      "filename": "77-bufnita1.mp3",
+      "size": 9849400,
+      "width": null,
+      "height": null
     },
     {
       "id": 34,
@@ -4333,17 +5218,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 182.404,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 34,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "78-bufnita2pt1.mp3",
+      "filename": "78-bufnita2pt1.mp3",
+      "size": 1463389,
+      "width": null,
+      "height": null
     },
     {
       "id": 35,
@@ -4356,17 +5246,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 180.836625,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 35,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "79-bufnita2pt2.mp3",
+      "filename": "79-bufnita2pt2.mp3",
+      "size": 1450850,
+      "width": null,
+      "height": null
     },
     {
       "id": 36,
@@ -4379,17 +5274,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 444.543,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 36,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "80-canacuapa.mp3",
+      "filename": "80-canacuapa.mp3",
+      "size": 3560501,
+      "width": null,
+      "height": null
     },
     {
       "id": 37,
@@ -4402,17 +5302,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 523.810775,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 37,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "81-capracutreiiezi.mp3",
+      "filename": "81-capracutreiiezi.mp3",
+      "size": 20956702,
+      "width": null,
+      "height": null
     },
     {
       "id": 38,
@@ -4425,17 +5330,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 249.26385,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 38,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "82-cauzalitate.mp3",
+      "filename": "82-cauzalitate.mp3",
+      "size": 9974802,
+      "width": null,
+      "height": null
     },
     {
       "id": 40,
@@ -4448,17 +5358,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 132.356,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 40,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "84-cearta.mp3",
+      "filename": "84-cearta.mp3",
+      "size": 930649,
+      "width": null,
+      "height": null
     },
     {
       "id": 42,
@@ -4471,17 +5386,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 82.687125,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 42,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "86-cersetorii.mp3",
+      "filename": "86-cersetorii.mp3",
+      "size": 665583,
+      "width": null,
+      "height": null
     },
     {
       "id": 43,
@@ -4494,17 +5414,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 190.005875,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 43,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "87-chirurgie.mp3",
+      "filename": "87-chirurgie.mp3",
+      "size": 1521061,
+      "width": null,
+      "height": null
     },
     {
       "id": 44,
@@ -4517,17 +5442,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 89,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 44,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "88-cinestie1.mp3",
+      "filename": "88-cinestie1.mp3",
+      "size": 1069184,
+      "width": null,
+      "height": null
     },
     {
       "id": 45,
@@ -4540,17 +5470,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 119,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 45,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "89-cinestie2.mp3",
+      "filename": "89-cinestie2.mp3",
+      "size": 1429632,
+      "width": null,
+      "height": null
     },
     {
       "id": 46,
@@ -4563,17 +5498,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 477.744625,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 46,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "90-clinicarenasterea.mp3",
+      "filename": "90-clinicarenasterea.mp3",
+      "size": 3826114,
+      "width": null,
+      "height": null
     },
     {
       "id": 47,
@@ -4586,17 +5526,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 65.264625,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 47,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "91-clinica.mp3",
+      "filename": "91-clinica.mp3",
+      "size": 526203,
+      "width": null,
+      "height": null
     },
     {
       "id": 48,
@@ -4609,17 +5554,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 48.944625,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 48,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "92-colegii.mp3",
+      "filename": "92-colegii.mp3",
+      "size": 392571,
+      "width": null,
+      "height": null
     },
     {
       "id": 49,
@@ -4632,17 +5582,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 11.006125,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 49,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "93-coliva.mp3",
+      "filename": "93-coliva.mp3",
+      "size": 180383,
+      "width": null,
+      "height": null
     },
     {
       "id": 51,
@@ -4655,17 +5610,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 94.3715,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 51,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "95-crima.mp3",
+      "filename": "95-crima.mp3",
+      "size": 759110,
+      "width": null,
+      "height": null
     },
     {
       "id": 52,
@@ -4678,17 +5638,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 194.733875,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 52,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "96-colonia.mp3",
+      "filename": "96-colonia.mp3",
+      "size": 1562028,
+      "width": null,
+      "height": null
     },
     {
       "id": 53,
@@ -4701,17 +5666,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 313.382125,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 53,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "97-curajul.mp3",
+      "filename": "97-curajul.mp3",
+      "size": 2508071,
+      "width": null,
+      "height": null
     },
     {
       "id": 59,
@@ -4724,17 +5694,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 62.417625,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 59,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "103-darkdrinks.mp3",
+      "filename": "103-darkdrinks.mp3",
+      "size": 503427,
+      "width": null,
+      "height": null
     },
     {
       "id": 60,
@@ -4747,17 +5722,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 192.435,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 60,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "104-decapitation.mp3",
+      "filename": "104-decapitation.mp3",
+      "size": 1543637,
+      "width": null,
+      "height": null
     },
     {
       "id": 61,
@@ -4770,17 +5750,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 32.271,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 61,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "105-deflagratia.mp3",
+      "filename": "105-deflagratia.mp3",
+      "size": 262254,
+      "width": null,
+      "height": null
     },
     {
       "id": 62,
@@ -4793,17 +5778,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 450.864625,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 62,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "106-dentistul.mp3",
+      "filename": "106-dentistul.mp3",
+      "size": 3611074,
+      "width": null,
+      "height": null
     },
     {
       "id": 63,
@@ -4816,17 +5806,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 60.987,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 63,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "107-digital.mp3",
+      "filename": "107-digital.mp3",
+      "size": 492053,
+      "width": null,
+      "height": null
     },
     {
       "id": 64,
@@ -4839,17 +5834,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 611.75275,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 64,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "108-doctorul-prietenulmeu.mp3",
+      "filename": "108-doctorul-prietenulmeu.mp3",
+      "size": 4898179,
+      "width": null,
+      "height": null
     },
     {
       "id": 66,
@@ -4862,17 +5862,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 213.307,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 66,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "110-doctorulii.mp3",
+      "filename": "110-doctorulii.mp3",
+      "size": 1707470,
+      "width": null,
+      "height": null
     },
     {
       "id": 67,
@@ -4885,17 +5890,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 242.329125,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 67,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "111-doctoruliii.mp3",
+      "filename": "111-doctoruliii.mp3",
+      "size": 1939647,
+      "width": null,
+      "height": null
     },
     {
       "id": 68,
@@ -4908,17 +5918,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 30.606625,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 68,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "112-doctorulivepilog.mp3",
+      "filename": "112-doctorulivepilog.mp3",
+      "size": 245867,
+      "width": null,
+      "height": null
     },
     {
       "id": 69,
@@ -4931,17 +5946,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 421.2018,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 69,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "113-dovjenkodelabaikonur.mp3",
+      "filename": "113-dovjenkodelabaikonur.mp3",
+      "size": 16852332,
+      "width": null,
+      "height": null
     },
     {
       "id": 70,
@@ -4954,17 +5974,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 243.59475,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 70,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "114-dragostea.mp3",
+      "filename": "114-dragostea.mp3",
+      "size": 9748132,
+      "width": null,
+      "height": null
     },
     {
       "id": 71,
@@ -4977,17 +6002,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 138.753625,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 71,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "115-drugii.mp3",
+      "filename": "115-drugii.mp3",
+      "size": 1114186,
+      "width": null,
+      "height": null
     },
     {
       "id": 72,
@@ -5000,17 +6030,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 185.336625,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 72,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "116-esama.mp3",
+      "filename": "116-esama.mp3",
+      "size": 2969543,
+      "width": null,
+      "height": null
     },
     {
       "id": 73,
@@ -5023,17 +6058,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 27.048125,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 73,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "117-electricitate.mp3",
+      "filename": "117-electricitate.mp3",
+      "size": 220471,
+      "width": null,
+      "height": null
     },
     {
       "id": 74,
@@ -5046,17 +6086,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 208.617325,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 74,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "118-erotica.mp3",
+      "filename": "118-erotica.mp3",
+      "size": 8348937,
+      "width": null,
+      "height": null
     },
     {
       "id": 75,
@@ -5069,17 +6114,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 65.92425,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 75,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "119-familia.mp3",
+      "filename": "119-familia.mp3",
+      "size": 531551,
+      "width": null,
+      "height": null
     },
     {
       "id": 76,
@@ -5092,17 +6142,22 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 227.34525,
       "views": 1,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 76,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "120-fatasikamazul.mp3",
+      "filename": "120-fatasikamazul.mp3",
+      "size": 1822919,
+      "width": null,
+      "height": null
     },
     {
       "id": 77,
@@ -5115,17 +6170,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 44.864125,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 77,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "121-fazaatomica.mp3",
+      "filename": "121-fazaatomica.mp3",
+      "size": 362999,
+      "width": null,
+      "height": null
     },
     {
       "id": 78,
@@ -5138,17 +6198,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 62.83625,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 78,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "122-femeia.mp3",
+      "filename": "122-femeia.mp3",
+      "size": 506776,
+      "width": null,
+      "height": null
     },
     {
       "id": 79,
@@ -5161,17 +6226,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 88.41814285714285,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 79,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "123-femeile.mp3",
+      "filename": "123-femeile.mp3",
+      "size": 623084,
+      "width": null,
+      "height": null
     },
     {
       "id": 80,
@@ -5184,17 +6254,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 67.902875,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 80,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "124-fratefrate.mp3",
+      "filename": "124-fratefrate.mp3",
+      "size": 547309,
+      "width": null,
+      "height": null
     },
     {
       "id": 81,
@@ -5207,17 +6282,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 192.269875,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 81,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "125-frigidereledoina.mp3",
+      "filename": "125-frigidereledoina.mp3",
+      "size": 3080475,
+      "width": null,
+      "height": null
     },
     {
       "id": 82,
@@ -5230,17 +6310,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 39.822,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 82,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "126-ftv.mp3",
+      "filename": "126-ftv.mp3",
+      "size": 322662,
+      "width": null,
+      "height": null
     },
     {
       "id": 83,
@@ -5253,17 +6338,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 185.591125,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 83,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "127-generalul.mp3",
+      "filename": "127-generalul.mp3",
+      "size": 1488886,
+      "width": null,
+      "height": null
     },
     {
       "id": 84,
@@ -5276,17 +6366,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 37.39325,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 84,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "128-genetica.mp3",
+      "filename": "128-genetica.mp3",
+      "size": 303232,
+      "width": null,
+      "height": null
     },
     {
       "id": 85,
@@ -5299,17 +6394,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 47.08375,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 85,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "129-geniile.mp3",
+      "filename": "129-geniile.mp3",
+      "size": 380756,
+      "width": null,
+      "height": null
     },
     {
       "id": 86,
@@ -5322,17 +6422,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 107.66775,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 86,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "130-ghiaghiavanea.mp3",
+      "filename": "130-ghiaghiavanea.mp3",
+      "size": 865499,
+      "width": null,
+      "height": null
     },
     {
       "id": 87,
@@ -5345,17 +6450,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 26.059625,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 87,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "131-gingle1.mp3",
+      "filename": "131-gingle1.mp3",
+      "size": 212634,
+      "width": null,
+      "height": null
     },
     {
       "id": 88,
@@ -5368,17 +6478,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 21.62,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 88,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "132-gingle2.mp3",
+      "filename": "132-gingle2.mp3",
+      "size": 177117,
+      "width": null,
+      "height": null
     },
     {
       "id": 89,
@@ -5391,17 +6506,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 119.3185,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 89,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "133-gopniciidisperati.mp3",
+      "filename": "133-gopniciidisperati.mp3",
+      "size": 958705,
+      "width": null,
+      "height": null
     },
     {
       "id": 90,
@@ -5414,17 +6534,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 128.9862857142857,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 90,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "134-gospodarii.mp3",
+      "filename": "134-gospodarii.mp3",
+      "size": 907061,
+      "width": null,
+      "height": null
     },
     {
       "id": 91,
@@ -5437,17 +6562,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 148.1229375,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 91,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "135-gospodarul.mp3",
+      "filename": "135-gospodarul.mp3",
+      "size": 2374105,
+      "width": null,
+      "height": null
     },
     {
       "id": 92,
@@ -5460,17 +6590,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 57.271875,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 92,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "136-gregolaru.mp3",
+      "filename": "136-gregolaru.mp3",
+      "size": 462261,
+      "width": null,
+      "height": null
     },
     {
       "id": 93,
@@ -5483,17 +6618,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 64.5855,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 93,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "137-hacherita.mp3",
+      "filename": "137-hacherita.mp3",
+      "size": 520770,
+      "width": null,
+      "height": null
     },
     {
       "id": 94,
@@ -5506,17 +6646,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 39.899375,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 94,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "138-heroina-mercur.mp3",
+      "filename": "138-heroina-mercur.mp3",
+      "size": 323281,
+      "width": null,
+      "height": null
     },
     {
       "id": 95,
@@ -5529,17 +6674,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 53.588375,
       "views": 1,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 95,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "139-stiribanditesti.mp3",
+      "filename": "139-stiribanditesti.mp3",
+      "size": 432793,
+      "width": null,
+      "height": null
     },
     {
       "id": 96,
@@ -5552,17 +6702,22 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 69.339,
       "views": 1,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 96,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "140-stiribanditesti2.mp3",
+      "filename": "140-stiribanditesti2.mp3",
+      "size": 558798,
+      "width": null,
+      "height": null
     },
     {
       "id": 97,
@@ -5575,17 +6730,22 @@
       "description": null,
       "description_plain": "",
       "notes": null,
-      "duration": 0,
+      "duration": 73.389875,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 97,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "141-stiribanditesti3.mp3",
+      "filename": "141-stiribanditesti3.mp3",
+      "size": 591205,
+      "width": null,
+      "height": null
     },
     {
       "id": 107,
@@ -5598,17 +6758,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 137,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 107,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "151-interviualien.mp3",
+      "filename": "151-interviualien.mp3",
+      "size": 1640576,
+      "width": null,
+      "height": null
     },
     {
       "id": 108,
@@ -5621,17 +6786,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 174,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 108,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "152-interviunihilistul.mp3",
+      "filename": "152-interviunihilistul.mp3",
+      "size": 2089088,
+      "width": null,
+      "height": null
     },
     {
       "id": 111,
@@ -5644,17 +6814,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 227.50616666666667,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 111,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "155-intre4scanduri.mp3",
+      "filename": "155-intre4scanduri.mp3",
+      "size": 5462016,
+      "width": null,
+      "height": null
     },
     {
       "id": 112,
@@ -5667,17 +6842,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 86.6915,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 112,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "156-invidia.mp3",
+      "filename": "156-invidia.mp3",
+      "size": 697670,
+      "width": null,
+      "height": null
     },
     {
       "id": 113,
@@ -5690,17 +6870,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 36.61475,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 113,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "157-iubirea1.mp3",
+      "filename": "157-iubirea1.mp3",
+      "size": 293932,
+      "width": null,
+      "height": null
     },
     {
       "id": 114,
@@ -5713,17 +6898,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 27.96825,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 114,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "158-iubirea2.mp3",
+      "filename": "158-iubirea2.mp3",
+      "size": 224760,
+      "width": null,
+      "height": null
     },
     {
       "id": 117,
@@ -5736,17 +6926,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 156.987,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 117,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "161-kaput.mp3",
+      "filename": "161-kaput.mp3",
+      "size": 1260034,
+      "width": null,
+      "height": null
     },
     {
       "id": 118,
@@ -5759,17 +6954,22 @@
       "description": null,
       "description_plain": null,
       "notes": null,
-      "duration": 0,
+      "duration": 212.81075,
       "views": 0,
       "likes": 0,
       "dislikes": 0,
       "popularity_points": 0,
       "popularity_likes": 0,
       "popularity_dislikes": 0,
-      "media_id": null,
+      "media_id": 118,
       "tags": [
         ""
-      ]
+      ],
+      "unique_id": "162-kiokeamoartea.mp3",
+      "filename": "162-kiokeamoartea.mp3",
+      "size": 1703500,
+      "width": null,
+      "height": null
     }
   ]
 }

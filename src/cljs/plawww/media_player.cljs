@@ -48,11 +48,13 @@
 
 
 (defn play-button-text [state]
-  (let [txt (state {:play "STOP"
-                    :stop "PLAY"})] txt))
+  (let [txt (state {:play "PAUZA"
+                    :pause "PORN."
+                    :stop "PORN."})] txt))
 
 (def state-map
-  {:play :stop
+  {:play :pause
+   :pause :play
    :stop :play})
 
 (defn play-button-click
@@ -75,7 +77,7 @@
       [:div.button.play-button
        [:a {:href     "#"
             :on-click (play-button-click pc ps)}
-        (play-button-text (or @ps :stop))]])))
+        (play-button-text (or @ps :pause))]])))
 
 (defn player-controls [state item]
   (let [{:keys [position]} state

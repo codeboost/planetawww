@@ -18,30 +18,13 @@
 (defn- set-playback-state
   "Updates the session state, by setting :player-state :playback-state to the supplied value `s`."
   [s]
+  (print "set-playback-state: " s)
   (session/update-in! [:player-state] assoc :playback-state s))
 
 (defn- set-playback-position
   "Updates the session state. Sets the position in :player-state :position field."
   [pos]
   (session/update-in! [:player-state] assoc :position pos))
-
-(defn play
-  "Calls the .play() method of the `sound`."
-  ([s]
-   (when s
-     (.play s))))
-
-(defn stop
-  "Calls .stop() method on `sound`."
-  ([s]
-   (when s
-     (.stop s))))
-
-(defn pause
-  "Calls .pause() method on `sound`."
-  [s]
-  (when s
-    (.pause s)))
 
 (defn- while-playing
   "SMSound whileplaying callback.
@@ -64,30 +47,37 @@
                :whileplaying while-playing
                :onfinish (fn [] (set-playback-state :stop))
                :onstop   (fn [] (set-playback-state :stop))
-               :onplay   (fn [] (set-playback-state :play))}))]
+               :onplay   (fn [] (set-playback-state :play))
+               :onpause  (fn [] (set-playback-state :pause))
+               :onresume (fn [] (set-playback-state :play))}))]
     s))
 
-(defn load
-  "Loads sound file at path `p`."
-  [s p]
-  (when s (stop s))
-  (create-sound p))
 
 ;This is the dispatch function for the commands received on the control channel.
 (defmulti exec-cmd (fn [s {:keys [command]}] command))
 
-(defmethod exec-cmd :play [s] (play s))
+(defmethod exec-cmd :play [s]
+  (print "play" "; paused? " ($ s :paused))
+  (if ($ s :paused)
+    ($ s resume)
+    ($ s play)))
 
-(defmethod exec-cmd :stop [s] (stop s))
+(defmethod exec-cmd :stop [s]
+  (print "stop")
+  ($ s stop))
 
-(defmethod exec-cmd :pause [s] (pause s))
+(defmethod exec-cmd :pause [s]
+  (print "pause")
+  ($ s pause))
 
 (defmethod exec-cmd :load [s {:keys [filename should-play]}]
-  (let [new-s (load s filename)]
-    (when should-play (play new-s))
-    new-s))
+  (print "load:" filename)
+  (when s ($ s stop))
+  (let [s (create-sound filename)]
+    (when should-play ($ s play))))
 
 (defmethod exec-cmd :set-pos [s {:keys [percent]}]
+  (print "setPos: " percent)
   (let [duration ($ s :duration)]
     ($ s setPosition (* duration percent))))
 
@@ -101,6 +91,7 @@
     (let [res (exec-cmd @s cmd)]
       (when (= :load (:command cmd)
                (do
+                 (print "Loading new sound" cmd)
                  (reset! s res)))))))
 
 (defn init
@@ -113,6 +104,7 @@
         s (reagent/atom nil)]
     (go-loop []
              (when-let [cmd (<! ctrl-channel)]
+               (print "Command" cmd)
                (process-command s cmd)
                (recur)))
     ctrl-channel))

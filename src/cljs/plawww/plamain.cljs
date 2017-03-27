@@ -127,9 +127,9 @@
 (defn search-in-items [media-items search-string]
   (filter (fn [{:keys [title]}]
             (or (str/blank? search-string)
-                (str/starts-with?
-                  (str/lower-case title)
-                  (str/lower-case search-string)))) media-items))
+                (not= -1 (.indexOf
+                           (str/lower-case title)
+                           (str/lower-case search-string))))) media-items))
 
 
 (defn media-items-component [media-items search-settings]

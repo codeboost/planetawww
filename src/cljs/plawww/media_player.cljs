@@ -4,7 +4,8 @@
             [clojure.string :as str]
             [goog.string :as gstring]
             [goog.string.format]
-            [cljs.core.async :refer [put!]]))
+            [cljs.core.async :refer [put!]]
+            [reagent.interop :refer-macros [$ $!]]))
 
 (defn list-view-cell[image content accessory-view]
   [:div.lv-cell.hstack
@@ -13,8 +14,27 @@
    [:div.content-area content]
    [:div.accessory-area accessory-view]])
 
+
+(defn send-player-command [command]
+  (when-let [channel (session/get-in [:audio-player-control-channel])]
+    (put! channel command)))
+
+(defn percent-width [object x]
+  (let [width ($ object width)]
+    (cond (pos? width) (/ x width)
+          :else 0)))
+
 (defn progress-bar [progress]
-  [:div.progress-bar
+  [:div.progress-bar {:on-click (fn [e]
+                                    (let [target (js/$ ($ e :target))
+                                          pagex ($ e :pageX)
+                                          offset ($ target offset)
+                                          offsetLeft ($ offset :left)
+                                          offsetx (- pagex offsetLeft)
+                                          percent (percent-width target offsetx)]
+                                      (print "clicked: " percent)
+                                      (send-player-command {:command :set-pos
+                                                            :percent percent})))}
    [:div.progress-bar-progress
     {:style {:width (str (* 100 (min 1 progress)) "%")}}]])
 

@@ -157,7 +157,7 @@ button.toggle-button img {
   z-index: 999;
   position: absolute;
   bottom: 16px;
-  height: 150px;
+  height: 140px;
   justify-content: center;
   align-items: stretch;
   align-content: stretch;
@@ -293,6 +293,7 @@ input.search-box:focus {
   background-color: #031e11;
   overflow: scroll;
   position: absolute;
+  padding: 2rem 2rem;
   pointer-events: auto;
   text-shadow: 0rem 0.2rem 1rem #0c7b46;
   z-index: -1;

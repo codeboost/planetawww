@@ -1,103 +1,118 @@
+;   Copyright (c) Braghis Florin. All rights reserved.
+;   The use and distribution terms for this software are covered by the
+;   Common Public License 1.0 (http://opensource.org/licenses/cpl.php).
+;   By using this software in any fashion, you are agreeing to be bound by
+;   the terms of this license.
+;   You must not remove this notice, or any other, from this software.
+
+
 (ns plawww.audio-player
   (:require-macros [cljs.core.async.macros :refer [go go-loop]])
   (:require [reagent.core :as reagent :refer [atom]]
             [cljs.core.async :refer (chan put! <!)]
-            [reagent.session :as session]))
+            [reagent.session :as session]
+            [reagent.interop :refer-macros [$ $!]]))
 
-;The one and only current sound
-(defonce gCurrentSound (reagent/atom nil))
+;It is assumed that the soundManager 2 library is included in the page.
 
-(defn- set-playback-state [s]
+(defn- set-playback-state
+  "Updates the session state, by setting :player-state :playback-state to the supplied value `s`."
+  [s]
   (session/update-in! [:player-state] assoc :playback-state s))
+
+(defn- set-playback-position
+  "Updates the session state. Sets the position in :player-state :position field."
+  [pos]
+  (session/update-in! [:player-state] assoc :position pos))
+
+(defn play
+  "Calls the .play() method of the `sound`."
+  ([s]
+   (when s
+     (.play s))))
+
+(defn stop
+  "Calls .stop() method on `sound`."
+  ([s]
+   (when s
+     (.stop s))))
+
+(defn pause
+  "Calls .pause() method on `sound`."
+  [s]
+  (when s
+    (.pause s)))
+
+(defn- while-playing
+  "SMSound whileplaying callback.
+  Calls set-playback-position to notify the world of playback progress."
+  []
+  (this-as this
+    (let [position (.-position this)
+          duration (.-duration this)]
+      (when (pos? duration)
+        (set-playback-position (/ position duration))))))
 
 (defn- create-sound
   "Creates a sound object and sets the url to the supplied path.
        soundManager.createSound({url: '...'});"
   [p]
-  (.createSound js/soundManager (clj->js {:url p})))
+  (let [s (.createSound
+            js/soundManager
+            (clj->js
+              {:url      p
+               :whileplaying while-playing
+               :onfinish (fn [] (set-playback-state :stop))
+               :onstop   (fn [] (set-playback-state :stop))
+               :onplay   (fn [] (set-playback-state :play))}))]
+    s))
 
-(defn play
-  "Calls the .play() method of the `sound`.
-  Uses gCurrentSound if called without arguments."
-  ([s]
-   (when s
-     (.play s)
-     (set-playback-state :play)))
-  ([]
-   (play @gCurrentSound)))
+(defn load
+  "Loads sound file at path `p`."
+  [s p]
+  (when s (stop s))
+  (create-sound p))
 
-(defn stop
-  "Calls .stop() method on `sound`.
-  Uses `gCurrentSound` if called without arguments."
-  ([s]
-   (when s
-     (.stop s)
-     (set-playback-state :stop)))
-  ([]
-   (stop @gCurrentSound)))
+;This is the dispatch function for the commands received on the control channel.
+(defmulti exec-cmd (fn [s {:keys [command]}] command))
 
-(defn load [p]
-  (stop)
-  (when-let [s (create-sound p)]
-    (reset! gCurrentSound s)))
+(defmethod exec-cmd :play [s] (play s))
 
-(defn load-and-play
-  "Loads a sound file and plays it."
-  [p]
-  (when (load p) (play)))
+(defmethod exec-cmd :stop [s] (stop s))
 
-(defmulti exec-cmd :command)
-(defmethod exec-cmd :play [] (play))
-(defmethod exec-cmd :stop [] (stop))
-(defmethod exec-cmd :load [{:keys [filename should-play]}]
-  (print "Loading " filename)
-  (load filename)
-  (when should-play (play)))
+(defmethod exec-cmd :pause [s] (pause s))
 
-;  (session/put! :audio-player-control-channel gEventChannel)
+(defmethod exec-cmd :load [s {:keys [filename should-play]}]
+  (let [new-s (load s filename)]
+    (when should-play (play new-s))
+    new-s))
+
+(defmethod exec-cmd :set-pos [s {:keys [percent]}]
+  (let [duration ($ s :duration)]
+    ($ s setPosition (* duration percent))))
+
+
+(defn process-command
+  "Dispatches a command to the player.
+  `s` is an atom which is reset to a new value when the :load command received."
+  [s cmd]
+  (if (keyword? cmd)
+    (exec-cmd @s {:command cmd})
+    (let [res (exec-cmd @s cmd)]
+      (when (= :load (:command cmd)
+               (do
+                 (reset! s res)))))))
 
 (defn init
+  "Creates a command channel and returns it.
+  The channel is used to send commands to the player.
+  {:command :play}
+  "
   []
-  (let [ctrl-channel (chan)]
+  (let [ctrl-channel (chan)
+        s (reagent/atom nil)]
     (go-loop []
-             (when-let [command (<! ctrl-channel)]
-               (cond
-                 (keyword? command) (exec-cmd {:command command})
-                 :else (exec-cmd command (:args command)))
+             (when-let [cmd (<! ctrl-channel)]
+               (process-command s cmd)
                (recur)))
     ctrl-channel))
-
-;--------
-(comment
-
-  (def test-map {:one 1
-                 :two 2
-                 :player-state {
-                                :playback-state :none
-                                }})
-
-  test-map
-  (let [r (update-in test-map [:player-state] assoc :playback-state :play)] r)
-
-  (exec-cmd {:command :load
-             :args ["hello"]})
-
-  ;Here's how to track the atom.
-  ;In this example, whenever gCurrentSound changes, our function is called.
-  ;If you deref an atom in your function, then your function is called when atom changes.
-  (let [trackable (reagent/track! (fn[]
-                   (print "Current sound is " @gCurrentSound)))]
-    trackable)
-
-
-  ;Here's how to use `this` in javascript.
-  (defn testing []
-    (this-as this
-      (print this)))
-
-  (testing)
-
-  ;load media file and start playing
-  (load-and-play "/data/media/293-vama.mp3")
-  (stop)
-  )

@@ -20,15 +20,25 @@
         href (if handler handler "/menu/")]
     ^{:key index} [:li [:a {:href href} text]]))
 
-(defn menu->tags [{:keys [title items] :as menu} show-back?]
+(defn title-with-count [title count]
+  (str title ": " count))
+
+(defn menu->hiccup [{:keys [title items] :as menu} show-back?]
   "Renders a menu and its items"
-  [:div.menu
-   [:div.title title]
-   (let [list-items (vec (map-indexed menu-item-tag items))
-         list-items (if show-back?
-                      (conj list-items (back-menu-item (count items)))
-                      list-items)]
-     (into [:ul.items] list-items))])
+  (let [show-items? (r/atom false)
+        num-items (count items)]
+    (fn []
+      [:div.menu
+       [:div.title [:a {:on-click (fn [] (reset! show-items? (not @show-items?)))
+                        :class (if @show-items? "opened" "")}
+                    (title-with-count title num-items)]]
+       (when @show-items?
+         (when (pos? (count items))
+           (let [list-items (vec (map-indexed menu-item-tag items))
+                 list-items (if show-back?
+                              (conj list-items (back-menu-item (count items)))
+                              list-items)]
+             (into [:ul.items] list-items))))])))
 
 (comment
   ;Sample menu

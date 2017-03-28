@@ -25,16 +25,33 @@
 .media-items {
 	display: flex; 
 	flex-flow: row wrap;
-	justify-content: flex-around;
+	justify-content: center; 
+		@media (max-width: 478px) {
+		text-align: center;
+	}
+
 }
 
 .media-items > .menu {
 	min-width: 240px;
 }
 
-.menu .title {
-	color: red;
+.menu {
+	.title a {
+		
+		&.opened{
+			color: red;
+			font-size: 2.1rem;
+		}
+		cursor: pointer;
+	}
+	ul.items {
+		li a {
+			color: @highlight-color;
+		}
+	}
 }
+
 
 
 .search-component {

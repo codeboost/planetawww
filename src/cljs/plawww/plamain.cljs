@@ -7,7 +7,7 @@
             [reagent.core :as r]
             [clojure.string :as s]
             [plawww.search-component :refer [search-component]]
-            [plawww.text-menu-component :refer [menu->tags]]))
+            [plawww.text-menu-component :refer [menu->hiccup]]))
 
 (defonce ALLMEDIA (js->clj js/kolbasulPlanetar :keywordize-keys true))
 
@@ -38,12 +38,12 @@
 
 (defn render-menu [name show-back?]
   (let [menu (or (MENUS (keyword name)) (MENUS :main))]
-    (menu->tags menu show-back?)))
+    [menu->hiccup menu show-back?]))
 
 (defn render-media-menu [title media-items]
   (let [menu {:title title
               :items (media->menu-items media-items)}]
-  (menu->tags menu false)))
+  [menu->hiccup menu false]))
 
 
 (defn render-all-media [media]
@@ -81,13 +81,18 @@
                   :items items
                   :count (count items)})) tags)))))
 
+
+(defn tags->menus
+  "Creates the menus for the items grouped by tags."
+  [items-by-tag]
+  (map (fn [{:keys [tag items]}]
+         (let  [tag (if (str/blank? tag) "diverse" tag)]
+           (render-media-menu tag items))) items-by-tag))
+
 (defn render-by-tags [media-items]
   (let [tagged (by-tags media-items)
-        results
-        (map (fn [{:keys [tag items]}]
-               (let  [tag (if (str/blank? tag) "diverse" tag)]
-                        (render-media-menu tag items))) tagged)]
-    (into [:div.media-items.horiz-container] results)))
+        menus (tags->menus tagged)]
+    (into [:div.media-items.horiz-container] menus)))
 
 
 (defn grouped-by-first-letter [media-items]
@@ -142,10 +147,11 @@
     (fn []
       [crt-page
         [:div.media-page
-         [:h2.page-title "PLANETA MOLDOVA"]
+         [:h4.page-title "PLANETA MOLDOVA"]
          [search-component search-prompt search-settings]
          [:div.v16px]
-         [media-items-component (:media ALLMEDIA) @search-settings]]])))
+         [:div.page-content
+          [media-items-component (:media ALLMEDIA) @search-settings]]]])))
 
 (comment
   (let [the-atom ])

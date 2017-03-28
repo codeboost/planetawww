@@ -7,7 +7,7 @@ body {
   font-family: 'VT323';
   font-size: 24px;
   -webkit-font-smoothing: none;
-  line-height: 1.2;
+  line-height: 1.1;
 }
 h1 {
   font-size: 4rem;
@@ -35,6 +35,23 @@ li {
 ul {
   margin: 0;
   padding: 0;
+}
+.horiz-container {
+  display: flex;
+  flex-direction: row;
+}
+.vert-container {
+  display: flex;
+  flex-direction: column;
+}
+.flex-grow1 {
+  flex-grow: 1;
+}
+.v8px {
+  height: 8px;
+}
+.v16px {
+  height: 16px;
 }
 .vstack {
   display: flex;

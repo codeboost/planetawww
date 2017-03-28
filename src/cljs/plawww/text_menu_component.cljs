@@ -24,7 +24,7 @@
   "Renders a menu and its items"
   [:div.menu
    [:div.title title]
-   (let [list-items (map-indexed menu-item-tag items)
+   (let [list-items (vec (map-indexed menu-item-tag items))
          list-items (if show-back?
                       (conj list-items (back-menu-item (count items)))
                       list-items)]

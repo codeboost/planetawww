@@ -26,13 +26,14 @@
 
 (defn progress-bar [progress]
   [:div.progress-bar {:on-click (fn [e]
-                                    (let [target (js/$ ($ e :target))
+                                    (let [xthis (r/current-component)
+                                          target (js/$ ($ e :target))
                                           pagex ($ e :pageX)
                                           offset ($ target offset)
                                           offsetLeft ($ offset :left)
                                           offsetx (- pagex offsetLeft)
                                           percent (percent-width target offsetx)]
-                                      (print "clicked: " percent)
+                                      (print "clicked: " percent ", this:" xthis ", target:" ($ e :target))
                                       (send-player-command {:command :set-pos
                                                             :percent percent})))}
    [:div.progress-bar-progress
@@ -75,8 +76,7 @@
         pc (session/cursor [:audio-player-control-channel])]
     (fn []
       [:div.button.play-button
-       [:a {:href     "#"
-            :on-click (play-button-click pc ps)}
+       [:a {:on-click (play-button-click pc ps)}
         (play-button-text (or @ps :pause))]])))
 
 (defn player-controls [state item]
@@ -99,16 +99,19 @@
 
 (defn player-view [state]
   (let [item (:item state)]
+
     [list-view-cell (:image item)
      [player-controls state item] [accessory-view]]))
 
 (defn player []
   (let [player-state (session/cursor [:player-state])]
     (fn []
-      [:div.player.window.vstack
-       [:div.toolbar]
-       [:div.content
-        [player-view @player-state]]])))
+      (if (and @player-state (@player-state :visible))
+        [:div.player.window.vstack
+         [:div.toolbar]
+         [:div.content
+          [player-view @player-state]]]
+        [:div.player.window.hidden]))))
 
 
 

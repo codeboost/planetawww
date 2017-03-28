@@ -17,16 +17,11 @@
 
 (def MENUS {
             :main {:title "MAIN"
-                   :items [{:text "SCENETE & EMISIUNI" :handler "/menu/scenete"}
-                           {:text "TV & VIDEO" :handler "/menu/video"}
+                   :items [{:text "SCENETE & EMISIUNI" :handler "/media/scenete"}
+                           {:text "ANIMATII " :handler "/menu/animatii"}
                            {:text "TEXTE & CARTI" :handler "/menu/carti"}
                            {:text "CONTACT" :handler "/menu/scontact"}]}
 
-            :scenete {:title "SCENETE"
-                      :items [{:text "KIDOSURI" :handler "/media/kidosuri"}
-                              {:text "PEREDOAZE" :handler "/media/peredoaze"}
-                              {:text "GRUZURI" :handler "/media/gruzuri"}
-                              {:text "TAGURI" :handler "media/tags"}]}
             :carti {:title "Text & Carti'"
                     :items [{:text "O carte"}
                             {:text "Alta carte"}]}

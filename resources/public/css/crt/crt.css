@@ -111,6 +111,9 @@ button.toggle-button img {
   display: flex;
   flex-direction: row;
 }
+.hidden {
+  display: none;
+}
 .window {
   border: 2px solid #14fdce;
   background-color: #031e11;
@@ -195,12 +198,14 @@ button.toggle-button img {
 .player .controls .progress-bar .progress-bar-progress {
   background-color: #14fdce;
   height: 100%;
+  pointer-events: none;
 }
 .player .controls .player-buttons .button {
   border: 1px solid #01775f;
   border-radius: 6px;
   padding-left: 4px;
   padding-right: 4px;
+  cursor: pointer;
 }
 .player .controls .player-buttons .button:hover {
   background-color: #14fdce;

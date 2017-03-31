@@ -75,10 +75,6 @@ ul {
     text-align: center;
   }
 }
-.media-items:after {
-  content: " ";
-  flex: auto;
-}
 .media-items > .menu {
   min-width: 240px;
 }

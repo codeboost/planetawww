@@ -39,6 +39,10 @@
     result))
 
 
+(defn in? [coll el]
+  (some #(= el %) coll))
+
+
 (defn items-for-tag [media-items tag]
   "Returns items from media-items which contain the tag `tag`."
   (filter (fn [{:keys [tags]}]
@@ -53,10 +57,6 @@
        (apply concat)
        (map str/trim)
        (set)))
-
-
-(defn in? [coll el]
-  (some #(= el %) coll))
 
 (defn expand-tag? [tag tags]
   (and (pos? (count tags))
@@ -86,32 +86,26 @@
   (let [title (if (str/blank? title) "*" title)]
     (str title ": " count)))
 
-
-
-(comment
-  (update-in! *display-options* [:tags] set #{"hello"})
-  (swap! *display-options* assoc :tags #{"hello"})
-
-  (swap! *display-options* dissoc :dissoc)
-
-  )
-
 (defn track-expanded-tags [expanded-atom tag opts]
-  (r/track! (fn []
-              (let [is-expanded? @expanded-atom
-                    tags (:tags @opts)
-                    new-tags (if is-expanded? (conj tags tag) (disj tags tag))]
-                (when-not (= tags new-tags)
-                  (do
-                    (swap! *display-options* assoc :tags new-tags)
-                    (print "Tags:" new-tags)))))))
+  (comment
+    (r/track! (fn []
+                (let [is-expanded? @expanded-atom
+                      tags (:tags @opts)
+                      new-tags (if is-expanded? (conj tags tag) (disj tags tag))]
+                  (when-not (= tags new-tags)
+                    (do
+                      (swap! *display-options* assoc :tags new-tags)
+                      (print "Tags:" new-tags))))))))
 
-(defn group->menu [{:keys [title items num-items]}]
-  (let [expanded? (r/atom false)
+(defn group->menu [{:keys [title items num-items]} is-expanded?]
+  (let [expanded? (r/atom is-expanded?)
         track (track-expanded-tags expanded? title *display-options*)
         menu {:title title
               :items (media->menu-items items)}]
     [menu->hiccup menu expanded?]))
+
+(defn group->expanded-menu [item]
+  (group->menu item true))
 
 (defn render-by-tags [media-items opts]
   (let [tagged (by-tags media-items)
@@ -124,10 +118,16 @@
   (into (sorted-map) (group-by (fn [{:keys [title]}]
                                  (str/upper-case (first title))) media-items)))
 
+(defn to-first-letter-groups [media-items]
+  (let [g (grouped-by-first-letter media-items)
+        groups (map (fn [first-letter items]
+                      {:title first-letter
+                       :items items}) (keys g) (vals g))]
+    groups))
+
 (defn render-by-letter [media-items]
-  (let [grouped (grouped-by-first-letter media-items)
-        results (map (fn [[first-letter item]]
-                       (group->menu item)) grouped)]
+  (let [grouped (to-first-letter-groups media-items)
+        results (map group->expanded-menu grouped)]
     (into [:div.media-items.horiz-container] results)))
 
 (defn random-search-prompt []
@@ -138,7 +138,6 @@
                  "SI VREI?"]
         index (rand-int (count prompts))]
     (nth prompts index)))
-
 
 (defn search-in-items [media-items search-string]
   (filter (fn [{:keys [title]}]

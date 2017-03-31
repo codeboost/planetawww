@@ -75,15 +75,25 @@ ul {
     text-align: center;
   }
 }
+.media-items:after {
+  content: " ";
+  flex: auto;
+}
 .media-items > .menu {
   min-width: 240px;
 }
 .menu .title a {
+  width: 100%;
+  display: block;
   cursor: pointer;
 }
 .menu .title a.opened {
   color: red;
   font-size: 2.1rem;
+  text-align: center;
+}
+.menu ul {
+  border: 1px solid #01775f;
 }
 .search-component {
   display: flex;

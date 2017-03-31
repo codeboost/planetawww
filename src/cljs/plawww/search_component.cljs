@@ -1,3 +1,11 @@
+;   Copyright (c) Braghis Florin. All rights reserved.
+;   Released under GPL-3.0 license
+;   https://opensource.org/licenses/GPL-3.0.
+;   By using this software in any fashion, you are agreeing to be bound by
+;   the terms of this license.
+;   You must not remove this notice, or any other, from this software.
+
+
 (ns plawww.search-component
   (:require [clojure.string :as str]
             [reagent.core :as r]))

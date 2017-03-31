@@ -1,8 +1,16 @@
+;   Copyright (c) Braghis Florin. All rights reserved.
+;   Released under GPL v3 license
+;   https://opensource.org/licenses/GPL-3.0.
+;   By using this software in any fashion, you are agreeing to be bound by
+;   the terms of this license.
+;   You must not remove this notice, or any other, from this software.
+
 (ns plawww.text-menu-component
   (:require [clojure.string :as str]
             [reagent.core :as r]))
 
 (def *show-indexes* false)
+
 (def menu-back-text "INAPOI")
 
 (defn menu-text [index text]
@@ -20,43 +28,27 @@
         href (if handler handler "/menu/")]
     ^{:key index} [:li [:a {:href href} text]]))
 
-(defn title-with-count [title count]
-  (str title ": " count))
+(defn toggle-atom-on-click [a]
+  (fn [e]
+    (.preventDefault e)
+    (reset! a (not @a))))
 
-(defn menu->hiccup [{:keys [title items] :as menu} show-back?]
+(defn class-for-menu-title [expanded?]
+  (if expanded? "opened" ""))
+
+
+
+
+(defn menu->hiccup [{:keys [title items] :as menu} expanded?]
   "Renders a menu and its items"
-  (let [show-items? (r/atom false)
-        num-items (count items)]
+  (let [show-back? false]
     (fn []
       [:div.menu
-       [:div.title [:a {:on-click (fn [] (reset! show-items? (not @show-items?)))
-                        :class (if @show-items? "opened" "")}
-                    (title-with-count title num-items)]]
-       (when @show-items?
-         (when (pos? (count items))
-           (let [list-items (vec (map-indexed menu-item-tag items))
-                 list-items (if show-back?
-                              (conj list-items (back-menu-item (count items)))
-                              list-items)]
-             (into [:ul.items] list-items))))])))
-
-(comment
-  ;Sample menu
-  (def MENUS {
-              :main {:title "MAIN"
-                     :items [{:text "SCENETE & EMISIUNI" :handler "/menu/scenete"}
-                             {:text "TV & VIDEO" :handler "/menu/video"}
-                             {:text "TEXTE & CARTI" :handler "/menu/carti"}
-                             {:text "CONTACT" :handler "/menu/scontact"}]}
-
-              :scenete {:title "SCENETE"
-                        :items [{:text "KIDOSURI" :handler "/media/kidosuri"}
-                                {:text "PEREDOAZE" :handler "/media/peredoaze"}
-                                {:text "GRUZURI" :handler "/media/gruzuri"}
-                                {:text "TAGURI" :handler "media/tags"}]}
-              :carti {:title "Text & Carti'"
-                      :items [{:text "O carte"}
-                              {:text "Alta carte"}]}
-              :video {:title "Video"
-                      :items [{:text "Una"}]}
-              }))
+       [:div.title [:a {:on-click (toggle-atom-on-click expanded?)
+                        :class (if @expanded? "opened" "")} title]]
+       (when (and @expanded? (pos? (count items)))
+         (let [list-items (vec (map-indexed menu-item-tag items))
+               list-items (if show-back?
+                            (conj list-items (back-menu-item (count items)))
+                            list-items)]
+           (into [:ul.items] list-items)))])))

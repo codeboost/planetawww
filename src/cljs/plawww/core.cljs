@@ -1,3 +1,10 @@
+;   Copyright (c) Braghis Florin. All rights reserved.
+;   The use and distribution terms for this software are covered by the
+;   Common Public License 1.0 (http://opensource.org/licenses/cpl.php).
+;   By using this software in any fashion, you are agreeing to be bound by
+;   the terms of this license.
+;   You must not remove this notice, or any other, from this software.
+
 (ns plawww.core
   (:require [reagent.core :as reagent :refer [atom]]
             [reagent.session :as session]
@@ -6,7 +13,9 @@
             [clojure.string :as str]
             [plawww.crt :refer [crt-page]]
             [plawww.welcome :as welcome]
-            [plawww.plamain :as plamain]
+            [plawww.medialist :as plamain]
+            [plawww.menu-page :as menu]
+
             [plawww.media-player :as media-player]
             [plawww.audio-player :as audio-player]
             [cljs.core.async :refer [put!]]
@@ -24,6 +33,10 @@
   []
   (let [channel (plawww.audio-player/init)]
     (session/put! :audio-player-control-channel channel)
+    (session/put! :player-state {:visible false
+                                 :position 0
+                                 :item {:title ""
+                                        :duration 0}})
     (reagent/track! (fn []
                       (when-let [filename (session/get-in [:player-state :item :filename])]
                         (let [filename (str "/data/media/" filename)]
@@ -31,13 +44,20 @@
                                          :filename filename
                                          :should-play true})))))))
 
+
+
+(defn media-item-for-id [search-id]
+  (first (filter (fn [{:keys [id]}]
+                   (= id search-id)) (:media plamain/ALLMEDIA))))
+
 (defn update-player-state [id]
-  (when-let [media-item (plawww.plamain/media-item-for-id id)]
+  (when-let [media-item (media-item-for-id id)]
     (let [image-path (str "/data/images/media/" id "s.jpg")
           media-item (assoc media-item :image image-path)]
       (print "update-player-state " id)
       (session/update-in! [:player-state] merge {:position 0
-                                                 :item     media-item}))))
+                                                 :item     media-item
+                                                 :visible true}))))
 
 
 (defn current-page []
@@ -54,12 +74,12 @@
   [name]
   (fn []
     (print "The menu page is: " name)
-    (plamain/menu-page name) ))
+    (menu/menu-page name) ))
 
 (defn media-page
   [name]
   (fn []
-    (plamain/media-page "")))
+    (plamain/media-page name)))
 
 
 ;; -------------------------
@@ -79,14 +99,16 @@
 (secretary/defroute menu-path "/menu/:menu-name" {menu-name :menu-name}
                     (set-current-page (menu-page menu-name)))
 
-(secretary/defroute "/media/" []
-                    (set-current-page (media-page "")))
+(secretary/defroute "/media/" [q]
+                    (set-current-page (media-page q)))
 
-(secretary/defroute "/media/:id" {id :id}
-                    (do
-                      (print "Route hit: /media/" id)
-                      (session/put! :current-page (fn [] (plamain/media-page id)))
-                        (update-player-state (js/parseInt id))))
+;(secretary/defroute #"/media/([a-z]+)" [tag]
+;                    (set-current-page (media-page tag)))
+
+;(secretary/defroute #"/media/(\d+)" [id]
+(secretary/defroute #"/media/(\d+)" [id q]
+                    (set-current-page (media-page q))
+                    (update-player-state (js/parseInt id)))
 
 ;(secretary/locate-route "/menu/")
 

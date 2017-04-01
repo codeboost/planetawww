@@ -7,19 +7,13 @@
 
 (ns plawww.media-player
   (:require [reagent.core :as r]
+            [plawww.ui :as ui]
             [reagent.session :as session]
             [clojure.string :as str]
             [goog.string :as gstring]
             [goog.string.format]
             [cljs.core.async :refer [put!]]
             [reagent.interop :refer-macros [$ $!]]))
-
-(defn list-view-cell[image content accessory-view]
-  [:div.lv-cell.hstack
-   [:div.image-area
-    [:img.image {:src image}]]
-   [:div.content-area content]
-   [:div.accessory-area accessory-view]])
 
 
 (defn send-player-command [command]
@@ -101,13 +95,11 @@
        [:div.sp]]
       (when (pos? position) [time-label (* position duration)])]]))
 
-
 (defn accessory-view [])
 
 (defn player-view [state]
   (let [item (:item state)]
-
-    [list-view-cell (:image item)
+    [ui/list-view-cell (:image item)
      [player-controls state item] [accessory-view]]))
 
 (defn player []

@@ -64,6 +64,12 @@ ul {
 .hidden {
   display: none;
 }
+.grow8 {
+  flex-grow: 8;
+}
+.grow2 {
+  flex-grow: 2;
+}
 .window {
   border: 2px solid #14fdce;
   background-color: #031e11;
@@ -76,35 +82,6 @@ ul {
 }
 .window .content {
   margin: 8px;
-}
-.lv-cell .image-area {
-  flex-grow: 0;
-  width: 80px;
-  height: 80px;
-  min-width: 80px;
-  min-height: 80px;
-  position: relative;
-  overflow: hidden;
-  border-radius: 50%;
-}
-.lv-cell .image-area img.image {
-  margin: 0 auto;
-  height: 100%;
-  width: auto;
-}
-.lv-cell .content-area {
-  padding-left: 16px;
-  flex-grow: 2;
-}
-.lv-cell .accessory-area {
-  flex-grow: 0;
-  width: 50px;
-}
-.grow8 {
-  flex-grow: 8;
-}
-.grow2 {
-  flex-grow: 2;
 }
 .player {
   z-index: 999;

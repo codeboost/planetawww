@@ -14,6 +14,15 @@
 	display: none; 
 }
 
+
+.grow8 {
+	flex-grow: 8;
+}
+
+.grow2 {
+	flex-grow: 2;
+}
+
 .window {
 	border: 2px solid @console-color;
 	background-color: @console-bg;
@@ -28,39 +37,6 @@
 	}
 }
 
-.lv-cell {
-	.image-area {
-		flex-grow: 0;
-		width: 80px;
-		height: 80px;
-		min-width: 80px;
-		min-height: 80px;
-		position: relative;
-		overflow: hidden;
-		border-radius: 50%;
-		img.image {
-			margin: 0 auto;
-			height: 100%;
-			width: auto;
-		}
-	}
-	.content-area {
-		padding-left: 16px;
-		flex-grow: 2;
-	}
-	.accessory-area {
-		flex-grow: 0;
-		width: 50px;
-	}
-}
-
-.grow8 {
-	flex-grow: 8;
-}
-
-.grow2 {
-	flex-grow: 2;
-}
 
 .player {
 

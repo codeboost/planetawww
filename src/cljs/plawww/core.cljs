@@ -15,7 +15,7 @@
             [plawww.welcome :as welcome]
             [plawww.medialist :as plamain]
             [plawww.menu-page :as menu]
-
+            [plawww.media-item-detail :as media-item-detail]
             [plawww.media-player :as media-player]
             [plawww.audio-player :as audio-player]
             [cljs.core.async :refer [put!]]
@@ -59,7 +59,6 @@
                                                  :item     media-item
                                                  :visible true}))))
 
-
 (defn current-page []
   (let [page (session/get :current-page)]
     (if page
@@ -81,6 +80,11 @@
   (fn []
     (plamain/media-page name)))
 
+(defn test-page
+  [q]
+  (fn []
+    [crt-page
+      (media-item-detail/detail-item q)]))
 
 ;; -------------------------
 ;; Routes
@@ -101,6 +105,9 @@
 
 (secretary/defroute "/media/" [q]
                     (set-current-page (media-page q)))
+
+(secretary/defroute "/test/" [q]
+                    (set-current-page (test-page q)))
 
 ;(secretary/defroute #"/media/([a-z]+)" [tag]
 ;                    (set-current-page (media-page tag)))

@@ -25,50 +25,53 @@
     (swap! aopts conj (hash-map opt nextv))))
 
 
-(defn- search-input [settings-atom]
+(defn- search-input
+  "Renders the search input box and swaps the :search-string "
+  [settings-atom keyname]
   [:input.search-box {:type      "text"
-                      :on-change #(swap! settings-atom conj {:search-string (-> % .-target .-value)})}])
+                      :on-change #(swap! settings-atom conj {keyname (-> % .-target .-value)})}])
 
 (defn- toggle-button [text cls onclick]
   [:button.toggle-button {:on-click onclick
                           :class cls} text])
 
 (defn option-button
-  "Creates a toggle button which rotates through a list"
-  [aopts keyname options titles & [classes]]
+  "Creates a toggle button which rotates through a list of values.
+  On click, the next value is swapped into the `keyname` value of the aopts atom.
+  opts is a map, where each key is a state and it's value is the button's text for that state."
+  [aopts keyname opts & [classes]]
   (let [cur (@aopts keyname)
-        title (or (titles cur)
+        title (or (opts cur)
                   (name keyname))
-        cls (if classes (classes cur) "")]
+        cls (if classes (classes cur) "")
+        options (keys opts)]
     (toggle-button title cls #(rotate-aopt aopts keyname options))))
 
 ;----------------------
 
-(def group-modes [:plain :tag])
-
-;Keep them separate. This will allow us to implement translation.
-(def group-mode-titles {:tag   "BUC"
-                        :plain "TĂG"})
-
-
-(defn group-mode-button [aopts]
-  (option-button aopts :group-by group-modes group-mode-titles))
+(defn group-mode-button
+  "Sugar for group-by button"
+  [aopts]
+  (option-button aopts :group-by {:tag   "BUC"
+                                  :plain "TĂG"}))
 
 ;----------------------
 
-(def item-view-modes [:plain :detail])
-(def item-view-mode-titles {:plain  "DET"
-                            :detail "TXT"})
-
-(defn item-view-button [aopts]
-  (option-button aopts :item-view-mode item-view-modes item-view-mode-titles))
+(defn item-view-button
+  "Sugar for item-view-mode button"
+  [aopts]
+  (option-button aopts :item-view-mode {:plain  "DET"
+                                        :detail "TXT"}))
 
 ;----------------------
+
+(defn on-off-button [aopts keyname txts]
+  (option-button aopts :expand-all?
+                 (zipmap [true false] txts)
+                 {true "on" false ""}))
 
 (defn toggle-expand-all-button [aopts]
-  (option-button aopts :expand-all? [true false]
-                 {true " + " false " - "}
-                 {true "on" false ""}))
+  (on-off-button aopts :expand-all? [" + " " - "]))
 
 ;----------------------
 
@@ -82,7 +85,7 @@
 (defn search-component [search-prompt search-settings]
   [:div.search-component
    [:div.search-text search-prompt]
-   [search-input search-settings]
+   [search-input search-settings :search-string]
    [search-component-filters search-settings]
    ])
 

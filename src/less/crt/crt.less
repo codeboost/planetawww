@@ -8,6 +8,8 @@
 @import "plamain.less";
 @import "player.less";
 @import "search-box.less";
+@import "listview.less";
+
 
 // basic screen module
 
@@ -17,6 +19,7 @@
   left: 0;
   top: 0;
   width: 100%;
+  padding: 3rem;
 }
 
 // prevent clicks
@@ -75,7 +78,6 @@
   background-color: @console-bg;
   overflow: scroll;
   position: absolute;
-  padding: 0  rem 2rem;
   pointer-events: auto;
   text-shadow: 0rem 0.2rem 1rem lighten(@console-bg,20%);
   z-index: -1

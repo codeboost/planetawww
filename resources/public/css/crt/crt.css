@@ -154,6 +154,12 @@ button.toggle-button:focus {
 .hidden {
   display: none;
 }
+.grow8 {
+  flex-grow: 8;
+}
+.grow2 {
+  flex-grow: 2;
+}
 .window {
   border: 2px solid #14fdce;
   background-color: #031e11;
@@ -166,35 +172,6 @@ button.toggle-button:focus {
 }
 .window .content {
   margin: 8px;
-}
-.lv-cell .image-area {
-  flex-grow: 0;
-  width: 80px;
-  height: 80px;
-  min-width: 80px;
-  min-height: 80px;
-  position: relative;
-  overflow: hidden;
-  border-radius: 50%;
-}
-.lv-cell .image-area img.image {
-  margin: 0 auto;
-  height: 100%;
-  width: auto;
-}
-.lv-cell .content-area {
-  padding-left: 16px;
-  flex-grow: 2;
-}
-.lv-cell .accessory-area {
-  flex-grow: 0;
-  width: 50px;
-}
-.grow8 {
-  flex-grow: 8;
-}
-.grow2 {
-  flex-grow: 2;
 }
 .player {
   z-index: 999;
@@ -271,12 +248,36 @@ input.search-box:focus {
   outline: none !important;
   box-shadow: 0 0 5px #acfeee;
 }
+.lv-cell .image-area {
+  flex-grow: 0;
+  width: 80px;
+  height: 80px;
+  min-width: 80px;
+  min-height: 80px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+}
+.lv-cell .image-area img.image {
+  margin: 0 auto;
+  height: 100%;
+  width: auto;
+}
+.lv-cell .content-area {
+  padding-left: 16px;
+  flex-grow: 2;
+}
+.lv-cell .accessory-area {
+  flex-grow: 0;
+  width: 50px;
+}
 .piece {
   display: block;
   height: 100%;
   left: 0;
   top: 0;
   width: 100%;
+  padding: 3rem;
 }
 .noclick {
   pointer-events: none;
@@ -320,7 +321,6 @@ input.search-box:focus {
   background-color: #031e11;
   overflow: scroll;
   position: absolute;
-  padding: 0  rem 2rem;
   pointer-events: auto;
   text-shadow: 0rem 0.2rem 1rem #0c7b46;
   z-index: -1;

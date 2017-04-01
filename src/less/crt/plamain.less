@@ -55,8 +55,6 @@
 	}
 }
 
-
-
 .search-component {
 	display: flex; 
 	flex-direction: column;
@@ -83,7 +81,6 @@ button.toggle-button {
 	padding: 5px;
 	&.on {
 		box-shadow: 0 0 5px @highlight-color;
-		//border: 1px solid @highlight-color; 
 	}
 	&:focus {
 		outline: none; 
@@ -92,5 +89,60 @@ button.toggle-button {
 
 .button-icon {
 	width: 24px;
+}
+
+.justify-left {
+	justify-content: flex-start; 
+
+}
+.detail-media-item {
+	padding: 8px;
+	border: 1px solid @thin-border-color;
+	border-radius: 12px;
+	margin-bottom: 16px;
+	margin-right: 20px;
+	min-width: 240px;
+	color: @console-color; 
+	.title {
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden; 
+		text-transform: uppercase;
+		-webkit-font-smoothing: antialiased;
+		text-shadow: none; 
+	}
+	.description {
+		text-overflow: ellipsis;
+		white-space: pre-wrap;
+		overflow: hidden; 
+		font-size: 0.85em;
+		-webkit-font-smoothing: antialiased;
+		text-shadow: none; 
+		width: 160px;
+	}
+
+	.lv-cell {
+		.image-area {
+			width: 80px;
+			height: 64px;
+			min-width: 80px;
+			min-height: 64px;
+			border-radius: 8px;
+		}
+		img {
+			filter: grayscale(100%);
+		}
+
+		&:hover {
+			cursor: pointer; 
+			.title {
+				color: @highlight-color; 
+			}
+			img {
+				filter: none; 
+			}
+		}
+
+	}
 }
 

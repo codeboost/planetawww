@@ -12,8 +12,15 @@
             [cljsjs.typedjs]
             [clojure.string :as str]
             [reagent.core :as r]
+            [plawww.media-item-detail :as media-item-detail]
             [plawww.search-component :refer [search-component]]
             [plawww.text-menu-component :refer [menu->hiccup]]))
+
+
+(defn item->li [{:keys [title id]}]
+  "Menu item to hiccup."
+  (let [href (str "/media/" id)]
+    ^{:key id} [:li [:a {:href href} title]]))
 
 
 (defonce ALLMEDIA (js->clj js/kolbasulPlanetar :keywordize-keys true))
@@ -28,14 +35,6 @@
 
 (defonce *display-options* (r/atom default-options))
 
-(defn media->menu-items [media-items]
-  (let [result (map (fn [{:keys [title id]}]
-                      {:id      id
-                       :text    title
-                       :href (str "/media/" id)}) media-items)]
-    result))
-
-
 (defn in? [coll el]
   (some #(= el %) coll))
 
@@ -45,14 +44,11 @@
         (str/lower-case title)
         (str/lower-case search-string))))
 
-(defn group->menu [{:keys [title items num-items]} is-expanded?]
+(defn group->menu [{:keys [title items num-items]} is-expanded? itemfn]
   (let [expanded? (r/atom is-expanded?)
         menu {:title title
-              :items (media->menu-items items)}]
+              :items (map itemfn items)}]
     [menu->hiccup menu expanded?]))
-
-(defn group->expanded-menu [item]
-  (group->menu item true))
 
 ;--------------- BY TAGS
 (defn items-for-tag [media-items tag]
@@ -105,9 +101,9 @@
 ;-----------------------------------------
 
 
-(defn render-by-tags [expand-all?]
+(defn render-by-tags [expand-all? itemfn]
   (let [tagged BYTAG
-        menus (map #(group->menu % expand-all?) tagged)]
+        menus (map #(group->menu % expand-all? itemfn) tagged)]
     (into [:div.media-items.horiz-container] menus)))
 
 ;-----------------------------
@@ -116,14 +112,14 @@
   (filter (fn [{:keys [title]}]
             (search-match? title search-string)) media-items))
 
-(defn render-by-letter [search-string expand-all?]
+(defn render-by-letter [search-string expand-all? itemfn]
   (let [grouped (if (str/blank? search-string)
                   BYLETTER
                   (to-first-letter-groups
                     (search-in-items (:media ALLMEDIA) search-string)))
         should-expand? (or expand-all?
                            (not (str/blank? search-string)))
-        results (map #(group->menu % should-expand?) grouped)]
+        results (map #(group->menu % should-expand? itemfn) grouped)]
     (into [:div.media-items.horiz-container] results)))
 
 (defn random-search-prompt []
@@ -137,11 +133,14 @@
 
 
 (defn media-items-component [items opts]
-    (let [{:keys [group-by search-string expand-all?]} opts
-          group-by (if (str/blank? search-string) group-by :plain)]
+    (let [{:keys [group-by search-string expand-all? item-view-mode]} opts
+          group-by (if (str/blank? search-string) group-by :plain)
+          itemfn (if (= item-view-mode :plain)
+                   item->li
+                   media-item-detail/item->detail-item)]
       (cond
-        (= group-by :tag) (render-by-tags expand-all?)
-        (= group-by :plain) (render-by-letter search-string expand-all?))))
+        (= group-by :tag) (render-by-tags expand-all? itemfn)
+        (= group-by :plain) (render-by-letter search-string expand-all? itemfn))))
 
 (defn media-page [opts]
   (let [opts *display-options*

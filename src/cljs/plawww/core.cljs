@@ -18,6 +18,7 @@
             [plawww.media-item-detail :as media-item-detail]
             [plawww.media-player :as media-player]
             [plawww.audio-player :as audio-player]
+            [plawww.paths :as paths]
             [cljs.core.async :refer [put!]]
             [cljsjs.typedjs]))
 
@@ -39,7 +40,7 @@
                                         :duration 0}})
     (reagent/track! (fn []
                       (when-let [filename (session/get-in [:player-state :item :filename])]
-                        (let [filename (str "/data/media/" filename)]
+                        (let [filename (paths/media-path filename)]
                           (put! channel {:command :load
                                          :filename filename
                                          :should-play true})))))))
@@ -52,7 +53,7 @@
 
 (defn update-player-state [id]
   (when-let [media-item (media-item-for-id id)]
-    (let [image-path (str "/data/images/media/" id "s.jpg")
+    (let [image-path (paths/s-image-path id)
           media-item (assoc media-item :image image-path)]
       (print "update-player-state " id)
       (session/update-in! [:player-state] merge {:position 0
@@ -84,7 +85,7 @@
   [q]
   (fn []
     [crt-page
-      (media-item-detail/detail-item q)]))
+      (media-item-detail/test-detail-item q)]))
 
 ;; -------------------------
 ;; Routes

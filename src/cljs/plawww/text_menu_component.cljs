@@ -9,12 +9,6 @@
   (:require [clojure.string :as str]
             [reagent.core :as r]))
 
-(defn- item->li [index {:keys [text href id]}]
-  "Menu item to hiccup."
-  ^{:key index} [:li [:a {:href href} text]])
-
-(def item->hiccup (r/atom item->li))
-
 (defn toggle-atom-on-click [a]
   (fn [e]
     (.preventDefault e)
@@ -29,5 +23,4 @@
    [:div.title [:a {:on-click (toggle-atom-on-click expanded?)
                     :class    (class-for-title @expanded?)} title]]
    (when (and @expanded? (pos? (count items)))
-     (let [list-items (vec (map-indexed @item->hiccup items))]
-       (into [:ul.items] list-items)))])
+       (into [:ul.items] items))])

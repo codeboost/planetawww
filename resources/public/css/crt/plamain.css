@@ -124,3 +124,51 @@ button.toggle-button:focus {
 .button-icon {
   width: 24px;
 }
+.justify-left {
+  justify-content: flex-start;
+}
+.detail-media-item {
+  padding: 8px;
+  border: 1px solid #01775f;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  margin-right: 20px;
+  min-width: 240px;
+  color: #14fdce;
+}
+.detail-media-item .title {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  text-transform: uppercase;
+  -webkit-font-smoothing: antialiased;
+  text-shadow: none;
+}
+.detail-media-item .description {
+  text-overflow: ellipsis;
+  white-space: pre-wrap;
+  overflow: hidden;
+  font-size: 0.85em;
+  -webkit-font-smoothing: antialiased;
+  text-shadow: none;
+  width: 160px;
+}
+.detail-media-item .lv-cell .image-area {
+  width: 80px;
+  height: 64px;
+  min-width: 80px;
+  min-height: 64px;
+  border-radius: 8px;
+}
+.detail-media-item .lv-cell img {
+  filter: grayscale(100%);
+}
+.detail-media-item .lv-cell:hover {
+  cursor: pointer;
+}
+.detail-media-item .lv-cell:hover .title {
+  color: #ffffff;
+}
+.detail-media-item .lv-cell:hover img {
+  filter: none;
+}

@@ -19,15 +19,12 @@
 (defonce ALLMEDIA (js->clj js/kolbasulPlanetar :keywordize-keys true))
 
 (def default-options {:group-by      :tag
-                      :display       :list
+                      :item-view-mode :plain
                       :dirty         true
                       :search-string ""
+                      :expand-all?   false
                       :tags          #{}})
 
-
-(comment
-  (assoc default-options :tags (conj (:tags default-options) "tag"))
-  )
 
 (defonce *display-options* (r/atom default-options))
 
@@ -35,14 +32,29 @@
   (let [result (map (fn [{:keys [title id]}]
                       {:id      id
                        :text    title
-                       :handler (str "/media/" id)}) media-items)]
+                       :href (str "/media/" id)}) media-items)]
     result))
 
 
 (defn in? [coll el]
   (some #(= el %) coll))
 
+(defn search-match? [title search-string]
+  (or (str/blank? search-string)
+      (str/starts-with?
+        (str/lower-case title)
+        (str/lower-case search-string))))
 
+(defn group->menu [{:keys [title items num-items]} is-expanded?]
+  (let [expanded? (r/atom is-expanded?)
+        menu {:title title
+              :items (media->menu-items items)}]
+    [menu->hiccup menu expanded?]))
+
+(defn group->expanded-menu [item]
+  (group->menu item true))
+
+;--------------- BY TAGS
 (defn items-for-tag [media-items tag]
   "Returns items from media-items which contain the tag `tag`."
   (filter (fn [{:keys [tags]}]
@@ -58,11 +70,6 @@
        (map str/trim)
        (set)))
 
-(defn expand-tag? [tag tags]
-  (and (pos? (count tags))
-       (contains? tags tag)))
-
-
 (defn by-tags [media-items]
   "Returns a list of maps with following keys: [:tag :items :num-items]"
   (let [tags (tags-from-items media-items)]
@@ -77,40 +84,8 @@
                   :items     items
                   :num-items num-items})) tags)))))
 
-(defn toggle-tag [tags tag]
-  (let [setfn (if (contains? tags tag) disj conj)
-        new-tags (setfn tags tag)]
-    new-tags))
 
-(defn title-with-count [title count]
-  (let [title (if (str/blank? title) "*" title)]
-    (str title ": " count)))
-
-(defn track-expanded-tags [expanded-atom tag opts]
-  (comment
-    (r/track! (fn []
-                (let [is-expanded? @expanded-atom
-                      tags (:tags @opts)
-                      new-tags (if is-expanded? (conj tags tag) (disj tags tag))]
-                  (when-not (= tags new-tags)
-                    (do
-                      (swap! *display-options* assoc :tags new-tags)
-                      (print "Tags:" new-tags))))))))
-
-(defn group->menu [{:keys [title items num-items]} is-expanded?]
-  (let [expanded? (r/atom is-expanded?)
-        track (track-expanded-tags expanded? title *display-options*)
-        menu {:title title
-              :items (media->menu-items items)}]
-    [menu->hiccup menu expanded?]))
-
-(defn group->expanded-menu [item]
-  (group->menu item true))
-
-(defn render-by-tags [media-items]
-  (let [tagged (by-tags media-items)
-        menus (map group->menu tagged)]
-    (into [:div.media-items.horiz-container] menus)))
+(defonce BYTAG (by-tags (:media ALLMEDIA)))
 
 ;--------- BY LETTER ----------------------
 
@@ -122,12 +97,33 @@
   (let [g (grouped-by-first-letter media-items)
         groups (map (fn [first-letter items]
                       {:title first-letter
-                       :items items}) (keys g) (vals g))]
+                       :items (sort-by :title items)}) (keys g) (vals g))]
     groups))
 
-(defn render-by-letter [media-items]
-  (let [grouped (to-first-letter-groups media-items)
-        results (map group->expanded-menu grouped)]
+(defonce BYLETTER (to-first-letter-groups (:media ALLMEDIA)))
+
+;-----------------------------------------
+
+
+(defn render-by-tags [expand-all?]
+  (let [tagged BYTAG
+        menus (map #(group->menu % expand-all?) tagged)]
+    (into [:div.media-items.horiz-container] menus)))
+
+;-----------------------------
+
+(defn search-in-items [media-items search-string]
+  (filter (fn [{:keys [title]}]
+            (search-match? title search-string)) media-items))
+
+(defn render-by-letter [search-string expand-all?]
+  (let [grouped (if (str/blank? search-string)
+                  BYLETTER
+                  (to-first-letter-groups
+                    (search-in-items (:media ALLMEDIA) search-string)))
+        should-expand? (or expand-all?
+                           (not (str/blank? search-string)))
+        results (map #(group->menu % should-expand?) grouped)]
     (into [:div.media-items.horiz-container] results)))
 
 (defn random-search-prompt []
@@ -140,23 +136,12 @@
     (nth prompts index)))
 
 
-(defn search-match? [title search-string]
-  (or (str/blank? search-string)
-      (str/starts-with?
-        (str/lower-case title)
-        (str/lower-case search-string))))
-
-(defn search-in-items [media-items search-string]
-  (filter (fn [{:keys [title]}]
-            (search-match? title search-string)) media-items))
-
 (defn media-items-component [items opts]
-    (let [{:keys [group-by search-string]} opts
-          group-by (if (str/blank? search-string) group-by :plain)
-          filtered (search-in-items items search-string)]
+    (let [{:keys [group-by search-string expand-all?]} opts
+          group-by (if (str/blank? search-string) group-by :plain)]
       (cond
-        (= group-by :tag) [render-by-tags filtered]
-        (= group-by :plain) [render-by-letter filtered])))
+        (= group-by :tag) (render-by-tags expand-all?)
+        (= group-by :plain) (render-by-letter search-string expand-all?))))
 
 (defn media-page [opts]
   (let [opts *display-options*
@@ -170,24 +155,6 @@
         [:div.page-content
          (let [items (:media ALLMEDIA)]
            [media-items-component items @opts])]]])))
-
-;------------------------------------------------------------------------
-
-
-
-(comment
-
-  (by-tags (take 1 (:media ALLMEDIA)) [])
-
-  (render-by-letter (:media ALLMEDIA))
-  (group-by (fn [{:keys [title]}]
-              (str/upper-case (first title))) (:media ALLMEDIA)))
-
-(comment
-  (let [the-atom])
-  (render-media-items (take 1 (:media ALLMEDIA)) default-options)
-  (render-all-media (take 100 (:media ALLMEDIA)))
-  )
 
 
 

@@ -42,14 +42,14 @@
 		&.opened{
 			color: red;
 			font-size: 2.1rem;
-			text-align: center; 
 		}
 		cursor: pointer;
 	}
 	ul {
-		border: 1px solid @thin-border-color; 
+		border-bottom: 2px solid @thin-border-color; 
 	}
 	ul.items {
+		padding-left: 10px;
 		li a {
 		}
 	}
@@ -72,14 +72,22 @@
 	float: left; 
 }
 
+
 button.toggle-button {
 	background-color: transparent;
 	margin-right: 16px;
 	border: 1px solid darken(@console-color, 30%);
-	img {
-		width: 24px;
-	}
 	color: @console-color;
+	font-size: 1em;
+	font-family: @the-font;
+	padding: 5px;
+	&.on {
+		box-shadow: 0 0 5px @highlight-color;
+		//border: 1px solid @highlight-color; 
+	}
+	&:focus {
+		outline: none; 
+	}
 }
 
 .button-icon {

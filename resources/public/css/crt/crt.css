@@ -105,10 +105,12 @@ h1.ok-button {
 .menu .title a.opened {
   color: red;
   font-size: 2.1rem;
-  text-align: center;
 }
 .menu ul {
-  border: 1px solid #01775f;
+  border-bottom: 2px solid #01775f;
+}
+.menu ul.items {
+  padding-left: 10px;
 }
 .search-component {
   display: flex;
@@ -128,9 +130,15 @@ button.toggle-button {
   margin-right: 16px;
   border: 1px solid #01775f;
   color: #14fdce;
+  font-size: 1em;
+  font-family: 'VT323';
+  padding: 5px;
 }
-button.toggle-button img {
-  width: 24px;
+button.toggle-button.on {
+  box-shadow: 0 0 5px #ffffff;
+}
+button.toggle-button:focus {
+  outline: none;
 }
 .button-icon {
   width: 24px;
@@ -261,7 +269,7 @@ input.search-box {
 }
 input.search-box:focus {
   outline: none !important;
-  border: 1px solid #14fdce;
+  box-shadow: 0 0 5px #acfeee;
 }
 .piece {
   display: block;

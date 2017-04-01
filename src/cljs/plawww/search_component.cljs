@@ -10,6 +10,21 @@
   (:require [clojure.string :as str]
             [reagent.core :as r]))
 
+(defn rotopt
+  "Rotate option.
+  Find `cur` and return (++index % length)."
+  [options cur]
+  (let [i (.indexOf options cur)
+        i (mod (inc i) (count options))]
+    (nth options i)))
+
+(defn rotate-aopt [aopts opt options]
+  "Swaps `opt` to next value in options."
+  (let [cur (@aopts opt)
+        nextv (rotopt options cur)]
+    (swap! aopts conj (hash-map opt nextv))))
+
+
 (defn- search-input[settings-atom]
   [:input.search-box {:type      "text"
                       :on-change #(swap! settings-atom conj {:search-string (-> % .-target .-value)})}])
@@ -17,17 +32,22 @@
 (defn- toggle-button [text onclick]
   [:button.toggle-button {:on-click onclick} text])
 
-(defn- next-group-by[cur]
-  ({:tag :plain
-    :plain :tag} cur))
+
+(def view-modes [:plain :tag])
+
+;Keep them separate. This will allow us to implement translation.
+(def view-mode-titles {:tag   "TĂG"
+                       :plain "BUC."})
+
+(defn view-mode-button [aopts keyname]
+  (let [title (view-mode-titles (@aopts keyname))]
+    [toggle-button title #(rotate-aopt aopts keyname view-modes)]))
 
 (defn- search-component-filters [search-settings]
   (let [{:keys [group-by display dirty]} @search-settings]
     [:div.filters
-     (toggle-button group-by (fn []
-                               (swap! search-settings conj {:group-by (next-group-by group-by)})))
-     (toggle-button display (fn []
-                              ))]))
+     [view-mode-button search-settings :group-by]
+     (toggle-button display (fn []))]))
 
 (defn search-component [search-prompt search-settings]
   [:div.search-component

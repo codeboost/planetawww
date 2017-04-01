@@ -107,7 +107,7 @@
 (defn group->expanded-menu [item]
   (group->menu item true))
 
-(defn render-by-tags [media-items opts]
+(defn render-by-tags [media-items]
   (let [tagged (by-tags media-items)
         menus (map group->menu tagged)]
     (into [:div.media-items.horiz-container] menus)))
@@ -139,19 +139,24 @@
         index (rand-int (count prompts))]
     (nth prompts index)))
 
+
+(defn search-match? [title search-string]
+  (or (str/blank? search-string)
+      (str/starts-with?
+        (str/lower-case title)
+        (str/lower-case search-string))))
+
 (defn search-in-items [media-items search-string]
   (filter (fn [{:keys [title]}]
-            (or (str/blank? search-string)
-                (not= -1 (.indexOf
-                           (str/lower-case title)
-                           (str/lower-case search-string))))) media-items))
+            (search-match? title search-string)) media-items))
 
 (defn media-items-component [items opts]
-  (let [{:keys [search-string group-by]} @opts
-        filtered-items (search-in-items items search-string)]
-    (cond
-      (= group-by :tag) [render-by-tags filtered-items opts]
-      (= group-by :plain) [render-by-letter filtered-items])))
+    (let [{:keys [group-by search-string]} opts
+          group-by (if (str/blank? search-string) group-by :plain)
+          filtered (search-in-items items search-string)]
+      (cond
+        (= group-by :tag) [render-by-tags filtered]
+        (= group-by :plain) [render-by-letter filtered])))
 
 (defn media-page [opts]
   (let [opts *display-options*
@@ -164,7 +169,7 @@
         [:div.v16px]
         [:div.page-content
          (let [items (:media ALLMEDIA)]
-           [media-items-component items opts])]]])))
+           [media-items-component items @opts])]]])))
 
 ;------------------------------------------------------------------------
 

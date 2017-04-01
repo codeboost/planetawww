@@ -33,20 +33,27 @@
   [:button.toggle-button {:on-click onclick} text])
 
 
+(defn option-button
+  "Creates a toggle button which rotates through a list"
+  [aopts keyname options titles]
+  (let [title (or (titles (@aopts keyname))
+                  (str keyname))]
+    (toggle-button title #(rotate-aopt aopts keyname options))))
+
 (def view-modes [:plain :tag])
 
 ;Keep them separate. This will allow us to implement translation.
-(def view-mode-titles {:tag   "TĂG"
-                       :plain "BUC."})
+(def view-mode-titles {:tag   "BUC"
+                       :plain "TĂG"})
 
-(defn view-mode-button [aopts keyname]
-  (let [title (view-mode-titles (@aopts keyname))]
-    [toggle-button title #(rotate-aopt aopts keyname view-modes)]))
+
+(defn view-mode-button [aopts]
+  (option-button aopts :group-by view-modes view-mode-titles))
 
 (defn- search-component-filters [search-settings]
   (let [{:keys [group-by display dirty]} @search-settings]
     [:div.filters
-     [view-mode-button search-settings :group-by]
+     [view-mode-button search-settings]
      (toggle-button display (fn []))]))
 
 (defn search-component [search-prompt search-settings]

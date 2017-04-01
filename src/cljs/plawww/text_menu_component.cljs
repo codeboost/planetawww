@@ -42,7 +42,6 @@
 (defn menu->hiccup [{:keys [title items] :as menu} expanded?]
   "Renders a menu and its items"
   (let [show-back? false]
-    (fn []
       [:div.menu
        [:div.title [:a {:on-click (toggle-atom-on-click expanded?)
                         :class (if @expanded? "opened" "")} title]]
@@ -51,4 +50,4 @@
                list-items (if show-back?
                             (conj list-items (back-menu-item (count items)))
                             list-items)]
-           (into [:ul.items] list-items)))])))
+           (into [:ul.items] list-items)))]))

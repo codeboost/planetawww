@@ -12,16 +12,13 @@
   (let [id (:id item)]
     (paths/s-image-path id)))
 
-(defn item-href [item]
-  (str "/media/" (:id item)))
+(defn item-href [id]
+  (str "/media/" id))
 
-(defn item-content [item]
+(defn item-content [{:keys [title id description]}]
   [:div.item-content
-   [:div.title
-    [:a {:href (item-href item)}
-     (:title item)]]
-   [:div.description (or (:description item) "")]])
-
+   [:div.title [:a {:href (item-href id)} title]]
+   [:div.description (or description "")]])
 
 (defn item->detail-item [item]
   ^{:key (:id item)} [:li.detail-media-item

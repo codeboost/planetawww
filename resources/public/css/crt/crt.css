@@ -26,7 +26,8 @@ a:visited {
 }
 a:active,
 a:focus,
-a:hover {
+a:hover,
+a.selected {
   background-color: #14fdce;
   color: #031e11;
 }
@@ -105,9 +106,6 @@ h1.ok-button {
 .menu .title a.opened {
   color: red;
   font-size: 2.1rem;
-}
-.menu ul {
-  border-bottom: 2px solid #01775f;
 }
 .menu ul.items {
   padding-left: 10px;
@@ -318,6 +316,31 @@ input.search-box:focus {
 .lv-cell .accessory-area {
   flex-grow: 0;
   width: 50px;
+}
+.by-letters {
+  display: flex;
+  flex-direction: column;
+}
+.by-letters .alphabet {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  height: 40px;
+}
+.by-letters .alphabet ul {
+  overflow: hidden;
+  width: 1080px;
+}
+.by-letters .alphabet ul li {
+  display: inline-block;
+  list-style: none;
+  width: 40px;
+  height: 40px;
+}
+.by-letters .alphabet ul li a {
+  cursor: pointer;
+}
+.by-letters ul.items li {
+  text-align: center;
 }
 .piece {
   display: block;

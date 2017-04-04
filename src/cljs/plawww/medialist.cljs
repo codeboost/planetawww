@@ -12,6 +12,7 @@
             [cljsjs.typedjs]
             [clojure.string :as str]
             [reagent.core :as r]
+            [cljs.test :refer-macros [deftest is testing run-tests]]
             [plawww.media-item-detail :as media-item-detail]
             [plawww.search-component :refer [search-component]]
             [plawww.text-menu-component :refer [menu->hiccup]]))
@@ -29,6 +30,7 @@
                       :item-view-mode :plain
                       :dirty         true
                       :search-string ""
+                      :cur-letter ""
                       :expand-all?   false
                       :tags          #{}})
 
@@ -122,6 +124,79 @@
         results (map #(group->menu % should-expand? itemfn) grouped)]
     (into [:div.media-items.horiz-container] results)))
 
+(defn extract-first-letter [str]
+  (let [letter (or (first (str/trim str)) "#")
+        letter (str/upper-case letter)
+        letter (if (re-matches #"[0-9]+" letter)
+                 "#"
+                 letter)]
+    letter))
+
+(defn starts-with-letter? [word letter]
+  (cond
+    (= "#" letter) (some? (re-matches #"[0-9]+" (first (str/trim word))))
+    :else (str/starts-with? (str/lower-case word) (str/lower-case letter))))
+
+(defn first-letters [items]
+  (apply sorted-set (map #(extract-first-letter (:title %)) items)))
+
+
+(defn alphabet-component [letters selected on-click]
+  (into [:ul]
+        (for [letter letters]
+          ^{:key letter}
+          [:li [:a {:on-click (fn [e]
+                                (.preventDefault e)
+                                (on-click letter))
+                    :class (if (starts-with-letter? letter selected) "selected" "")} letter]])))
+
+(defn render-items [items first-letter itemfn]
+  (let [filtered
+        (filter
+          (fn [{:keys [title]}]
+            (starts-with-letter? title first-letter)) items)]
+    (into [:ul.items] (map itemfn filtered))))
+
+(defn render-by-letter2 [acur items itemfn]
+  [:div.by-letters
+   [:div.alphabet
+    [alphabet-component
+     (first-letters items)
+     @acur
+     #(reset! acur %)]]
+   [render-items items @acur itemfn]])
+
+(comment
+
+  (render-items (:media ALLMEDIA) "A" item->li)
+
+  (deftest test-starts-with-first-letter?
+    (is (= true (starts-with-letter? "a" "a")))
+    (is (= true (starts-with-letter? "Alpha" "A")))
+    (is (= true (starts-with-letter? "beta" "B")))
+    (is (= false (starts-with-letter? "34" "B")))
+    (is (= true (starts-with-letter? "34" "#"))))
+
+  (deftest test-extract-first-letter
+    (is (= "A" (extract-first-letter "Alpha")))
+    (is (= "Z" (extract-first-letter "zebra")))
+    (is (= "#" (extract-first-letter "10 Lions")))
+    (is (= "#" (extract-first-letter "1984")))
+    (is (= "#" (extract-first-letter ""))))
+
+  (deftest test-first-letters
+    (is
+      (= #{"#" "A" "B" "G"}
+         (first-letters [{:title "Alpha"}
+                         {:title "Beta"}
+                         {:title "Gamma"}
+                         {:title "54"}]))))
+
+
+  (run-tests))
+
+
+
 (defn random-search-prompt []
   (let [prompts ["CE DORITI?"
                  "CU CE VA PUTEM SERVI?"
@@ -131,29 +206,31 @@
         index (rand-int (count prompts))]
     (nth prompts index)))
 
-
 (defn media-items-component [items opts]
-    (let [{:keys [group-by search-string expand-all? item-view-mode]} opts
+    (let [{:keys [group-by search-string expand-all? item-view-mode]} @opts
           group-by (if (str/blank? search-string) group-by :plain)
           itemfn (if (= item-view-mode :plain)
                    item->li
-                   media-item-detail/item->detail-item)]
+                   media-item-detail/item->detail-item)
+          aletter (r/cursor opts [:cur-letter])]
       (cond
         (= group-by :tag) (render-by-tags expand-all? itemfn)
-        (= group-by :plain) (render-by-letter search-string expand-all? itemfn))))
+        (= group-by :plain) (render-by-letter2 aletter items itemfn))))
+
+;(render-by-letter search-string expand-all? itemfn)
+
 
 (defn media-page [opts]
   (let [opts *display-options*
         search-prompt (random-search-prompt)]
     (fn []
-      [crt-page
        [:div.media-page
         [:h4.page-title "PLANETA MOLDOVA"]
         [search-component search-prompt opts]
         [:div.v16px]
         [:div.page-content
          (let [items (:media ALLMEDIA)]
-           [media-items-component items @opts])]]])))
+           [media-items-component items opts])]])))
 
 
 

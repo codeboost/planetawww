@@ -25,7 +25,8 @@ a:visited {
 }
 a:active,
 a:focus,
-a:hover {
+a:hover,
+a.selected {
   background-color: #14fdce;
   color: #031e11;
 }
@@ -86,9 +87,6 @@ ul {
 .menu .title a.opened {
   color: red;
   font-size: 2.1rem;
-}
-.menu ul {
-  border-bottom: 2px solid #01775f;
 }
 .menu ul.items {
   padding-left: 10px;

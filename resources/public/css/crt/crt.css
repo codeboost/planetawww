@@ -317,29 +317,29 @@ input.search-box:focus {
   flex-grow: 0;
   width: 50px;
 }
-.by-letters {
-  display: flex;
-  flex-direction: column;
-}
-.by-letters .alphabet {
+.alphabet {
   overflow-x: scroll;
   overflow-y: hidden;
   height: 40px;
 }
-.by-letters .alphabet ul {
+.alphabet ul {
   overflow: hidden;
   width: 1080px;
 }
-.by-letters .alphabet ul li {
+.alphabet ul li {
   display: inline-block;
   list-style: none;
   width: 40px;
   height: 40px;
 }
-.by-letters .alphabet ul li a {
+.alphabet ul li a {
   cursor: pointer;
 }
-.by-letters ul.items li {
+.by-letters {
+  display: flex;
+  flex-direction: column;
+}
+ul.items li {
   text-align: center;
 }
 .piece {

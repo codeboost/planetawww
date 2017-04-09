@@ -79,13 +79,13 @@
 (defn media-page
   [name]
   (fn []
-    (plamain/media-page name)))
+    [crt-page
+      [plamain/media-page name]]))
 
 (defn test-page
   [q]
   (fn []
-    [crt-page
-      (media-item-detail/test-detail-item q)]))
+    [crt-page [:div "Test"]]))
 
 ;; -------------------------
 ;; Routes

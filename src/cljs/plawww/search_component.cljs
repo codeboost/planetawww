@@ -82,9 +82,18 @@
      (toggle-expand-all-button search-settings)
      (item-view-button search-settings)]))
 
-(defn search-component [search-prompt search-settings]
+(defn random-search-prompt []
+  (let [prompts ["CE DORITI?"
+                 "CU CE VA PUTEM SERVI?"
+                 "SRCH:"
+                 "CAUT:"
+                 "SI VREI?"]
+        index (rand-int (count prompts))]
+    (nth prompts index)))
+
+(defn search-component [search-settings]
   [:div.search-component
-   [:div.search-text search-prompt]
+   [:div.search-text (random-search-prompt)]
    [search-input search-settings :search-string]
    [search-component-filters search-settings]
    ])

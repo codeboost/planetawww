@@ -26,11 +26,3 @@
     (image-path item)
     [item-content item]
     [:div.item-accessory]]])
-
-
-(defonce KOLBAS (js->clj js/kolbasulPlanetar :keywordize-keys true))
-(defonce THE-MEDIA (:media KOLBAS))
-
-(defn test-detail-item [q]
-  [:ul.media-items.justify-left
-   (map item->detail-item (take 200 THE-MEDIA))])

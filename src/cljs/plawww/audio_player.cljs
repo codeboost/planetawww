@@ -88,10 +88,10 @@
   (if (keyword? cmd)
     (exec-cmd @s {:command cmd})
     (let [res (exec-cmd @s cmd)]
-      (when (= :load (:command cmd)
+      (when (= :load (:command cmd))
                (do
                  (print "Loading new sound" cmd)
-                 (reset! s res)))))))
+                 (reset! s res))))))
 
 (defn init
   "Creates a command channel and returns it.

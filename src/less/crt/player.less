@@ -28,21 +28,16 @@
 	background-color: @console-bg;
 	opacity: 0.9;
 	border-radius: 23px;
-	.toolbar {
-		border-bottom: 1px solid @console-color; 
-		height: 40px;
-	}
 	.content {
 		margin: 8px;
 	}
 }
 
 .player {
-
 	z-index: 999;
 	position: absolute; 
 	bottom: 16px;
-	height: 140px;
+	height: 120px;
 	justify-content: center; 
 	align-items: stretch;
 	align-content: stretch;
@@ -51,6 +46,17 @@
 	@media (max-width: 478px) {
 		left: 8px;
 		right: 8px;
+	}
+
+	.detail {
+		padding: 20px;
+	}
+
+	&.detail {
+		height: 600px;
+		.detail {
+			height: 500px;
+		}
 	}
 
 	.bottom-part {
@@ -104,6 +110,10 @@
 		margin: auto;
 		width: 32px;
 		height: 32px;
+		text-align: center;
+		a {
+			cursor: pointer; 
+		}
 	}
 }
 

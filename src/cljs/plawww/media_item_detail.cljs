@@ -4,6 +4,8 @@
             [plawww.paths :as paths]
             [reagent.session :as session]
             [clojure.string :as str]
+            [plawww.utils :as utils]
+            [cljs.test :refer-macros [deftest is testing run-tests]]
             [cljs.core.async :refer [put!]]
             [reagent.interop :refer-macros [$ $!]]))
 
@@ -26,3 +28,35 @@
     (image-path item)
     [item-content item]
     [:div.item-accessory]]])
+
+(defn duration-comp [{:keys [duration]}]
+  [:div.duration (utils/format-duration duration)])
+
+(defn tag-list-comp [{:keys [tags]}]
+  [:div.tags
+   (when (not-empty tags)
+     (str/join ", " tags))])
+
+(deftest detail-comp-tests
+  (is (= [:div.tags]
+         (tag-list-comp {})))
+
+  (is (= [:div.tags "one"]
+         (tag-list-comp {:tags ["one"]})))
+
+  (is (= [:div.tags "one, two, three"]
+         (tag-list-comp {:tags ["one" "two" "three"]})))
+
+
+
+  (session/get :allmedia))
+
+
+(defn detail-component [item]
+  [:div.media-item-detail
+   [:div.top-part
+    [:div.info-container
+     [:div.title (:title item)]
+     [duration-comp item]
+     [tag-list-comp item]]]
+   [:div.description (:description_plain item)]])

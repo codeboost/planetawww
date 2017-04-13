@@ -13,7 +13,7 @@
             [clojure.string :as str]
             [plawww.crt :refer [crt-page]]
             [plawww.welcome :as welcome]
-            [plawww.medialist :as plamain]
+            [plawww.medialist :refer [medialist]]
             [plawww.menu-page :as menu]
             [plawww.media-item-detail :as media-item-detail]
             [plawww.media-player :as media-player]
@@ -21,6 +21,9 @@
             [plawww.paths :as paths]
             [cljs.core.async :refer [put!]]
             [cljsjs.typedjs]))
+
+
+(defonce ALLMEDIA (:media (js->clj js/kolbasulPlanetar :keywordize-keys true)))
 
 ;; -------------------------
 ;; Views
@@ -32,6 +35,7 @@
 
 (defn hook-up-the-stuff
   []
+  (session/put! :allmedia ALLMEDIA)
   (let [channel (plawww.audio-player/init)]
     (session/put! :audio-player-control-channel channel)
     (session/put! :player-state {:visible false
@@ -49,13 +53,12 @@
 
 (defn media-item-for-id [search-id]
   (first (filter (fn [{:keys [id]}]
-                   (= id search-id)) (:media plamain/ALLMEDIA))))
+                   (= id search-id)) ALLMEDIA)))
 
 (defn update-player-state [id]
   (when-let [media-item (media-item-for-id id)]
     (let [image-path (paths/s-image-path id)
           media-item (assoc media-item :image image-path)]
-      (print "update-player-state " id)
       (session/update-in! [:player-state] merge {:position 0
                                                  :item     media-item
                                                  :visible true}))))
@@ -73,14 +76,21 @@
 (defn menu-page
   [name]
   (fn []
-    (print "The menu page is: " name)
+    (print "The menu page is:" name)
     (menu/menu-page name) ))
 
 (defn media-page
   [name]
   (fn []
     [crt-page
-      [plamain/media-page name]]))
+      [medialist name ALLMEDIA]]))
+
+(defn detail-page
+  [id]
+  (fn []
+    (let [item (media-item-for-id (js/parseInt id))]
+      [crt-page
+       (media-item-detail/detail-component item)])))
 
 (defn test-page
   [q]
@@ -104,7 +114,7 @@
 (secretary/defroute menu-path "/menu/:menu-name" {menu-name :menu-name}
                     (set-current-page (menu-page menu-name)))
 
-(secretary/defroute "/media/" [q]
+(secretary/defroute "/media" [q]
                     (set-current-page (media-page q)))
 
 (secretary/defroute "/test/" [q]
@@ -115,7 +125,7 @@
 
 ;(secretary/defroute #"/media/(\d+)" [id]
 (secretary/defroute #"/media/(\d+)" [id q]
-                    (set-current-page (media-page q))
+                    (set-current-page (detail-page id))
                     (update-player-state (js/parseInt id)))
 
 ;(secretary/locate-route "/menu/")

@@ -14,9 +14,6 @@
             [plawww.search-component :refer [search-component]]
             [plawww.text-menu-component :refer [menu->hiccup]]))
 
-
-(defonce ALLMEDIA (js->clj js/kolbasulPlanetar :keywordize-keys true))
-
 (def default-options {:group-by      :tag
                       :item-view-mode :plain
                       :dirty         true
@@ -78,10 +75,8 @@
                   :num-items num-items})) tags)))))
 
 
-(defonce BYTAG (by-tags (:media ALLMEDIA)))
-
-(defn render-by-tags [expand-all? itemfn]
-  (let [tagged BYTAG
+(defn render-by-tags [media-items expand-all? itemfn]
+  (let [tagged (by-tags media-items)
         menus (map #(group->menu % expand-all? itemfn) tagged)]
     (into [:div.media-items.horiz-container] menus)))
 
@@ -154,7 +149,7 @@
                    media-item-detail/item->detail-item)
           aletter (r/cursor opts [:cur-letter])]
       (cond
-        (= group-by :tag) (render-by-tags expand-all? itemfn)
+        (= group-by :tag) (render-by-tags items expand-all? itemfn)
         (= group-by :plain)
         (if searching? (render-search-results search-string items itemfn)
                        (render-by-letter2 aletter items itemfn)))))
@@ -162,7 +157,7 @@
 ;(render-by-letter search-string expand-all? itemfn)
 
 
-(defn media-page [opts]
+(defn medialist [opts media-items]
   (let [opts *display-options*]
     (fn []
        [:div.media-page
@@ -170,7 +165,7 @@
         [search-component opts]
         [:div.v16px]
         [:div.page-content
-         (let [items (:media ALLMEDIA)]
+         (let [items media-items]
            [media-items-component items opts])]])))
 (comment
   (render-items (:media ALLMEDIA) "A" item->li)

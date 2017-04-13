@@ -77,10 +77,6 @@ ul {
   opacity: 0.9;
   border-radius: 23px;
 }
-.window .toolbar {
-  border-bottom: 1px solid #14fdce;
-  height: 40px;
-}
 .window .content {
   margin: 8px;
 }
@@ -88,7 +84,7 @@ ul {
   z-index: 999;
   position: absolute;
   bottom: 16px;
-  height: 140px;
+  height: 120px;
   justify-content: center;
   align-items: stretch;
   align-content: stretch;
@@ -100,6 +96,15 @@ ul {
     left: 8px;
     right: 8px;
   }
+}
+.player .detail {
+  padding: 20px;
+}
+.player.detail {
+  height: 600px;
+}
+.player.detail .detail {
+  height: 500px;
 }
 .player .bottom-part {
   margin-top: 10px;
@@ -143,4 +148,8 @@ ul {
   margin: auto;
   width: 32px;
   height: 32px;
+  text-align: center;
+}
+.player .accessory-button a {
+  cursor: pointer;
 }

@@ -74,7 +74,7 @@
 (defroutes routes
            (GET "/" [] (main-page crt-css))
            (GET "/menu*" [] (main-page crt-css))
-           (GET "/media/*" [] (main-page crt-css))
+           (GET "/media*" [] (main-page crt-css))
            (GET "/test/*" [] (main-page crt-css))
 
            (GET "/cards" [] (cards-page classic-css))

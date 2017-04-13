@@ -8,10 +8,10 @@
 (ns plawww.media-player
   (:require [reagent.core :as r]
             [plawww.ui :as ui]
+            [plawww.media-item-detail :as detail]
+            [plawww.utils :as utils]
             [reagent.session :as session]
             [clojure.string :as str]
-            [goog.string :as gstring]
-            [goog.string.format]
             [cljs.core.async :refer [put!]]
             [reagent.interop :refer-macros [$ $!]]))
 
@@ -40,13 +40,9 @@
    [:div.progress-bar-progress
     {:style {:width (str (* 100 (min 1 progress)) "%")}}]])
 
-(defn format-time [timestamp]
-  (let [minutes (quot timestamp 60)
-        seconds (mod timestamp 60)]
-    (gstring/format "%02d:%02d" minutes seconds)))
 
 (defn time-label [timestamp]
-  [:div.grow2.time-label.playback-time (format-time timestamp)])
+  [:div.grow2.time-label.playback-time (utils/format-duration timestamp)])
 
 
 (defn play-button-text [state]
@@ -95,19 +91,44 @@
        [:div.sp]]
       (when (pos? position) [time-label (* position duration)])]]))
 
-(defn accessory-view [])
+
+(defn list-view-cell[image content accessory-view]
+  [:div.lv-cell.hstack
+   [:div.image-area
+    [:img.image {:src image}]]
+   [:div.content-area content]
+   [:div.accessory-area accessory-view]])
+
+
+(defn accessory-button-click-handler []
+  (fn [e]
+    (print "click handler")
+    (.preventDefault e)
+    (session/update-in! [:player-state :detail-visible] not)))
+
+(defn accessory-view []
+  [:div.accessory-button [:a
+                          {:on-click (accessory-button-click-handler)} "i"]])
+
 
 (defn player-view [state]
   (let [item (:item state)]
-    [ui/list-view-cell (:image item)
+    [list-view-cell (:image item)
      [player-controls state item] [accessory-view]]))
+
+(defn item-details-area [astate]
+  (print "Detail visible: " (@astate :detail-visible))
+  (if (@astate :detail-visible)
+    [:div.detail
+     [detail/detail-component (@astate :item)]]
+    [:div.detail.hidden]))
 
 (defn player []
   (let [player-state (session/cursor [:player-state])]
     (fn []
       (if (and @player-state (@player-state :visible))
-        [:div.player.window.vstack
-         [:div.toolbar]
+        [:div.player.window.vstack {:class (when (@player-state :detail-visible) "detail")}
+         [item-details-area player-state]
          [:div.content
           [player-view @player-state]]]
         [:div.player.window.hidden]))))

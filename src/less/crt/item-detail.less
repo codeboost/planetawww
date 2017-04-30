@@ -1,22 +1,37 @@
 
 
 .media-item-detail {
-    .top-part {
-        display: flex;
-        flex-direction: row; 
-        .info-container {
-            flex: 1;
+    display: flex; 
+    flex-direction: row;
+    align-items: stretch;
+    flex-wrap: wrap;
+
+    .detail-image {
+        img {
+            width: 320px;
+            height: 200px;
+        }
+        margin-right: 20px;
+    }
+
+    .detail-info {
+        .top-part {
             display: flex;
-            flex-direction: column;
-            .title {
-                font-size: 2.1rem;
-            }
-            .tags {
-                font-size: 1.2rem;
+            flex-direction: row; 
+            .info-container {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                .title {
+                    font-size: 2.1rem;
+                }
+                .tags {
+                    font-size: 1.2rem;
+                }
             }
         }
-    }
-    .description {
-        margin-top: 16px;
+        .description {
+            margin-top: 16px;
+        }        
     }
 }

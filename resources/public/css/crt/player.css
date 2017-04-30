@@ -113,6 +113,10 @@ ul {
 .player.detail .detail {
   height: 440px;
 }
+.player.detail .accessory-button {
+  background: #14fdce;
+  color: #031e11;
+}
 .player .bottom-part {
   margin-top: 10px;
 }
@@ -151,12 +155,14 @@ ul {
   background-color: #14fdce;
 }
 .player .accessory-button {
+  font-size: 0.9em;
+  cursor: pointer;
   display: block;
   margin: auto;
   width: 32px;
   height: 32px;
   text-align: center;
-}
-.player .accessory-button a {
-  cursor: pointer;
+  border-radius: 50%;
+  border: 2px solid #14fdce;
+  line-height: 28px;
 }

@@ -65,6 +65,12 @@
 		.detail {
 			height: 440px;
 		}
+
+		.accessory-button {
+			background: @console-color; 
+			color: @console-bg; 
+		}
+
 	}
 
 	.bottom-part {
@@ -114,14 +120,16 @@
 	}
 
 	.accessory-button {
+		font-size: 0.9em;
+		cursor: pointer;
 		display: block;
 		margin: auto;
 		width: 32px;
 		height: 32px;
 		text-align: center;
-		a {
-			cursor: pointer; 
-		}
+		border-radius: 50%;
+		border: 2px solid @console-color; 
+		line-height: 28px;
 	}
 }
 

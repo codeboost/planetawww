@@ -14,6 +14,10 @@
   (let [id (:id item)]
     (paths/s-image-path id)))
 
+(defn detail-image-path [item]
+  (let [id (:id item)]
+    (paths/l-image-path id)))
+
 (defn item-href [id]
   (str "/media/" id))
 
@@ -54,9 +58,12 @@
 
 (defn detail-component [item]
   [:div.media-item-detail
-   [:div.top-part
-    [:div.info-container
-     [:div.title (:title item)]
-     [duration-comp item]
-     [tag-list-comp item]]]
-   [:div.description (:description_plain item)]])
+   [:div.detail-image
+    [:img {:src (detail-image-path item)}]]
+   [:div.detail-info
+    [:div.top-part
+     [:div.info-container
+      [:div.title (:title item)]
+      [duration-comp item]
+      [tag-list-comp item]]]
+    [:div.description (:description_plain item)]]])

@@ -107,8 +107,7 @@
     (session/update-in! [:player-state :detail-visible] not)))
 
 (defn accessory-view []
-  [:div.accessory-button [:a
-                          {:on-click (accessory-button-click-handler)} "i"]])
+  [:div.accessory-button {:on-click (accessory-button-click-handler)} "i"])
 
 
 (defn player-view [state]

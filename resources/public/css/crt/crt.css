@@ -248,6 +248,10 @@ button.toggle-button:focus {
 .player.detail .detail {
   height: 440px;
 }
+.player.detail .accessory-button {
+  background: #14fdce;
+  color: #031e11;
+}
 .player .bottom-part {
   margin-top: 10px;
 }
@@ -286,14 +290,16 @@ button.toggle-button:focus {
   background-color: #14fdce;
 }
 .player .accessory-button {
+  font-size: 0.9em;
+  cursor: pointer;
   display: block;
   margin: auto;
   width: 32px;
   height: 32px;
   text-align: center;
-}
-.player .accessory-button a {
-  cursor: pointer;
+  border-radius: 50%;
+  border: 2px solid #14fdce;
+  line-height: 28px;
 }
 input.search-box {
   background-color: transparent;
@@ -362,22 +368,35 @@ input.search-box:focus {
 ul.items li {
   text-align: center;
 }
-.media-item-detail .top-part {
+.media-item-detail {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  flex-wrap: wrap;
+}
+.media-item-detail .detail-image {
+  margin-right: 20px;
+}
+.media-item-detail .detail-image img {
+  width: 320px;
+  height: 200px;
+}
+.media-item-detail .detail-info .top-part {
   display: flex;
   flex-direction: row;
 }
-.media-item-detail .top-part .info-container {
+.media-item-detail .detail-info .top-part .info-container {
   flex: 1;
   display: flex;
   flex-direction: column;
 }
-.media-item-detail .top-part .info-container .title {
+.media-item-detail .detail-info .top-part .info-container .title {
   font-size: 2.1rem;
 }
-.media-item-detail .top-part .info-container .tags {
+.media-item-detail .detail-info .top-part .info-container .tags {
   font-size: 1.2rem;
 }
-.media-item-detail .description {
+.media-item-detail .detail-info .description {
   margin-top: 16px;
 }
 .piece {

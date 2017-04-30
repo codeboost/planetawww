@@ -129,6 +129,7 @@
       (if (and @player-state (@player-state :visible))
         [:div.player.window.vstack {:class (when (@player-state :detail-visible) "detail")}
          [item-details-area player-state]
+         [:div.toolbar]
          [:div.content
           [player-view @player-state]]]
         [:div.player.window.hidden]))))

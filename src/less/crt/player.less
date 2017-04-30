@@ -37,7 +37,7 @@
 	z-index: 999;
 	position: absolute; 
 	bottom: 16px;
-	height: 120px;
+	height: 160px;
 	justify-content: center; 
 	align-items: stretch;
 	align-content: stretch;
@@ -47,6 +47,11 @@
 		left: 8px;
 		right: 8px;
 	}
+	
+	.toolbar {
+		height: 40px;
+		border-bottom: 1px solid @console-color;
+	}
 
 	.detail {
 		padding: 20px;
@@ -54,8 +59,11 @@
 
 	&.detail {
 		height: 600px;
+		.toolbar {
+			border-top: 1px solid @console-color;
+		}
 		.detail {
-			height: 500px;
+			height: 440px;
 		}
 	}
 

@@ -1,0 +1,26 @@
+.alphabet {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  height: 40px;
+}
+.alphabet ul {
+  margin: auto;
+  overflow: hidden;
+  width: 1080px;
+}
+.alphabet ul li {
+  display: inline-block;
+  list-style: none;
+  width: 40px;
+  height: 40px;
+}
+.alphabet ul li a {
+  cursor: pointer;
+}
+.by-letters {
+  display: flex;
+  flex-direction: column;
+}
+ul.items li {
+  text-align: center;
+}

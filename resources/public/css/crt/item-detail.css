@@ -1,0 +1,18 @@
+.media-item-detail .top-part {
+  display: flex;
+  flex-direction: row;
+}
+.media-item-detail .top-part .info-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.media-item-detail .top-part .info-container .title {
+  font-size: 2.1rem;
+}
+.media-item-detail .top-part .info-container .tags {
+  font-size: 1.2rem;
+}
+.media-item-detail .description {
+  margin-top: 16px;
+}

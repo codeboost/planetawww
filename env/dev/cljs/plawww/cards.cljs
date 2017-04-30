@@ -3,8 +3,7 @@
             [reagent.session :as session]
             [plawww.core :as core]
             [devcards.core :as dc]
-            [reagent.core :as reagent]
-            [plawww.site-header :as site-header])
+            [reagent.core :as reagent])
   (:require-macros
    [devcards.core
     :as dc

@@ -219,7 +219,7 @@ button.toggle-button:focus {
   z-index: 999;
   position: absolute;
   bottom: 16px;
-  height: 120px;
+  height: 160px;
   justify-content: center;
   align-items: stretch;
   align-content: stretch;
@@ -232,14 +232,21 @@ button.toggle-button:focus {
     right: 8px;
   }
 }
+.player .toolbar {
+  height: 40px;
+  border-bottom: 1px solid #14fdce;
+}
 .player .detail {
   padding: 20px;
 }
 .player.detail {
   height: 600px;
 }
+.player.detail .toolbar {
+  border-top: 1px solid #14fdce;
+}
 .player.detail .detail {
-  height: 500px;
+  height: 440px;
 }
 .player .bottom-part {
   margin-top: 10px;

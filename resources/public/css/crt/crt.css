@@ -177,6 +177,11 @@ button.toggle-button:focus {
   min-height: 64px;
   border-radius: 8px;
 }
+@media (max-width: 478px) {
+  .detail-media-item .lv-cell .image-area {
+    display: none;
+  }
+}
 .detail-media-item .lv-cell img {
   filter: grayscale(100%);
 }
@@ -223,10 +228,10 @@ button.toggle-button:focus {
   justify-content: center;
   align-items: stretch;
   align-content: stretch;
-  left: 20%;
-  right: 20%;
+  left: 25%;
+  right: 25%;
 }
-@media (max-width: 478px) {
+@media (max-width: 640px) {
   .player {
     left: 8px;
     right: 8px;

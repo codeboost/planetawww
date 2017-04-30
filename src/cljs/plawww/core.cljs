@@ -125,7 +125,6 @@
 
 ;(secretary/defroute #"/media/(\d+)" [id]
 (secretary/defroute #"/media/(\d+)" [id q]
-                    (set-current-page (detail-page id))
                     (update-player-state (js/parseInt id)))
 
 ;(secretary/locate-route "/menu/")

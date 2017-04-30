@@ -88,10 +88,10 @@ ul {
   justify-content: center;
   align-items: stretch;
   align-content: stretch;
-  left: 20%;
-  right: 20%;
+  left: 25%;
+  right: 25%;
 }
-@media (max-width: 478px) {
+@media (max-width: 640px) {
   .player {
     left: 8px;
     right: 8px;

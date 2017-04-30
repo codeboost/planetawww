@@ -158,6 +158,11 @@ button.toggle-button:focus {
   min-height: 64px;
   border-radius: 8px;
 }
+@media (max-width: 478px) {
+  .detail-media-item .lv-cell .image-area {
+    display: none;
+  }
+}
 .detail-media-item .lv-cell img {
   filter: grayscale(100%);
 }

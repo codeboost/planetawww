@@ -9,10 +9,10 @@
   (:require [clojure.string :as str]
             [cljsjs.typedjs]
             [reagent.core :as r]
+            [reagent.session :as session]
             [cljs.test :refer-macros [deftest is testing run-tests]]
             [plawww.media-item-detail :as media-item-detail]
-            [plawww.search-component :refer [search-component]]
-            [plawww.text-menu-component :refer [menu->hiccup]]))
+            [plawww.search-component :refer [search-component]]))
 
 (def default-options {:group-by      :tag
                       :item-view-mode :plain
@@ -38,7 +38,30 @@
         (str/lower-case title)
         (str/lower-case search-string))))
 
+
+(defn toggle-atom-on-click [a]
+  (fn [e]
+    (.preventDefault e)
+    (reset! a (not @a))))
+
+(defn class-for-title [expanded?]
+  (if expanded? "opened" ""))
+
+(defn menu->hiccup [{:keys [title items] :as menu} expanded?]
+  "Renders a menu and its items"
+  [:div.menu
+   [:div.title [:a {:on-click (toggle-atom-on-click expanded?)
+                    :class    (class-for-title @expanded?)} title]]
+   (when (and @expanded? (pos? (count items)))
+     (into [:ul.items] items))])
+
 (defn group->menu [{:keys [title items num-items]} is-expanded? itemfn]
+  (let [expanded? (r/atom is-expanded?)
+        menu {:title title
+              :items (map itemfn items)}]
+    [menu->hiccup menu expanded?]))
+
+(defn tag-component [{:keys [title items num-items]} is-expanded? itemfn]
   (let [expanded? (r/atom is-expanded?)
         menu {:title title
               :items (map itemfn items)}]
@@ -75,9 +98,12 @@
                   :num-items num-items})) tags)))))
 
 
+(defonce padding-menus (vec (repeat 16 [:div.menu [:div.title]])))
+
 (defn render-by-tags [media-items expand-all? itemfn]
   (let [tagged (by-tags media-items)
-        menus (map #(group->menu % expand-all? itemfn) tagged)]
+        menus (mapv #(tag-component % expand-all? itemfn) tagged)
+        menus (into menus padding-menus)]
     (into [:div.media-items.horiz-container] menus)))
 
 ;-----------------------------
@@ -168,7 +194,11 @@
          (let [items media-items]
            [media-items-component items opts])]])))
 (comment
-  (render-items (:media ALLMEDIA) "A" item->li)
+
+  (def ALLMEDIA (session/get! :allmedia))
+
+  (render-by-tags ALLMEDIA false item->li)
+
   (deftest test-starts-with-first-letter?
     (is (= true (starts-with-letter? "a" "a")))
     (is (= true (starts-with-letter? "Alpha" "A")))

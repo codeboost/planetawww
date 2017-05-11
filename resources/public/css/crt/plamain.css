@@ -80,6 +80,7 @@ ul {
   min-width: 240px;
 }
 .menu .title a {
+  text-align: center;
   width: 100%;
   display: block;
   cursor: pointer;

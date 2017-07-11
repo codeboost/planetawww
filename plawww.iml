@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module cursive.leiningen.project.LeiningenProjectsManager.displayName="plawww:0.1.0-SNAPSHOT" cursive.leiningen.project.LeiningenProjectsManager.isLeinModule="true" type="JAVA_MODULE" version="4">
-  <component name="NewModuleRootManager" inherit-compiler-output="false">
+  <component name="NewModuleRootManager">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/classes" />
     <exclude-output />
@@ -100,6 +100,7 @@
     <orderEntry type="library" name="Leiningen: pjstadig/humane-test-output:0.8.1" level="project" />
     <orderEntry type="library" name="Leiningen: potemkin:0.4.3" level="project" />
     <orderEntry type="library" name="Leiningen: prone:1.1.4" level="project" />
+    <orderEntry type="library" name="Leiningen: re-frame:0.9.0" level="project" />
     <orderEntry type="library" name="Leiningen: reagent-utils:0.2.0" level="project" />
     <orderEntry type="library" name="Leiningen: reagent:0.6.0" level="project" />
     <orderEntry type="library" name="Leiningen: riddley:0.1.12" level="project" />

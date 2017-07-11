@@ -77,7 +77,7 @@
   [name]
   (fn []
     (print "The menu page is:" name)
-    (menu/menu-page name) ))
+    (menu/menu-page name)))
 
 (defn media-page
   [name]
@@ -115,6 +115,9 @@
                     (set-current-page (menu-page menu-name)))
 
 (secretary/defroute "/media" [q]
+                    (set-current-page (media-page q)))
+
+(secretary/defroute "/media/" [q]
                     (set-current-page (media-page q)))
 
 (secretary/defroute "/test/" [q]

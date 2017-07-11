@@ -58,7 +58,6 @@
               :pretty-print  false}}
             :app
             {:source-paths ["src/cljs" "src/cljc" "env/dev/cljs"]
-             :figwheel {:websocket-host "192.168.1.37"}
              :compiler
              {:main "plawww.dev"
               :asset-path "/js/out"
@@ -71,8 +70,7 @@
 
             :devcards
             {:source-paths ["src/cljs" "src/cljc" "env/dev/cljs"]
-             :figwheel {:devcards true
-                        :websocket-host "192.168.1.37"}
+             :figwheel {:devcards true}
              :compiler {:main "plawww.cards"
                         :asset-path "js/devcards_out"
                         :output-to "target/cljsbuild/public/js/app_devcards.js"

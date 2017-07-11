@@ -66,8 +66,8 @@
                               :message (str "Server returned unknown result: " status)}
         :else (do
                 (spit MEDIA_JSON body)
-                {:status "success"}
-                )))
+                {:status "success"})))
+
     (catch Exception e {:status "error"
                         :message (str "Could not complete data update: " (.getMessage e))})))
 

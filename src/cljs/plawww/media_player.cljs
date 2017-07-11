@@ -140,6 +140,6 @@
   (session/update-in! [:player-state] merge {:item     {:title "Resetat"
                                                         :image "/data/images/media/9l.jpg"}
                                              :duration 120
-                                             :position 0.3})
+                                             :position 0.3}))
 
-  )
+

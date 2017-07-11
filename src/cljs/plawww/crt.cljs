@@ -6,6 +6,6 @@
    [:div.tv.noisy
     [:div.frame.tv
      [:div.piece.output content]]
-    [player/player]]
-   ])
+    [player/player]]])
+
 

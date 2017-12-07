@@ -4,6 +4,9 @@
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/classes" />
     <exclude-output />
+    <content url="file://$MODULE_DIR$/../../../backend/docker/data/kira.configuration-1.0.jar">
+      <sourceFolder url="file://$MODULE_DIR$/../../../backend/docker/data/kira.configuration-1.0.jar" isTestSource="false" />
+    </content>
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/env/prod/cljs" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/cljs" isTestSource="false" />
@@ -19,7 +22,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Leiningen: args4j:2.33" level="project" />
-    <orderEntry type="library" name="Leiningen: cider/cider-nrepl:0.13.0" level="project" />
     <orderEntry type="library" name="Leiningen: clj-http:2.3.0" level="project" />
     <orderEntry type="library" name="Leiningen: clj-stacktrace:0.2.8" level="project" />
     <orderEntry type="library" name="Leiningen: clj-time:0.11.0" level="project" />
@@ -96,7 +98,6 @@
     <orderEntry type="library" name="Leiningen: org.eclipse.jetty/jetty-util:9.2.10.v20150310" level="project" />
     <orderEntry type="library" name="Leiningen: org.mozilla/rhino:1.7R5" level="project" />
     <orderEntry type="library" name="Leiningen: org.ow2.asm/asm-all:4.1" level="project" />
-    <orderEntry type="library" name="Leiningen: org.tcrawley/dynapath:0.2.4" level="project" />
     <orderEntry type="library" name="Leiningen: pjstadig/humane-test-output:0.8.1" level="project" />
     <orderEntry type="library" name="Leiningen: potemkin:0.4.3" level="project" />
     <orderEntry type="library" name="Leiningen: prone:1.1.4" level="project" />

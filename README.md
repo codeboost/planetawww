@@ -18,7 +18,13 @@ Start the app:
 Start the less watcher:
     $ lein less auto
 
+Ports
 
+The app is accessible at http://localhost:3449/
+
+The figwheel repl is on localhost:7002
+This will be the Clojure REPL (the Ring server).
+To start ClojureScript REPL: `(figwheel-sidecar.repl-api/cljs-repl)`
         
 
 

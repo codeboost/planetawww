@@ -19,7 +19,8 @@
                  [cljsjs/typedjs "1.1.1-0"]
                  [venantius/accountant "0.1.7" :exclusions [org.clojure/tools.reader]]
                  [clj-http "2.3.0"]
-                 [garden "1.3.2"]]
+                 [garden "1.3.2"]
+                 [cljsjs/react-draggable "3.0.3-0"]]
 
   :plugins [[lein-environ "1.0.2"]
             [lein-cljsbuild "1.1.1"]

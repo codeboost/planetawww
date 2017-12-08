@@ -6,15 +6,18 @@
 ;   You must not remove this notice, or any other, from this software.
 
 (ns plawww.media-player
-  (:require [reagent.core :as r]
-            [plawww.ui :as ui]
-            [plawww.media-item-detail :as detail]
-            [plawww.utils :as utils]
-            [reagent.session :as session]
-            [clojure.string :as str]
-            [cljs.core.async :refer [put!]]
-            [reagent.interop :refer-macros [$ $!]]))
+  (:require
+   [cljs.core.async :refer [put!]]
+   [cljsjs.react-draggable]
+   [clojure.string :as str]
+   [reagent.core :as r]
+   [reagent.session :as session]
+   [reagent.interop :refer-macros [$ $!]]
+   [plawww.media-item-detail :as detail]
+   [plawww.ui :as ui]
+   [plawww.utils :as utils]))
 
+(def draggable (r/adapt-react-class js/ReactDraggable))
 
 (defn send-player-command [command]
   (when-let [channel (session/get-in [:audio-player-control-channel])]
@@ -125,13 +128,15 @@
 (defn player []
   (let [player-state (session/cursor [:player-state])]
     (fn []
-      (if (and @player-state (@player-state :visible))
-        [:div.player.window.vstack {:class (when (@player-state :detail-visible) "detail")}
-         [item-details-area player-state]
-         [:div.toolbar]
-         [:div.content
-          [player-view @player-state]]]
-        [:div.player.window.hidden]))))
+      [draggable
+       {:grid [25 25]}
+       (if (and @player-state (@player-state :visible))
+          [:div.player.window.vstack {:class (when (@player-state :detail-visible) "detail")}
+           [item-details-area player-state]
+           [:div.toolbar]
+           [:div.content
+            [player-view @player-state]]]
+          [:div.player.window.hidden])])))
 
 
 

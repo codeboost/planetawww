@@ -14,27 +14,18 @@
             [plawww.media-item-detail :as media-item-detail]
             [plawww.search-component :refer [search-component]]))
 
-
-(def default-options {:group-by      :tag
+(def default-options {:group-by       :tag
                       :item-view-mode :plain
-                      :dirty         true
-                      :search-string ""
-                      :cur-letter ""
-                      :expand-all?   false
-                      :tags          #{}})
+                      :search-string  ""
+                      :cur-letter     ""
+                      :tags           #{}})
 
 (defonce *display-options* (r/atom default-options))
-
 
 (defn item->li [{:keys [title id]}]
   "Menu item to hiccup."
   (let [href (str "/media/" id)]
     ^{:key id} [:li [:a {:href href} title]]))
-
-
-(defn in? [coll el]
-  (some #(= el %) coll))
-
 
 (defn search-match? [title search-string]
   (or (str/blank? search-string)
@@ -42,35 +33,25 @@
         (str/lower-case title)
         (str/lower-case search-string))))
 
-
-(defn toggle-atom-on-click [a]
+(defn a-toggle
+  "Returns a click handler, which, when called, toggles the atom's value (using `not`).
+  Presumably, the atom contains a `boolean` value."
+  [*a]
   (fn [e]
     (.preventDefault e)
-    (reset! a (not @a))))
+    (reset! *a (not @*a))))
 
-
-(defn class-for-title [expanded?]
-  (if expanded? "opened" ""))
-
-
-(defn menu->hiccup [{:keys [title items] :as menu} expanded?]
+(defn menu->hiccup [{:keys [title items] :as menu} *expanded?]
   "Renders a menu and its items"
   [:div.menu
-   [:div.title [:a {:on-click (toggle-atom-on-click expanded?)
-                    :class    (class-for-title @expanded?)} title]]
-   (when (and @expanded? (pos? (count items)))
-     (into [:ul.items] items))])
+   [:div.title
+    [:a {:on-click (a-toggle *expanded?)
+         :class    (if @*expanded? "opened" "")} title]]
+   (when (and @*expanded? (pos? (count items)))
+    [:ul.items items])])
 
-
-(defn group->menu [{:keys [title items num-items]} is-expanded? itemfn]
-  (let [expanded? (r/atom is-expanded?)
-        menu {:title title
-              :items (map itemfn items)}]
-    [menu->hiccup menu expanded?]))
-
-
-(defn tag-component [{:keys [title items num-items]} is-expanded? itemfn]
-  (let [expanded? (r/atom is-expanded?)
+(defn tag-component [{:keys [title items num-items]} expanded? itemfn]
+  (let [expanded? (r/atom expanded?)
         menu {:title (str/upper-case title)
               :items (map itemfn items)}]
     [menu->hiccup menu expanded?]))
@@ -83,7 +64,6 @@
             (some (fn [a-tag]
                     (= a-tag tag)) tags)) media-items))
 
-
 (defn tags-from-items
   "Returns a set of unique tags extracted from the media items."
   [media-items]
@@ -92,7 +72,6 @@
        (apply concat)
        (map str/trim)
        (set)))
-
 
 (defn by-tags [media-items]
   "Returns a list of maps with following keys: [:tag :items :num-items]"
@@ -108,23 +87,18 @@
                   :items     items
                   :num-items num-items})) tags)))))
 
-
 (defonce padding-menus (vec (repeat 16 [:div.menu [:div.title]])))
 
-
-(defn render-by-tags [media-items expand-all? itemfn]
+(defn render-by-tags [media-items]
   (let [by-tags* (memoize by-tags)
         tagged (by-tags* media-items)
-        menus (mapv #(tag-component % expand-all? itemfn) tagged)
+        menus (mapv #(tag-component % false item->li) tagged)
         menus (into menus padding-menus)]
     (into [:div.media-items.horiz-container] menus)))
-
-;-----------------------------
 
 (defn search-in-items [media-items search-string]
   (filter (fn [{:keys [title]}]
             (search-match? title search-string)) media-items))
-
 
 (defn extract-first-letter [str]
   (let [letter (or (first (str/trim str)) "#")
@@ -134,17 +108,13 @@
                  letter)]
     letter))
 
-
 (defn starts-with-letter? [word letter]
   (cond
     (= "#" letter) (some? (re-matches #"[0-9]+" (first (str/trim word))))
     :else (str/starts-with? (str/lower-case word) (str/lower-case letter))))
 
-
 (defn first-letters [items]
   (apply sorted-set (map #(extract-first-letter (:title %)) items)))
-
-
 
 (defn alphabet-component [letters selected on-click]
   (into [:ul]
@@ -155,10 +125,8 @@
                                 (on-click letter))
                     :class (if (starts-with-letter? letter selected) "selected" "")} letter]])))
 
-
 (defn render-items [items itemfn]
   (into [:ul.items] (map itemfn items)))
-
 
 (defn starting-with [items first-letter]
   (let [filtered
@@ -167,7 +135,6 @@
             (starts-with-letter? title first-letter)) items)]
     filtered))
 
-
 (defn render-alphabet [*letter items]
   [:div.alphabet
    [alphabet-component
@@ -175,32 +142,25 @@
     @*letter
     #(reset! *letter %)]])
 
-
-(defn render-by-letter2 [*letter items itemfn]
+(defn render-by-letter [*letter items]
   [:div.by-letters
    (render-alphabet *letter items)
-   [render-items (starting-with items @*letter) itemfn]])
+   [render-items (starting-with items @*letter) item->li]])
 
-
-(defn render-search-results [search-string items itemfn]
+(defn render-search-results [search-string items]
   (let [results (search-in-items items search-string)]
-    [render-items results itemfn]))
-
+    [render-items results item->li]))
 
 (defn media-items-component [items opts]
-    (let [{:keys [group-by search-string expand-all? item-view-mode]} @opts
+    (let [{:keys [group-by search-string item-view-mode]} @opts
           searching? (not (str/blank? search-string))
           group-by (if searching? :plain group-by)
-          itemfn (if (= item-view-mode :plain)
-                   item->li
-                   media-item-detail/item->detail-item)
           *letter (r/cursor opts [:cur-letter])]
       (cond
-        (= group-by :tag) (render-by-tags items expand-all? itemfn)
+        (= group-by :tag) (render-by-tags items)
         (= group-by :plain)
-        (if searching? (render-search-results search-string items itemfn)
-                       (render-by-letter2 *letter items itemfn)))))
-
+        (if searching? (render-search-results search-string items)
+                       (render-by-letter *letter items)))))
 
 (defn medialist [opts media-items]
   (let [opts *display-options*]

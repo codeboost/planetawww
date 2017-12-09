@@ -50,14 +50,13 @@
 
 (defn group-mode-button
   "Sugar for group-by button"
-  [aopts]
-  [option-button aopts :group-by {:tag   "BUC"
+  [*opts]
+  [option-button *opts :group-by {:tag   "BUC"
                                   :plain "TĂG"}])
 
 (defn- search-component-filters [opts]
-  (let [{:keys [group-by display dirty]} @opts]
-    [:div.filters
-     [group-mode-button opts]]))
+  [:div.filters
+   [group-mode-button opts]])
 
 (defn random-search-prompt []
   (let [prompts ["CE DORITI?"

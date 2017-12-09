@@ -71,7 +71,7 @@
 
 (defn tag-component [{:keys [title items num-items]} is-expanded? itemfn]
   (let [expanded? (r/atom is-expanded?)
-        menu {:title title
+        menu {:title (str/upper-case title)
               :items (map itemfn items)}]
     [menu->hiccup menu expanded?]))
 
@@ -88,7 +88,7 @@
   "Returns a set of unique tags extracted from the media items."
   [media-items]
   (->> media-items
-       (map (fn [{:keys [tags]}] tags))
+       (map :tags)
        (apply concat)
        (map str/trim)
        (set)))
@@ -113,7 +113,8 @@
 
 
 (defn render-by-tags [media-items expand-all? itemfn]
-  (let [tagged (by-tags media-items)
+  (let [by-tags* (memoize by-tags)
+        tagged (by-tags* media-items)
         menus (mapv #(tag-component % expand-all? itemfn) tagged)
         menus (into menus padding-menus)]
     (into [:div.media-items.horiz-container] menus)))

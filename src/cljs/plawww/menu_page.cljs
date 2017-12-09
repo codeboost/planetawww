@@ -14,8 +14,8 @@
                     :items [{:text "O carte"}
                             {:text "Alta carte"}]}
             :video {:title "Video"
-                    :items [{:text "Una"}]}
-            })
+                    :items [{:text "Una"}]}})
+
 
 (defn render-menu [name show-back?]
   (let [menu (or (MENUS (keyword name)) (MENUS :main))]

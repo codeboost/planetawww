@@ -130,7 +130,7 @@
     (fn []
       [draggable
        {:grid [25 25]}
-       (if (and @player-state (@player-state :visible))
+       (if (:visible @player-state)
           [:div.player.window.vstack {:class (when (@player-state :detail-visible) "detail")}
            [item-details-area player-state]
            [:div.toolbar]

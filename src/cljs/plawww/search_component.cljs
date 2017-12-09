@@ -5,10 +5,12 @@
 ;   the terms of this license.
 ;   You must not remove this notice, or any other, from this software.
 
-
 (ns plawww.search-component
   (:require [clojure.string :as str]
             [reagent.core :as r]))
+
+;Can be done better, but I'll leave it as testament of how learning improves over time.
+;This means that hopefully I now write better clojure than when I wrote this.
 
 (defn rotopt
   "Rotate option.
@@ -23,7 +25,6 @@
   (let [cur (@aopts opt)
         nextv (rotopt options cur)]
     (swap! aopts conj (hash-map opt nextv))))
-
 
 (defn- search-input
   "Renders the search input box and swaps the :search-string "
@@ -45,49 +46,31 @@
                   (name keyname))
         cls (if classes (classes cur) "")
         options (keys opts)]
-    (toggle-button title cls #(rotate-aopt aopts keyname options))))
-
-;----------------------
+    [toggle-button title cls #(rotate-aopt aopts keyname options)]))
 
 (defn group-mode-button
   "Sugar for group-by button"
   [aopts]
-  (option-button aopts :group-by {:tag   "BUC"
-                                  :plain "TĂG"}))
+  [option-button aopts :group-by {:tag   "BUC"
+                                  :plain "TĂG"}])
 
-;----------------------
-
-(defn item-view-button
-  "Sugar for item-view-mode button"
-  [aopts]
-  (option-button aopts :item-view-mode {:plain  "DET"
-                                        :detail "TXT"}))
-
-;----------------------
-
-(defn on-off-button [aopts keyname txts]
-  (option-button aopts :expand-all?
-                 (zipmap [true false] txts)
-                 {true "on" false ""}))
-
-(defn toggle-expand-all-button [aopts]
-  (on-off-button aopts :expand-all? [" + " " - "]))
-
-;----------------------
-
-(defn- search-component-filters [search-settings]
-  (let [{:keys [group-by display dirty]} @search-settings]
+(defn- search-component-filters [opts]
+  (let [{:keys [group-by display dirty]} @opts]
     [:div.filters
-     (group-mode-button search-settings)
-     (toggle-expand-all-button search-settings)
-     (item-view-button search-settings)]))
+     [group-mode-button opts]]))
 
 (defn random-search-prompt []
   (let [prompts ["CE DORITI?"
                  "CU CE VA PUTEM SERVI?"
                  "SRCH:"
                  "CAUT:"
-                 "SI VREI?"]
+                 "SI VREI?"
+                 "PRAPADIT?"
+                 "TOARNA:"
+                 "SHOPTESHTE:"
+                 "AMNEZIE?"
+                 "VEI GASI:"
+                 "PROBLEME?"]
         index (rand-int (count prompts))]
     (nth prompts index)))
 
@@ -95,6 +78,23 @@
   [:div.search-component
    [:div.search-text (random-search-prompt)]
    [search-input search-settings :search-string]
-   [search-component-filters search-settings]
-   ])
+   [search-component-filters search-settings]])
 
+
+
+
+
+(comment
+ (defn item-view-button
+   "Sugar for item-view-mode button"
+   [aopts]
+   (option-button aopts :item-view-mode {:plain  "DET"
+                                         :detail "TXT"}))
+
+ (defn on-off-button [aopts keyname txts]
+   (option-button aopts :expand-all?
+                  (zipmap [true false] txts)
+                  {true "on" false ""}))
+
+ (defn toggle-expand-all-button [aopts]
+   (on-off-button aopts :expand-all? [" + " " - "])))

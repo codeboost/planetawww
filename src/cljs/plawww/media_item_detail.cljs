@@ -27,11 +27,11 @@
    [:div.description (or description "")]])
 
 (defn item->detail-item [item]
-  ^{:key (:id item)} [:li.detail-media-item
+  ^{:key (:id item)} [:li.detail-media-item]
    [ui/list-view-cell
     (image-path item)
     [item-content item]
-    [:div.item-accessory]]])
+    [:div.item-accessory]])
 
 (defn duration-comp [{:keys [duration]}]
   [:div.duration (utils/format-duration duration)])

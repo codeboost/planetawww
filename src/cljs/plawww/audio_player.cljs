@@ -49,6 +49,7 @@
                :onplay   (fn [] (set-playback-state :play))
                :onpause  (fn [] (set-playback-state :pause))
                :onresume (fn [] (set-playback-state :play))}))]
+
     s))
 
 

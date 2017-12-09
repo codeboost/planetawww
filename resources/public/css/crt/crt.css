@@ -120,8 +120,7 @@ h1.ok-button {
   text-align: center;
 }
 .search-component .filters {
-  margin-top: 8px;
-  height: 48px;
+  margin-top: 4px;
   float: left;
 }
 button.toggle-button {

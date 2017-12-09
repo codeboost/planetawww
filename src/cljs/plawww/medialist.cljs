@@ -6,13 +6,15 @@
 ;   You must not remove this notice, or any other, from this software.
 
 (ns plawww.medialist
-  (:require [clojure.string :as str]
-            [cljsjs.typedjs]
-            [reagent.core :as r]
-            [reagent.session :as session]
-            [cljs.test :refer-macros [deftest is testing run-tests]]
-            [plawww.media-item-detail :as media-item-detail]
-            [plawww.search-component :refer [search-component]]))
+  (:require
+   [cljsjs.typedjs]
+   [cljs.test :refer-macros [deftest is testing run-tests]]
+   [clojure.string :as str]
+   [plawww.media-item-detail :as media-item-detail]
+   [plawww.search-component :refer [search-component]]
+   [plawww.utils :as utils]
+   [reagent.core :as r]
+   [reagent.session :as session]))
 
 (def default-options {:group-by       :tag
                       :item-view-mode :plain
@@ -33,8 +35,8 @@
         (str/lower-case title)
         (str/lower-case search-string))))
 
-(defn a-toggle
-  "Returns a click handler, which, when called, toggles the atom's value (using `not`).
+(defn toggle-atom-handler
+  "Returns click handler, which, when called, toggles the atom's value (using `not`).
   Presumably, the atom contains a `boolean` value."
   [*a]
   (fn [e]
@@ -42,27 +44,22 @@
     (reset! *a (not @*a))))
 
 (defn menu->hiccup [{:keys [title items] :as menu} *expanded?]
-  "Renders a menu and its items"
+  "Renders a menu and its items.
+  A 'menu' in this context is a div which displays a title and optionally a `ul` containing  child items."
   [:div.menu
    [:div.title
-    [:a {:on-click (a-toggle *expanded?)
+    [:a {:on-click (toggle-atom-handler *expanded?)
          :class    (if @*expanded? "opened" "")} title]]
    (when (and @*expanded? (pos? (count items)))
     [:ul.items items])])
 
-(defn tag-component [{:keys [title items num-items]} expanded? itemfn]
+(defn tag-component
+  ""
+  [{:keys [title items num-items]} expanded?]
   (let [expanded? (r/atom expanded?)
         menu {:title (str/upper-case title)
-              :items (map itemfn items)}]
+              :items (map item->li items)}]
     [menu->hiccup menu expanded?]))
-
-
-;--------------- BY TAGS
-(defn items-for-tag [media-items tag]
-  "Returns items from media-items which contain the tag `tag`."
-  (filter (fn [{:keys [tags]}]
-            (some (fn [a-tag]
-                    (= a-tag tag)) tags)) media-items))
 
 (defn tags-from-items
   "Returns a set of unique tags extracted from the media items."
@@ -73,26 +70,45 @@
        (map str/trim)
        (set)))
 
+(defn items-for-tag [media-items tag]
+  "Returns items from media-items which contain the tag `tag`."
+  (filter (fn [{:keys [tags]}]
+            (some #(= tag %) tags)) media-items))
+
+(defn- text->tag
+  "Make a tag struct from a tag title.
+  The returned tag structure contains the following keys:
+    :title     - title of the tag.
+    :items     - a vector where each element is a media item from `media-items` which is tagged with `tag-title`.
+    :num-items - number of elements in the items vector, for slightly faster sorts"
+  [media-items tag-title]
+  (let [items (items-for-tag media-items tag-title)
+        num-items (count items)]
+    {:title     tag-title
+     :items     items
+     :num-items num-items}))
+
+(defn- group-by-tag
+  "Groups media items from the `media-items` vector by tag.
+  Returns a collection of tag structures."
+  [media-items]
+  (let [tag-titles (tags-from-items media-items)
+        tags (mapv #(text->tag media-items %) tag-titles)]
+    tags))
+
 (defn by-tags [media-items]
   "Returns a list of maps with following keys: [:tag :items :num-items]"
-  (let [tags (tags-from-items media-items)]
-    (reverse
-      (sort-by
-        :num-items
-        (map (fn [tag]
-               (let [items (items-for-tag media-items tag)
-                     num-items (count items)
-                     items items]
-                 {:title     tag
-                  :items     items
-                  :num-items num-items})) tags)))))
+  (reverse
+    (sort-by
+      :num-items
+      (group-by-tag media-items))))
 
 (defonce padding-menus (vec (repeat 16 [:div.menu [:div.title]])))
 
 (defn render-by-tags [media-items]
   (let [by-tags* (memoize by-tags)
         tagged (by-tags* media-items)
-        menus (mapv #(tag-component % false item->li) tagged)
+        menus (mapv #(tag-component % false) tagged)
         menus (into menus padding-menus)]
     (into [:div.media-items.horiz-container] menus)))
 
@@ -100,21 +116,9 @@
   (filter (fn [{:keys [title]}]
             (search-match? title search-string)) media-items))
 
-(defn extract-first-letter [str]
-  (let [letter (or (first (str/trim str)) "#")
-        letter (str/upper-case letter)
-        letter (if (re-matches #"[0-9]+" letter)
-                 "#"
-                 letter)]
-    letter))
-
-(defn starts-with-letter? [word letter]
-  (cond
-    (= "#" letter) (some? (re-matches #"[0-9]+" (first (str/trim word))))
-    :else (str/starts-with? (str/lower-case word) (str/lower-case letter))))
 
 (defn first-letters [items]
-  (apply sorted-set (map #(extract-first-letter (:title %)) items)))
+  (apply sorted-set (map #(utils/extract-first-letter (:title %)) items)))
 
 (defn alphabet-component [letters selected on-click]
   (into [:ul]
@@ -123,7 +127,7 @@
           [:li [:a {:on-click (fn [e]
                                 (.preventDefault e)
                                 (on-click letter))
-                    :class (if (starts-with-letter? letter selected) "selected" "")} letter]])))
+                    :class (if (utils/starts-with-letter? letter selected) "selected" "")} letter]])))
 
 (defn render-items [items itemfn]
   (into [:ul.items] (map itemfn items)))
@@ -132,7 +136,7 @@
   (let [filtered
         (filter
           (fn [{:keys [title]}]
-            (starts-with-letter? title first-letter)) items)]
+            (utils/starts-with-letter? title first-letter)) items)]
     filtered))
 
 (defn render-alphabet [*letter items]
@@ -172,8 +176,6 @@
         [:div.page-content
          (let [items media-items]
            [media-items-component items opts])]])))
-
-;---
 
 (comment
 

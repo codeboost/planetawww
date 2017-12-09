@@ -51,8 +51,8 @@
 (defn group-mode-button
   "Sugar for group-by button"
   [*opts]
-  [option-button *opts :group-by {:tag   "BUC"
-                                  :plain "TĂG"}])
+  [option-button *opts :group-by {:tag   "LIT"
+                                  :plain "TAG"}])
 
 (defn- search-component-filters [opts]
   [:div.filters

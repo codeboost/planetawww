@@ -8,7 +8,6 @@
 (ns plawww.medialist.core
   (:require
    [cljsjs.typedjs]
-   [cljs.test :refer-macros [deftest is testing run-tests]]
    [clojure.string :as str]
    [plawww.medialist.alphabet :as alphabet]
    [plawww.media-item-detail :as media-item-detail]
@@ -21,6 +20,7 @@
                           :item-view-mode :plain
                           :search-string  ""
                           :cur-letter     ""
+                          :cur-tag        ""
                           :tags           #{}}))
 
 
@@ -48,21 +48,21 @@
     (.preventDefault e)
     (reset! *a (not @*a))))
 
-(defn menu->hiccup [{:keys [title items] :as menu} *expanded?]
+(defn menu->hiccup [{:keys [title items] :as menu} expanded?]
   "Renders a menu and its items.
   A 'menu' in this context is a div which displays a title and optionally a `ul` containing  child items."
   [:div.menu
    [:div.title
-    [:a {:on-click (toggle-atom-handler *expanded?)
-         :class    (if @*expanded? "opened" "")} title]]
-   (when (and @*expanded? (pos? (count items)))
-    [:ul.items items])])
+    [:a {:href  (str "/media/tag/" title)
+         :class (if expanded? "opened" "")}
+     title]
+    (when (and expanded? (pos? (count items)))
+      [:ul.items items])]])
 
 (defn tag-component
   ""
   [{:keys [title items num-items]} expanded?]
-  (let [expanded? (r/atom expanded?)
-        menu {:title (str/upper-case title)
+  (let [menu {:title (str/upper-case title)
               :items (map item->li items)}]
     [menu->hiccup menu expanded?]))
 
@@ -110,10 +110,16 @@
 
 (defonce padding-menus (vec (repeat 16 [:div.menu [:div.title]])))
 
-(defn render-by-tags [media-items]
+(defn- expand? [{title :title} selected-tag]
+  (= (str/trim (str/lower-case title))
+     (str/trim (str/lower-case selected-tag))))
+
+;(expand? {:title "Hello" "HELLO"})
+
+(defn render-by-tags [media-items selected-tag]
   (let [by-tags* (memoize by-tags)
         tagged (by-tags* media-items)
-        menus (mapv #(tag-component % false) tagged)
+        menus (mapv #(tag-component % (expand? % selected-tag)) tagged)
         menus (into menus padding-menus)]
     (into [:div.media-items.horiz-container] menus)))
 
@@ -142,15 +148,15 @@
     [render-items results item->li]))
 
 (defn media-items-component [items opts]
-    (let [{:keys [group-by search-string item-view-mode]} @opts
-          searching? (not (str/blank? search-string))
-          group-by (if searching? :plain group-by)
-          *letter (r/cursor opts [:cur-letter])]
-      (cond
-        (= group-by :tag) (render-by-tags items)
-        (= group-by :plain)
-        (if searching? (render-search-results search-string items)
-                       (render-by-letter *letter items)))))
+  (let [{:keys [group-by search-string item-view-mode cur-tag]} @opts
+        searching? (not (str/blank? search-string))
+        group-by (if searching? :plain group-by)
+        *letter (r/cursor opts [:cur-letter])]
+    (cond
+      (= group-by :tag) (render-by-tags items cur-tag)
+      (= group-by :plain)
+      (if searching? (render-search-results search-string items)
+                     (render-by-letter *letter items)))))
 
 (defn media-page [media-items]
   (fn []

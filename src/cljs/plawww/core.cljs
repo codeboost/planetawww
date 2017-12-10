@@ -14,7 +14,6 @@
             [plawww.crt :refer [crt-page]]
             [plawww.welcome :as welcome]
             [plawww.medialist.core :as media-page]
-            [plawww.menu-page :as menu]
             [plawww.media-item-detail :as media-item-detail]
             [plawww.media-player :as media-player]
             [plawww.audio-player :as audio-player]
@@ -117,6 +116,12 @@
             (set-current-page (render-media-page))
             (media-page/set-opts {:cur-letter letter
                                   :group-by :plain})))
+
+(defroute "/media/tag/:tag" {tag :tag}
+          (do
+            (set-current-page (render-media-page))
+            (media-page/set-opts {:cur-tag tag
+                                  :group-by :tag})))
 
 (defroute "/test/" [q]
           (set-current-page (test-page q)))

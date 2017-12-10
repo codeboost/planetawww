@@ -6,9 +6,7 @@
   [:ul
    (for [letter letters]
      ^{:key letter}
-     [:li [:a {:on-click (fn [e]
-                           (.preventDefault e)
-                           (on-click letter))
+     [:li [:a {:href (str "/media/letter/" letter)
                :class (if (utils/starts-with-letter? letter selected) "selected" "")} letter]])])
 
 

@@ -5,25 +5,29 @@
 ;   the terms of this license.
 ;   You must not remove this notice, or any other, from this software.
 
-(ns plawww.medialist
+(ns plawww.medialist.core
   (:require
    [cljsjs.typedjs]
    [cljs.test :refer-macros [deftest is testing run-tests]]
    [clojure.string :as str]
    [plawww.medialist.alphabet :as alphabet]
    [plawww.media-item-detail :as media-item-detail]
-   [plawww.search-component :refer [search-component]]
+   [plawww.medialist.search-component :refer [search-component]]
    [plawww.utils :as utils]
    [reagent.core :as r]
    [reagent.session :as session]))
 
-(def default-options {:group-by       :tag
-                      :item-view-mode :plain
-                      :search-string  ""
-                      :cur-letter     ""
-                      :tags           #{}})
+(defonce *state* (r/atom {:group-by       :tag
+                          :item-view-mode :plain
+                          :search-string  ""
+                          :cur-letter     ""
+                          :tags           #{}}))
 
-(defonce *display-options* (r/atom default-options))
+
+(defn set-opts [opts]
+  (println "media-page/set-opts: " opts)
+  (swap! *state* merge opts))
+
 
 (defn item->li [{:keys [title id]}]
   "Menu item to hiccup."
@@ -148,44 +152,17 @@
         (if searching? (render-search-results search-string items)
                        (render-by-letter *letter items)))))
 
-(defn medialist [opts media-items]
-  (let [opts *display-options*]
-    (fn []
-       [:div.media-page
-        [:h4.page-title "PLANETA MOLDOVA"]
-        [search-component opts]
-        [:div.v16px]
-        [:div.page-content
-         (let [items media-items]
-           [media-items-component items opts])]])))
+(defn media-page [media-items]
+  (fn []
+    [:div.media-page
+     [:h4.page-title "PLANETA MOLDOVA"]
+     [search-component *state*]
+     [:div.v16px]
+     [:div.page-content
+      (let [items media-items]
+        [media-items-component items *state*])]]))
 
 (comment
-
   (def ALLMEDIA (session/get! :allmedia))
-
   (render-by-tags ALLMEDIA false item->li)
-
-  (deftest test-starts-with-first-letter?
-    (is (= true (starts-with-letter? "a" "a")))
-    (is (= true (starts-with-letter? "Alpha" "A")))
-    (is (= true (starts-with-letter? "beta" "B")))
-    (is (= false (starts-with-letter? "34" "B")))
-    (is (= true (starts-with-letter? "34" "#"))))
-
-  (deftest test-extract-first-letter
-    (is (= "A" (extract-first-letter "Alpha")))
-    (is (= "Z" (extract-first-letter "zebra")))
-    (is (= "#" (extract-first-letter "10 Lions")))
-    (is (= "#" (extract-first-letter "1984")))
-    (is (= "#" (extract-first-letter ""))))
-
-  (deftest test-first-letters
-    (is
-      (= #{"#" "A" "B" "G"}
-         (first-letters [{:title "Alpha"}
-                         {:title "Beta"}
-                         {:title "Gamma"}
-                         {:title "54"}]))))
-
-
   (run-tests))

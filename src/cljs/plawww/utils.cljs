@@ -40,3 +40,28 @@
    (into (sorted-set) (map #(extract-first-letter (:title %)) items)))
 
 
+
+(comment
+  ;TODO: Move to unit test
+
+  (deftest test-starts-with-first-letter?
+           (is (= true (starts-with-letter? "a" "a")))
+           (is (= true (starts-with-letter? "Alpha" "A")))
+           (is (= true (starts-with-letter? "beta" "B")))
+           (is (= false (starts-with-letter? "34" "B")))
+           (is (= true (starts-with-letter? "34" "#"))))
+
+  (deftest test-extract-first-letter
+           (is (= "A" (extract-first-letter "Alpha")))
+           (is (= "Z" (extract-first-letter "zebra")))
+           (is (= "#" (extract-first-letter "10 Lions")))
+           (is (= "#" (extract-first-letter "1984")))
+           (is (= "#" (extract-first-letter ""))))
+
+  (deftest test-first-letters
+           (is
+            (= #{"#" "A" "B" "G"}
+               (first-letters [{:title "Alpha"}
+                               {:title "Beta"}
+                               {:title "Gamma"}
+                               {:title "54"}])))))

@@ -8,12 +8,12 @@
 (ns plawww.core
   (:require [reagent.core :as reagent :refer [atom]]
             [reagent.session :as session]
-            [secretary.core :as secretary :include-macros true]
+            [secretary.core :as secretary :refer [defroute]]
             [accountant.core :as accountant]
             [clojure.string :as str]
             [plawww.crt :refer [crt-page]]
             [plawww.welcome :as welcome]
-            [plawww.medialist :refer [medialist]]
+            [plawww.medialist.core :as media-page]
             [plawww.menu-page :as menu]
             [plawww.media-item-detail :as media-item-detail]
             [plawww.media-player :as media-player]
@@ -35,7 +35,8 @@
 
 (defn hook-up-the-stuff
   []
-  (session/put! :allmedia ALLMEDIA)
+  (session/put! :media-items ALLMEDIA)
+
   (let [channel (plawww.audio-player/init)]
     (session/put! :audio-player-control-channel channel)
     (session/put! :player-state {:visible false
@@ -73,17 +74,14 @@
   [f]
   (session/put! :current-page f))
 
-(defn menu-page
-  [name]
-  (fn []
-    (print "The menu page is:" name)
-    (menu/menu-page name)))
-
-(defn media-page
-  [name]
+(defn render-media-page
+  []
   (fn []
     [crt-page
-      [medialist name ALLMEDIA]]))
+      [media-page/media-page ALLMEDIA]]))
+    ;(when opts
+    ;  (media-page/set-opts opts))))
+
 
 (defn detail-page
   [id]
@@ -102,35 +100,31 @@
 
 (secretary/set-config! :prefix "#")
 
-(secretary/defroute "/" []
-                    (session/put! :current-page #'welcome/page))
+(defroute "/" []
+          (session/put! :current-page #'welcome/page))
 
-(secretary/defroute "/about" []
-                    (session/put! :current-page #'about-page))
+(defroute "/about" []
+          (session/put! :current-page #'about-page))
 
-(secretary/defroute "/menu/" [] (set-current-page (menu-page "main")))
-(secretary/defroute "/menu" [] (set-current-page (menu-page "main")))
+(defroute "/media" [q]
+          (set-current-page (render-media-page)))
 
-(secretary/defroute menu-path "/menu/:menu-name" {menu-name :menu-name}
-                    (set-current-page (menu-page menu-name)))
+(defroute "/media/" [q]
+          (set-current-page (render-media-page)))
 
-(secretary/defroute "/media" [q]
-                    (set-current-page (media-page q)))
+(defroute "/media/letter/:letter" {letter :letter}
+          (do
+            (set-current-page (render-media-page))
+            (media-page/set-opts {:cur-letter letter
+                                  :group-by :plain})))
 
-(secretary/defroute "/media/" [q]
-                    (set-current-page (media-page q)))
+(defroute "/test/" [q]
+          (set-current-page (test-page q)))
 
-(secretary/defroute "/test/" [q]
-                    (set-current-page (test-page q)))
-
-;(secretary/defroute #"/media/([a-z]+)" [tag]
-;                    (set-current-page (media-page tag)))
-
-;(secretary/defroute #"/media/(\d+)" [id]
-(secretary/defroute #"/media/(\d+)" [id q]
+(defroute #"/media/(\d+)" [id q]
                     (update-player-state (js/parseInt id)))
 
-;(secretary/locate-route "/menu/")
+;(secretary/locate-route "/media/letter/X")
 
 ;; -------------------------
 ;; Initialize app

@@ -10,6 +10,7 @@
    [cljsjs.typedjs]
    [cljs.test :refer-macros [deftest is testing run-tests]]
    [clojure.string :as str]
+   [plawww.medialist.alphabet :as alphabet]
    [plawww.media-item-detail :as media-item-detail]
    [plawww.search-component :refer [search-component]]
    [plawww.utils :as utils]
@@ -116,35 +117,16 @@
   (filter (fn [{:keys [title]}]
             (search-match? title search-string)) media-items))
 
-
-(defn first-letters [items]
-  (apply sorted-set (map #(utils/extract-first-letter (:title %)) items)))
-
-(defn alphabet-component [letters selected on-click]
-  (into [:ul]
-        (for [letter letters]
-          ^{:key letter}
-          [:li [:a {:on-click (fn [e]
-                                (.preventDefault e)
-                                (on-click letter))
-                    :class (if (utils/starts-with-letter? letter selected) "selected" "")} letter]])))
-
 (defn render-items [items itemfn]
-  (into [:ul.items] (map itemfn items)))
+  (into [:ul.items] (mapv itemfn items)))
 
-(defn starting-with [items first-letter]
-  (let [filtered
-        (filter
-          (fn [{:keys [title]}]
-            (utils/starts-with-letter? title first-letter)) items)]
-    filtered))
+(defn starting-with
+  "Returns the items who's `:title` starts with `letter`."
+  [items letter]
+  (filter #(utils/starts-with-letter? (:title %) letter) items))
 
 (defn render-alphabet [*letter items]
-  [:div.alphabet
-   [alphabet-component
-    (first-letters items)
-    @*letter
-    #(reset! *letter %)]])
+  [alphabet/alphabet-component *letter (utils/first-letters items)])
 
 (defn render-by-letter [*letter items]
   [:div.by-letters

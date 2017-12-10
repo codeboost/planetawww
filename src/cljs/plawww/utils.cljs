@@ -23,6 +23,7 @@
    `letter` can be any substring of length >= 1."
   [word letter]
   (cond
+    (zero? (count letter)) false
     (= "#" letter) (some? (re-matches #"[0-9]+" (first (str/trim word))))
     :else (str/starts-with? (str/lower-case word) (str/lower-case letter))))
 

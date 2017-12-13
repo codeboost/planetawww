@@ -106,10 +106,14 @@
           (session/put! :current-page #'about-page))
 
 (defroute "/media" [q]
-          (set-current-page (render-media-page)))
+          (set-current-page (render-media-page))
+          (media-page/set-opts {:cur-tag ""
+                                :group-by :tag}))
 
 (defroute "/media/" [q]
-          (set-current-page (render-media-page)))
+          (set-current-page (render-media-page))
+          (media-page/set-opts {:cur-tag ""
+                                :group-by :tag}))
 
 (defroute "/media/letter/:letter" {letter :letter}
           (do

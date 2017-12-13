@@ -28,7 +28,6 @@
   (println "media-page/set-opts: " opts)
   (swap! *state* merge opts))
 
-
 (defn item->li [{:keys [title id]}]
   "Menu item to hiccup."
   (let [href (str "/media/" id)]
@@ -75,10 +74,14 @@
        (map str/trim)
        (set)))
 
+(defn equal-tag? [tag1 tag2]
+  (= (str/trim (str/lower-case tag1))
+     (str/trim (str/lower-case tag2))))
+
 (defn items-for-tag [media-items tag]
   "Returns items from media-items which contain the tag `tag`."
   (filter (fn [{:keys [tags]}]
-            (some #(= tag %) tags)) media-items))
+            (some #(equal-tag? tag %) tags)) media-items))
 
 (defn- text->tag
   "Make a tag struct from a tag title.
@@ -114,14 +117,37 @@
   (= (str/trim (str/lower-case title))
      (str/trim (str/lower-case selected-tag))))
 
-;(expand? {:title "Hello" "HELLO"})
-
-(defn render-by-tags [media-items selected-tag]
+(defn old-render-tag-list [media-items selected-tag]
   (let [by-tags* (memoize by-tags)
         tagged (by-tags* media-items)
         menus (mapv #(tag-component % (expand? % selected-tag)) tagged)
         menus (into menus padding-menus)]
     (into [:div.media-items.horiz-container] menus)))
+
+
+(defn render-tag-list [media-items]
+  (into [:div.media-items.horiz-container]
+    (->> media-items
+     (tags-from-items)
+     (filter (comp pos? count))
+     (map #(text->tag [] %))
+     (map #(tag-component % false)))))
+
+
+(defn render-one-tag [media-items selected-tag]
+  (let [items (items-for-tag media-items selected-tag)]
+    [:div.media-items.horiz-container
+     (tag-component {:title selected-tag
+                     :items items
+                     :num-items (count items)} true)]))
+
+(comment
+  (->>
+    (session/get :media-items)
+    (tags-from-items)
+    (filter (comp pos? count))
+    (map #(text->tag [] %))
+    (map #(tag-component % false))))
 
 (defn search-in-items [media-items search-string]
   (filter (fn [{:keys [title]}]
@@ -153,7 +179,10 @@
         group-by (if searching? :plain group-by)
         *letter (r/cursor opts [:cur-letter])]
     (cond
-      (= group-by :tag) (render-by-tags items cur-tag)
+      (= group-by :tag)
+      (if (pos? (count cur-tag))
+        (render-one-tag items cur-tag)
+        (render-tag-list items))
       (= group-by :plain)
       (if searching? (render-search-results search-string items)
                      (render-by-letter *letter items)))))
@@ -168,7 +197,3 @@
       (let [items media-items]
         [media-items-component items *state*])]]))
 
-(comment
-  (def ALLMEDIA (session/get! :allmedia))
-  (render-by-tags ALLMEDIA false item->li)
-  (run-tests))

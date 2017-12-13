@@ -4,24 +4,24 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
 
-  :dependencies [[org.clojure/clojure "1.8.0"]
-                 [ring-server "0.4.0"]
+  :dependencies [[binaryage/devtools "0.9.8"]
+                 [clj-http "3.7.0"]
+                 [cljsjs/typedjs "1.1.1-0"] ;jquery plugin that types
+                 [cljsjs/react-draggable "3.0.3-0"] ;draggable
+                 [compojure "1.6.0"]
+                 [garden "1.3.3"]
+                 [hiccup "1.0.5"]
+                 [org.clojure/clojure "1.8.0"]
+                 [org.clojure/clojurescript "1.9.946" :scope "provided"]
                  [reagent "0.6.0"]
-                 [re-frame "0.9.0"]
                  [reagent-utils "0.2.0"]
                  [ring "1.5.0"]
+                 [ring-server "0.4.0"]
                  [ring/ring-defaults "0.2.1"]
-                 [compojure "1.5.1"]
-                 [hiccup "1.0.5"]
-                 [yogthos/config "0.8"]
-                 [org.clojure/clojurescript "1.9.473" :scope "provided"]
                  [secretary "1.2.3"]
-                 [cljsjs/typedjs "1.1.1-0"]
                  [venantius/accountant "0.1.7" :exclusions [org.clojure/tools.reader]]
-                 [clj-http "2.3.0"]
-                 [garden "1.3.2"]
-                 [cljsjs/react-draggable "3.0.3-0"]
-                 [binaryage/devtools "0.9.4"]]
+                 [yogthos/config "0.8"]]
+
 
   :plugins [[lein-environ "1.0.2"]
             [lein-cljsbuild "1.1.1"]

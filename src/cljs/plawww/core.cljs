@@ -6,20 +6,21 @@
 ;   You must not remove this notice, or any other, from this software.
 
 (ns plawww.core
-  (:require [reagent.core :as reagent :refer [atom]]
-            [reagent.session :as session]
-            [secretary.core :as secretary :refer [defroute]]
-            [accountant.core :as accountant]
-            [clojure.string :as str]
-            [plawww.crt :refer [crt-page]]
-            [plawww.welcome :as welcome]
-            [plawww.medialist.core :as media-page]
-            [plawww.media-item-detail :as media-item-detail]
-            [plawww.media-player :as media-player]
-            [plawww.audio-player :as audio-player]
-            [plawww.paths :as paths]
-            [cljs.core.async :refer [put!]]
-            [cljsjs.typedjs]))
+  (:require
+   [accountant.core :as accountant]
+   [cljs.core.async :refer [put!]]
+   [cljsjs.typedjs]
+   [clojure.string :as str]
+   [plawww.crt :refer [crt-page]]
+   [plawww.welcome :as welcome]
+   [plawww.medialist.core :as media-page]
+   [plawww.media-item-detail :as media-item-detail]
+   [plawww.media-player :as media-player]
+   [plawww.audio-player :as audio-player]
+   [plawww.paths :as paths]
+   [reagent.core :as reagent :refer [atom]]
+   [reagent.session :as session]
+   [secretary.core :as secretary :refer [defroute]]))
 
 
 (defonce ALLMEDIA (:media (js->clj js/kolbasulPlanetar :keywordize-keys true)))
@@ -34,6 +35,7 @@
 
 (defn hook-up-the-stuff
   []
+  (println "hook-up-the-stuff")
   (session/put! :media-items ALLMEDIA)
 
   (let [channel (plawww.audio-player/init)]
@@ -97,6 +99,18 @@
 ;; -------------------------
 ;; Routes
 
+(defn media-items-by-letter [letter]
+  (set-current-page (render-media-page))
+  (media-page/set-opts {:cur-letter (or letter "")
+                        :group-by :plain}))
+
+(defn media-items-by-tag [tag]
+  (println "THE TAG IS " tag)
+  (set-current-page (render-media-page))
+  (media-page/set-opts {:cur-tag (or tag "")
+                        :group-by :tag}))
+
+
 (secretary/set-config! :prefix "#")
 
 (defroute "/" []
@@ -105,35 +119,28 @@
 (defroute "/about" []
           (session/put! :current-page #'about-page))
 
-(defroute "/media" [q]
+(defroute #"/media/?" [q]
           (set-current-page (render-media-page))
           (media-page/set-opts {:cur-tag ""
                                 :group-by :tag}))
 
-(defroute "/media/" [q]
-          (set-current-page (render-media-page))
-          (media-page/set-opts {:cur-tag ""
-                                :group-by :tag}))
+(defroute #"/media/(\d+)" [id q]
+          (update-player-state (js/parseInt id)))
 
-(defroute "/media/letter/:letter" {letter :letter}
-          (do
-            (set-current-page (render-media-page))
-            (media-page/set-opts {:cur-letter letter
-                                  :group-by :plain})))
+(defroute #"/media/letter/?([a-zA-Z])?" [letter]
+          (media-items-by-letter letter))
 
-(defroute "/media/tag/:tag" {tag :tag}
-          (do
-            (set-current-page (render-media-page))
-            (media-page/set-opts {:cur-tag tag
-                                  :group-by :tag})))
+(defroute #"/media/tag/?" []
+          (media-items-by-tag ""))
+
+(defroute "/media/tag/:tag" [tag]
+          (println "Tag: " tag)
+          (media-items-by-tag tag))
 
 (defroute "/test/" [q]
           (set-current-page (test-page q)))
 
-(defroute #"/media/(\d+)" [id q]
-                    (update-player-state (js/parseInt id)))
-
-;(secretary/locate-route "/media/letter/X")
+(secretary/locate-route "/media/tag/ab")
 
 ;; -------------------------
 ;; Initialize app

@@ -54,9 +54,19 @@
   [option-button *opts :group-by {:tag   "LIT"
                                   :plain "TAG"}])
 
+
+(defn- button-tags []
+  [:button.toggle-button
+   [:a {:href "/media/tag"} "TAGURI"]])
+(defn- button-letters []
+  [:button.toggle-button
+   [:a {:href "/media/letter"} "BUCHII"]])
+
 (defn- search-component-filters [opts]
   [:div.filters
-   [group-mode-button opts]])
+   [button-tags]
+   [button-letters]])
+
 
 (defn random-search-prompt []
   (let [prompts ["CE DORITI?"

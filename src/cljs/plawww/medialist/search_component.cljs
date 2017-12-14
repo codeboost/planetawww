@@ -55,17 +55,18 @@
                                   :plain "TAG"}])
 
 
-(defn- button-tags []
-  [:button.toggle-button
+(defn- button-tags [selected?]
+  [:button.toggle-button {:class-name (if selected? :on "")}
    [:a {:href "/media/tag"} "TAGURI"]])
-(defn- button-letters []
-  [:button.toggle-button
+(defn- button-letters [selected?]
+  [:button.toggle-button {:class-name (if selected? :on "")}
    [:a {:href "/media/letter"} "BUCHII"]])
 
-(defn- search-component-filters [opts]
+(defn- search-component-filters [state]
+  (print "State is: " @state)
   [:div.filters
-   [button-tags]
-   [button-letters]])
+   [button-tags (= :tag (:group-by @state))]
+   [button-letters (= :plain (:group-by @state))]])
 
 
 (defn random-search-prompt []
@@ -83,11 +84,11 @@
         index (rand-int (count prompts))]
     (nth prompts index)))
 
-(defn search-component [search-settings]
+(defn search-component [state]
   [:div.search-component
    [:div.search-text (random-search-prompt)]
-   [search-input search-settings :search-string]
-   [search-component-filters search-settings]])
+   [search-input state :search-string]
+   [search-component-filters state]])
 
 
 

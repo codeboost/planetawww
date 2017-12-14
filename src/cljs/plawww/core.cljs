@@ -41,6 +41,7 @@
   (let [channel (plawww.audio-player/init)]
     (session/put! :audio-player-control-channel channel)
     (session/put! :player-state {:visible false
+                                 :detail-visible true
                                  :position 0
                                  :item {:title ""
                                         :duration 0}})
@@ -63,7 +64,8 @@
           media-item (assoc media-item :image image-path)]
       (session/update-in! [:player-state] merge {:position 0
                                                  :item     media-item
-                                                 :visible true}))))
+                                                 :visible true
+                                                 :detail-visible true}))))
 
 (defn current-page []
   (let [page (session/get :current-page)]

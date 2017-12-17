@@ -218,13 +218,13 @@ button.toggle-button:focus {
   border-radius: 23px;
 }
 .window .content {
-  margin: 8px;
+  margin: 4px;
 }
 .player {
   z-index: 999;
   position: absolute;
   bottom: 16px;
-  height: 160px;
+  height: auto;
   justify-content: center;
   align-items: stretch;
   align-content: stretch;
@@ -236,10 +236,6 @@ button.toggle-button:focus {
     left: 8px;
     right: 8px;
   }
-}
-.player .toolbar {
-  height: 40px;
-  border-bottom: 1px solid #14fdce;
 }
 .player .detail {
   padding: 20px;
@@ -258,7 +254,7 @@ button.toggle-button:focus {
   color: #031e11;
 }
 .player .bottom-part {
-  margin-top: 10px;
+  margin-top: 4px;
 }
 .player .content {
   flex: 1;

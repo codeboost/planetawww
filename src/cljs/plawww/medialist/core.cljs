@@ -10,7 +10,6 @@
    [cljsjs.typedjs]
    [clojure.string :as str]
    [plawww.medialist.alphabet :as alphabet]
-   [plawww.media-item-detail :as media-item-detail]
    [plawww.medialist.search-component :refer [search-component]]
    [plawww.utils :as utils]
    [reagent.core :as r]

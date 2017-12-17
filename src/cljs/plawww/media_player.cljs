@@ -97,8 +97,6 @@
 
 (defn list-view-cell[image content accessory-view]
   [:div.lv-cell.hstack
-   [:div.image-area
-    [:img.image {:src image}]]
    [:div.content-area content]
    [:div.accessory-area accessory-view]])
 
@@ -133,7 +131,6 @@
        (if (:visible @player-state)
           [:div.player.window.vstack {:class (when (@player-state :detail-visible) "detail")}
            [item-details-area player-state]
-           [:div.toolbar]
            [:div.content
             [player-view @player-state]]]
           [:div.player.window.hidden])])))

@@ -87,7 +87,7 @@ h1.ok-button {
 }
 .media-items {
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: column;
   justify-content: center;
 }
 @media (max-width: 478px) {
@@ -276,7 +276,7 @@ button.toggle-button:focus {
 }
 .player .controls .progress-bar {
   flex-grow: 0;
-  height: 6px;
+  height: 16px;
   border: 1px solid #14fdce;
 }
 .player .controls .progress-bar .progress-bar-progress {

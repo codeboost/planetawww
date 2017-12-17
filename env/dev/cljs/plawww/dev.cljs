@@ -8,7 +8,7 @@
 (devtools/install!)
 
 (figwheel/watch-and-reload
-  :websocket-url "ws://192.168.1.38:3449/figwheel-ws"
+  ;:websocket-url "ws://192.168.1.38:3449/figwheel-ws"
   :jsload-callback core/mount-root)
 
 (core/init!)

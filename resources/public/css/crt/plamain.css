@@ -68,7 +68,7 @@ ul {
 }
 .media-items {
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: column;
   justify-content: center;
 }
 @media (max-width: 478px) {

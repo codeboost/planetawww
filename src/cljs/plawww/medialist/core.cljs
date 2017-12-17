@@ -21,6 +21,7 @@
                           :search-string  ""
                           :cur-letter     ""
                           :cur-tag        ""
+                          :show-all?      false
                           :tags           #{}}))
 
 
@@ -60,7 +61,7 @@
 
 (defn tag-component
   ""
-  [{:keys [title items num-items]} expanded?]
+  [{:keys [title items]} expanded?]
   (let [menu {:title (str/upper-case title)
               :items (map item->li items)}]
     [menu->hiccup menu expanded?]))
@@ -72,6 +73,7 @@
        (map :tags)
        (apply concat)
        (map str/trim)
+       (remove empty?)
        (set)))
 
 (defn equal-tag? [tag1 tag2]
@@ -117,15 +119,15 @@
   (= (str/trim (str/lower-case title))
      (str/trim (str/lower-case selected-tag))))
 
-(defn old-render-tag-list [media-items selected-tag]
+(defn render-tags-and-items [media-items selected-tag]
   (let [by-tags* (memoize by-tags)
         tagged (by-tags* media-items)
-        menus (mapv #(tag-component % (expand? % selected-tag)) tagged)
+        menus (mapv #(tag-component % true) tagged)
         menus (into menus padding-menus)]
     (into [:div.media-items.horiz-container] menus)))
 
 
-(defn render-tag-list [media-items]
+(defn render-list-of-tags [media-items]
   (into [:div.media-items.horiz-container]
     (->> media-items
      (tags-from-items)
@@ -141,13 +143,23 @@
                      :items items
                      :num-items (count items)} true)]))
 
+(defn render-by-tag
+  "Renders media items grouped by tags.
+  If show-all? is false
+    If `selected-tag` is an empty string, the tag list is rendered.
+    If `selected-tag` is non-empty, the items tagged with `selected-tag` are rendered.
+  else, if show-all? is true, all tags and their items are displayed. "
+  [media-items selected-tag show-all?]
+  (if show-all?
+    (render-tags-and-items media-items selected-tag)
+    (if (pos? (count selected-tag))
+      (render-one-tag media-items selected-tag)
+      (render-list-of-tags media-items))))
+
 (comment
   (->>
     (session/get :media-items)
-    (tags-from-items)
-    (filter (comp pos? count))
-    (map #(text->tag [] %))
-    (map #(tag-component % false))))
+    (tags-from-items)))
 
 (defn search-in-items [media-items search-string]
   (filter (fn [{:keys [title]}]
@@ -174,15 +186,13 @@
     [render-items results item->li]))
 
 (defn media-items-component [items opts]
-  (let [{:keys [group-by search-string item-view-mode cur-tag]} @opts
+  (let [{:keys [group-by search-string cur-tag show-all?]} @opts
         searching? (not (str/blank? search-string))
         group-by (if searching? :plain group-by)
         *letter (r/cursor opts [:cur-letter])]
     (cond
       (= group-by :tag)
-      (if (pos? (count cur-tag))
-        (render-one-tag items cur-tag)
-        (render-tag-list items))
+      (render-by-tag items cur-tag show-all?)
       (= group-by :plain)
       (if searching? (render-search-results search-string items)
                      (render-by-letter *letter items)))))

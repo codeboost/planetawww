@@ -55,18 +55,27 @@
                                   :plain "TAG"}])
 
 
+
+(defn- button-all [*state]
+  (fn []
+    [:button.toggle-button {:on-click #(swap! *state update-in [:show-all?] not)
+                            :class-name (when (:show-all? @*state) :on)} "TOT"]))
+
+
 (defn- button-tags [selected?]
   [:button.toggle-button {:class-name (if selected? :on "")}
    [:a {:href "/media/tag"} "TAGURI"]])
+
 (defn- button-letters [selected?]
   [:button.toggle-button {:class-name (if selected? :on "")}
    [:a {:href "/media/letter"} "BUCHII"]])
 
-(defn- search-component-filters [state]
-  (print "State is: " @state)
+(defn- search-component-filters [*state]
+  (print "State is: " @*state)
   [:div.filters
-   [button-tags (= :tag (:group-by @state))]
-   [button-letters (= :plain (:group-by @state))]])
+   [button-all *state]
+   [button-tags (= :tag (:group-by @*state))]
+   [button-letters (= :plain (:group-by @*state))]])
 
 
 (defn random-search-prompt []
@@ -84,11 +93,11 @@
         index (rand-int (count prompts))]
     (nth prompts index)))
 
-(defn search-component [state]
+(defn search-component [*state]
   [:div.search-component
    [:div.search-text (random-search-prompt)]
-   [search-input state :search-string]
-   [search-component-filters state]])
+   [search-input *state :search-string]
+   [search-component-filters *state]])
 
 
 

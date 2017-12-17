@@ -13,6 +13,7 @@
                  [hiccup "1.0.5"]
                  [org.clojure/clojure "1.8.0"]
                  [org.clojure/clojurescript "1.9.946" :scope "provided"]
+                 [org.clojure/core.async "0.3.465"]
                  [reagent "0.7.0"]
                  [reagent-utils "0.2.1"]
                  [ring "1.6.3"]

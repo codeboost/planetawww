@@ -136,7 +136,7 @@ ul {
 }
 .player .controls .progress-bar {
   flex-grow: 0;
-  height: 6px;
+  height: 16px;
   border: 1px solid #14fdce;
 }
 .player .controls .progress-bar .progress-bar-progress {

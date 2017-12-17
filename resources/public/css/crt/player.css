@@ -101,13 +101,14 @@ ul {
   padding: 20px;
 }
 .player.detail {
-  height: 600px;
+  top: 16px;
 }
 .player.detail .toolbar {
   border-top: 1px solid #14fdce;
 }
 .player.detail .detail {
-  height: 440px;
+  bottom: 4px;
+  flex-grow: 2;
 }
 .player.detail .accessory-button {
   background: #14fdce;
@@ -117,7 +118,7 @@ ul {
   margin-top: 4px;
 }
 .player .content {
-  flex: 1;
+  height: 80px;
   display: flex;
   flex-direction: column;
   justify-content: center;

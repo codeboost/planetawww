@@ -58,8 +58,6 @@
 
 (defn detail-component [item]
   [:div.media-item-detail
-   [:div.detail-image
-    [:img {:src (detail-image-path item)}]]
    [:div.detail-info
     [:div.top-part
      [:div.info-container

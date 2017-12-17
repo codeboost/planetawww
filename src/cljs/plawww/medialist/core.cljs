@@ -112,8 +112,6 @@
       :num-items
       (group-by-tag media-items))))
 
-(defonce padding-menus (vec (repeat 16 [:div.menu [:div.title]])))
-
 (defn- expand? [{title :title} selected-tag]
   (= (str/trim (str/lower-case title))
      (str/trim (str/lower-case selected-tag))))
@@ -121,8 +119,7 @@
 (defn render-tags-and-items [media-items selected-tag]
   (let [by-tags* (memoize by-tags)
         tagged (by-tags* media-items)
-        menus (mapv #(tag-component % true) tagged)
-        menus (into menus padding-menus)]
+        menus (mapv #(tag-component % true) tagged)]
     (into [:div.media-items.horiz-container] menus)))
 
 

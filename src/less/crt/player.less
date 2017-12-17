@@ -53,12 +53,13 @@
 	}
 
 	&.detail {
-		height: 600px;
+		top: 16px;
 		.toolbar {
 			border-top: 1px solid @console-color;
 		}
 		.detail {
-			height: 440px;
+			bottom: 4px;
+			flex-grow: 2;
 		}
 
 		.accessory-button {
@@ -73,10 +74,10 @@
 	}
 
 	.content {
-		flex: 1;
+		height: 80px;
 		display: flex;
 		flex-direction: column; 
-		justify-content: center; 
+		justify-content: center;
 	}
 
 	.controls {

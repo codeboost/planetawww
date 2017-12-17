@@ -33,18 +33,19 @@
    [:div [:a {:href "/"} "go to the home page"]]])
 
 
+
 (defn hook-up-the-stuff
   []
   (println "hook-up-the-stuff")
   (session/put! :media-items ALLMEDIA)
+  (session/put! :player-state {:visible false
+                               :detail-visible true
+                               :position 0
+                               :item {:title ""
+                                      :duration 0}})
 
   (let [channel (plawww.audio-player/init)]
     (session/put! :audio-player-control-channel channel)
-    (session/put! :player-state {:visible false
-                                 :detail-visible true
-                                 :position 0
-                                 :item {:title ""
-                                        :duration 0}})
     (reagent/track! (fn []
                       (when-let [filename (session/get-in [:player-state :item :filename])]
                         (let [filename (paths/media-path filename)]
@@ -59,6 +60,7 @@
                    (= id search-id)) ALLMEDIA)))
 
 (defn update-player-state [id]
+  (println "Media-id:" id)
   (when-let [media-item (media-item-for-id id)]
     (let [image-path (paths/s-image-path id)
           media-item (assoc media-item :image image-path)]
@@ -116,6 +118,7 @@
 (secretary/set-config! :prefix "#")
 
 (defroute "/" []
+          (welcome/on-init)
           (session/put! :current-page #'welcome/page))
 
 (defroute "/about" []
@@ -127,6 +130,7 @@
                                 :group-by :tag}))
 
 (defroute #"/media/(\d+)" [id q]
+          (set-current-page (render-media-page))
           (update-player-state (js/parseInt id)))
 
 (defroute #"/media/letter/?([a-zA-Z])?" [letter]
@@ -148,10 +152,10 @@
 ;; Initialize app
 
 (defn mount-root []
-  (welcome/on-init)
   (reagent/render [current-page] (.getElementById js/document "app")))
 
 (defn init! []
+  (hook-up-the-stuff)
   (accountant/configure-navigation!
     {:nav-handler
      (fn [path]
@@ -160,5 +164,4 @@
      (fn [path]
        (secretary/locate-route path))})
   (accountant/dispatch-current!)
-  (mount-root)
-  (hook-up-the-stuff))
+  (mount-root))

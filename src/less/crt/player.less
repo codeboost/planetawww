@@ -91,13 +91,17 @@
 		}
 		.progress-bar {
 			flex-grow: 0;
-			height: 16px;
+			height: 8px;
 			border: 1px solid @console-color;
 			.progress-bar-progress {
 				background-color: @console-color; 
 				height: 100%;
 				pointer-events: none; 
 			}
+		}
+
+		.volume .progress-bar {
+			width: 100px;
 		}
 
 		.player-buttons {

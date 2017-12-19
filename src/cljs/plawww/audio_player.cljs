@@ -14,16 +14,37 @@
 
 ;It is assumed that the soundManager 2 library is included in the page.
 
+(defn logv [& args]
+  (println "audio-player:" (apply str args)))
+
 (defn- set-playback-state
   "Updates the session state, by setting :player-state :playback-state to the supplied value `s`."
   [s]
-  (print "set-playback-state: " s)
+  (logv "set-playback-state: " s)
   (session/update-in! [:player-state] assoc :playback-state s))
 
 (defn- set-playback-position
   "Updates the session state. Sets the position in :player-state :position field."
   [pos]
   (session/update-in! [:player-state] assoc :position pos))
+
+(defn- set-volume
+  [volume]
+  (session/update-in! [:player-state] assoc :volume volume))
+
+
+;FIXME: Hack
+(defn- amp-volume
+  "Converts to logarithmic value."
+  [percent]
+  (let [amp (Math/pow percent 4)]
+    (* amp 100)))
+
+;FIXME: Check docstring
+(defn- session-amp-volume
+  "Returns the current session's volume converted to logarithmic volume."
+  []
+  (amp-volume (session/get-in! [:player-state :volume])))
 
 (defn- while-playing
   "SMSound whileplaying callback.
@@ -49,38 +70,41 @@
                :onplay   (fn [] (set-playback-state :play))
                :onpause  (fn [] (set-playback-state :pause))
                :onresume (fn [] (set-playback-state :play))}))]
-
+    (when s (.setVolume s (session-amp-volume)))
     s))
 
 
 ;This is the dispatch function for the commands received on the control channel.
-(defmulti exec-cmd (fn [s {:keys [command]}] command))
+(defmulti exec-cmd (fn [_ {:keys [command]}] command))
 
 (defmethod exec-cmd :play [s]
-  (print "play" "; paused? " ($ s :paused))
+  (logv "play" "; paused? " ($ s :paused))
   (if ($ s :paused)
     ($ s resume)
     ($ s play)))
 
 (defmethod exec-cmd :stop [s]
-  (print "stop")
+  (logv "stop")
   ($ s stop))
 
 (defmethod exec-cmd :pause [s]
-  (print "pause")
+  (logv "pause")
   ($ s pause))
 
 (defmethod exec-cmd :load [s {:keys [filename should-play]}]
-  (print "load:" filename)
+  (logv "load: " filename)
   (when s ($ s stop))
   (let [s (create-sound filename)]
     (when should-play ($ s play))))
 
 (defmethod exec-cmd :set-pos [s {:keys [percent]}]
-  (print "setPos: " percent)
+  (logv "setPos: " percent)
   (let [duration ($ s :duration)]
     ($ s setPosition (* duration percent))))
 
+(defmethod exec-cmd :set-volume [s {:keys [percent]}]
+  (logv "setVolume: " percent)
+  (set-volume percent))
 
 (defn process-command
   "Dispatches a command to the player.
@@ -89,10 +113,10 @@
   (if (keyword? cmd)
     (exec-cmd @s {:command cmd})
     (let [res (exec-cmd @s cmd)]
-      (when (= :load (:command cmd)
-               (do
-                 (print "Loading new sound" cmd)
-                 (reset! s res)))))))
+      (when (= :load (:command cmd))
+        (do
+          (logv "loading new sound: " cmd)
+          (reset! s res))))))
 
 (defn init
   "Creates a command channel and returns it.
@@ -104,7 +128,7 @@
         s (reagent/atom nil)]
     (go-loop []
              (when-let [cmd (<! ctrl-channel)]
-               (print "Command" cmd)
+               (logv "processing command: " cmd)
                (process-command s cmd)
                (recur)))
     ctrl-channel))

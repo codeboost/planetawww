@@ -19,6 +19,11 @@
 
 (def draggable (r/adapt-react-class js/ReactDraggable))
 
+(defn logv
+  [& args]
+  (println "media-player: " (apply str args)))
+
+
 (defn send-player-command [command]
   (when-let [channel (session/get-in [:audio-player-control-channel])]
     (put! channel command)))
@@ -28,21 +33,34 @@
     (cond (pos? width) (/ x width)
           :else 0)))
 
-(defn progress-bar [progress]
+(defn progress-bar [progress callback]
   [:div.progress-bar {:on-click (fn [e]
-                                    (let [xthis (r/current-component)
+                                    (let [_this (r/current-component)
                                           target (js/$ ($ e :target))
                                           pagex ($ e :pageX)
                                           offset ($ target offset)
                                           offsetLeft ($ offset :left)
                                           offsetx (- pagex offsetLeft)
                                           percent (percent-width target offsetx)]
-                                      (print "clicked: " percent ", this:" xthis ", target:" ($ e :target))
-                                      (send-player-command {:command :set-pos
-                                                            :percent percent})))}
+                                      (print "clicked: " percent ", this:" _this ", target:" ($ e :target))
+                                      (callback percent)))}
    [:div.progress-bar-progress
     {:style {:width (str (* 100 (min 1 progress)) "%")}}]])
 
+(defn song-progress [progress]
+  [:span.song-progress
+   (progress-bar
+    progress
+    #(send-player-command {:command :set-pos
+                           :percent %}))])
+
+(defn volume-progress [progress]
+  (logv "volume-progress: " progress)
+  [:span.volume
+   (progress-bar
+    progress
+    #(send-player-command {:command :set-volume
+                           :percent %}))])
 
 (defn time-label [timestamp]
   [:div.grow2.time-label.playback-time (utils/format-duration timestamp)])
@@ -79,20 +97,21 @@
        [:a {:on-click (play-button-click pc ps)}
         (play-button-text (or @ps :pause))]])))
 
+
 (defn player-controls [state item]
-  (let [{:keys [position]} state
+  (let [{:keys [position volume]} state
         {:keys [duration title]} item
         duration (js/parseFloat duration)]
     [:div.controls.vstack
      [:div.hstack
       [:div.title-label.grow8 title]
       [time-label duration]]
-     [progress-bar position]
+     [song-progress position]
      [:div.hstack.bottom-part
       [:div.player-buttons.grow8.hstack
        [play-button]
        [:div.sp]]
-      (when (pos? position) [time-label (* position duration)])]]))
+      [volume-progress volume]]]))
 
 
 (defn list-view-cell[image content accessory-view]
@@ -116,8 +135,13 @@
     [list-view-cell (:image item)
      [player-controls state item] [accessory-view]]))
 
+
+(defn player-view2 [state]
+  (let [item (:item state)]
+    [list-view-cell (:image item)
+     [player-controls state item] [accessory-view]]))
+
 (defn item-details-area [astate]
-  (print "Detail visible: " (@astate :detail-visible))
   (if (@astate :detail-visible)
     [:div.detail
      [detail/detail-component (@astate :item)]]
@@ -126,6 +150,7 @@
 (defn player []
   (let [player-state (session/cursor [:player-state])]
     (fn []
+      (logv "state: " @player-state)
       [draggable
        {:grid [25 25]}
        (if (:visible @player-state)
@@ -135,6 +160,7 @@
            [:div.content
             [player-view @player-state]]]
           [:div.player.window.hidden])])))
+
 
 
 

@@ -41,18 +41,20 @@
   (session/put! :player-state {:visible false
                                :detail-visible true
                                :position 0
+                               :volume 0.6
                                :item {:title ""
                                       :duration 0}})
 
   (let [channel (plawww.audio-player/init)]
     (session/put! :audio-player-control-channel channel)
-    (reagent/track! (fn []
-                      (when-let [filename (session/get-in [:player-state :item :filename])]
-                        (let [filename (paths/media-path filename)]
-                          (put! channel {:command :load
-                                         :filename filename
-                                         :should-play true})))))))
 
+    (reagent/track!
+     (fn []
+       (when-let [filename (session/get-in [:player-state :item :filename])]
+         (let [filename (paths/media-path filename)]
+           (put! channel {:command :load
+                          :filename filename
+                          :should-play true})))))))
 
 
 (defn media-item-for-id [search-id]

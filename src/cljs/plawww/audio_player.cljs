@@ -28,11 +28,6 @@
   [pos]
   (session/update-in! [:player-state] assoc :position pos))
 
-(defn- set-volume
-  [volume]
-  (session/update-in! [:player-state] assoc :volume volume))
-
-
 ;FIXME: Hack
 (defn- amp-volume
   "Converts to logarithmic value."
@@ -44,7 +39,7 @@
 (defn- session-amp-volume
   "Returns the current session's volume converted to logarithmic volume."
   []
-  (amp-volume (session/get-in! [:player-state :volume])))
+  (amp-volume (session/get-in [:player-state :volume])))
 
 (defn- while-playing
   "SMSound whileplaying callback.
@@ -78,7 +73,7 @@
 (defmulti exec-cmd (fn [_ {:keys [command]}] command))
 
 (defmethod exec-cmd :play [s]
-  (logv "play" "; paused? " ($ s :paused))
+  (logv "play")
   (if ($ s :paused)
     ($ s resume)
     ($ s play)))
@@ -97,6 +92,7 @@
   (let [s (create-sound filename)]
     (when should-play ($ s play))))
 
+
 (defmethod exec-cmd :set-pos [s {:keys [percent]}]
   (logv "setPos: " percent)
   (let [duration ($ s :duration)]
@@ -104,7 +100,7 @@
 
 (defmethod exec-cmd :set-volume [s {:keys [percent]}]
   (logv "setVolume: " percent)
-  (set-volume percent))
+  (.setVolume s (session-amp-volume)))
 
 (defn process-command
   "Dispatches a command to the player.

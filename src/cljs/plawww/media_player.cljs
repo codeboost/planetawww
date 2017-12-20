@@ -54,13 +54,18 @@
     #(send-player-command {:command :set-pos
                            :percent %}))])
 
+
+(defn- set-audio-player-volume [percent]
+  (send-player-command {:command :set-volume
+                         :percent percent})
+  (session/update-in! [:player-state] assoc :volume percent))
+
 (defn volume-progress [progress]
   (logv "volume-progress: " progress)
   [:span.volume
    (progress-bar
     progress
-    #(send-player-command {:command :set-volume
-                           :percent %}))])
+    #(set-audio-player-volume %))])
 
 (defn time-label [timestamp]
   [:div.grow2.time-label.playback-time (utils/format-duration timestamp)])
@@ -150,7 +155,6 @@
 (defn player []
   (let [player-state (session/cursor [:player-state])]
     (fn []
-      (logv "state: " @player-state)
       [draggable
        {:grid [25 25]}
        (if (:visible @player-state)

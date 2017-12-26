@@ -1,0 +1,36 @@
+.alphabet {
+  overflow-x: scroll;
+  overflow-y: hidden; 
+  font-size: 2em;
+  ul {
+    margin: auto;
+    overflow: hidden;
+      width: 40 * 26px; //set by the client code to n * 40.
+      li {
+        display: inline-block; 
+        list-style: none;
+        width: 40px;
+        height: 40px;
+        a {
+          width: 40px;
+        }
+      }
+    }
+  }
+
+  .by-letters {
+    display: flex; 
+    flex-direction: column;
+    .selected-letter {
+      font-size: 2em; 
+      color: red; 
+      text-align: center; 
+    }
+  }
+
+  ul.items {
+    margin-top: 40px;
+    li {
+      text-align: center;
+    }
+  }

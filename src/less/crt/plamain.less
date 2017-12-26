@@ -1,53 +1,47 @@
 //---
-@import "base.less";
-@import "medialist/items";
-@import "medialist/search-component"
+@import "medialist/core";
+@import "media-player/core";
 
-.plamain {
-
-}
-
+.plamain {}
 
 .plamain > input {
-	background-color: transparent;
-	border: none;
+  background-color: transparent;
+  border: none;
 }
 
-
 .media-page {
-	display: flex; 
-	flex-direction: column;
-	justify-content: center; 
+  display: flex; 
+  flex-direction: column;
+  justify-content: center; 
 }
 
 .media-page .page-title {
-	text-align: center;
+  text-align: center;
 }
 
-
 .toggle-button {
-	background-color: transparent;
-	margin-right: 16px;
-	border: 1px solid darken(@console-color, 30%);
-	color: @console-color;
-	font-size: 1em;
-	font-family: @the-font;
-	padding: 5px;
-	cursor: pointer; 
-	&.on {
-		box-shadow: 0 0 5px @highlight-color;
-	}
-	&:focus {
-		outline: none; 
-	}
+  background-color: transparent;
+  margin-right: 16px;
+  border: 1px solid darken(@console-color, 30%);
+  color: @console-color;
+  font-size: 1em;
+  font-family: @the-font;
+  padding: 5px;
+  cursor: pointer; 
+  &.on {
+    box-shadow: 0 0 5px @highlight-color;
+  }
+  &:focus {
+    outline: none; 
+  }
 }
 
 .button-icon {
-	width: 24px;
+  width: 24px;
 }
 
 .justify-left {
-	justify-content: flex-start; 
+  justify-content: flex-start; 
 }
 
 

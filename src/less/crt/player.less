@@ -1,4 +1,5 @@
-@import "base.less";
+@import "base";
+@import "media-player/progress-bar";
 
 .vstack {
 	display: flex; 
@@ -61,12 +62,6 @@
 			bottom: 4px;
 			flex-grow: 2;
 		}
-
-		.accessory-button {
-			background: @console-color; 
-			color: @console-bg; 
-		}
-
 	}
 
 	.bottom-part {
@@ -81,6 +76,11 @@
 	}
 
 	.controls {
+		
+		.progress-bar {
+			#player-controls > .progress-bar;
+		}
+
 		.title-label {
 			text-overflow: ellipsis;
 			white-space: nowrap;
@@ -89,27 +89,34 @@
 		.time-label {
 			text-align: right;
 		}
-		.progress-bar {
-			flex-grow: 0;
-			height: 8px;
-			border: 1px solid @console-color;
-			.progress-bar-progress {
-				background-color: @console-color; 
-				height: 100%;
-				pointer-events: none; 
+
+		.volume-control {
+			display: flex; 
+			align-items: center; 
+			.accessory-button {
+				height: 24px;
+				width: 24px;
+			}
+			.progress-bar {
+				width: 100px;
+				height: 24px;
+				border-radius: 12px;
+				.progress-bar-progress {
+					border-radius: 12px;
+				}
 			}
 		}
 
-		.volume .progress-bar {
-			width: 100px;
-		}
 
 		.player-buttons {
+			display: flex; 
+
 			.button {
 				border: 1px solid darken(@console-color, 30%);
 				border-radius: 6px;
 				padding-left: 4px;
 				padding-right: 4px;
+				margin-right: 4px;
 				cursor: pointer;
 			&:hover {
 					background-color: @console-color;
@@ -130,6 +137,11 @@
 		border-radius: 50%;
 		border: 2px solid @console-color; 
 		line-height: 28px;
+
+		&.selected {
+			background: @console-color; 
+			color: @console-bg; 
+		}
 	}
 }
 

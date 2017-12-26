@@ -14,42 +14,44 @@
    [reagent.session :as session]
    [reagent.interop :refer-macros [$ $!]]
    [plawww.media-item-detail :as detail]
+   [plawww.media-player.progress-bar :as progress-bar]
    [plawww.ui :as ui]
    [plawww.utils :as utils]))
 
 (def draggable (r/adapt-react-class js/ReactDraggable))
 
-(defn logv
+(defn- logv
   [& args]
   (println "media-player: " (apply str args)))
 
+(defonce player-state-key :player-state)
+
+(defn update-state!
+  "Saves the state into the session under the `player-state-key`.
+  (update-state! conj :show-details? true)"
+  [& args]
+  (apply (partial session/update-in! [player-state-key]) args)
+  nil)
+
+(defn- toggle-setting! [k]
+  (session/update-in! [player-state-key k] not))
+
+(defn- save-setting!
+  [k v]
+  (update-state! assoc k v))
+
+(defn- get-setting
+  [ks]
+  (let [ks (if (keyword? ks) [ks] ks)]
+    (session/get-in (into [player-state-key] ks))))
 
 (defn send-player-command [command]
   (when-let [channel (session/get-in [:audio-player-control-channel])]
     (put! channel command)))
 
-(defn percent-width [object x]
-  (let [width ($ object width)]
-    (cond (pos? width) (/ x width)
-          :else 0)))
-
-(defn progress-bar [progress callback]
-  [:div.progress-bar {:on-click (fn [e]
-                                    (let [_this (r/current-component)
-                                          target (js/$ ($ e :target))
-                                          pagex ($ e :pageX)
-                                          offset ($ target offset)
-                                          offsetLeft ($ offset :left)
-                                          offsetx (- pagex offsetLeft)
-                                          percent (percent-width target offsetx)]
-                                      (print "clicked: " percent ", this:" _this ", target:" ($ e :target))
-                                      (callback percent)))}
-   [:div.progress-bar-progress
-    {:style {:width (str (* 100 (min 1 progress)) "%")}}]])
-
 (defn song-progress [progress]
   [:span.song-progress
-   (progress-bar
+   (progress-bar/progress-bar
     progress
     #(send-player-command {:command :set-pos
                            :percent %}))])
@@ -60,15 +62,13 @@
                          :percent percent})
   (session/update-in! [:player-state] assoc :volume percent))
 
-(defn volume-progress [progress]
-  (logv "volume-progress: " progress)
-  [:span.volume
-   (progress-bar
-    progress
-    #(set-audio-player-volume %))])
 
-(defn time-label [timestamp]
-  [:div.grow2.time-label.playback-time (utils/format-duration timestamp)])
+(defn time-label [duration position]
+  [:div.grow2.time-label.playback-time
+   (str
+    (utils/format-duration (* position duration))
+    "/"
+    (utils/format-duration duration))])
 
 
 (defn play-button-text [state]
@@ -103,20 +103,41 @@
         (play-button-text (or @ps :pause))]])))
 
 
+(defn- toggle-accessory-button
+  [text key]
+  (let [className (when (get-setting key) "selected")]
+    (logv "className: " className)
+    [:div.accessory-button
+     {:on-click #(toggle-setting! key)
+      :class className}
+     text]))
+
+
+(defn volume-slider-control [progress]
+  (progress-bar/progress-bar
+   progress
+   #(set-audio-player-volume %)))
+
+(defn volume-control []
+  [:span.volume-control
+     [volume-slider-control (get-setting :volume)]])
+
 (defn player-controls [state item]
-  (let [{:keys [position volume]} state
+  (let [{:keys [position]} state
         {:keys [duration title]} item
         duration (js/parseFloat duration)]
     [:div.controls.vstack
      [:div.hstack
       [:div.title-label.grow8 title]
-      [time-label duration]]
+      [:span
+       [time-label duration position]]]
      [song-progress position]
      [:div.hstack.bottom-part
-      [:div.player-buttons.grow8.hstack
+      [:div.player-buttons
        [play-button]
-       [:div.sp]]
-      [volume-progress volume]]]))
+       [volume-control]]]]))
+
+
 
 
 (defn list-view-cell[image content accessory-view]
@@ -124,16 +145,8 @@
    [:div.content-area content]
    [:div.accessory-area accessory-view]])
 
-
-(defn accessory-button-click-handler []
-  (fn [e]
-    (print "click handler")
-    (.preventDefault e)
-    (session/update-in! [:player-state :detail-visible] not)))
-
 (defn accessory-view []
-  [:div.accessory-button {:on-click (accessory-button-click-handler)} "i"])
-
+  [toggle-accessory-button "i" :detail-visible?])
 
 (defn player-view [state]
   (let [item (:item state)]
@@ -147,23 +160,21 @@
      [player-controls state item] [accessory-view]]))
 
 (defn item-details-area [astate]
-  (if (@astate :detail-visible)
+  (if (@astate :detail-visible?)
     [:div.detail
      [detail/detail-component (@astate :item)]]
     [:div.detail.hidden]))
 
 (defn player []
-  (let [player-state (session/cursor [:player-state])]
+  (let [player-state (session/cursor [player-state-key])]
     (fn []
-      [draggable
-       {:grid [25 25]}
-       (if (:visible @player-state)
-          [:div.player.window.vstack {:class (when (@player-state :detail-visible) "detail")}
-           [item-details-area player-state]
-           [:div.toolbar]
-           [:div.content
-            [player-view @player-state]]]
-          [:div.player.window.hidden])])))
+      (if (:visible @player-state)
+         [:div.player.window.vstack {:class (when (@player-state :detail-visible?) "detail")}
+          [item-details-area player-state]
+          [:div.toolbar]
+          [:div.content
+           [player-view @player-state]]]
+         [:div.player.window.hidden]))))
 
 
 

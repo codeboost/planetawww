@@ -39,9 +39,10 @@
   (println "hook-up-the-stuff")
   (session/put! :media-items ALLMEDIA)
   (session/put! :player-state {:visible false
-                               :detail-visible true
+                               :detail-visible? false
                                :position 0
                                :volume 0.6
+                               :should-show-detail? true
                                :item {:title ""
                                       :duration 0}})
 
@@ -61,15 +62,28 @@
   (first (filter (fn [{:keys [id]}]
                    (= id search-id)) ALLMEDIA)))
 
-(defn update-player-state [id]
+(defn update-player-state
+  "Updates the current media item in the session-state, which should trigger the media player to show and load the corresponding media.
+  If :should-show-detail? is true, detail-visible? is set to true (which opens the player in detail mode).
+  This only happens once, if user decides to hide details, the player will stay closed when a new item is loaded.
+  This way, the user gets control of the detail showing, allowing him to toggle it.
+  "
+  [id]
   (println "Media-id:" id)
   (when-let [media-item (media-item-for-id id)]
     (let [image-path (paths/s-image-path id)
-          media-item (assoc media-item :image image-path)]
+          media-item (assoc media-item :image image-path)
+          should-show-detail? (or
+                               (session/get-in [:player-state :should-show-detail?])
+                               (session/get-in [:player-state :detail-visible?]))]
       (session/update-in! [:player-state] merge {:position 0
                                                  :item     media-item
                                                  :visible true
-                                                 :detail-visible true}))))
+                                                 :detail-visible? should-show-detail?})
+
+      (media-page/set-opts {:selected-id id})
+      (when should-show-detail?
+        (session/update-in! [:player-state] dissoc :should-show-detail?)))))
 
 (defn current-page []
   (let [page (session/get :current-page)]

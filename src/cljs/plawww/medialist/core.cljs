@@ -30,8 +30,13 @@
 
 (defn item->li [{:keys [title id]}]
   "Menu item to hiccup."
-  (let [href (str "/media/" id)]
-    ^{:key id} [:li [:a {:href href} title]]))
+  (let [href (str "/media/" id)
+        selected? (= id (:selected-id @*state*))]
+    ^{:key id} [:li
+                [:a {:href href
+                     :class (when selected? :selected)}
+                 title]]))
+
 
 (defn search-match? [title search-string]
   (or (str/blank? search-string)
@@ -151,11 +156,6 @@
     (if (pos? (count selected-tag))
       (render-one-tag media-items selected-tag)
       (render-list-of-tags media-items))))
-
-(comment
-  (->>
-    (session/get :media-items)
-    (tags-from-items)))
 
 (defn search-in-items [media-items search-string]
   (filter (fn [{:keys [title]}]

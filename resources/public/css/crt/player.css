@@ -54,6 +54,20 @@ ul {
 .v16px {
   height: 16px;
 }
+#player-controls .progress-bar {
+  flex-grow: 0;
+  height: 16px;
+  border: 1px solid #14fdce;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+#player-controls .progress-bar .progress-bar-progress {
+  background-color: #14fdce;
+  height: 100%;
+  pointer-events: none;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
 .vstack {
   display: flex;
   flex-direction: column;
@@ -110,10 +124,6 @@ ul {
   bottom: 4px;
   flex-grow: 2;
 }
-.player.detail .accessory-button {
-  background: #14fdce;
-  color: #031e11;
-}
 .player .bottom-part {
   margin-top: 4px;
 }
@@ -123,6 +133,20 @@ ul {
   flex-direction: column;
   justify-content: center;
 }
+.player .controls .progress-bar {
+  flex-grow: 0;
+  height: 16px;
+  border: 1px solid #14fdce;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+.player .controls .progress-bar .progress-bar-progress {
+  background-color: #14fdce;
+  height: 100%;
+  pointer-events: none;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
 .player .controls .title-label {
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -131,24 +155,31 @@ ul {
 .player .controls .time-label {
   text-align: right;
 }
-.player .controls .progress-bar {
-  flex-grow: 0;
-  height: 8px;
-  border: 1px solid #14fdce;
+.player .controls .volume-control {
+  display: flex;
+  align-items: center;
 }
-.player .controls .progress-bar .progress-bar-progress {
-  background-color: #14fdce;
-  height: 100%;
-  pointer-events: none;
+.player .controls .volume-control .accessory-button {
+  height: 24px;
+  width: 24px;
 }
-.player .controls .volume .progress-bar {
+.player .controls .volume-control .progress-bar {
   width: 100px;
+  height: 24px;
+  border-radius: 12px;
+}
+.player .controls .volume-control .progress-bar .progress-bar-progress {
+  border-radius: 12px;
+}
+.player .controls .player-buttons {
+  display: flex;
 }
 .player .controls .player-buttons .button {
   border: 1px solid #01775f;
   border-radius: 6px;
   padding-left: 4px;
   padding-right: 4px;
+  margin-right: 4px;
   cursor: pointer;
 }
 .player .controls .player-buttons .button:hover {
@@ -165,4 +196,8 @@ ul {
   border-radius: 50%;
   border: 2px solid #14fdce;
   line-height: 28px;
+}
+.player .accessory-button.selected {
+  background: #14fdce;
+  color: #031e11;
 }

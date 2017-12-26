@@ -30,7 +30,8 @@
   "Renders the search input box and swaps the :search-string "
   [settings-atom keyname]
   [:input.search-box {:type      "text"
-                      :on-change #(swap! settings-atom conj {keyname (-> % .-target .-value)})}])
+                      :on-change #(swap! settings-atom conj {keyname (-> % .-target .-value)})
+                      :value (get @settings-atom keyname)}])
 
 (defn- toggle-button [text cls onclick]
   [:button.toggle-button {:on-click onclick

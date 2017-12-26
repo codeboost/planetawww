@@ -18,6 +18,7 @@
    [plawww.media-player :as media-player]
    [plawww.audio-player :as audio-player]
    [plawww.paths :as paths]
+   [plawww.puzzle :as puzzle]
    [reagent.core :as reagent :refer [atom]]
    [reagent.session :as session]
    [secretary.core :as secretary :refer [defroute]]))
@@ -161,6 +162,9 @@
 
 (defroute "/test/" [q]
           (set-current-page (test-page q)))
+
+(defroute #"/puzzle/?" [q]
+          (set-current-page (puzzle/puzzle-page 0)))
 
 (secretary/locate-route "/media/tag/ab")
 

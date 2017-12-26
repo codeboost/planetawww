@@ -73,7 +73,7 @@
            (GET "/menu*" [] (main-page crt-css))
            (GET "/media*" [] (main-page crt-css))
            (GET "/test/*" [] (main-page crt-css))
-
+           (GET "/puzzle/*" [] (main-page crt-css))
            (GET "/cards" [] (cards-page classic-css))
            (GET "/crt" [] crt-site)
            (GET "/update-data" [] (update-data))

@@ -172,10 +172,27 @@
 (defn render-alphabet [*letter items]
   [alphabet/alphabet-component *letter (utils/first-letters items)])
 
-(defn render-by-letter [*letter items]
-  [:div.by-letters
-   (render-alphabet *letter items)
-   [render-items (starting-with items @*letter) item->li]])
+(defn- render-all-by-letters
+  [*letter items]
+  (let [first-letters (utils/first-letters items)]
+    (into [:ul.all-letters]
+      (map
+       (fn [the-letter]
+         ^{:key (str "L_" the-letter)}
+         [:li
+          [:div.letter the-letter]
+          (render-items
+           (starting-with items the-letter)
+           item->li)])
+       first-letters))))
+
+
+(defn render-by-letter [*letter items show-all?]
+  (if show-all?
+    (render-all-by-letters *letter items)
+    [:div.by-letters
+     (render-alphabet *letter items)
+     [render-items (starting-with items @*letter) item->li]]))
 
 (defn render-search-results [search-string items]
   (let [results (search-in-items items search-string)]
@@ -191,7 +208,7 @@
       (render-by-tag items cur-tag show-all?)
       (= group-by :plain)
       (if searching? (render-search-results search-string items)
-                     (render-by-letter *letter items)))))
+                     (render-by-letter *letter items show-all?)))))
 
 (defn media-page [media-items]
   (fn []

@@ -16,8 +16,7 @@
   [letter]
   (let [element (document.querySelector ".alphabet .selected")]
     (when element
-      (.scrollIntoView element {:block :start
-                                :inline :start}))))
+      (.scrollIntoView element))))
 
 (defn- scroll-to-current-letter [*letter]
   (js/setTimeout

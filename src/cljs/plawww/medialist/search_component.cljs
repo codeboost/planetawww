@@ -59,20 +59,21 @@
 
 (defn- button-all [*state]
   (fn []
-    [:button.toggle-button {:on-click #(swap! *state update-in [:show-all?] not)
-                            :class-name (when (:show-all? @*state) :on)} "TOT"]))
+    [:a.toggle-button {:on-click #(swap! *state update-in [:show-all?] not)
+                       :class-name (when (:show-all? @*state) :on)} "TOT"]))
 
 
 (defn- button-tags [selected?]
-  [:button.toggle-button {:class-name (if selected? :on "")}
-   [:a {:href "/media/tag"} "TAGURI"]])
+  [:a.toggle-button
+   {:class-name (if selected? :on "")
+    :href "/media/tag"} "TAGURI"])
 
 (defn- button-letters [selected?]
-  [:button.toggle-button {:class-name (if selected? :on "")}
-   [:a {:href "/media/letter"} "BUCHII"]])
+  [:a.toggle-button
+   {:class-name (if selected? :on "")
+    :href "/media/letter"} "BUCHII"])
 
 (defn- search-component-filters [*state]
-  (print "State is: " @*state)
   [:div.filters
    [button-all *state]
    [button-tags (= :tag (:group-by @*state))]

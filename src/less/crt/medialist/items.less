@@ -1,0 +1,33 @@
+
+.media-items {
+	display: flex; 
+	flex-flow: row wrap;
+	justify-content: center; 
+	@media (max-width: 478px) {
+		text-align: center;
+	}
+}
+
+.media-items > .menu {
+	min-width: 240px;
+}
+
+.menu {
+	.title a {
+		text-align: center;
+		width: 100%;
+		display: block;
+		&.opened{
+			color: red;
+			font-size: 2.1rem;
+		}
+		cursor: pointer;
+	}
+	ul {
+	}
+	ul.items {
+		padding-left: 10px;
+		li a {
+		}
+	}
+}

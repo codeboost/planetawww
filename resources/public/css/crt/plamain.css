@@ -104,7 +104,7 @@ ul {
   margin-top: 8px;
   float: left;
 }
-button.toggle-button {
+.toggle-button {
   background-color: transparent;
   margin-right: 16px;
   border: 1px solid #01775f;
@@ -112,11 +112,12 @@ button.toggle-button {
   font-size: 1em;
   font-family: 'VT323';
   padding: 5px;
+  cursor: pointer;
 }
-button.toggle-button.on {
+.toggle-button.on {
   box-shadow: 0 0 5px #ffffff;
 }
-button.toggle-button:focus {
+.toggle-button:focus {
   outline: none;
 }
 .button-icon {

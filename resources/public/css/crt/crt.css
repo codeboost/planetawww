@@ -123,7 +123,7 @@ h1.ok-button {
   margin-top: 8px;
   float: left;
 }
-button.toggle-button {
+.toggle-button {
   background-color: transparent;
   margin-right: 16px;
   border: 1px solid #01775f;
@@ -131,11 +131,12 @@ button.toggle-button {
   font-size: 1em;
   font-family: 'VT323';
   padding: 5px;
+  cursor: pointer;
 }
-button.toggle-button.on {
+.toggle-button.on {
   box-shadow: 0 0 5px #ffffff;
 }
-button.toggle-button:focus {
+.toggle-button:focus {
   outline: none;
 }
 .button-icon {
@@ -385,12 +386,12 @@ input.search-box:focus {
 .alphabet {
   overflow-x: scroll;
   overflow-y: hidden;
-  height: 40px;
+  font-size: 2em;
 }
 .alphabet ul {
   margin: auto;
   overflow: hidden;
-  width: 1080px;
+  width: 1040px;
 }
 .alphabet ul li {
   display: inline-block;
@@ -399,11 +400,14 @@ input.search-box:focus {
   height: 40px;
 }
 .alphabet ul li a {
-  cursor: pointer;
+  width: 40px;
 }
 .by-letters {
   display: flex;
   flex-direction: column;
+}
+ul.items {
+  margin-top: 40px;
 }
 ul.items li {
   text-align: center;
@@ -508,7 +512,6 @@ ul.items li {
   position: absolute;
 }
 .glow {
-  animation: crt-glow 60s infinite;
   background: radial-gradient(circle at center, #1bd459 0%, rgba(27, 212, 89, 0.88) 58%, rgba(21, 235, 92, 0.57) 80%, rgba(19, 94, 29, 0.27) 93%, rgba(10, 23, 12, 0) 100%);
   opacity: 0.15;
   pointer-events: none;

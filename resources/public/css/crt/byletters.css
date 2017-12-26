@@ -1,12 +1,12 @@
 .alphabet {
   overflow-x: scroll;
   overflow-y: hidden;
-  height: 40px;
+  font-size: 2em;
 }
 .alphabet ul {
   margin: auto;
   overflow: hidden;
-  width: 1080px;
+  width: 1040px;
 }
 .alphabet ul li {
   display: inline-block;
@@ -15,11 +15,14 @@
   height: 40px;
 }
 .alphabet ul li a {
-  cursor: pointer;
+  width: 40px;
 }
 .by-letters {
   display: flex;
   flex-direction: column;
+}
+ul.items {
+  margin-top: 40px;
 }
 ul.items li {
   text-align: center;

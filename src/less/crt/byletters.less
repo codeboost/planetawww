@@ -1,18 +1,18 @@
 .alphabet {
     overflow-x: scroll;
     overflow-y: hidden; 
-    height: 40px;
+    font-size: 2em;
     ul {
         margin: auto;
         overflow: hidden;
-        width: 1080px;
+        width: 40 * 26px; //set by the client code to n * 40.
         li {
             display: inline-block; 
             list-style: none;
             width: 40px;
             height: 40px;
             a {
-                cursor: pointer; 
+                width: 40px;
             }
         }
     }
@@ -24,6 +24,7 @@
 }
 
 ul.items {
+    margin-top: 40px;
     li {
         text-align: center;
     }

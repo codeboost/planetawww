@@ -1,5 +1,7 @@
 //---
 @import "base.less";
+@import "medialist/items";
+@import "medialist/search-component"
 
 .plamain {
 
@@ -22,55 +24,8 @@
 	text-align: center;
 }
 
-.media-items {
-	display: flex; 
-	flex-flow: row wrap;
-	justify-content: center; 
-	@media (max-width: 478px) {
-		text-align: center;
-	}
-}
 
-.media-items > .menu {
-	min-width: 240px;
-}
-
-.menu {
-	.title a {
-		text-align: center;
-		width: 100%;
-		display: block;
-		&.opened{
-			color: red;
-			font-size: 2.1rem;
-		}
-		cursor: pointer;
-	}
-	ul {
-	}
-	ul.items {
-		padding-left: 10px;
-		li a {
-		}
-	}
-}
-
-.search-component {
-	display: flex; 
-	flex-direction: column;
-	align-items: center; 
-}
-
-.search-component .search-text {
-	text-align: center; 
-}
-.search-component .filters {
-	margin-top: 8px;
-	float: left; 
-}
-
-
-button.toggle-button {
+.toggle-button {
 	background-color: transparent;
 	margin-right: 16px;
 	border: 1px solid darken(@console-color, 30%);
@@ -78,6 +33,7 @@ button.toggle-button {
 	font-size: 1em;
 	font-family: @the-font;
 	padding: 5px;
+	cursor: pointer; 
 	&.on {
 		box-shadow: 0 0 5px @highlight-color;
 	}
@@ -94,61 +50,5 @@ button.toggle-button {
 	justify-content: flex-start; 
 }
 
-.detail-media-item {
-	padding: 8px;
-	border: 1px solid @thin-border-color;
-	border-radius: 12px;
-	margin-bottom: 16px;
-	margin-right: 20px;
-	min-width: 240px;
-	color: @console-color; 
-	.title {
-		text-overflow: ellipsis;
-		white-space: nowrap;
-		overflow: hidden; 
-		text-transform: uppercase;
-		-webkit-font-smoothing: antialiased;
-		text-shadow: none; 
-	}
-	.description {
-		text-overflow: ellipsis;
-		white-space: pre-wrap;
-		overflow: hidden; 
-		font-size: 0.85em;
-		-webkit-font-smoothing: antialiased;
-		text-shadow: none; 
-		width: 160px;
-	}
 
-	.lv-cell {
-		.image-area {
-			width: 80px;
-			height: 64px;
-			min-width: 80px;
-			min-height: 64px;
-			border-radius: 8px;
-		}
-
-		@media (max-width: 478px) {
-			.image-area {
-				display: none;
-			}
-		}
-
-		img {
-			filter: grayscale(100%);
-		}
-
-		&:hover {
-			cursor: pointer; 
-			.title {
-				color: @highlight-color; 
-			}
-			img {
-				filter: none; 
-			}
-		}
-
-	}
-}
 

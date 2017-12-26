@@ -2,8 +2,10 @@
   (:require [plawww.utils :as utils]))
 
 
-(defn alphabet-items [letters selected on-click]
+(defn alphabet-items
+  [letters selected on-click]
   [:ul
+   {:style {:width (str (* 40 (count letters)) "px")}} ;40 the width of one letter item (see `byletters.less`).
    (for [letter letters]
      ^{:key letter}
      [:li [:a {:href (str "/media/letter/" letter)

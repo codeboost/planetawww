@@ -11,6 +11,7 @@
    [clojure.string :as str]
    [plawww.medialist.alphabet :as alphabet]
    [plawww.medialist.search-component :as search-component]
+   [plawww.media-player.item-detail :as item-detail]
    [plawww.utils :as utils]
    [reagent.core :as r]
    [reagent.session :as session]))
@@ -21,7 +22,7 @@
                           :cur-letter     "A"
                           :cur-tag        ""
                           :show-all?      false
-                          :tags           #{}}))
+                          :detail-items?  false}))
 
 
 (defn set-opts [opts]
@@ -36,7 +37,6 @@
                 [:a {:href href
                      :class (when selected? :selected)}
                  title]]))
-
 
 (defn search-match? [title search-string]
   (or (str/blank? search-string)
@@ -178,7 +178,7 @@
          ^{:key (str "L_" the-letter)}
          [:li
           [:div.letter the-letter]
-          [:ul.items (map item->li (starting-with items the-letter))]])
+          [:ul.items (doall (map item->li (starting-with items the-letter)))]])
        first-letters))))
 
 
@@ -187,13 +187,13 @@
     (render-all-by-letters *letter items)
     [:div.by-letters
      (render-alphabet *letter items)
-     [:ul.items (map item->li) (starting-with items @*letter)]]))
+     [:ul.items (doall (map item->li (starting-with items @*letter)))]]))
 
 (defn render-search-results [search-string items]
   (let [results (search-in-items items search-string)]
       [:ul.items
        (if (seq results)
-         (map item->li results)
+         (doall (map item->li results))
          [:li.no-results (search-component/random-not-found-msg)])]))
 
 

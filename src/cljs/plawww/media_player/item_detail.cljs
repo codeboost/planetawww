@@ -9,7 +9,6 @@
             [cljs.core.async :refer [put!]]
             [reagent.interop :refer-macros [$ $!]]))
 
-
 (defn image-path [item]
   (let [id (:id item)]
     (paths/s-image-path id)))
@@ -49,12 +48,7 @@
          (tag-list-comp {:tags ["one"]})))
 
   (is (= [:div.tags "one, two, three"]
-         (tag-list-comp {:tags ["one" "two" "three"]})))
-
-
-
-  (session/get :allmedia))
-
+         (tag-list-comp {:tags ["one" "two" "three"]}))))
 
 (defn detail-component [item]
   [:div.media-item-detail

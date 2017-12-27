@@ -1,4 +1,4 @@
-(ns plawww.media-item-detail
+(ns plawww.media-player.item-detail
   (:require [reagent.core :as r]
             [plawww.ui :as ui]
             [plawww.paths :as paths]

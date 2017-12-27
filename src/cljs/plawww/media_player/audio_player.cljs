@@ -5,7 +5,7 @@
 ;   the terms of this license.
 ;   You must not remove this notice, or any other, from this software.
 
-(ns plawww.audio-player
+(ns plawww.media-player.audio-player
   (:require-macros [cljs.core.async.macros :refer [go go-loop]])
   (:require [reagent.core :as reagent :refer [atom]]
             [cljs.core.async :refer (chan put! <!)]

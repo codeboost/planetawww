@@ -14,9 +14,8 @@
    [plawww.crt :refer [crt-page]]
    [plawww.welcome :as welcome]
    [plawww.medialist.core :as media-page]
-   [plawww.media-item-detail :as media-item-detail]
-   [plawww.media-player :as media-player]
-   [plawww.audio-player :as audio-player]
+   [plawww.media-player.core :as media-player]
+   [plawww.media-player.audio-player :as audio-player]
    [plawww.paths :as paths]
    [plawww.puzzle :as puzzle]
    [reagent.core :as reagent :refer [atom]]
@@ -47,7 +46,7 @@
                                :item {:title ""
                                       :duration 0}})
 
-  (let [channel (plawww.audio-player/init)]
+  (let [channel (audio-player/init)]
     (session/put! :audio-player-control-channel channel)
 
     (reagent/track!
@@ -103,14 +102,6 @@
       [media-page/media-page ALLMEDIA]]))
     ;(when opts
     ;  (media-page/set-opts opts))))
-
-
-(defn detail-page
-  [id]
-  (fn []
-    (let [item (media-item-for-id (js/parseInt id))]
-      [crt-page
-       (media-item-detail/detail-component item)])))
 
 (defn test-page
   [q]

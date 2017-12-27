@@ -5,7 +5,7 @@
 ;   the terms of this license.
 ;   You must not remove this notice, or any other, from this software.
 
-(ns plawww.media-player
+(ns plawww.media-player.core
   (:require
    [cljs.core.async :refer [put!]]
    [cljsjs.react-draggable]
@@ -13,7 +13,7 @@
    [reagent.core :as r]
    [reagent.session :as session]
    [reagent.interop :refer-macros [$ $!]]
-   [plawww.media-item-detail :as detail]
+   [plawww.media-player.item-detail :as detail]
    [plawww.media-player.progress-bar :as progress-bar]
    [plawww.ui :as ui]
    [plawww.utils :as utils]))

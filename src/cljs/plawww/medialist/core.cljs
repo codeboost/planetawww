@@ -10,7 +10,7 @@
    [cljsjs.typedjs]
    [clojure.string :as str]
    [plawww.medialist.alphabet :as alphabet]
-   [plawww.medialist.search-component :refer [search-component]]
+   [plawww.medialist.search-component :as search-component]
    [plawww.utils :as utils]
    [reagent.core :as r]
    [reagent.session :as session]))
@@ -18,7 +18,7 @@
 (defonce *state* (r/atom {:group-by       :tag
                           :item-view-mode :plain
                           :search-string  ""
-                          :cur-letter     ""
+                          :cur-letter     "A"
                           :cur-tag        ""
                           :show-all?      false
                           :tags           #{}}))
@@ -161,9 +161,6 @@
   (filter (fn [{:keys [title]}]
             (search-match? title search-string)) media-items))
 
-(defn render-items [items itemfn]
-  (into [:ul.items] (mapv itemfn items)))
-
 (defn starting-with
   "Returns the items who's `:title` starts with `letter`."
   [items letter]
@@ -181,9 +178,7 @@
          ^{:key (str "L_" the-letter)}
          [:li
           [:div.letter the-letter]
-          (render-items
-           (starting-with items the-letter)
-           item->li)])
+          [:ul.items (map item->li (starting-with items the-letter))]])
        first-letters))))
 
 
@@ -192,11 +187,15 @@
     (render-all-by-letters *letter items)
     [:div.by-letters
      (render-alphabet *letter items)
-     [render-items (starting-with items @*letter) item->li]]))
+     [:ul.items (map item->li) (starting-with items @*letter)]]))
 
 (defn render-search-results [search-string items]
   (let [results (search-in-items items search-string)]
-    [render-items results item->li]))
+      [:ul.items
+       (if (seq results)
+         (map item->li results)
+         [:li.no-results (search-component/random-not-found-msg)])]))
+
 
 (defn media-items-component [items opts]
   (let [{:keys [group-by search-string cur-tag show-all?]} @opts
@@ -213,7 +212,7 @@
 (defn media-page [media-items]
   (fn []
     [:div.media-page
-     [search-component *state*]
+     [search-component/search-component *state*]
      [:div.v16px]
      [:div.page-content
       (let [items media-items]

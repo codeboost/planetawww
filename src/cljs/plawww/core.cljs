@@ -122,7 +122,7 @@
 
 (defn media-items-by-letter [letter]
   (set-current-page (render-media-page))
-  (media-page/set-opts {:cur-letter (or letter "")
+  (media-page/set-opts {:cur-letter (or letter "A")
                         :group-by :plain}))
 
 (defn media-items-by-tag [tag]

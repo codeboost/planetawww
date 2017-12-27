@@ -26,8 +26,8 @@ a:visited {
 }
 a:active,
 a:focus,
-a:hover,
-a.selected {
+a.selected,
+a.on {
   background-color: #14fdce;
   color: #031e11;
 }
@@ -82,7 +82,7 @@ h1.ok-button {
   text-align: center;
 }
 .search-component .filters {
-  margin-top: 8px;
+  margin-top: 16px;
   float: left;
 }
 input.search-box {
@@ -99,6 +99,9 @@ input.search-box {
 input.search-box:focus {
   outline: none !important;
   box-shadow: 0 0 5px #acfeee;
+}
+ul.items li .no-results .message {
+  color: red;
 }
 .detail-media-item {
   padding: 8px;

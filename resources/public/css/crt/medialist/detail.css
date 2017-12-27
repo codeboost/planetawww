@@ -25,8 +25,8 @@ a:visited {
 }
 a:active,
 a:focus,
-a:hover,
-a.selected {
+a.selected,
+a.on {
   background-color: #14fdce;
   color: #031e11;
 }

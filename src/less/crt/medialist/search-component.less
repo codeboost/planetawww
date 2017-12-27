@@ -10,8 +10,8 @@
 	text-align: center; 
 }
 .search-component .filters {
-	margin-top: 8px;
-	float: left; 
+	margin-top: 16px;
+	float: left;
 }
 
 input.search-box {
@@ -30,4 +30,12 @@ input.search-box:focus {
   outline: none !important;
   box-shadow: 0 0 5px lighten(@console-color, 30%);
   //border: 1px solid @console-color; 
+}
+
+ul.items {
+  li .no-results {
+    .message {
+      color: red;
+    }
+  }
 }

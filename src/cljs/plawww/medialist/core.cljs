@@ -213,7 +213,6 @@
 (defn media-page [media-items]
   (fn []
     [:div.media-page
-     [:h4.page-title "PLANETA MOLDOVA"]
      [search-component *state*]
      [:div.v16px]
      [:div.page-content

@@ -2,11 +2,11 @@
 @import "medialist/core";
 @import "media-player/core";
 
-.plamain {}
-
-.plamain > input {
-  background-color: transparent;
-  border: none;
+.frame.tv {
+  position: absolute; 
+  top: 0; 
+  bottom: 200px;
+  overflow-y: scroll; 
 }
 
 .media-page {
@@ -17,6 +17,7 @@
 
 .media-page .page-title {
   text-align: center;
+  margin: 0px;
 }
 
 .toggle-button {

@@ -402,9 +402,11 @@ ul.items li {
 .media-item-detail .detail-info .description {
   margin-top: 16px;
 }
-.plamain > input {
-  background-color: transparent;
-  border: none;
+.frame.tv {
+  position: absolute;
+  top: 0;
+  bottom: 200px;
+  overflow-y: scroll;
 }
 .media-page {
   display: flex;
@@ -413,6 +415,7 @@ ul.items li {
 }
 .media-page .page-title {
   text-align: center;
+  margin: 0px;
 }
 .toggle-button {
   background-color: transparent;

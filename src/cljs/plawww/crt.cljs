@@ -8,3 +8,4 @@
      [:div.piece.output content]]
     [player/player]]])
 
+

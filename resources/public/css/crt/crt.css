@@ -421,9 +421,11 @@ ul.items li {
 .media-item-detail .detail-info .description {
   margin-top: 16px;
 }
-.plamain > input {
-  background-color: transparent;
-  border: none;
+.frame.tv {
+  position: absolute;
+  top: 0;
+  bottom: 200px;
+  overflow-y: scroll;
 }
 .media-page {
   display: flex;
@@ -432,6 +434,7 @@ ul.items li {
 }
 .media-page .page-title {
   text-align: center;
+  margin: 0px;
 }
 .toggle-button {
   background-color: transparent;
@@ -461,7 +464,7 @@ ul.items li {
   left: 0;
   top: 0;
   width: 100%;
-  padding: 3rem;
+  padding: 1rem;
 }
 .noclick {
   pointer-events: none;
@@ -483,22 +486,6 @@ ul.items li {
   left: 2%;
   width: 96%;
   pointer-events: none;
-}
-.emblem {
-  display: none;
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  font-size: 2rem;
-  height: 3rem;
-  width: 3rem;
-  text-align: center;
-  color: white;
-  background: -webkit-linear-gradient(#ffffff, #555555);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 0 0.1rem 0rem rgba(0, 0, 0, 0.4), 0 0 2rem rgba(0, 0, 0, 0.8);
-  transform: translate(-50%);
 }
 .output {
   animation: crt-output 10ms infinite;

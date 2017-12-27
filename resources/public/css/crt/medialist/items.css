@@ -1,3 +1,9 @@
+ul.items {
+  margin: auto;
+}
+ul.items li.min-item {
+  text-align: center;
+}
 .media-items {
   display: flex;
   flex-flow: row wrap;

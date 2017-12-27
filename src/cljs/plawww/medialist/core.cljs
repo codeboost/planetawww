@@ -29,14 +29,20 @@
   (println "media-page/set-opts: " opts)
   (swap! *state* merge opts))
 
-(defn item->li [{:keys [title id]}]
-  "Menu item to hiccup."
+
+(defn item-plain [{:keys [title id]}]
   (let [href (str "/media/" id)
         selected? (= id (:selected-id @*state*))]
-    ^{:key id} [:li
+    ^{:key id} [:li.min-item
                 [:a {:href href
                      :class (when selected? :selected)}
                  title]]))
+
+(defn item->li [item]
+  "Menu item to hiccup."
+  (if (:detail-items? @*state*)
+    (item-detail/item->detail-item item)
+    (item-plain item)))
 
 (defn search-match? [title search-string]
   (or (str/blank? search-string)

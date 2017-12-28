@@ -27,7 +27,7 @@
 
 (defn item->detail-item [item]
   ^{:key (:id item)}
-  [:li.detail-media-item
+  [:li.media-item.detail
    [ui/list-view-cell
     (image-path item)
     [item-content item]

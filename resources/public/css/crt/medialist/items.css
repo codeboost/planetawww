@@ -1,7 +1,7 @@
 ul.items {
   margin: auto;
 }
-ul.items li.min-item {
+ul.items .media-item {
   text-align: center;
 }
 .media-items {

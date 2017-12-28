@@ -33,7 +33,7 @@
 (defn item-plain [{:keys [title id]}]
   (let [href (str "/media/" id)
         selected? (= id (:selected-id @*state*))]
-    ^{:key id} [:li.min-item
+    ^{:key id} [:li.media-item
                 [:a {:href href
                      :class (when selected? :selected)}
                  title]]))

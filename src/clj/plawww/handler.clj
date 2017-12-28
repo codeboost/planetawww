@@ -6,7 +6,7 @@
             [config.core :refer [env]]
             [clj-http.client :as http-client]))
 
-(def MEDIA_JSON "/Users/florinbraghis/code/yo/planeta/planeta-www/plawww/resources/public/db/results.json")
+(def MEDIA_JSON "/Users/florinbraghis/code/yo/planeta/plawww/resources/public/db/results.json")
 
 
 (def mount-target

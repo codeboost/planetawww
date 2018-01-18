@@ -5,7 +5,6 @@
   margin-bottom: 20px;
 }
 .alphabet ul {
-  margin: auto;
   overflow: hidden;
   width: 1040px;
 }
@@ -18,10 +17,6 @@
 .alphabet ul li a {
   width: 40px;
 }
-.by-letters {
-  display: flex;
-  flex-direction: column;
-}
 .by-letters .selected-letter {
   font-size: 2em;
   color: red;
@@ -30,8 +25,4 @@
 .all-letters .letter {
   font-size: 2em;
   color: red;
-  text-align: center;
-}
-ul.items li {
-  text-align: center;
 }

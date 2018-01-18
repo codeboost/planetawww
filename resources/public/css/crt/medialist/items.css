@@ -1,24 +1,15 @@
 ul.items {
   margin: auto;
 }
-ul.items .media-item {
-  text-align: center;
-}
 .media-items {
   display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
-}
-@media (max-width: 478px) {
-  .media-items {
-    text-align: center;
-  }
+  flex-flow: column;
+  justify-content: left;
 }
 .media-items > .menu {
   min-width: 240px;
 }
 .menu .title a {
-  text-align: center;
   width: 100%;
   display: block;
   cursor: pointer;
@@ -26,7 +17,4 @@ ul.items .media-item {
 .menu .title a.opened {
   color: red;
   font-size: 2.1rem;
-}
-.menu ul.items {
-  padding-left: 10px;
 }

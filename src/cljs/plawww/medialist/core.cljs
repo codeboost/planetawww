@@ -44,7 +44,10 @@
     (item-detail/item->detail-item item)
     (item-plain item)))
 
-(defn search-match? [title search-string]
+(defn search-match?
+  "Returns true if `title` starts with `search-string`, regardless of case.
+  If search string is empty, returns true."
+  [title search-string]
   (or (str/blank? search-string)
       (str/starts-with?
         (str/lower-case title)
@@ -127,12 +130,12 @@
   (= (str/trim (str/lower-case title))
      (str/trim (str/lower-case selected-tag))))
 
+(defonce by-tags* (memoize by-tags))
+
 (defn render-tags-and-items [media-items selected-tag]
-  (let [by-tags* (memoize by-tags)
-        tagged (by-tags* media-items)
+  (let [tagged (by-tags* media-items)
         menus (mapv #(tag-component % true) tagged)]
     (into [:div.media-items.horiz-container] menus)))
-
 
 (defn render-list-of-tags [media-items]
   (into [:div.media-items.horiz-container]
@@ -167,17 +170,50 @@
   (filter (fn [{:keys [title]}]
             (search-match? title search-string)) media-items))
 
+(defn search-in-tags
+  "Returns a collection of elements from `items` for which one of its tags matches `s`."
+  [items s]
+  (filter
+   (fn [{:keys [tags]}]
+     (some #(search-match? % s) tags))
+   items))
+
+(comment
+ (def media-items (session/get :media-items))
+
+ (-> media-items
+   (search-in-tags "musi")
+   (render-list-of-tags)
+   (seq)))
+
+
 (defn starting-with
   "Returns the items who's `:title` starts with `letter`."
   [items letter]
   (filter #(utils/starts-with-letter? (:title %) letter) items))
 
+(defn render-search-results [search-string items]
+  (let [item-results (search-in-items items search-string)
+        tag-results (search-in-tags items search-string)]
+    [:div.search-results
+     (when (seq tag-results)
+       [:div.tags
+        (render-list-of-tags tag-results)
+        [:hr]])
+     [:ul.items
+      (if (seq item-results)
+        (doall (map item->li item-results))
+        [:li.no-results (search-component/random-not-found-msg)])]]))
+
+(def first-letters* (memoize utils/first-letters))
+
 (defn render-alphabet [*letter items]
-  [alphabet/alphabet-component *letter (utils/first-letters items)])
+  [alphabet/alphabet-component *letter (first-letters* items)])
 
 (defn- render-all-by-letters
   [*letter items]
-  (let [first-letters (utils/first-letters items)]
+  ;TODO: scroll to *letter
+  (let [first-letters (first-letters* items)]
     (into [:ul.all-letters]
       (map
        (fn [the-letter]
@@ -194,14 +230,6 @@
     [:div.by-letters
      (render-alphabet *letter items)
      [:ul.items (doall (map item->li (starting-with items @*letter)))]]))
-
-(defn render-search-results [search-string items]
-  (let [results (search-in-items items search-string)]
-      [:ul.items
-       (if (seq results)
-         (doall (map item->li results))
-         [:li.no-results (search-component/random-not-found-msg)])]))
-
 
 (defn media-items-component [items opts]
   (let [{:keys [group-by search-string cur-tag show-all?]} @opts
@@ -221,6 +249,8 @@
      [search-component/search-component *state*]
      [:div.v16px]
      [:div.page-content
-      (let [items media-items]
-        [media-items-component items *state*])]]))
+      [:div
+       [:div.back-button [:a {:href "javascript:history.back();"} ".."]]
+       (let [items media-items]
+        [media-items-component items *state*])]]]))
 

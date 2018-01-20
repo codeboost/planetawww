@@ -7,7 +7,8 @@
 
 (ns plawww.medialist.search-component
   (:require [clojure.string :as str]
-            [reagent.core :as r]))
+            [reagent.core :as r]
+            [reagent.session :as session]))
 
 (defn- search-input
   "Renders the search input box and swaps the :search-string "
@@ -66,34 +67,80 @@
          [button-tags (= :tag (:group-by @*state))]
          [button-letters (= :plain (:group-by @*state))]]))))
 
-(defn random-search-prompt []
-  (let [prompts ["CE DORITI?"
-                 "CU CE VA PUTEM SERVI?"
-                 "SRCH:"
-                 "CAUT:"
-                 "SI VREI?"
-                 "PRAPADIT?"
-                 "TOARNA:"
-                 "SHOPTESHTE:"
-                 "AMNEZIE?"
-                 "VEI GASI:"
-                 "PROBLEME?"]
+(defn- censor-strings
+  "Given a collection of strings `coll`, returns a new collection without the strings that start with 'xx '.
+  Basically, if you want "
+  [coll xx?]
+  (if xx?
+    (mapv #(str/replace % "xx " "") coll)
+    (filterv #(not (str/starts-with? % "xx ")) coll)))
+
+
+(def PROMPTS ["CE DORITI?"
+              "CU CE VA PUTEM SERVI?"
+              "SRCH:"
+              "CAUT:"
+              "SI VREI?"
+              "PRAPADIT?"
+              "TOARNA:"
+              "SHOPTESHTE.."
+              "AMNEZIE?"
+              "VEI GASI:"
+              "PROBLEME?"
+              "GADILITURA NEURONALA:"
+              "OBSESIVCOMPULSIVITATEA:"
+              "CUM SE NUMEA PRAGONUL?"
+              "YOKLMN MLEA!"
+              "VREU'S'ASCULT:"
+              "DENUMIREA DORINTEI:"
+              "CINE CAUTA GASESTE:"
+              "CAUTA SI GASESTE!"
+              "CAUTATI, CAUTATI, CAUTATI:"
+              "NU CUMVA SA SCRII AICI CEVA!"
+              "DENUMIREA PRAGONULUI:"
+              "SCRIE SI VREI"
+              "CE-I SCRIS CU BARDITZA, NU TAI CU PENIZA:"
+              "CRIME, DROGURI SAU DRAGOSTE ?"
+              "xx KIZDOI"])
+
+(defn random-search-prompt [xx?]
+  (let [prompts (censor-strings PROMPTS xx?)
         index (rand-int (count prompts))]
     (nth prompts index)))
 
-
-(defn random-not-found-msg []
+(defn random-not-found-msg [xx?]
   (let [emotions ["GRUZ:"
                   "HRENOVO:"
                   "MARI JELI:"
                   "NU RETRAITI, TOTUL VA FI BINE CANDVA, DAR ACUM:"
-                  "DEAMU SNISKUZATI CUM S-AR ZICE, DAR"]
+                  "DEAMU SNISKUZATI CUM S-AR ZICE, DAR"
+                  "PROCESORUL ISI CERE SCUZE:"
+                  "NIPAVERISH - "
+                  "NOUTATE EXTREM DE REA:"
+                  "EROARE EXTREMALA:"
+                  "FATAL TOTAL ABSOLUT ZERO INFINIT ! "
+                  "ABSOLUT (VADIARA):"
+                  "M-AI USHIS:"
+                  "PEREDOZ DE CURIOZITATE:"
+                  "xx VAFLI: "
+                  "xx DA NU NAHUI BLEA:"
+                  "xx CAROCE ASA HUINEA: "
+                  "xx HUIOVO PIZDET:"
+                  "xx DE-A PULA:"]
+
         messages  ["GOLEAK REZULTATE"
-                   "N-AVEM ASA CEVA"
+                   "NU'I ASA CEVA, NA!"
                    "CANESHNA C'NUI!"
                    "BREDITZI, STIMABILE ?"
-                   "MATINKA TE-AI INCURCAT"]]
-    (let [emotion (emotions (rand-int (count emotions)))
+                   "MATINKA TE-AI INCURCAT"
+                   "xx NISH O PULA N-AM GASIT"
+                   "xx MULTIMEA DE REZULTATE ESTE GOALA CA KIZDA RASHKIRATA."]]
+
+
+
+    (let [emotions (censor-strings emotions xx?)
+          messages (censor-strings messages xx?)
+          emotion (emotions (rand-int (count emotions)))
           message (messages (rand-int (count messages)))]
       [:span.no-results
        [:span.emotion emotion]
@@ -102,7 +149,7 @@
 
 (defn search-component [*state]
   [:div.search-component
-   [:div.search-text (random-search-prompt)]
+   [:div.search-text (random-search-prompt (session/get :xx?))]
    [search-input *state :search-string]
    [search-component-filters *state]])
 

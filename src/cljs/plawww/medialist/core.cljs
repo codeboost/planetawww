@@ -20,7 +20,7 @@
                           :item-view-mode :plain
                           :search-string  ""
                           :cur-letter     "A"
-                          :cur-tag        ""
+                          :expanded-tags  #{}
                           :show-all?      false
                           :detail-items?  false}))
 
@@ -28,7 +28,6 @@
 (defn set-opts [opts]
   (println "media-page/set-opts: " opts)
   (swap! *state* merge opts))
-
 
 (defn item-plain [{:keys [title id]}]
   (let [href (str "/media/" id)
@@ -61,16 +60,43 @@
     (.preventDefault e)
     (reset! *a (not @*a))))
 
+(defn toggle-item
+  "Toggles an item in a collection.
+   Returns a set containing the items in coll with `text` added if it wasn't in the collection or removed if it was."
+  [coll text]
+  (set
+   (if ((set coll) text)
+     (remove #{text} coll)
+     (conj coll text))))
+
+(comment
+
+ (def *test (atom {:expanded-tags #{}}))
+ (swap! *test update-in [:expanded-tags] toggle-item "HELLO"))
+
+
+
+
+
+(defn toggle-expanded-tag [title]
+  (swap! *state* update-in [:expanded-tags] toggle-item title))
+
 (defn menu->hiccup [{:keys [title items] :as menu} expanded?]
   "Renders a menu and its items.
   A 'menu' in this context is a div which displays a title and optionally a `ul` containing  child items."
-  [:div.menu
-   [:div.title
-    [:a {:href  (str "/media/tag/" title)
-         :class (if expanded? "opened" "")}
-     title]
-    (when (and expanded? (pos? (count items)))
-      [:ul.items items])]])
+  (let [title (if (:detail-items? @*state*)
+                (str title " - " (count items))
+                title)]
+    [:div.menu
+     [:div.title
+      [:a {:href "#"
+           :on-click (fn [event]
+                      (toggle-expanded-tag title)
+                      (.preventDefault event))
+           :class (if expanded? "opened" "")}
+       title]
+      (when (and expanded? (pos? (count items)))
+        [:ul.items items])]]))
 
 (defn tag-component
   ""
@@ -126,24 +152,32 @@
       :num-items
       (group-by-tag media-items))))
 
-(defn- expand? [{title :title} selected-tag]
-  (= (str/trim (str/lower-case title))
-     (str/trim (str/lower-case selected-tag))))
+(defn- expand? [{title :title} selected-tags]
+  (let [clean-fn (comp str/trim str/lower-case)
+        title (clean-fn title)
+        selected-tags (if (string? selected-tags)
+                        #{(clean-fn selected-tags)}
+                        (set (map clean-fn selected-tags)))]
+    (some? (some #{title} selected-tags))))
 
 (defonce by-tags* (memoize by-tags))
+(defonce items-for-tag* (memoize items-for-tag))
 
-(defn render-tags-and-items [media-items selected-tag]
+(defn render-tags-and-items [media-items]
   (let [tagged (by-tags* media-items)
         menus (mapv #(tag-component % true) tagged)]
     (into [:div.media-items.horiz-container] menus)))
 
-(defn render-list-of-tags [media-items]
-  (into [:div.media-items.horiz-container]
+(defn render-list-of-tags
+  ([media-items selected-tag]
+   (into [:div.media-items.horiz-container]
     (->> media-items
      (tags-from-items)
      (filter (comp pos? count))
-     (map #(text->tag [] %))
-     (map #(tag-component % false)))))
+     (map #(text->tag (items-for-tag* media-items %) %))
+     (map #(tag-component % (expand? % selected-tag))))))
+  ([media-items]
+   (render-list-of-tags media-items "")))
 
 
 (defn render-one-tag [media-items selected-tag]
@@ -159,12 +193,10 @@
     If `selected-tag` is an empty string, the tag list is rendered.
     If `selected-tag` is non-empty, the items tagged with `selected-tag` are rendered.
   else, if show-all? is true, all tags and their items are displayed. "
-  [media-items selected-tag show-all?]
+  [media-items selected-tags show-all?]
   (if show-all?
-    (render-tags-and-items media-items selected-tag)
-    (if (pos? (count selected-tag))
-      (render-one-tag media-items selected-tag)
-      (render-list-of-tags media-items))))
+    (render-tags-and-items media-items)
+    (render-list-of-tags media-items selected-tags)))
 
 (defn search-in-items [media-items search-string]
   (filter (fn [{:keys [title]}]
@@ -203,12 +235,20 @@
      [:ul.items
       (if (seq item-results)
         (doall (map item->li item-results))
-        [:li.no-results (search-component/random-not-found-msg)])]]))
+        [:li.no-results (search-component/random-not-found-msg (session/get :xx?))])]]))
 
 (def first-letters* (memoize utils/first-letters))
 
 (defn render-alphabet [*letter items]
-  [alphabet/alphabet-component *letter (first-letters* items)])
+  [alphabet/alphabet-component
+   *letter
+   (first-letters* items)
+   (fn [letter event]
+     (js/console.log "Here")
+     (set-opts {:cur-letter letter
+                :group-by :plain})
+     (.preventDefault event)
+     false)])
 
 (defn- render-all-by-letters
   [*letter items]
@@ -232,13 +272,13 @@
      [:ul.items (doall (map item->li (starting-with items @*letter)))]]))
 
 (defn media-items-component [items opts]
-  (let [{:keys [group-by search-string cur-tag show-all?]} @opts
+  (let [{:keys [group-by search-string expanded-tags show-all?]} @opts
         searching? (not (str/blank? search-string))
         group-by (if searching? :plain group-by)
         *letter (r/cursor opts [:cur-letter])]
     (cond
       (= group-by :tag)
-      (render-by-tag items cur-tag show-all?)
+      (render-by-tag items expanded-tags show-all?)
       (= group-by :plain)
       (if searching? (render-search-results search-string items)
                      (render-by-letter *letter items show-all?)))))
@@ -246,11 +286,11 @@
 (defn media-page [media-items]
   (fn []
     [:div.media-page
-     [search-component/search-component *state*]
-     [:div.v16px]
-     [:div.page-content
-      [:div
-       [:div.back-button [:a {:href "javascript:history.back();"} ".."]]
-       (let [items media-items]
-        [media-items-component items *state*])]]]))
+     [:div.components
+      [search-component/search-component *state*]
+      [:div.v16px]
+      [:div.page-content
+       [:div
+        (let [items media-items]
+         [media-items-component items *state*])]]]]))
 

@@ -9,7 +9,10 @@
    {:style {:width (str (* 40 (count letters)) "px")}} ;40 the width of one letter item (see `byletters.less`).
    (for [letter letters]
      ^{:key letter}
-     [:li [:a {:href (str "/media/letter/" letter)
+     [:li [:a {:href "#"
+               :on-click (fn [event] (when on-click
+                                       (on-click letter event)))
+
                :class (if (utils/starts-with-letter? letter selected) "selected" "")} letter]])])
 
 (defn- scroll-to-letter
@@ -28,10 +31,11 @@
 (defn alphabet-component
   "Displays a list of letters in the `letters` vector and when the letter is clicked,
   it is stored in the `*letter` atom."
-  [*letter letters]
+  [*letter letters on-click]
   (fn []
     (scroll-to-current-letter *letter)
     [:div.alphabet
      [alphabet-items
       letters
-      @*letter]]))
+      @*letter
+      on-click]]))

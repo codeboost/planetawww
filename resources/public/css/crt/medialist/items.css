@@ -1,6 +1,9 @@
 ul.items {
   margin: auto;
 }
+ul.items li {
+  margin-left: 20px;
+}
 .media-items {
   display: flex;
   flex-flow: column;

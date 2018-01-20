@@ -19,11 +19,10 @@
 (defonce *state* (r/atom {:group-by       :tag
                           :item-view-mode :plain
                           :search-string  ""
-                          :cur-letter     "A"
+                          :expanded-letters #{}
                           :expanded-tags  #{}
                           :show-all?      false
                           :detail-items?  false}))
-
 
 (defn set-opts [opts]
   (println "media-page/set-opts: " opts)
@@ -69,17 +68,11 @@
      (remove #{text} coll)
      (conj coll text))))
 
-(comment
-
- (def *test (atom {:expanded-tags #{}}))
- (swap! *test update-in [:expanded-tags] toggle-item "HELLO"))
-
-
-
-
-
 (defn toggle-expanded-tag [title]
   (swap! *state* update-in [:expanded-tags] toggle-item title))
+
+(defn toggle-expanded-letter [letter]
+  (swap! *state* update-in [:expanded-letters] toggle-item letter))
 
 (defn menu->hiccup [{:keys [title items] :as menu} expanded?]
   "Renders a menu and its items.
@@ -92,7 +85,8 @@
       [:a {:href "#"
            :on-click (fn [event]
                       (toggle-expanded-tag title)
-                      (.preventDefault event))
+                      (.preventDefault event)
+                      false)
            :class (if expanded? "opened" "")}
        title]
       (when (and expanded? (pos? (count items)))
@@ -141,6 +135,7 @@
   "Groups media items from the `media-items` vector by tag.
   Returns a collection of tag structures."
   [media-items]
+  (println "group-by-tag called")
   (let [tag-titles (tags-from-items media-items)
         tags (mapv #(text->tag media-items %) tag-titles)]
     tags))
@@ -210,17 +205,8 @@
      (some #(search-match? % s) tags))
    items))
 
-(comment
- (def media-items (session/get :media-items))
-
- (-> media-items
-   (search-in-tags "musi")
-   (render-list-of-tags)
-   (seq)))
-
-
-(defn starting-with
-  "Returns the items who's `:title` starts with `letter`."
+(defn items-starting-with-letter
+  "Returns the items in which `:title` starts with `letter`."
   [items letter]
   (filter #(utils/starts-with-letter? (:title %) letter) items))
 
@@ -237,51 +223,57 @@
         (doall (map item->li item-results))
         [:li.no-results (search-component/random-not-found-msg (session/get :xx?))])]]))
 
-(def first-letters* (memoize utils/first-letters))
+(defn- letter-click-handler [letter]
+  (fn [event]
+    (toggle-expanded-letter letter)
+    (.preventDefault event)
+    false))
 
-(defn render-alphabet [*letter items]
-  [alphabet/alphabet-component
-   *letter
-   (first-letters* items)
-   (fn [letter event]
-     (js/console.log "Here")
-     (set-opts {:cur-letter letter
-                :group-by :plain})
-     (.preventDefault event)
-     false)])
+(defn- group-by-first-letter [items]
+  (println "group-by-first-letter called.")
+  (group-by #(utils/extract-first-letter (:title %)) items))
 
-(defn- render-all-by-letters
-  [*letter items]
+(def group-by-first-letter* (memoize group-by-first-letter))
+
+(defn letter-component [letter]
+  [:div.letter
+   [:a
+    {:href :#
+     :on-click (letter-click-handler letter)}
+    letter]])
+
+(defn expanded-items-component [items]
+  [:ul.items (doall (map item->li items))])
+
+(defn- render-by-letter
+  "expanded is an atom"
+  [expanded items show-all?]
   ;TODO: scroll to *letter
-  (let [first-letters (first-letters* items)]
+  (let [items-by-first-letter (group-by-first-letter* items)
+        first-letters (sort (keys items-by-first-letter))]
     (into [:ul.all-letters]
       (map
-       (fn [the-letter]
-         ^{:key (str "L_" the-letter)}
-         [:li
-          [:div.letter the-letter]
-          [:ul.items (doall (map item->li (starting-with items the-letter)))]])
+       (fn [letter]
+         (let [show-items? (or show-all? (@expanded letter))]
+           ^{:key (str "L_" letter)}
+           [:li
+            [letter-component letter]
+            (when show-items?
+              {:class :expanded}
+              [expanded-items-component (get items-by-first-letter letter)])]))
        first-letters))))
-
-
-(defn render-by-letter [*letter items show-all?]
-  (if show-all?
-    (render-all-by-letters *letter items)
-    [:div.by-letters
-     (render-alphabet *letter items)
-     [:ul.items (doall (map item->li (starting-with items @*letter)))]]))
 
 (defn media-items-component [items opts]
   (let [{:keys [group-by search-string expanded-tags show-all?]} @opts
         searching? (not (str/blank? search-string))
         group-by (if searching? :plain group-by)
-        *letter (r/cursor opts [:cur-letter])]
-    (cond
-      (= group-by :tag)
-      (render-by-tag items expanded-tags show-all?)
-      (= group-by :plain)
-      (if searching? (render-search-results search-string items)
-                     (render-by-letter *letter items show-all?)))))
+        expanded (r/cursor opts [:expanded-letters])]
+
+    (case group-by
+      :tag (render-by-tag items expanded-tags show-all?)
+      :plain (if searching?
+               (render-search-results search-string items)
+               (render-by-letter expanded items show-all?)))))
 
 (defn media-page [media-items]
   (fn []
@@ -294,3 +286,12 @@
         (let [items media-items]
          [media-items-component items *state*])]]]]))
 
+
+(comment
+ (def media-items (session/get :media-items))
+ (sort (keys (group-by-first-letter* media-items)))
+
+ (-> media-items
+     (search-in-tags "musi")
+     (render-list-of-tags)
+     (seq)))

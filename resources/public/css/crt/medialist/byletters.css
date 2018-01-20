@@ -24,5 +24,7 @@
 }
 .all-letters .letter {
   font-size: 2em;
+}
+.all-letters .letter .expanded {
   color: red;
 }

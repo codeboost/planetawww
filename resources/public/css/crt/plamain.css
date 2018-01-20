@@ -180,6 +180,8 @@ ul.items li {
 }
 .all-letters .letter {
   font-size: 2em;
+}
+.all-letters .letter .expanded {
   color: red;
 }
 .lv-cell .image-area {

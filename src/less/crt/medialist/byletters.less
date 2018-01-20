@@ -4,6 +4,7 @@
   font-size: 2em;
   margin-bottom: 20px;
   ul {
+    // margin: auto;
     overflow: hidden;
       width: 40 * 26px; //set by the client code to n * 40.
       li {
@@ -19,6 +20,8 @@
   }
 
   .by-letters {
+    // display: flex; 
+    // flex-direction: column;
     .selected-letter {
       font-size: 2em; 
       color: red; 
@@ -29,7 +32,9 @@
   .all-letters {
     .letter {
       font-size: 2em; 
-      color: red;
+      .expanded {
+        color: red;
+      }
       //text-align: center;
     }
     

@@ -99,7 +99,7 @@
               :items (map item->li items)}]
     [menu->hiccup menu expanded?]))
 
-(defn tags-from-items
+(defn unique-tags
   "Returns a set of unique tags extracted from the media items."
   [media-items]
   (->> media-items
@@ -108,6 +108,8 @@
        (map str/trim)
        (remove empty?)
        (set)))
+
+(def unique-tags* (memoize unique-tags))
 
 (defn equal-tag? [tag1 tag2]
   (= (str/trim (str/lower-case tag1))
@@ -136,18 +138,16 @@
   Returns a collection of tag structures."
   [media-items]
   (println "group-by-tag called")
-  (let [tag-titles (tags-from-items media-items)
-        tags (mapv #(text->tag media-items %) tag-titles)]
-    tags))
+  (let [tags (unique-tags* media-items)]
+    (mapv #(text->tag media-items %) tags)))
 
 (defn by-tags [media-items]
   "Returns a list of maps with following keys: [:tag :items :num-items]"
-  (reverse
-    (sort-by
-      :num-items
-      (group-by-tag media-items))))
+  (sort-by
+    :title
+    (group-by-tag media-items)))
 
-(defn- expand? [{title :title} selected-tags]
+(defn- expand? [title selected-tags]
   (let [clean-fn (comp str/trim str/lower-case)
         title (clean-fn title)
         selected-tags (if (string? selected-tags)
@@ -158,40 +158,31 @@
 (defonce by-tags* (memoize by-tags))
 (defonce items-for-tag* (memoize items-for-tag))
 
-(defn render-tags-and-items [media-items]
+(defn render-by-tag [media-items expanded-tags show-all?]
   (let [tagged (by-tags* media-items)
-        menus (mapv #(tag-component % true) tagged)]
+        menus (mapv #(tag-component % (or show-all? (expand? (:title %) expanded-tags)))
+                    tagged)]
     (into [:div.media-items.horiz-container] menus)))
 
+;TODO: Remove?
 (defn render-list-of-tags
   ([media-items selected-tag]
    (into [:div.media-items.horiz-container]
     (->> media-items
-     (tags-from-items)
+     (unique-tags)
      (filter (comp pos? count))
      (map #(text->tag (items-for-tag* media-items %) %))
      (map #(tag-component % (expand? % selected-tag))))))
   ([media-items]
    (render-list-of-tags media-items "")))
 
-
+;TODO: Remove?
 (defn render-one-tag [media-items selected-tag]
   (let [items (items-for-tag media-items selected-tag)]
     [:div.media-items.horiz-container
      (tag-component {:title selected-tag
                      :items items
                      :num-items (count items)} true)]))
-
-(defn render-by-tag
-  "Renders media items grouped by tags.
-  If show-all? is false
-    If `selected-tag` is an empty string, the tag list is rendered.
-    If `selected-tag` is non-empty, the items tagged with `selected-tag` are rendered.
-  else, if show-all? is true, all tags and their items are displayed. "
-  [media-items selected-tags show-all?]
-  (if show-all?
-    (render-tags-and-items media-items)
-    (render-list-of-tags media-items selected-tags)))
 
 (defn search-in-items [media-items search-string]
   (filter (fn [{:keys [title]}]
@@ -268,12 +259,11 @@
         searching? (not (str/blank? search-string))
         group-by (if searching? :plain group-by)
         expanded (r/cursor opts [:expanded-letters])]
-
+    (if searching?
+      (render-search-results search-string items))
     (case group-by
       :tag (render-by-tag items expanded-tags show-all?)
-      :plain (if searching?
-               (render-search-results search-string items)
-               (render-by-letter expanded items show-all?)))))
+      :plain (render-by-letter expanded items show-all?))))
 
 (defn media-page [media-items]
   (fn []

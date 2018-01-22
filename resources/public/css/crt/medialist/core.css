@@ -134,8 +134,8 @@ ul.items li .no-results .message {
 ul.items {
   margin: auto;
 }
-ul.items li {
-  margin-left: 20px;
+ul.items .media-item .description {
+  margin-left: 10px;
 }
 .media-items {
   display: flex;
@@ -151,8 +151,10 @@ ul.items li {
   cursor: pointer;
 }
 .menu .title a.opened {
-  color: red;
   font-size: 2.1rem;
+}
+.menu ul.items li {
+  margin-left: 20px;
 }
 .alphabet {
   overflow-x: scroll;

@@ -1,14 +1,15 @@
 
 ul.items {
-	li {
-		margin-left: 20px;
-	}
+	li {}
 
 	.media-item {
-		//text-align: center;
+		.description {
+			margin-left: 10px;
+		}
 	}
     margin: auto;
 }
+
 
 .media-items {
 	display: flex; 
@@ -30,7 +31,6 @@ ul.items {
 		width: 100%;
 		display: block;
 		&.opened{
-			color: red;
 			font-size: 2.1rem;
 		}
 		cursor: pointer;
@@ -39,7 +39,8 @@ ul.items {
 	}
 	ul.items {
 		//padding-left: 10px;
-		li a {
+		li {
+			margin-left: 20px;
 		}
 	}
 }

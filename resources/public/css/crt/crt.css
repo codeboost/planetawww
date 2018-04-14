@@ -68,11 +68,6 @@ h1.ok-button {
 #continue-button {
   display: none;
 }
-.scale-out-animation {
-  -webkit-animation: scale-out-center 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53) both;
-  -moz-animation: scale-out-center 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53) both;
-  animation: scale-out-center 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53) both;
-}
 .search-component {
   display: flex;
   flex-direction: column;
@@ -232,20 +227,14 @@ ul.items .media-item .description {
   justify-content: center;
 }
 #player-controls .progress-bar {
-  height: 16;
-  radius: 8;
   flex-grow: 0;
   height: 16px;
   border: 1px solid #14fdce;
-  border-top-right-radius: 8px;
-  border-bottom-right-radius: 8px;
 }
 #player-controls .progress-bar .progress-bar-progress {
   background-color: #14fdce;
   height: 100%;
   pointer-events: none;
-  border-top-right-radius: 8px;
-  border-bottom-right-radius: 8px;
 }
 .vstack {
   display: flex;
@@ -265,10 +254,9 @@ ul.items .media-item .description {
   flex-grow: 2;
 }
 .window {
-  border: 2px solid #14fdce;
+  border: 1px solid #14fdce;
   background-color: #031e11;
   opacity: 0.9;
-  border-radius: 23px;
 }
 .window .content {
   margin: 4px;
@@ -313,20 +301,15 @@ ul.items .media-item .description {
   justify-content: center;
 }
 .player .controls .progress-bar {
-  height: 16;
-  radius: 8;
   flex-grow: 0;
   height: 16px;
   border: 1px solid #14fdce;
-  border-top-right-radius: 8px;
-  border-bottom-right-radius: 8px;
+  border-style: groove;
 }
 .player .controls .progress-bar .progress-bar-progress {
   background-color: #14fdce;
   height: 100%;
   pointer-events: none;
-  border-top-right-radius: 8px;
-  border-bottom-right-radius: 8px;
 }
 .player .controls .title-label {
   text-overflow: ellipsis;
@@ -335,6 +318,22 @@ ul.items .media-item .description {
 }
 .player .controls .time-label {
   text-align: right;
+}
+.player .controls .player-buttons {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+.player .controls .player-buttons .button {
+  border: 1px groove #14fdce;
+  padding-left: 4px;
+  padding-right: 4px;
+  margin-right: 4px;
+  cursor: pointer;
+}
+.player .controls .player-buttons .button:hover {
+  background-color: #14fdce;
 }
 .player .controls .volume-control {
   display: flex;
@@ -346,25 +345,6 @@ ul.items .media-item .description {
 }
 .player .controls .volume-control .progress-bar {
   width: 100px;
-  height: 24px;
-  border-radius: 12px;
-}
-.player .controls .volume-control .progress-bar .progress-bar-progress {
-  border-radius: 12px;
-}
-.player .controls .player-buttons {
-  display: flex;
-}
-.player .controls .player-buttons .button {
-  border: 1px solid #01775f;
-  border-radius: 6px;
-  padding-left: 4px;
-  padding-right: 4px;
-  margin-right: 4px;
-  cursor: pointer;
-}
-.player .controls .player-buttons .button:hover {
-  background-color: #14fdce;
 }
 .player .accessory-button {
   font-size: 0.9em;
@@ -487,7 +467,6 @@ ul.items .media-item .description {
   pointer-events: none;
 }
 .output {
-  animation: crt-output 10ms infinite;
   background-color: #031e11;
   overflow: scroll;
   position: absolute;

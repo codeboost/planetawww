@@ -64,7 +64,8 @@
                :onstop   (fn [] (set-playback-state :stop))
                :onplay   (fn [] (set-playback-state :play))
                :onpause  (fn [] (set-playback-state :pause))
-               :onresume (fn [] (set-playback-state :play))}))]
+               :onresume (fn [] (set-playback-state :play))
+               :onerror  (fn [code description] (js/alert "Error " code ": " description))}))]
     (when s (.setVolume s (session-amp-volume)))
     s))
 

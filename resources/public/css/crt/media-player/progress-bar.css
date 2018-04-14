@@ -55,18 +55,12 @@ ul {
   height: 16px;
 }
 #player-controls .progress-bar {
-  height: 16;
-  radius: 8;
   flex-grow: 0;
   height: 16px;
   border: 1px solid #14fdce;
-  border-top-right-radius: 8px;
-  border-bottom-right-radius: 8px;
 }
 #player-controls .progress-bar .progress-bar-progress {
   background-color: #14fdce;
   height: 100%;
   pointer-events: none;
-  border-top-right-radius: 8px;
-  border-bottom-right-radius: 8px;
 }

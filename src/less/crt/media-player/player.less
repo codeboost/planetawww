@@ -25,10 +25,10 @@
 }
 
 .window {
-	border: 2px solid @console-color;
+	border: 1px solid @console-color;
 	background-color: @console-bg;
 	opacity: 0.9;
-	border-radius: 23px;
+	//border-radius: 23px;
 	.content {
 		margin: 4px;
 	}
@@ -79,6 +79,7 @@
 		
 		.progress-bar {
 			#player-controls > .progress-bar;
+			border-style: groove;
 		}
 
 		.title-label {
@@ -90,30 +91,14 @@
 			text-align: right;
 		}
 
-		.volume-control {
-			display: flex; 
-			align-items: center; 
-			.accessory-button {
-				height: 24px;
-				width: 24px;
-			}
-			.progress-bar {
-				width: 100px;
-				height: 24px;
-				border-radius: 12px;
-				.progress-bar-progress {
-					border-radius: 12px;
-				}
-			}
-		}
-
-
 		.player-buttons {
 			display: flex; 
+			flex-direction: row;
+			flex-wrap: nowrap;
+			justify-content: space-between;
 
 			.button {
-				border: 1px solid darken(@console-color, 30%);
-				border-radius: 6px;
+				border: 1px groove @console-color;
 				padding-left: 4px;
 				padding-right: 4px;
 				margin-right: 4px;
@@ -123,6 +108,22 @@
 				}
 			}
 		}
+
+		.volume-control {
+			display: flex; 
+			align-items: center; 
+			.accessory-button {
+				height: 24px;
+				width: 24px;
+			}
+			.progress-bar {
+				width: 100px;
+				.progress-bar-progress {
+				}
+			}
+		}
+
+
 
 	}
 

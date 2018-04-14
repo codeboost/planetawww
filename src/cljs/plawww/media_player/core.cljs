@@ -134,8 +134,9 @@
      [song-progress position]
      [:div.hstack.bottom-part
       [:div.player-buttons
-       [play-button]
-       [volume-control]]]]))
+       [play-button]]
+      [:div]
+      [volume-control]]]))
 
 
 

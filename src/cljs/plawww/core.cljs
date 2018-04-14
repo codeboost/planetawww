@@ -112,14 +112,14 @@
 ;; Routes
 
 (defn media-items-by-letter [letter]
+  (js/console.log "Route handler for letter " letter)
   (set-current-page (render-media-page))
   (media-page/set-opts {:cur-letter (or letter "A")
                         :group-by :plain}))
 
 (defn media-items-by-tag [tag]
-  (println "THE TAG IS " tag)
   (set-current-page (render-media-page))
-  (media-page/set-opts {:cur-tag (or tag "")
+  (media-page/set-opts {:expanded-tags (set tag)
                         :group-by :tag}))
 
 
@@ -134,7 +134,7 @@
 
 (defroute #"/media/?" [q]
           (set-current-page (render-media-page))
-          (media-page/set-opts {:cur-tag ""
+          (media-page/set-opts {:expanded-tags []
                                 :group-by :tag}))
 
 (defroute #"/media/(\d+)" [id q]
@@ -148,7 +148,6 @@
           (media-items-by-tag ""))
 
 (defroute "/media/tag/:tag" [tag]
-          (println "Tag: " tag)
           (media-items-by-tag tag))
 
 (defroute "/test/" [q]

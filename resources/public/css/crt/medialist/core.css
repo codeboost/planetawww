@@ -57,10 +57,6 @@ ul {
 .search-component {
   display: flex;
   flex-direction: column;
-  align-items: center;
-}
-.search-component .search-text {
-  text-align: center;
 }
 .search-component .filters {
   margin-top: 16px;
@@ -76,6 +72,7 @@ input.search-box {
   font-family: 'VT323';
   text-transform: uppercase;
   border: 1px solid #01775f;
+  width: 260px;
 }
 input.search-box:focus {
   outline: none !important;
@@ -137,34 +134,27 @@ ul.items li .no-results .message {
 ul.items {
   margin: auto;
 }
-ul.items .media-item {
-  text-align: center;
+ul.items .media-item .description {
+  margin-left: 10px;
 }
 .media-items {
   display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
-}
-@media (max-width: 478px) {
-  .media-items {
-    text-align: center;
-  }
+  flex-flow: column;
+  justify-content: left;
 }
 .media-items > .menu {
   min-width: 240px;
 }
 .menu .title a {
-  text-align: center;
   width: 100%;
   display: block;
   cursor: pointer;
 }
 .menu .title a.opened {
-  color: red;
   font-size: 2.1rem;
 }
-.menu ul.items {
-  padding-left: 10px;
+.menu ul.items li {
+  margin-left: 20px;
 }
 .alphabet {
   overflow-x: scroll;
@@ -173,7 +163,6 @@ ul.items .media-item {
   margin-bottom: 20px;
 }
 .alphabet ul {
-  margin: auto;
   overflow: hidden;
   width: 1040px;
 }
@@ -186,10 +175,6 @@ ul.items .media-item {
 .alphabet ul li a {
   width: 40px;
 }
-.by-letters {
-  display: flex;
-  flex-direction: column;
-}
 .by-letters .selected-letter {
   font-size: 2em;
   color: red;
@@ -197,9 +182,7 @@ ul.items .media-item {
 }
 .all-letters .letter {
   font-size: 2em;
-  color: red;
-  text-align: center;
 }
-ul.items li {
-  text-align: center;
+.all-letters .letter .expanded {
+  color: red;
 }

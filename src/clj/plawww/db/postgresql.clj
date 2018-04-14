@@ -1,12 +1,14 @@
-(ns plawww.postgresql
+(ns plawww.db.postgresql
   (:import
    [org.postgresql.copy PGCopyOutputStream]
    [org.postgresql.util PGobject]
+   [org.postgresql PGConnection]
+   [java.sql Array SQLException]
    [org.postgresql PGConnection])
   (:require
-   [cheshire.core :as json]
-   [clojure.java.jdbc :as j]
-   [clojure.string :as string]))
+     [cheshire.core :as json]
+     [clojure.java.jdbc :as j]
+     [clojure.string :as string]))
 
 (deftype Json [v])
 

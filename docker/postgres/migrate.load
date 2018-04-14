@@ -1,0 +1,4 @@
+LOAD DATABASE
+   FROM mysql://root:3ixnweix@localhost:3306/mediacore
+   INTO pgsql://localhost:5432/planetamoldova_net
+ALTER schema 'mediacore' rename to 'public';

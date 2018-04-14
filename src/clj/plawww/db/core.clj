@@ -1,11 +1,11 @@
-(ns plawww.db
+(ns plawww.db.core
   (:require
    [clojure.java.jdbc :as j]
    [clojure.tools.logging :refer [debug error]]
    [environ.core :refer [env]]
    [honeysql.core :as hsql]
-   [plawww.postgresql]
-   [plawww.hikari-pool :as hikari-pool]))
+   [plawww.db.postgresql]
+   [plawww.db.hikari-pool :as hikari-pool]))
 
 (def queue-hints-by-default (atom true))
 (def db-core {:classname   "org.postgresql.Driver"
@@ -74,7 +74,7 @@
 (defn- lookup-band-connection
   "Lookup a band in the database and return a connection object if found."
   [id]
-  (if-let [band-results (maybe-query @service-db ["SELECT * FROM bands WHERE band_id=?" id])]
+  (if-let [band-results (j/query @service-db ["SELECT * FROM bands WHERE band_id=?" id])]
     (if-let [band-data (first band-results)]
       (if-let [n (:max-pool-size env)]
         (hikari-pool/pool (create-band-db band-data) n)
@@ -97,7 +97,7 @@
             (swap! band-conn-cache assoc id conn)
             conn)))))
 
-(defn band-connection
+(defn get-band-connection
   "Get a band connection."
   [id]
   (or (get @band-conn-cache id) (find-band-connection id)))
@@ -112,7 +112,7 @@
   to get rid of deprecated functions below to make this happen."
   [fdb]
   (if (number? fdb)
-    (assoc (band-connection fdb) :fid fdb)
+    (assoc (get-band-connection fdb) :fid fdb)
     (if-not (:fid fdb)
       (throw (Exception. (str "cannot make band connection from" fdb)))
       fdb)))

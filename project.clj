@@ -10,6 +10,7 @@
                  [org.clojure/test.check "0.9.0"]
                  [org.clojure/clojurescript "1.10.238" :scope "provided"]
                  [environ "1.1.0"]
+                 [cheshire "5.8.0"]
                  [binaryage/devtools "0.9.10"]
                  [clj-http "3.8.0"]
                  [cljsjs/typedjs "1.1.1-0"] ;jquery plugin that types

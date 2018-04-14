@@ -1,4 +1,4 @@
-(ns plawww.hikari-pool
+(ns plawww.db.hikari-pool
   "Support for Hikari connection pool."
   (:import
    [java.util Properties]

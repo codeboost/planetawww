@@ -2,14 +2,16 @@
   (:require [plawww.handler :refer [app]]
             [config.core :refer [env]]
             [ring.adapter.jetty :refer [run-jetty]]
-            [plawww.db :as db])
+            [plawww.db.core :as db])
   (:gen-class))
 
 (defn connect-database [opts]
   (db/set-application-name! "plawww")
   (db/set-server! "//localhost:5432")
-  (db/connect! "pm" (env :plawww-db-pwd) (or (env :plawww-band-id) 1)))
+  (db/connect! "pm" (:db-pwd opts)))
 
+(comment
+  (connect-database {:db-user "postgres"}))
 
 (defn -main [& args]
 

@@ -14,5 +14,7 @@
 
 
 (comment
+
   (plawww.db.core/band-db 1)
   (get-media (plawww.db.core/band-db 1)))
+

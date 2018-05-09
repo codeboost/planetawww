@@ -16,6 +16,7 @@
                  [cljsjs/typedjs "1.1.1-0"] ;jquery plugin that types
                  [cljsjs/react-draggable "3.0.3-0"] ;draggable
                  [compojure "1.6.0"]
+                 [com.stuartsierra/component "0.3.2"]
                  [garden "1.3.5"]
                  [hiccup "1.0.5"]
                  [hikari-cp "2.3.0"]

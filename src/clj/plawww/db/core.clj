@@ -2,6 +2,7 @@
   (:require
    [clojure.java.jdbc :as j]
    [clojure.tools.logging :refer [debug error]]
+   [com.stuartsierra.component :as component]
    [environ.core :refer [env]]
    [honeysql.core :as hsql]
    [plawww.db.postgresql]
@@ -123,3 +124,29 @@
    or sent immediately."
   ([fid] (band-db fid @queue-hints-by-default))
   ([fid queue-hints?] (assoc (band-connection fid) :queue-hints? queue-hints?)))
+
+
+;----------------------------------------------------------
+
+(defrecord Database [server bands-db user password app-name]
+  component/Lifecycle
+  (start [this]
+   (when (nil? @service-db)
+     (set-application-name! app-name)
+     (set-server! server)
+     (connect! user password bands-db)))
+  (stop [this]
+   this))
+
+
+(defn new-database
+  "Creates a Database component. Must use `component/start` to actually connect to the database.
+  The following keys are required in `options`:
+    :app-name  - string. Application name, eg. 'planeta-md'.
+    :server    - string. Database host:port, eg. '//localhost:5432'.
+    :bands-db  - string. Service database name, eg. 'bands'.
+    :user      - string. User connecting to the database.
+    :password  - string. Database password for the user `user`
+  "
+  [& {:as options}]
+  (map->Database options))

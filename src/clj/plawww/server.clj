@@ -1,5 +1,6 @@
 (ns plawww.server
   (:require [com.stuartsierra.component :as component]
+            [clojure.tools.logging :refer [info warn error]]
             [config.core :refer [env]]
             [plawww.handler :refer [app]]
             [plawww.db.core :as db]
@@ -7,25 +8,37 @@
 
   (:gen-class))
 
-(defn connect-database [opts]
-  (db/set-application-name! "plawww")
-  (db/set-server! "//localhost:5432")
-  (db/connect! "pm" (:db-pwd opts)))
+(defrecord WebServer [opts]
+  component/Lifecycle
+  (start [this]
+    (info "Starting WebServer.")
+    (if (:http-server this)
+      this
+      (assoc this :http-server (run-jetty #'app opts))))
 
-(comment
-  (connect-database {:db-user "postgres"}))
+  (stop [this]
+    (info "Stopping WebServer.")
+    (when-let [server (:http-server this)]
+      (.stop server))
+    this))
 
-(defn system [{:keys [db-server db-username db-password port]}]
+(defn web-server
+  "Returns a new instance of the WebServer component"
+  [opts]
+  (WebServer. opts))
+
+
+(defn system [{:keys [db-options web-server-options]}]
   (component/system-map
-   :database (db-component/new-database :app-name "Planeta"
-                                        :server db-server
-                                        :username db-username
-                                        :password db-password)
-   :scheduler nil
-   :eventbus nil
-   :web-server (run-jetty app {:port port :join? false})))
+   :database (db/new-database db-options)
+   :web-server (web-server web-server-options)))
 
 (defn -main [& args]
+  (let [options {:db-options
+                 {:server "//localhost:5432"
+                  :user "pm"
+                  :password nil
+                  :app-name "plan"}
+                 :web-server-options {:port (Integer/parseInt (or (env :port) "3000"))}}]
+    (component/start (system options))))
 
-  (let [port (Integer/parseInt (or (env :port) "3000"))]
-    (run-jetty app {:port port :join? false})))

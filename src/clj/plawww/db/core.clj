@@ -128,15 +128,20 @@
 
 ;----------------------------------------------------------
 
-(defrecord Database [server bands-db user password app-name]
+(defrecord Database [opts]
   component/Lifecycle
   (start [this]
-   (when (nil? @service-db)
-     (set-application-name! app-name)
-     (set-server! server)
-     (connect! user password bands-db)))
+    (println "Starting Database.")
+    (when (nil? @service-db)
+      (let [{:keys [server user password app-name]} opts]
+        (set-application-name! app-name)
+        (set-server! server)
+        (connect! user password)))
+    this)
+
   (stop [this]
-   this))
+    (dissoc this :db)
+    this))
 
 
 (defn new-database
@@ -144,9 +149,9 @@
   The following keys are required in `options`:
     :app-name  - string. Application name, eg. 'planeta-md'.
     :server    - string. Database host:port, eg. '//localhost:5432'.
-    :bands-db  - string. Service database name, eg. 'bands'.
+    :bands-db  - string. Service database name, eg. 'pm_bands'.
     :user      - string. User connecting to the database.
     :password  - string. Database password for the user `user`
   "
-  [& {:as options}]
-  (map->Database options))
+  [options]
+  (Database. options))

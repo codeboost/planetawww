@@ -81,6 +81,9 @@ input.search-box:focus {
 ul.items li .no-results .message {
   color: red;
 }
+.page-content {
+  text-align: center;
+}
 .media-item.detail {
   padding: 8px;
   border: 1px solid #01775f;

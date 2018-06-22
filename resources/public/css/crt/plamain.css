@@ -81,6 +81,9 @@ input.search-box:focus {
 ul.items li .no-results .message {
   color: red;
 }
+.page-content {
+  text-align: center;
+}
 .media-item.detail {
   padding: 8px;
   border: 1px solid #01775f;
@@ -411,6 +414,7 @@ ul.items .media-item .description {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
 }
 .media-page .page-title {
   text-align: center;

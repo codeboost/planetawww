@@ -33,10 +33,8 @@
    [:div [:a {:href "/"} "go to the home page"]]])
 
 
-
 (defn hook-up-the-stuff
   []
-  (println "hook-up-the-stuff")
   (session/put! :media-items ALLMEDIA)
   (session/put! :player-state {:visible false
                                :detail-visible? false
@@ -62,14 +60,16 @@
   (first (filter (fn [{:keys [id]}]
                    (= id search-id)) ALLMEDIA)))
 
-(defn update-player-state
+
+(defn with-item-image [item])
+
+(defn set-current-media-item
   "Updates the current media item in the session-state, which should trigger the media player to show and load the corresponding media.
   If :should-show-detail? is true, detail-visible? is set to true (which opens the player in detail mode).
   This only happens once, if user decides to hide details, the player will stay closed when a new item is loaded.
   This way, the user gets control of the detail showing, allowing him to toggle it.
   "
   [id]
-  (println "Media-id:" id)
   (when-let [media-item (media-item-for-id id)]
     (let [image-path (paths/s-image-path id)
           media-item (assoc media-item :image image-path)
@@ -85,81 +85,54 @@
       (when should-show-detail?
         (session/update-in! [:player-state] dissoc :should-show-detail?)))))
 
-(defn current-page []
-  (let [page (session/get :current-page)]
-    (if page
-      [:div [page]]
-      [:div "Page does not exist."])))
+(defn- media-browser-page []
+  [crt-page
+   [media-page/media-page ALLMEDIA]])
 
-(defn set-current-page
-  [f]
-  (session/put! :current-page f))
-
-(defn render-media-page
-  []
-  (fn []
-    [crt-page
-      [media-page/media-page ALLMEDIA]]))
-    ;(when opts
-    ;  (media-page/set-opts opts))))
-
-(defn test-page
-  [q]
-  (fn []
-    [crt-page [:div "Test"]]))
+(defn- show-media-browser [& [opts :or {}]]
+  (js/console.log "show-media-browser: " opts)
+  (session/put! :current-page #'media-browser-page)
+  (media-page/set-opts opts))
 
 ;; -------------------------
 ;; Routes
 
-(defn media-items-by-letter [letter]
-  (js/console.log "Route handler for letter " letter)
-  (set-current-page (render-media-page))
-  (media-page/set-opts {:cur-letter (or letter "A")
-                        :group-by :plain}))
-
-(defn media-items-by-tag [tag]
-  (set-current-page (render-media-page))
-  (media-page/set-opts {:expanded-tags (set tag)
-                        :group-by :tag}))
-
-
 (secretary/set-config! :prefix "#")
 
 (defroute "/" []
-          (welcome/on-init)
-          (session/put! :current-page #'welcome/page))
+  (welcome/on-init)
+  (session/put! :current-page #'welcome/page))
 
 (defroute "/about" []
-          (session/put! :current-page #'about-page))
+  (session/put! :current-page #'about-page))
 
 (defroute #"/media/?" [q]
-          (set-current-page (render-media-page))
-          (media-page/set-opts {:expanded-tags []
-                                :group-by :tag}))
+  (show-media-browser))
 
 (defroute #"/media/(\d+)" [id q]
-          (set-current-page (render-media-page))
-          (update-player-state (js/parseInt id)))
+          (show-media-browser)
+          (set-current-media-item (js/parseInt id)))
 
 (defroute #"/media/letter/?([a-zA-Z])?" [letter]
-          (media-items-by-letter letter))
+  (show-media-browser {:cur-letter (or letter "A") :group-by :plain}))
 
 (defroute #"/media/tag/?" []
-          (media-items-by-tag ""))
+  (show-media-browser {:expanded-tags #{""}}))
 
 (defroute "/media/tag/:tag" [tag]
-          (media-items-by-tag tag))
+  (show-media-browser {:expanded-tags #{tag} :group-by :tag}))
 
-(defroute "/test/" [q]
-          (set-current-page (test-page q)))
 
-(defroute #"/puzzle/?" [q]
-          (set-current-page (puzzle/puzzle-page 0)))
-
-(secretary/locate-route "/media/tag/ab")
+;(secretary/locate-route "/media/tag/ab")
 
 ;; -------------------------
 ;; Initialize app
+
+(defn current-page []
+  (let [page (session/get :current-page)]
+    (if page
+      [:div [page]]
+      [:div "Dapu-kaneshna-kiar-amush ! Nu-i asa ceva, nu-i ! "])))
 
 (defn mount-root []
   (reagent/render [current-page] (.getElementById js/document "app")))

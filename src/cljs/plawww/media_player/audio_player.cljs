@@ -28,6 +28,11 @@
   [pos]
   (session/update-in! [:player-state] assoc :position pos))
 
+(defonce *ctrl-channel (atom nil))
+
+(defn- save-control-channel! [channel]
+  (reset! *ctrl-channel channel))
+
 ;FIXME: Hack
 (defn- amp-volume
   "Converts to logarithmic value."
@@ -50,6 +55,9 @@
           duration (.-duration this)]
       (when (pos? duration)
         (set-playback-position (/ position duration))))))
+
+(defonce *current-file  (atom nil))
+(defonce *current-sound (atom nil))
 
 (defn- create-sound
   "Creates a sound object and sets the url to the supplied path.
@@ -103,7 +111,7 @@
   (logv "setVolume: " percent)
   (.setVolume s (session-amp-volume)))
 
-(defn process-command
+(defn- process-command
   "Dispatches a command to the player.
   `s` is an atom which is reset to a new value when the :load command received."
   [s cmd]
@@ -121,11 +129,16 @@
   {:command :play}
   "
   []
-  (let [ctrl-channel (chan)
-        s (reagent/atom nil)]
+  (let [ctrl-chan (chan)
+        _ (save-control-channel! ctrl-chan)]
     (go-loop []
-             (when-let [cmd (<! ctrl-channel)]
-               (logv "processing command: " cmd)
-               (process-command s cmd)
-               (recur)))
-    ctrl-channel))
+      (when-let [cmd (<! ctrl-chan)]
+        (logv "processing command: " cmd)
+        (process-command s cmd)
+        (recur)))))
+
+
+(defn command [cmd]
+  (if-let [channel @*ctrl-channel]
+    (put! channel cmd)
+    (js/console.log "Cannot process command. Audio player not initialised.")))

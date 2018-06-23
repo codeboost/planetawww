@@ -15,31 +15,17 @@
                            :item {:title ""
                                   :duration 0}})
 
-(defn track-audio-files
-  "Tracks changes to current media item and automatically loads the file into the audio player.
-  `ctrl-chan` is the channel returned by `audio-player/init` function."
-  [ctrl-chan]
-  ;TODO:  Of course this will not work for videos and other items, so this needs to be refactored.
-  ;TODO: Also not a big fan of this spying around.
-  (reagent/track!
-   (fn []
-     (when-let [filename (session/get-in [:player-state :item :filename])]
-       (let [filename (paths/media-path filename)]
-         (put! ctrl-chan {:command :load
-                          :filename filename
-                          :should-play true}))))))
-
-(defn initialise-audio-player!
-  "Tracks changes to current media item and automatically"
-  []
-  (let [ctrl-chan (audio-player/init)]
-    (session/put! :audio-player-control-channel ctrl-chan)
-    (track-audio-files ctrl-chan)))
+(defn start-playback [item]
+  (if-let [filename (:filename item)]
+    (audio-player/command {:command :load
+                           :filename filename
+                           :should-play true})
+    (js/console.log "start-playback: no filename for item " item)))
 
 (defn hook-up-the-stuff
   []
-  (session/put! :player-state default-player-state)
-  (initialise-audio-player!))
+  (audio-player/init)
+  (session/put! :player-state default-player-state))
 
 (defn with-item-image [item]
   (assoc item :image (paths/s-image-path (:id item))))
@@ -56,4 +42,5 @@
         detail? (or (:should-show-detail? state) (:detail-visible? state))]
     (media-page/set-opts {:selected-id (:id item)})
     (session/update-in! [:player-state] merge {:item item :detail-visible? detail? :visible true})
-    (when detail? (session/update-in! [:player-state] dissoc :should-show-detail?))))
+    (when detail? (session/update-in! [:player-state] dissoc :should-show-detail?))
+    (start-playback item)))

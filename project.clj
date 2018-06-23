@@ -4,7 +4,8 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
 
-  :dependencies [[binaryage/devtools "0.9.8"]
+  :dependencies [[binaryage/devtools "0.9.10"]
+                 [binaryage/dirac "1.2.35"]
                  [clj-http "3.7.0"]
                  [cljsjs/typedjs "1.1.1-0"] ;jquery plugin that types
                  [cljsjs/react-draggable "3.0.3-0"] ;draggable

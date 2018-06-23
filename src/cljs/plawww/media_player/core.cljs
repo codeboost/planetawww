@@ -8,17 +8,12 @@
 (ns plawww.media-player.core
   (:require
    [cljsjs.react-draggable]
-   [clojure.string :as str]
-   [reagent.core :as r]
-   [reagent.session :as session]
-   [reagent.interop :refer-macros [$ $!]]
    [plawww.media-player.audio-player :as audio-player]
    [plawww.media-player.item-detail :as detail]
    [plawww.media-player.progress-bar :as progress-bar]
-   [plawww.ui :as ui]
-   [plawww.utils :as utils]))
-
-(def draggable (r/adapt-react-class js/ReactDraggable))
+   [plawww.utils :as utils]
+   [reagent.session :as session]
+   [reagent.interop :refer-macros [$ $!]]))
 
 (defn- logv
   [& args]
@@ -34,18 +29,14 @@
 (defn- toggle-setting! [k]
   (session/update-in! [:player-state k] not))
 
-(defn- save-setting!
-  [k v]
-  (update-state! assoc k v))
-
 (defn- get-setting
   [ks]
-  (let [ks (if (keyword? ks) [ks] ks)]
+  (if (keyword? ks)
+    (session/get-in [:player-state ks])
     (session/get-in (into [:player-state] ks))))
 
 (defn send-player-command [command]
   (plawww.media-player.audio-player/command command))
-
 
 (defn song-progress [progress]
   [:span.song-progress
@@ -54,38 +45,30 @@
     #(send-player-command {:command :set-pos
                            :percent %}))])
 
-
-(defn- set-audio-player-volume [percent]
+(defn- set-audio-volume [percent]
   (send-player-command {:command :set-volume
-                         :percent percent})
+                        :percent percent})
   (session/update-in! [:player-state] assoc :volume percent))
 
-
 (defn time-label [duration position]
-  [:div.grow2.time-label.playback-time
-   (str
-    (utils/format-duration (* position duration))
-    "/"
-    (utils/format-duration duration))])
+  (let [duration (js/parseFloat duration)]
+    [:div.grow2.time-label.playback-time
+     (str
+      (utils/format-duration (* position duration))
+      "/"
+      (utils/format-duration duration))]))
 
-
-(defn play-button-text [state]
-  (let [txt (state {:play "PAUZA"
-                    :pause "PORN."
-                    :stop "PORN."})] txt))
+(defn play-button-text
+  "Returns the text to display on the button for the current playback state."
+  [s]
+  (s {:play  "PAUZA"
+      :pause "PORN."
+      :stop  "PORN."}))
 
 (def state-map
-  {:play :pause
+  {:play  :pause
    :pause :play
-   :stop :play})
-
-(defn play-button-click
-  "`ps` is an atom with the playback state
-  `pc` is the channel to which to send the commands"
-  [ps]
-  (fn [e]
-    (.preventDefault e)
-    (audio-player/command (or (state-map @ps) :play))))
+   :stop  :play})
 
 (defn play-button
   "Play button component.
@@ -96,32 +79,18 @@
   (let [ps (session/cursor [:player-state :playback-state])]
     (fn []
       [:div.button.play-button
-       [:a {:on-click (play-button-click ps)}
+       [:a {:on-click (fn [e]
+                        (.preventDefault e)
+                        (audio-player/command (or (state-map @ps) :play)))}
         (play-button-text (or @ps :pause))]])))
-
-
-(defn- toggle-accessory-button
-  [text key]
-  (let [className (when (get-setting key) "selected")]
-    [:div.accessory-button
-     {:on-click #(toggle-setting! key)
-      :class className}
-     text]))
-
 
 (defn volume-slider-control [progress]
   (progress-bar/progress-bar
    progress
-   #(set-audio-player-volume %)))
+   #(set-audio-volume %)))
 
-(defn volume-control []
-  [:span.volume-control
-     [volume-slider-control (get-setting :volume)]])
-
-(defn player-controls [state item]
-  (let [{:keys [position]} state
-        {:keys [duration title]} item
-        duration (js/parseFloat duration)]
+(defn player-controls [{:keys [position item volume]}]
+  (let [{:keys [duration title]} item]
     [:div.controls.vstack
      [:div.hstack
       [:div.title-label.grow8 title]
@@ -132,55 +101,33 @@
       [:div.player-buttons
        [play-button]]
       [:div]
-      [volume-control]]]))
+      [:span.volume-control
+       [volume-slider-control volume]]]]))
 
-
-
-
-(defn list-view-cell[image content accessory-view]
-  [:div.lv-cell.hstack
-   [:div.content-area content]
-   [:div.accessory-area accessory-view]])
+(defn- toggle-accessory-button
+  [text key]
+  [:div.accessory-button
+   {:on-click #(toggle-setting! key)
+    :class    (when (get-setting key) :selected)}
+   text])
 
 (defn accessory-view []
   [toggle-accessory-button "i" :detail-visible?])
 
 (defn player-view [state]
-  (let [item (:item state)]
-    [list-view-cell (:image item)
-     [player-controls state item] [accessory-view]]))
-
-
-(defn player-view2 [state]
-  (let [item (:item state)]
-    [list-view-cell (:image item)
-     [player-controls state item] [accessory-view]]))
-
-(defn item-details-area [astate]
-  (if (@astate :detail-visible?)
-    [:div.detail
-     [detail/detail-component (@astate :item)]]
-    [:div.detail.hidden]))
+  [:div.lv-cell.hstack
+   [:div.content-area [player-controls state]]
+   [:div.accessory-area [accessory-view]]])
 
 (defn player []
-  (let [player-state (session/cursor [:player-state])]
+  (let [state (session/cursor [:player-state])]
     (fn []
-      (if (:visible @player-state)
-         [:div.player.window.vstack {:class (when (@player-state :detail-visible?) "detail")}
-          [item-details-area player-state]
-          [:div.toolbar]
-          [:div.content
-           [player-view @player-state]]]
-         [:div.player.window.hidden]))))
+      (let [{:keys [visible detail-visible? item]} @state]
+        (if visible
+          [:div.player.window.vstack {:class (when detail-visible? :detail)}
+           (when detail-visible? [:div.detail [detail/detail-component item]])
+           [:div.toolbar]
+           [:div.content [player-view @state]]]
+          [:div.player.window.hidden])))))
 
-
-
-
-(comment
-  (format-time 100.76242857142857)
-  (session/update-in! [:player-state] merge {:item     {:title "Resetat"
-                                                        :image "/data/images/media/9l.jpg"}
-                                             :duration 120
-                                             :position 0.3}))
-
-
+;(def draggable (r/adapt-react-class js/ReactDraggable))

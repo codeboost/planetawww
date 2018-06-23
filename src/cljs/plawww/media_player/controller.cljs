@@ -18,7 +18,7 @@
 (defn start-playback [item]
   (if-let [filename (:filename item)]
     (audio-player/command {:command :load
-                           :filename filename
+                           :filename (paths/media-path filename)
                            :should-play true})
     (js/console.log "start-playback: no filename for item " item)))
 

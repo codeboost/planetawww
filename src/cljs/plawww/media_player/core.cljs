@@ -7,12 +7,12 @@
 
 (ns plawww.media-player.core
   (:require
-   [cljs.core.async :refer [put!]]
    [cljsjs.react-draggable]
    [clojure.string :as str]
    [reagent.core :as r]
    [reagent.session :as session]
    [reagent.interop :refer-macros [$ $!]]
+   [plawww.media-player.audio-player :as audio-player]
    [plawww.media-player.item-detail :as detail]
    [plawww.media-player.progress-bar :as progress-bar]
    [plawww.ui :as ui]
@@ -22,19 +22,17 @@
 
 (defn- logv
   [& args]
-  (println "media-player: " (apply str args)))
-
-(defonce player-state-key :player-state)
+  (js/console.log "media-player: " (apply str args)))
 
 (defn update-state!
   "Saves the state into the session under the `player-state-key`.
   (update-state! conj :show-details? true)"
   [& args]
-  (apply (partial session/update-in! [player-state-key]) args)
+  (apply (partial session/update-in! [:player-state]) args)
   nil)
 
 (defn- toggle-setting! [k]
-  (session/update-in! [player-state-key k] not))
+  (session/update-in! [:player-state k] not))
 
 (defn- save-setting!
   [k v]
@@ -43,11 +41,11 @@
 (defn- get-setting
   [ks]
   (let [ks (if (keyword? ks) [ks] ks)]
-    (session/get-in (into [player-state-key] ks))))
+    (session/get-in (into [:player-state] ks))))
 
 (defn send-player-command [command]
-  (when-let [channel (session/get-in [:audio-player-control-channel])]
-    (put! channel command)))
+  (plawww.media-player.audio-player/command command))
+
 
 (defn song-progress [progress]
   [:span.song-progress
@@ -84,10 +82,10 @@
 (defn play-button-click
   "`ps` is an atom with the playback state
   `pc` is the channel to which to send the commands"
-  [pc ps]
+  [ps]
   (fn [e]
     (.preventDefault e)
-    (put! @pc (or (state-map @ps) :play))))
+    (audio-player/command (or (state-map @ps) :play))))
 
 (defn play-button
   "Play button component.
@@ -95,18 +93,16 @@
   Clicking on the button will place a command onto the player command channel.
   The player should then update the [:player-state :playback-state] key."
   []
-  (let [ps (session/cursor [:player-state :playback-state])
-        pc (session/cursor [:audio-player-control-channel])]
+  (let [ps (session/cursor [:player-state :playback-state])]
     (fn []
       [:div.button.play-button
-       [:a {:on-click (play-button-click pc ps)}
+       [:a {:on-click (play-button-click ps)}
         (play-button-text (or @ps :pause))]])))
 
 
 (defn- toggle-accessory-button
   [text key]
   (let [className (when (get-setting key) "selected")]
-    (logv "className: " className)
     [:div.accessory-button
      {:on-click #(toggle-setting! key)
       :class className}
@@ -134,8 +130,9 @@
      [song-progress position]
      [:div.hstack.bottom-part
       [:div.player-buttons
-       [play-button]
-       [volume-control]]]]))
+       [play-button]]
+      [:div]
+      [volume-control]]]))
 
 
 
@@ -166,7 +163,7 @@
     [:div.detail.hidden]))
 
 (defn player []
-  (let [player-state (session/cursor [player-state-key])]
+  (let [player-state (session/cursor [:player-state])]
     (fn []
       (if (:visible @player-state)
          [:div.player.window.vstack {:class (when (@player-state :detail-visible?) "detail")}

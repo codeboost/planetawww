@@ -12,6 +12,7 @@
    [cljsjs.typedjs]
    [clojure.string :as str]
    [plawww.crt :refer [crt-page]]
+   [plawww.home :refer [home-page]]
    [plawww.welcome :as welcome]
    [plawww.medialist.core :as media-page]
    [plawww.media-player.controller :as media-controller]
@@ -40,8 +41,13 @@
   (media-page/set-opts opts))
 
 (defn about-page []
-  [:div [:h2 "About plawww?"]
-   [:div [:a {:href "/"} "go to the home page"]]])
+  [crt-page
+   [:div [:h2 "About plawww?"]
+    [:div [:a {:href "/"} "go to the home page"]]]])
+
+(defn show-home-page []
+  [crt-page
+   [home-page]])
 
 (defn media-item-for-id [id]
   (first (filter #(= id (:id %)) ALLMEDIA)))
@@ -57,6 +63,9 @@
 
 (defroute "/about" []
   (session/put! :current-page #'about-page))
+
+(defroute "/home" []
+  (session/put! :current-page #'show-home-page))
 
 (defroute #"/media/?" [q]
   (show-media-browser))

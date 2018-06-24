@@ -39,7 +39,14 @@
 (defn first-letters [items]
    (into (sorted-set) (map #(extract-first-letter (:title %)) items)))
 
-
+(defn toggle-item
+  "Toggles an item in a collection.
+   Returns a set containing the items in coll with `text` added if it wasn't in the collection or removed if it was."
+  [coll text]
+  (set
+   (if ((set coll) text)
+     (remove #{text} coll)
+     (conj coll text))))
 
 (comment
   ;TODO: Move to unit test

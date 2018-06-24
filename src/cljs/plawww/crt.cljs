@@ -1,11 +1,32 @@
 (ns plawww.crt
-  (:require [plawww.media-player.core :as player]))
+  (:require [plawww.media-player.core :as player]
+            [plawww.navbar.core :refer [navbar]]
+            [plawww.medialist.core :as medialist]
+            [reagent.session :as session]
+            [plawww.navbar.core :as navbar]
+            [plawww.navbar.search-component :as search-component]
+            [clojure.string :as str]))
 
-(defn crt-page [content]
+(defn search-results [ss]
+  [medialist/render-search-results
+   (session/get :media-items)
+   ss
+   #{}
+   #(search-component/random-not-found-msg (session/get :xx?))])
+
+(defn page-or-search-results [page *state]
+  (fn []
+    (let [ss (:search-string @*state)
+          searching? (not (str/blank? ss))]
+      (if searching?
+        [search-results ss]
+        page))))
+
+(defn crt-page [page]
   [:div.vert-container
    [:div.tv.noisy
     [:div.frame.tv
-     [:div.piece.output content]]
+     [:div.piece.output.planeta-experience
+      [navbar]
+      [page-or-search-results page navbar/state]]]
     [player/player]]])
-
-

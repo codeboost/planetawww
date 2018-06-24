@@ -17,12 +17,5 @@ pom.xml.asc
 /.DS_Store
 .DS_Store
 builds
-27905f896a7f8cab54da487f0e6ce85ec4395cef-init.clj
-
-5a5ac3c717c4bafa0a1e31a2c6a684d8ad0e140a-init.clj
-
-5c83eb84bf834e877514169326e81bac8d07fbc0-init.clj
-
-7815981e4edf0ee32639c6d40d997637c3100f3a-init.clj
-
-f3466c5c7ff43d3dc3644ecaddc9c11782b7a088-init.clj
+./*-init.clj
+resources/public/css/crt

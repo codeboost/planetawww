@@ -1,12 +1,16 @@
 //---
 @import "medialist/core";
 @import "media-player/core";
+@import "navbar/core";
 
 .frame.tv {
   position: absolute; 
   top: 0; 
   bottom: 200px;
   overflow-y: scroll; 
+}
+
+.planeta-experience {
 }
 
 .media-page {
@@ -20,12 +24,17 @@
     flex-direction: column; 
     justify-content: center; 
     align-items: center;
+    //Need to nest once more for "media-list"
+    .toolbar.filters {
+      margin-top: 16px;
+      float: left;
+    }
   }
-}
 
-.media-page .page-title {
-  text-align: center;
-  margin: 0px;
+  .page-title {
+    text-align: center;
+    margin: 0px;
+  }  
 }
 
 .toggle-button {

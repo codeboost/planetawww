@@ -9,16 +9,14 @@
   (:require
    [cljsjs.typedjs]
    [clojure.string :as str]
-   [plawww.medialist.alphabet :as alphabet]
-   [plawww.medialist.search-component :as search-component]
-   [plawww.media-player.item-detail :as item-detail]
+   [plawww.navbar.core :as navbar]
+   [plawww.medialist.toolbar :as toolbar]
    [plawww.utils :as utils]
    [reagent.core :as r]
    [reagent.session :as session]))
 
 (defonce *state* (r/atom {:group-by       :tag
                           :item-view-mode :plain
-                          :search-string  ""
                           :expanded-letters #{}
                           :expanded-tags  #{}
                           :show-all?      false
@@ -92,8 +90,8 @@
       [:a {:href "#"
            :on-click (fn [event]
                       (toggle-expanded-tag title)
-                      (.preventDefault event)
-                      false)
+                      (.preventDefault event))
+
            :class (if expanded? "opened" "")}
        title]
       (when (and expanded? (pos? (count items)))
@@ -144,7 +142,6 @@
   "Groups media items from the `media-items` vector by tag.
   Returns a collection of tag structures."
   [media-items]
-  (println "group-by-tag called")
   (let [tags (unique-tags* media-items)]
     (mapv #(text->tag media-items %) tags)))
 
@@ -201,7 +198,7 @@
     (filter #(titles (:title %)) (by-tags* items)))) ;filter only the matching
 
 
-(defn render-search-results [items s expanded-tags]
+(defn render-search-results [items s expanded-tags no-results-fn]
   (let [item-results (search-in-items items s)
         tagged-items (group-by-tag-starting-with items s)]
     [:div.search-results
@@ -212,9 +209,7 @@
      [:ul.items
       (if (seq item-results)
         (doall (map item->li item-results))
-        [:li.no-results (search-component/random-not-found-msg (session/get :xx?))])]]))
-
-
+        [:li.no-results no-results-fn])]]))
 
 (defn- letter-click-handler [letter]
   (fn [event]
@@ -247,7 +242,7 @@
     (into [:ul.all-letters]
       (map
        (fn [letter]
-         (let [show-items? (or show-all? (@expanded letter))]
+         (let [show-items? (or show-all? (expanded letter))]
            ^{:key (str "L_" letter)}
            [:li
             [letter-component letter]
@@ -256,27 +251,22 @@
               [expanded-items-component (get items-by-first-letter letter)])]))
        first-letters))))
 
-(defn media-items-component [items opts]
-  (let [{:keys [group-by search-string expanded-tags show-all?]} @opts
-        searching? (not (str/blank? search-string))
-        group-by (if searching? :plain group-by)
-        expanded (r/cursor opts [:expanded-letters])]
-    (if searching?
-      (render-search-results items search-string expanded-tags)
+(defn media-items-component [items state]
+  (let [{:keys [group-by expanded-tags expanded-letters show-all?]} state]
       (case group-by
         :tag (render-by-tag items expanded-tags show-all?)
-        :plain (render-by-letter expanded items show-all?)))))
+        :plain (render-by-letter expanded-letters items show-all?))))
 
 (defn media-page [media-items]
   (fn []
     [:div.media-page
      [:div.components
-      [search-component/search-component *state*]
+      [toolbar/buttons *state*]
       [:div.v16px]
       [:div.page-content
        [:div
         (let [items media-items]
-         [media-items-component items *state*])]]]]))
+         [media-items-component items @*state*])]]]]))
 
 
 (comment

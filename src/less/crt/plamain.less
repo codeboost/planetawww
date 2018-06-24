@@ -11,6 +11,10 @@
 }
 
 .planeta-experience {
+  display: flex;
+  flex-direction: column; 
+  justify-content: center; 
+  align-items: center;
 }
 
 .media-page {
@@ -53,6 +57,24 @@
     outline: none; 
   }
 }
+
+.accessory-button {
+    font-size: 0.9em;
+    cursor: pointer;
+    display: block;
+    margin: auto;
+    width: 32px;
+    height: 32px;
+    text-align: center;
+    border-radius: 50%;
+    border: 2px solid @console-color; 
+    line-height: 28px;
+
+    &.selected {
+      background: @console-color; 
+      color: @console-bg; 
+    }
+  }
 
 .button-icon {
   width: 24px;

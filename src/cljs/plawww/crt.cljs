@@ -26,7 +26,8 @@
   [:div.vert-container
    [:div.tv.noisy
     [:div.frame.tv
-     [:div.piece.output.planeta-experience
-      [navbar]
-      [page-or-search-results page navbar/state]]]
+     [:div.piece.output
+      [:div.planeta-experience
+       [navbar]
+       [page-or-search-results page navbar/state]]]]
     [player/player]]])

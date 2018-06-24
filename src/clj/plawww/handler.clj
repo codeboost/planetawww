@@ -72,6 +72,10 @@
            (GET "/" [] (main-page crt-css))
            (GET "/menu*" [] (main-page crt-css))
            (GET "/media*" [] (main-page crt-css))
+           (GET "/home*" [] (main-page crt-css))
+           (GET "/about*" [] (main-page crt-css))
+           (GET "/settings*" [] (main-page crt-css))
+
            (GET "/test/*" [] (main-page crt-css))
            (GET "/puzzle/*" [] (main-page crt-css))
            (GET "/cards" [] (cards-page classic-css))

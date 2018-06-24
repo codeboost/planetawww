@@ -17,5 +17,5 @@ pom.xml.asc
 /.DS_Store
 .DS_Store
 builds
-./*-init.clj
+*-init.clj
 resources/public/css/crt

@@ -15,12 +15,12 @@
    [reagent.core :as r]
    [reagent.session :as session]))
 
-(defonce *state* (r/atom {:group-by       :tag
-                          :item-view-mode :plain
+(defonce *state* (r/atom {:group-by         :tag
+                          :item-view-mode   :plain
                           :expanded-letters #{}
-                          :expanded-tags  #{}
-                          :show-all?      false
-                          :detail-items?  false}))
+                          :expanded-tags    #{}
+                          :show-all?        false
+                          :detail-items?    false}))
 
 (defn set-opts [opts]
   (println "media-page/set-opts: " opts)
@@ -32,19 +32,19 @@
 
 (defn item->li [{:keys [title id description duration] :as item}]
   "Menu item to hiccup."
-  (let [detail? (:detail-items? @*state*)
+  (let [detail?   (:detail-items? @*state*)
         selected? (= id (:selected-id @*state*))
-        title (if detail? (detail-title item) title)]
+        title     (if detail? (detail-title item) title)]
     ^{:key id}
     [:li.media-item
-     [:a {:href (str "/media/" id)
+     [:a {:href  (str "/media/" id)
           :class (when selected? :selected)}
       title]
      (when detail?
-        [:div.description [:i (when description
-                                (-> description
-                                  (str/replace "<p>" "") ;Rudimentary and temporary
-                                  (str/replace "</p>" "")))]])]))
+       [:div.description [:i (when description
+                               (-> description
+                                   (str/replace "<p>" "")   ;Rudimentary and temporary
+                                   (str/replace "</p>" "")))]])]))
 
 
 (defn search-match?
@@ -53,8 +53,8 @@
   [title search-string]
   (or (str/blank? search-string)
       (str/starts-with?
-        (str/lower-case title)
-        (str/lower-case search-string))))
+       (str/lower-case title)
+       (str/lower-case search-string))))
 
 (defn toggle-atom-handler
   "Returns click handler, which, when called, toggles the atom's value (using `not`).
@@ -87,12 +87,12 @@
                 title)]
     [:div.menu
      [:div.title
-      [:a {:href "#"
+      [:a {:href     "#"
            :on-click (fn [event]
-                      (toggle-expanded-tag title)
-                      (.preventDefault event))
+                       (toggle-expanded-tag title)
+                       (.preventDefault event))
 
-           :class (if expanded? "opened" "")}
+           :class    (if expanded? "opened" "")}
        title]
       (when (and expanded? (pos? (count items)))
         [:ul.items items])]]))
@@ -132,7 +132,7 @@
     :items     - a vector where each element is a media item from `media-items` which is tagged with `tag-title`.
     :num-items - number of elements in the items vector, for slightly faster sorts"
   [media-items tag-title]
-  (let [items (items-for-tag media-items tag-title)
+  (let [items     (items-for-tag media-items tag-title)
         num-items (count items)]
     {:title     tag-title
      :items     items
@@ -148,12 +148,12 @@
 (defn by-tags [media-items]
   "Returns a list of Tag structures, each with following keys: [:title :items :num-items]"
   (sort-by
-    :title
-    (group-by-tag media-items)))
+   :title
+   (group-by-tag media-items)))
 
 (defn- expand? [title selected-tags]
-  (let [clean-fn (comp str/trim str/lower-case)
-        title (clean-fn title)
+  (let [clean-fn      (comp str/trim str/lower-case)
+        title         (clean-fn title)
         selected-tags (if (string? selected-tags)
                         #{(clean-fn selected-tags)}
                         (set (map clean-fn selected-tags)))]
@@ -169,9 +169,13 @@
          [tag-component item (or show-all? (expand? title expanded-tags))])
        tagged))
 
-(defn render-by-tag [media-items expanded-tags show-all?]
+(defn items-by-tag
+  "Collection of Tag components. Each Tag component has a bunch of items, which are hidden by default.
+  Only items in `expanded-tags` Tags are visible.
+  If `show-all?` then all items are visible."
+  [media-items expanded-tags show-all?]
   (let [tagged (by-tags* media-items)
-        comps (render-tag-components tagged expanded-tags show-all?)]
+        comps  (render-tag-components tagged expanded-tags show-all?)]
     (into [:div.media-items.horiz-container] comps)))
 
 (defn search-in-items [media-items search-string]
@@ -194,8 +198,8 @@
 (defn- group-by-tag-starting-with
   "Returns a collection of items each with the keys [:title :items :num-items] grouped by tag title starting with `s`."
   [items s]
-  (let [titles (tag-titles items s)] ;get unique tags matching s
-    (filter #(titles (:title %)) (by-tags* items)))) ;filter only the matching
+  (let [titles (tag-titles items s)]                        ;get unique tags matching s
+    (filter #(titles (:title %)) (by-tags* items))))        ;filter only the matching
 
 
 (defn render-search-results [items s expanded-tags no-results-fn]
@@ -226,19 +230,22 @@
 (defn letter-component [letter]
   [:div.letter
    [:a
-    {:href :#
+    {:href     :#
      :on-click (letter-click-handler letter)}
     letter]])
 
 (defn expanded-items-component [items]
   [:ul.items (doall (map item->li items))])
 
-(defn- render-by-letter
-  "expanded is an atom"
-  [expanded items show-all?]
+(defn- items-by-alphabet
+  "Produces a collection of components with items grouped by first letter.
+  `items` - items to display.
+  `expanded` - a set of letters. The items in these letter are displayed, otherwise only the letter is visible.
+  `show-all` - all items are displayed."
+  [items expanded show-all?]
   ;TODO: scroll to *letter
   (let [items-by-first-letter (group-by-first-letter* items)
-        first-letters (sort (keys items-by-first-letter))]
+        first-letters         (sort (keys items-by-first-letter))]
     (into [:ul.all-letters]
       (map
        (fn [letter]
@@ -253,9 +260,9 @@
 
 (defn media-items-component [items state]
   (let [{:keys [group-by expanded-tags expanded-letters show-all?]} state]
-      (case group-by
-        :tag (render-by-tag items expanded-tags show-all?)
-        :plain (render-by-letter expanded-letters items show-all?))))
+    (case group-by
+      :tag [items-by-tag items expanded-tags show-all?]
+      :plain [items-by-alphabet items expanded-letters show-all?])))
 
 (defn media-page [media-items]
   (fn []
@@ -264,9 +271,7 @@
       [toolbar/buttons *state*]
       [:div.v16px]
       [:div.page-content
-       [:div
-        (let [items media-items]
-         [media-items-component items @*state*])]]]]))
+       [media-items-component media-items @*state*]]]]))
 
 
 (comment

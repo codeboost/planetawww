@@ -71,7 +71,7 @@
   (show-media-browser {:cur-letter (or letter "A") :group-by :plain}))
 
 (defroute #"/media/tag/?" []
-  (show-media-browser {:expanded-tags #{""}}))
+  (show-media-browser {:expanded-tags #{""} :group-by :tag}))
 
 (defroute "/media/tag/:tag" [tag]
   (show-media-browser {:expanded-tags #{tag} :group-by :tag}))

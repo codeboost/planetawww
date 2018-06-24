@@ -41,10 +41,10 @@
           :class (when selected? :selected)}
       title]
      (when detail?
-        [:div.description (when description
-                            (-> description
-                              (str/replace "<p>" "") ;Rudimentary and temporary
-                              (str/replace "</p>" "")))])]))
+        [:div.description [:i (when description
+                                (-> description
+                                  (str/replace "<p>" "") ;Rudimentary and temporary
+                                  (str/replace "</p>" "")))]])]))
 
 
 (defn search-match?

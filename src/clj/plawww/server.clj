@@ -5,5 +5,7 @@
   (:gen-class))
 
 (defn -main [& args]
-  (let [port (Integer/parseInt (or (env :port) "3000"))]
-    (run-jetty app {:port port :join? false})))
+  (if-not (env :planeta-mediadrop-data)
+    (println "PLANETA_MEDIADROP_DATA environment variable not set.")
+    (let [port (Integer/parseInt (or (env :port) "3333"))]
+      (run-jetty app {:port port :join? false}))))

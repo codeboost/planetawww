@@ -35,7 +35,7 @@
 
   :min-lein-version "2.5.0"
 
-  :uberjar-name "plawww.jar"
+  :uberjar-name "planeta-crt.jar"
 
   :main plawww.server
 

@@ -1,12 +1,23 @@
 (ns plawww.handler
   (:require [compojure.core :refer [GET defroutes]]
+            [clojure.tools.logging :refer [info error]]
             [compojure.route :refer [not-found resources]]
             [hiccup.page :refer [include-js include-css html5 html4]]
             [plawww.middleware :refer [wrap-middleware]]
             [config.core :refer [env]]
             [clj-http.client :as http-client]))
 
-(def MEDIA_JSON "/Users/florinbraghis/code/yo/planeta/plawww/resources/public/db/results.json")
+
+(defonce db-json (atom nil))
+
+(defn load-db-json! []
+  (let [filename (str (env :planeta-mediadrop-data) "/db.json")
+        _ (println "Loading " filename)
+        file-contents (slurp filename)]
+    (if-not file-contents
+      (error "Could not load db json: " filename)
+      (reset! db-json file-contents))))
+
 
 
 (def mount-target
@@ -14,6 +25,8 @@
    [:h3 "Nu ti graghi..."]])
 
 (defn head [css-includes]
+  (when-not @db-json
+    (load-db-json!))
   [:head
    [:meta {:charset "utf-8"}]
    [:meta {:name    "viewport"
@@ -21,7 +34,7 @@
    (map (fn [css-include]
           (include-css css-include)) css-includes)
    [:script
-    (str "var kolbasulPlanetar = " (slurp MEDIA_JSON) ";")]])
+    (str "var kolbasulPlanetar = " @db-json ";")]])
 
 
 (def classic-css [(if (env :dev) "/css/site.css" "/css/site.min.css")
@@ -49,25 +62,6 @@
 (defn crt-site [request]
   (main-page crt-css))
 
-
-;Make sure to increase the maximum number of media results in the media drop admin panel (Data API -> API Settings).
-(def all-media-url "http://localhost:8080/api/media?api_key=U3rD1T5OiUt7FldwGTD&limit=4000")
-
-
-(defn update-data[]
-  (try
-    (let [server-response (http-client/get all-media-url)
-          {:keys [status body]} server-response]
-      (cond
-        (not (= status 200)) {:status  "error"
-                              :message (str "Server returned unknown result: " status)}
-        :else (do
-                (spit MEDIA_JSON body)
-                {:status "success"})))
-
-    (catch Exception e {:status "error"
-                        :message (str "Could not complete data update: " (.getMessage e))})))
-
 (defroutes routes
            (GET "/" [] (main-page crt-css))
            (GET "/menu*" [] (main-page crt-css))
@@ -80,7 +74,6 @@
            (GET "/puzzle/*" [] (main-page crt-css))
            (GET "/cards" [] (cards-page classic-css))
            (GET "/crt" [] crt-site)
-           (GET "/update-data" [] (update-data))
            (resources "/")
            (not-found "Not Found"))
 

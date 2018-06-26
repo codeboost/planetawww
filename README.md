@@ -1,16 +1,34 @@
-##Planeta Moldova 
+#Planeta Moldova 
 
 Site-ul proiectului. 
 
-Setup:
-- Create a symbolic link to the mediadrop's `data` directory:
 
-    $ ln -s /path/to/mediadrop-data data
+##Data directory
 
-- Run the database extraction tool:
-TODO: automate this step
-    $ node extract-media.js > plawww/public/db/results.json
+Clone the `git@github.com:codeboost/planeta-data.git` repository in the dir above current dir (../).
+The tree looks like this:
 
+  	planeta-data
+  	plawww <-- you are here
+
+
+Then,
+
+	export PLANETA_MEDIADROP_DATA="../planeta-data/mediadrop"
+
+
+And you can now start the application.
+
+
+##Starting 
+
+Production:
+	
+	lein uberjar
+	java -jar target/planeta-crt.jar
+
+
+##Development
 
 Start the app:
     $ lein figwheel app

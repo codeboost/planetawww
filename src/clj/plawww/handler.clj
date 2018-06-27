@@ -1,9 +1,10 @@
 (ns plawww.handler
-  (:require [compojure.core :refer [GET defroutes]]
+  (:require [compojure.core :refer [GET defroutes] :as compojure]
             [clojure.tools.logging :refer [info error]]
             [compojure.route :refer [not-found resources]]
             [hiccup.page :refer [include-js include-css html5 html4]]
             [plawww.middleware :refer [wrap-middleware]]
+            [ring.middleware.file :refer [wrap-file]]
             [config.core :refer [env]]
             [clj-http.client :as http-client]))
 
@@ -17,8 +18,6 @@
     (if-not file-contents
       (error "Could not load db json: " filename)
       (reset! db-json file-contents))))
-
-
 
 (def mount-target
   [:div#app
@@ -63,18 +62,18 @@
   (main-page crt-css))
 
 (defroutes routes
-           (GET "/" [] (main-page crt-css))
-           (GET "/menu*" [] (main-page crt-css))
-           (GET "/media*" [] (main-page crt-css))
-           (GET "/home*" [] (main-page crt-css))
-           (GET "/about*" [] (main-page crt-css))
-           (GET "/settings*" [] (main-page crt-css))
+  (GET "/" [] (main-page crt-css))
+  (GET "/menu*" [] (main-page crt-css))
+  (GET "/media*" [] (main-page crt-css))
+  (GET "/home*" [] (main-page crt-css))
+  (GET "/about*" [] (main-page crt-css))
+  (GET "/settings*" [] (main-page crt-css))
+  (resources "/")
+  (compojure/context "/data" []
+    (-> (not-found "File Not Found")
+        (wrap-file (env :planeta-mediadrop-data))))
 
-           (GET "/test/*" [] (main-page crt-css))
-           (GET "/puzzle/*" [] (main-page crt-css))
-           (GET "/cards" [] (cards-page classic-css))
-           (GET "/crt" [] crt-site)
-           (resources "/")
-           (not-found "Not Found"))
+  (not-found "Not Found"))
 
 (def app (wrap-middleware #'routes))
+

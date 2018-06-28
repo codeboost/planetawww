@@ -56,9 +56,9 @@
 (defn menu->hiccup [{:keys [title items]} expanded?]
   "Renders a menu and its items.
   A 'menu' in this context is a div which displays a title and optionally a `ul` containing  child items."
-  (let [title (if (:detail-items? @*state*)
-                (str title " - " (count items))
-                title)]
+  (let [disp-title (if (:detail-items? @*state*)
+                       (str title " - " (count items))
+                       title)]
     [:div.menu
      [:div.title
       [:a {:href     "#"
@@ -67,7 +67,7 @@
                        (.preventDefault event))
 
            :class    (if expanded? "opened" "")}
-       title]
+       disp-title]
       (when (and expanded? (pos? (count items)))
         [:ul.items items])]]))
 

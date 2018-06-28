@@ -147,6 +147,7 @@
   []
   (let [ctrl-chan (chan)
         _ (save-control-channel! ctrl-chan)]
+    (js/console.log "audio-player/init")
     (go-loop []
       (when-let [cmd (<! ctrl-chan)]
         (logv "processing command: " cmd)

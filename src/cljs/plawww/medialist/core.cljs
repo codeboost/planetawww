@@ -24,7 +24,7 @@
                           :detail-items?    false}))
 
 (defn set-opts [opts]
-  (println "media-page/set-opts: " opts)
+  (js/console.log "media-page/set-opts: " opts)
   (swap! *state* merge opts))
 
 (defn- detail-title [{:keys [title duration]}]

@@ -16,6 +16,7 @@
                                   :duration 0}})
 
 (defn start-playback [item]
+  (js/console.log "start-playback: " (:filename item))
   (if-let [filename (:filename item)]
     (audio-player/command {:command :load
                            :filename (paths/media-path filename)
@@ -24,6 +25,7 @@
 
 (defn hook-up-the-stuff
   []
+  (js/console.log "hool-up-the-stuff")
   (audio-player/init)
   (session/put! :player-state default-player-state))
 

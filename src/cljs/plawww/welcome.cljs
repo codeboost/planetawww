@@ -1,8 +1,7 @@
 (ns plawww.welcome
-  (:require [clojure.string :as str]
-            [plawww.crt :refer [crt-page]]
-            [cljsjs.typedjs]
-            [clojure.string :as string]))
+  (:require
+   [plawww.crt :refer [crt-page]]
+   [cljsjs.typedjs]))
 
 (def welcome-text "Anul 3000.
 Bespredelu', marazmu' si gruzul au crescut considerabil in Moldova.
@@ -24,7 +23,8 @@ In scurt timp toate tarile de pe Pamant s-au refugiat in spatiu, au cerut azil p
     [:div.content
      [:p#story-text]
      [:h1#continue-button.ok-button
-      [:a#cont-a {:href "/media/"} "CONTINUARE"]]]))
+      [:a#cont-a {:href "/media/"} "CONTINUARE"]]]
+    {:navbar? false}))
 
 
 (defn a-link []

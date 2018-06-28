@@ -19,7 +19,6 @@
                                         offsetLeft ($ offset :left)
                                         offsetx (- pagex offsetLeft)
                                         percent (percent-width target offsetx)]
-                                    (print "clicked: " percent ", this:" _this ", target:" ($ e :target))
                                     (callback percent)))}
    [:div.progress-bar-progress
     {:style {:width (str (* 100 (min 1 progress)) "%")}}]])

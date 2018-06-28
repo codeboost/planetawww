@@ -22,12 +22,13 @@
         [search-results ss]
         page))))
 
-(defn crt-page [page]
+(defn crt-page [page & [{:keys [navbar?]
+                         :or {navbar? true}}]]
   [:div.vert-container
    [:div.tv.noisy
     [:div.frame.tv
      [:div.piece.output
       [:div.planeta-experience
-       [navbar]
+       (when navbar? [navbar])
        [page-or-search-results page navbar/state]]]]
     [player/player]]])

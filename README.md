@@ -28,6 +28,13 @@ Production:
 	java -jar target/planeta-crt.jar
 
 
+##Docker
+
+	lein uberjar
+	docker build -t florinbraghis/planeta-crt .
+	docker push florinbraghis/planeta-crt
+
+
 ##Development
 
 Start the app:

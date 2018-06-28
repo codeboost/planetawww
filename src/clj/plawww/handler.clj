@@ -11,8 +11,13 @@
 
 (defonce db-json (atom nil))
 
+(defn media-path [& [file]]
+  (let [data-path (or (env :planeta-mediadrop-data) "../planeta-data/mediadrop")
+        ret-path (if file (str data-path file) data-path)]
+    ret-path))
+
 (defn load-db-json! []
-  (let [filename (str (env :planeta-mediadrop-data) "/db.json")
+  (let [filename (media-path "/db.json")
         _ (println "Loading " filename)
         file-contents (slurp filename)]
     (if-not file-contents
@@ -71,7 +76,7 @@
   (resources "/")
   (compojure/context "/data" []
     (-> (not-found "File Not Found")
-        (wrap-file (env :planeta-mediadrop-data))))
+        (wrap-file (media-path))))
 
   (not-found "Not Found"))
 

@@ -8,5 +8,7 @@
 
 (defn navbar []
   [:div.navbar
-   [search-component state]])
+   [:div.home-button [:a.accessory-button {:href "/home"} "(*)"]]
+   [search-component state]
+   [:div]])
 

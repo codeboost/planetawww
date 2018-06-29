@@ -54,7 +54,7 @@
   (let [disp-title (if detail-items?
                        (str title " - " (count items))
                        title)]
-    [:div.menu
+    [:div.menu (if expanded? {:class :expanded})
      [:div.title
       [:a {:href     "#"
            :on-click (fn [event]
@@ -107,7 +107,7 @@
    [items-by-tag-component (by-tags* media-items) opts]])
 
 ;Todo: Search needs its own state atom
-(defn render-search-results [items s expanded-tags no-results-fn]
+(defn render-search-results [items s no-results-fn]
   (let [items (media-db/search-in-items items s)
         tagged-items (media-db/filter-tagged (by-tags* items) items s)]
     [:div.search-results

@@ -100,10 +100,8 @@
 
 (defn search-component [*state]
   [:div.search-component
-   [:div.controls
-    [:div.home-button [:a.accessory-button {:href "/home"} "(*)"]]
-    [:div.search-control
-     [:div.search-text (random-search-prompt (session/get :xx?))]
-     [search-input *state :search-string]]]])
+   [:div.search-control
+    [:div.search-text (random-search-prompt (session/get :xx?))]
+    [search-input *state :search-string]]])
 
 

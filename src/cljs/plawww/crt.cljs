@@ -11,8 +11,7 @@
   [medialist/render-search-results
    (session/get :media-items)
    ss
-   #{}
-   #(search-component/random-not-found-msg (session/get :xx?))])
+   [search-component/random-not-found-msg (session/get :xx?)]])
 
 (defn page-or-search-results [page *state]
   (fn []

@@ -5,32 +5,15 @@
 	flex-direction: column;
 	//align-items: center;
   .search-text {
-  //text-align: center; 
+    text-align: center; 
   }
 
-  .controls {
-    display: flex;
-    flex-direction: row;
-    align-items: stretch;
-
-    .search-control {
-      display:flex;
-      flex-direction: column;
-    }
-
-    .home-button {
-      margin-right: 10px;
-      text-align: center;
-      a {
-        border: 2px solid transparent; 
-      }
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
+  .search-control {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
   }
-   
+
   input.search-box {
     background-color: transparent;
     border: none;
@@ -41,21 +24,13 @@
     font-family: 'VT323';
     text-transform: uppercase;
     border: 1px solid darken(@console-color, 30%);
-    width:260px;
+    max-width: 260px;
   }
 
   input.search-box:focus {
     outline: none !important;
     box-shadow: 0 0 5px lighten(@console-color, 30%);
     //border: 1px solid @console-color; 
-  }
-
-  ul.items {
-    li .no-results {
-      .message {
-        color: red;
-      }
-    }
   }
 }
 

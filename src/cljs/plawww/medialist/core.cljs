@@ -19,7 +19,6 @@
 (defonce *state* (r/atom {:group-by         :tag
                           :item-view-mode   :plain
                           :expanded-letters #{}
-                          :expanded-tags    #{}
                           :show-all?        false
                           :detail-items?    false
                           :selected-id ""}))
@@ -46,14 +45,10 @@
                                    (str/replace "<p>" "")   ;Rudimentary and temporary
                                    (str/replace "</p>" "")))]])]))
 
-
-(defn toggle-expanded-tag [title]
-  (swap! *state* update-in [:expanded-tags] utils/toggle-item title))
-
 (defn toggle-expanded-letter [letter]
   (swap! *state* update-in [:expanded-letters] utils/toggle-item letter))
 
-(defn menu->hiccup [{:keys [title items]} {:keys [expanded? detail-items?]}]
+(defn menu->hiccup [{:keys [title items]} {:keys [expanded? detail-items? on-title-clicked]}]
   "Renders a menu and its items.
   A 'menu' in this context is a div which displays a title and optionally a `ul` containing  child items."
   (let [disp-title (if detail-items?
@@ -63,7 +58,7 @@
      [:div.title
       [:a {:href     "#"
            :on-click (fn [event]
-                       (toggle-expanded-tag title)
+                       (on-title-clicked title)
                        (.preventDefault event))
 
            :class    (if expanded? "opened" "")}
@@ -86,23 +81,30 @@
                         (set (map clean-str selected-tags)))]
     (some? (some #{title} selected-tags))))
 
-(defn render-tag-components
-  "Given a list of items grouped by tags, render the tag titles and, if expanded, the items."
-  [tagged {:keys [expanded-tags show-all?] :as opts}]
-  (map (fn [{:keys [title] :as item}]
-         [tag-component item (assoc opts :expanded? (or show-all? (expand? title expanded-tags)))])
-       tagged))
 
 (defonce by-tags* (memoize media-db/by-tags))
 
+(defn items-by-tag-component
+  "Given a list of items, group by tags and render a bunch of `tag-component`s.
+  Clicking on a tag-component's title will toggle the visibility of child items (expanded tags)."
+  [_ _]
+  (let [state (r/atom {:expanded-tags #{}})]
+    (fn [tagged {:keys [show-all?] :as opts}]
+      (let []
+        (into [:div]
+          (map (fn [{:keys [title] :as item}]
+                 [tag-component item
+                  (assoc opts :expanded? (or show-all? (expand? title (:expanded-tags @state)))
+                              :on-title-clicked #(swap! state update-in [:expanded-tags] utils/toggle-item %))])
+               tagged))))))
+
+
 (defn items-by-tag
   "Collection of Tag components. Each Tag component has a bunch of items, which are hidden by default.
-  Only items in `expanded-tags` Tags are visible.
   If `show-all?` then all items are visible."
   [media-items opts]
-  (let [tagged (by-tags* media-items)
-        comps  (render-tag-components tagged opts)]
-    (into [:div.media-items.horiz-container] comps)))
+  [:div.media-items.horiz-container
+   [items-by-tag-component (by-tags* media-items) opts]])
 
 ;Todo: Search needs its own state atom
 (defn render-search-results [items s expanded-tags no-results-fn]
@@ -111,9 +113,8 @@
     [:div.search-results
      (when (seq tagged-items)
        [:div.tags
-        (into [:div] (render-tag-components tagged-items {:expanded-tags expanded-tags
-                                                          :show-all? false
-                                                          :detail-items? false}))
+        [items-by-tag-component tagged-items {:show-all?      false
+                                              :detail-items?  false}]
         [:div "---"]])
      [:ul.items
       (if (seq items)

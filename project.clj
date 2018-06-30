@@ -61,9 +61,11 @@
              :compiler
              {:output-to "target/cljsbuild/public/js/app.js"
               :output-dir "target/uberjar"
-              :optimizations :whitespace
-              :pretty-print  true
-              :pseudo-names true}}
+              :optimizations :advanced
+              ;Created by the generate-extern tool
+              :externs ["externs.js" "soundManager-externs.js"]
+              :optimize-constants true
+              :pseudo-names false}}
             :app
             {:source-paths ["src/cljs" "src/cljc" "env/dev/cljs"]
              :compiler

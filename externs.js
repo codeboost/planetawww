@@ -1,0 +1,2 @@
+var window = {};
+var kolbasulPlanetar;

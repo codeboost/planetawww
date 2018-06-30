@@ -1,9 +1,11 @@
 (ns plawww.handler
   (:require [compojure.core :refer [GET defroutes] :as compojure]
+            [clojure.data.json :as json]
             [clojure.tools.logging :refer [info error]]
             [compojure.route :refer [not-found resources]]
             [hiccup.page :refer [include-js include-css html5 html4]]
             [plawww.middleware :refer [wrap-middleware]]
+            [plawww.db.core :as db]
             [ring.middleware.file :refer [wrap-file]]
             [config.core :refer [env]]
             [clj-http.client :as http-client]))
@@ -23,6 +25,16 @@
     (if-not file-contents
       (error "Could not load db json: " filename)
       (reset! db-json file-contents))))
+
+(defn my-value-writer [key value]
+  (if (= key :publish_on)
+    (str (java.sql.Date. (.getTime value)))
+    value))
+
+(defn load-db-data []
+  (let [results (vec (db/get-media))]
+    (reset! db-json (json/write-str results
+                                    :value-fn my-value-writer))))
 
 (def mount-target
   [:div#app

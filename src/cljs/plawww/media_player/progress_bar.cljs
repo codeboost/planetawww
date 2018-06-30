@@ -18,7 +18,11 @@
                                           offset ($ target offset)
                                           offsetLeft ($ offset :left)
                                           offsetx (- pagex offsetLeft)
+                                          offsetx (if (<= offsetx 8) 0 offsetx) ;trim to 0 if clicked within 8 pixels.
                                           percent (percent-width target offsetx)]
                                       (callback percent)))}
      [:div.progress-bar-progress
-      {:style {:width (str (* 100 (min 1 progress)) "%")}}]])
+      (let [percent (* 100 (min 1 progress))
+            _ (println "percent=" percent)]
+        {:style {:width (str percent "%")
+                 :padding-left (if (and (> percent 0) (< percent 10)) "8px" "0px")}})]])

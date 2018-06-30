@@ -21,7 +21,7 @@
    [secretary.core :as secretary :refer [defroute]]))
 
 
-(defonce ALLMEDIA (:media (js->clj js/kolbasulPlanetar :keywordize-keys true)))
+(defonce ALLMEDIA (js->clj js/kolbasulPlanetar :keywordize-keys true))
 
 ;; -------------------------
 ;; Views

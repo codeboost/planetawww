@@ -8,7 +8,8 @@
             [plawww.db.core :as db]
             [ring.middleware.file :refer [wrap-file]]
             [config.core :refer [env]]
-            [clj-http.client :as http-client]))
+            [clj-http.client :as http-client]
+            [clojure.string :as str]))
 
 
 (defonce db-json (atom nil))
@@ -23,8 +24,28 @@
     (str (java.sql.Date. (.getTime value)))
     value))
 
-(defn load-db-data []
-  (let [results (vec (db/get-media))]
+
+(defn ->tagv [value]
+  (when value
+    (mapv str/trim
+      (-> value
+          (str/split #",")))))
+
+(defn massage-item [item]
+  (into {}
+    (map (fn [[key value]]
+           (cond
+             (= key :tags) [key (->tagv value)]
+             :else
+             [key value]))
+         item)))
+
+(defn massage-results [results]
+  (mapv massage-item results))
+
+(defn load-db-data! []
+  (let [results (db/get-media)
+        results (massage-results results)]
     (reset! db-json (json/write-str results
                                     :value-fn my-value-writer))))
 
@@ -34,7 +55,7 @@
 
 (defn head [css-includes]
   (when-not @db-json
-    (load-db-json!))
+    (load-db-data!))
   [:head
    [:meta {:charset "utf-8"}]
    [:meta {:name    "viewport"

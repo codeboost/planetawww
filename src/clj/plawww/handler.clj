@@ -33,12 +33,15 @@
 
 (defn massage-item [item]
   (into {}
-    (map (fn [[key value]]
-           (cond
-             (= key :tags) [key (->tagv value)]
-             :else
-             [key value]))
-         item)))
+    (remove
+     nil?
+     (map (fn [[key value]]
+            (cond
+              (nil? value) nil
+              (= key :tags) [key (->tagv value)]
+              :else
+              [key value]))
+          item))))
 
 (defn massage-results [results]
   (mapv massage-item results))

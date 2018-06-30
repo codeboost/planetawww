@@ -22,7 +22,6 @@
                                           percent (percent-width target offsetx)]
                                       (callback percent)))}
      [:div.progress-bar-progress
-      (let [percent (* 100 (min 1 progress))
-            _ (println "percent=" percent)]
+      (let [percent (* 100 (min 1 progress))]
         {:style {:width (str percent "%")
                  :padding-left (if (and (> percent 0) (< percent 10)) "8px" "0px")}})]])

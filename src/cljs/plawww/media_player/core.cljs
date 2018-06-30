@@ -58,17 +58,17 @@
       "/"
       (utils/format-duration duration))]))
 
-(defn play-button-text
-  "Returns the text to display on the button for the current playback state."
-  [s]
-  (s {:play  "PAUZA"
-      :pause "PORN."
-      :stop  "PORN."}))
-
 (def state-map
   {:play  :pause
    :pause :play
    :stop  :play})
+
+(defn play-button-text
+  "Returns the text to display on the button for the current playback state."
+  [s]
+  (s {:play  "||"
+      :pause ">>"
+      :stop  ">>"}))
 
 (defn play-button
   "Play button component.
@@ -78,7 +78,8 @@
   []
   (let [ps (session/cursor [:player-state :playback-state])]
     (fn []
-      [:div.button.play-button
+      (println "state: " ps)
+      [:div.accessory-button.play-button {:class (when (= @ps :play) :playing)}
        [:a {:on-click (fn [e]
                         (.preventDefault e)
                         (audio-player/command (or (state-map @ps) :play)))}
@@ -100,7 +101,7 @@
      [:div.hstack.bottom-part
       [:div.player-buttons
        [play-button]]
-      [:div]
+      [:div.button-spacer]
       [:span.volume-control
        [volume-slider-control volume]]]]))
 

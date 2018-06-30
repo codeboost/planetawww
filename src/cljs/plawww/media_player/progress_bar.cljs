@@ -11,14 +11,14 @@
 
 
 (defn progress-bar [progress callback]
-  [:div.progress-bar {:on-click (fn [e]
-                                  (let [_this (r/current-component)
-                                        target (js/$ ($ e :target))
-                                        pagex ($ e :pageX)
-                                        offset ($ target offset)
-                                        offsetLeft ($ offset :left)
-                                        offsetx (- pagex offsetLeft)
-                                        percent (percent-width target offsetx)]
-                                    (callback percent)))}
-   [:div.progress-bar-progress
-    {:style {:width (str (* 100 (min 1 progress)) "%")}}]])
+    [:div.progress-bar {:on-click (fn [e]
+                                    (let [_this (r/current-component)
+                                          target (js/$ ($ e :target))
+                                          pagex ($ e :pageX)
+                                          offset ($ target offset)
+                                          offsetLeft ($ offset :left)
+                                          offsetx (- pagex offsetLeft)
+                                          percent (percent-width target offsetx)]
+                                      (callback percent)))}
+     [:div.progress-bar-progress
+      {:style {:width (str (* 100 (min 1 progress)) "%")}}]])

@@ -18,14 +18,6 @@
         ret-path (if file (str data-path file) data-path)]
     ret-path))
 
-(defn load-db-json! []
-  (let [filename (media-path "/db.json")
-        _ (println "Loading " filename)
-        file-contents (slurp filename)]
-    (if-not file-contents
-      (error "Could not load db json: " filename)
-      (reset! db-json file-contents))))
-
 (defn my-value-writer [key value]
   (if (= key :publish_on)
     (str (java.sql.Date. (.getTime value)))
@@ -56,35 +48,22 @@
 (def classic-css [(if (env :dev) "/css/site.css" "/css/site.min.css")
                   "https://fonts.googleapis.com/css?family=Orbitron:700"])
 
-(defn main-page [which-css]
+(defn main-page []
   (html5
-    (head which-css)
+    (head ["/css/crt/crt.css"
+           "/css/animations.css"])
     [:body {:class "body-container"}
      mount-target
      (include-js "/lib/soundmanager2-nodebug-jsmin.js")
      (include-js "/js/app.js")]))
 
-(defn cards-page [which-css]
-  (html5
-    (head which-css)
-    [:body
-     mount-target
-     (include-js "/js/app_devcards.js")]))
-
-
-(def crt-css ["/css/crt/crt.css"
-              "/css/animations.css"])
-
-(defn crt-site [request]
-  (main-page crt-css))
-
 (defroutes routes
-  (GET "/" [] (main-page crt-css))
-  (GET "/menu*" [] (main-page crt-css))
-  (GET "/media*" [] (main-page crt-css))
-  (GET "/home*" [] (main-page crt-css))
-  (GET "/about*" [] (main-page crt-css))
-  (GET "/settings*" [] (main-page crt-css))
+  (GET "/" [] (main-page))
+  (GET "/menu*" [] (main-page))
+  (GET "/media*" [] (main-page))
+  (GET "/home*" [] (main-page))
+  (GET "/about*" [] (main-page))
+  (GET "/settings*" [] (main-page))
   (resources "/")
   (compojure/context "/data" []
     (-> (not-found "File Not Found")

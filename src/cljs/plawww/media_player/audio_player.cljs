@@ -17,7 +17,7 @@
 ;Right now it's a bit of a mess, so a total re-write might be in order at some point.
 
 (defn logv [& args]
-  (println "audio-player:" (apply str args)))
+  (js/console.log "audio-player:" (apply str args)))
 
 (defn- set-playback-state
   "Updates the session state, by setting :player-state :playback-state to the supplied value `s`."
@@ -29,6 +29,18 @@
   "Updates the session state. Sets the position in :player-state :position field."
   [pos]
   (session/update-in! [:player-state] assoc :position pos))
+
+(defn- report-playback-progress
+  [this]
+  (let [position (.-position this)
+        duration (.-durationEstimate this)
+        percent (if (pos? duration) (/ position duration) 0)]
+    (session/update-in! [:player-state]
+                        assoc
+                        :playback-progress percent    ;in percent
+                        :playback-position position   ;in milliseconds
+                        :playback-duration duration))) ; in milliseconds
+
 
 (defonce *ctrl-channel (atom nil))
 
@@ -53,10 +65,7 @@
   Calls set-playback-position to notify the world of playback progress."
   []
   (this-as this
-    (let [position (.-position this)
-          duration (.-duration this)]
-      (when (pos? duration)
-        (set-playback-position (/ position duration))))))
+    (report-playback-progress this)))
 
 (defonce audio-url  (atom nil)) ;audio file path
 (defonce *current-sound (atom nil))
@@ -73,6 +82,7 @@
                 js/soundManager
                 (clj->js
                   {:url      url
+                   :type "audio/mp3"
                    :whileplaying while-playing
                    :onfinish #(set-playback-state :stop)
                    :onstop   #(set-playback-state :stop)
@@ -108,8 +118,12 @@
 
 (defmethod exec-cmd :set-pos [s {:keys [percent]}]
   (logv "setPos: " percent)
-  (let [duration ($ s :duration)]
-    ($ s setPosition (* duration percent))))
+  (let [duration ($ s :durationEstimate)
+        position (* duration percent)]
+    (logv "sound.setPosition: " position)
+    ($ s setPosition position)))
+
+
 
 (defmethod exec-cmd :set-volume [s {:keys [percent]}]
   (logv "setVolume: " percent)
@@ -139,12 +153,27 @@
         (when @*current-sound
          (exec-cmd @*current-sound cmd))))))
 
+(defn soundManager-init [on-ready]
+  (logv "soundManager-init")
+  (.setup js/soundManager (clj->js
+                           {:url "/lib/soundmanager2.swf"
+                            :flashVersion 9
+                            :preferFlash false
+                            :on-ready on-ready
+                            :on-error (fn [err]
+                                        (logv "soundManager-init error: " err))})))
+
+
 (defn init
   "Creates a command channel and returns it.
   The channel is used to send commands to the player.
   {:command :play}
   "
   []
+  (soundManager-init
+   (fn []
+    (logv "soundManager ready.")))
+
   (let [ctrl-chan (chan)
         _ (save-control-channel! ctrl-chan)]
     (js/console.log "audio-player/init")

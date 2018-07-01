@@ -50,11 +50,12 @@
                         :percent percent})
   (session/update-in! [:player-state] assoc :volume percent))
 
-(defn time-label [duration position]
-  (let [duration (js/parseFloat duration)]
-    [:div.grow2.time-label.playback-time
+(defn time-label [ms-duration progress]
+  (let [ms-duration (js/parseFloat ms-duration)
+        duration (/ ms-duration 1000)]
+    [:div.time-label.playback-time.small-text
      (str
-      (utils/format-duration (* position duration))
+      (utils/format-duration (* progress duration))
       "/"
       (utils/format-duration duration))]))
 
@@ -78,7 +79,6 @@
   []
   (let [ps (session/cursor [:player-state :playback-state])]
     (fn []
-      (println "state: " ps)
       [:div.accessory-button.play-button {:class (when (= @ps :play) :playing)}
        [:a {:on-click (fn [e]
                         (.preventDefault e)
@@ -90,14 +90,17 @@
    progress
    #(set-audio-volume %)))
 
-(defn player-controls [{:keys [position item volume]}]
-  (let [{:keys [duration title]} item]
+(defn player-controls [{:keys [playback-progress playback-duration item volume]}]
+  ;(logv "progress: " playback-progress)
+  (let [{:keys [title]} item
+        duration (if (zero? (or playback-duration 0))
+                   (* 1000 (js/parseFloat (or (:duration item) 0)))
+                   playback-duration)]
     [:div.controls.vstack
      [:div.hstack
-      [:div.title-label.grow8 title]
-      [:span
-       [time-label duration position]]]
-     [song-progress position]
+      [:div.title-label title]
+      [time-label duration playback-progress]]
+     [song-progress playback-progress]
      [:div.hstack.bottom-part
       [:div.player-buttons
        [play-button]]

@@ -7,7 +7,7 @@
 
 
 (def mysql-uri (format
-                "mysql://root:%s@localhost:3306/mediacore"
+                "mysql://root:%s@mysql:3306/mediacore?charset=utf8&use_unicode=0"
                 (env :planeta-mysql-pwd)))
 
 (defn get-media-hsql-unfinished []

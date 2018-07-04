@@ -56,8 +56,10 @@
   [:div#app
    [:h3 "Nu ti graghi..."]])
 
+(def ^:dynamic *reload-db-always* true)
+
 (defn head [css-includes]
-  (when-not @db-json
+  (when (or (not @db-json) *reload-db-always*)
     (load-db-data!))
   [:head
    [:meta {:charset "utf-8"}]

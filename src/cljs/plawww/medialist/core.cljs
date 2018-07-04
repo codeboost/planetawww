@@ -30,8 +30,8 @@
 (defn- detail-title [{:keys [title duration]}]
   (str title " - " (utils/format-duration duration)))
 
-(defn item->li [{:keys [title id description] :as item} {:keys [detail-items? selected-id]}]
-  "Menu item to hiccup."
+(defn render-menu-item [{:keys [title id description] :as item} {:keys [detail-items? selected-id]}]
+  "Menu item."
   (let [selected? (= id selected-id)
         title     (if detail-items? (detail-title item) title)]
     ^{:key id}
@@ -48,9 +48,9 @@
 (defn toggle-expanded-letter [letter]
   (swap! *state* update-in [:expanded-letters] utils/toggle-item letter))
 
-(defn menu->hiccup [{:keys [title items]} {:keys [expanded? detail-items? on-title-clicked]}]
-  "Renders a menu and its items.
-  A 'menu' in this context is a div which displays a title and optionally a `ul` containing  child items."
+(defn render-menu [{:keys [title items]} {:keys [expanded? detail-items? on-title-clicked] :as opts}]
+  "A 'menu' in this context is a div which displays a title and optionally a `ul` containing  child items.
+  The name `menu` stuck around, so I'll keep it."
   (let [disp-title (if detail-items?
                        (str title " - " (count items))
                        title)]
@@ -64,14 +64,21 @@
            :class    (if expanded? "opened" "")}
        disp-title]
       (when (and expanded? (pos? (count items)))
-        [:ul.items items])]]))
+        (into [:ul.items]
+          (map #(render-menu-item % opts) items)))]]))
 
 (defn tag-component
-  ""
+  "Renders a 'Tag'. Which is basically a container with a title and some child items.
+  Expects `title` and `items` keys.
+  opts can contain:
+    :expanded?        - items are visible?
+    :detail-items?    - details are enabled ?
+    :on-title-clicked - handler for when the tag title is clicked.
+    :selected-id      - id of the selected item"
   [{:keys [title items]} opts]
   (let [menu {:title (str/upper-case title)
-              :items (map #(item->li % opts) items)}]
-    [menu->hiccup menu opts]))
+              :items items}]
+    [render-menu menu opts]))
 
 (defn- expand? [title selected-tags]
   (let [clean-str      (comp str/trim str/lower-case)
@@ -87,8 +94,8 @@
 (defn items-by-tag-component
   "Given a list of items, group by tags and render a bunch of `tag-component`s.
   Clicking on a tag-component's title will toggle the visibility of child items (expanded tags)."
-  [_ _]
-  (let [state (r/atom {:expanded-tags #{}})]
+  [_ opts]
+  (let [state (r/atom {:expanded-tags (:included-tags opts)})]
     (fn [tagged {:keys [show-all?] :as opts}]
       (let []
         (into [:div]
@@ -99,12 +106,33 @@
                tagged))))))
 
 
+(defn render-one-tag
+  "This renders just one tag component, which is expanded and all its items are visible."
+  [items tag-title state]
+  (let [tag (->> (media-db/by-tags items)
+                 (filter #(= tag-title (:title %)))
+                 (first))]
+    [tag-component tag
+     (assoc state :expanded? true)]))
+
+
 (defn items-by-tag
-  "Collection of Tag components. Each Tag component has a bunch of items, which are hidden by default.
+  "Renders a collection of Tag components or just one single Tag.
+  included-tags
+  Each Tag component has a bunch of items, which are hidden by default.
   If `show-all?` then all items are visible."
-  [media-items opts]
-  [:div.media-items.horiz-container
-   [items-by-tag-component (by-tags* media-items) opts]])
+  [items {:keys [included-tags] :as opts}]
+  (let [tagged (by-tags* items)
+        tagged (if-not
+                (pos? (count included-tags))
+                tagged
+                (filter (fn [{:keys [title]}] (included-tags title))
+                        tagged))]
+    [:div.media-items.horiz-container
+     [items-by-tag-component tagged opts]]))
+
+(by-tags*
+ (media-db/items-for-tags (session/get :media-items) #{"music"}))
 
 ;Todo: Search needs its own state atom
 (defn render-search-results [items s no-results-fn]
@@ -118,7 +146,7 @@
         [:div "---"]])
      [:ul.items
       (if (seq items)
-        (doall (map item->li items))
+        (doall (map render-menu-item items))
         [:li.no-results no-results-fn])]]))
 
 (defn- group-by-first-letter [items]
@@ -135,7 +163,7 @@
     letter]])
 
 (defn expanded-items-component [items]
-  [:ul.items (doall (map item->li items))])
+  [:ul.items (doall (map render-menu-item items))])
 
 (defn- items-by-alphabet
   "Produces a collection of components with items grouped by first letter.
@@ -159,7 +187,8 @@
        first-letters))))
 
 (defn media-items-component [items state]
-  (let [{:keys [group-by]} state]
+  (let [{:keys [group-by included-tags]} state
+        items (media-db/items-for-tags items included-tags)]
     (case group-by
       :tag [items-by-tag items state]
       :plain [items-by-alphabet items state])))

@@ -64,7 +64,7 @@
 (defroute "/about" []
   (session/put! :current-page #'about-page))
 
-(defroute "/home" []
+(defroute #"/home/?" []
   (session/put! :current-page #'show-home-page))
 
 (defroute #"/media/?" [q]
@@ -80,10 +80,11 @@
   (show-media-browser {:cur-letter (or letter "A") :group-by :plain}))
 
 (defroute #"/media/tag/?" []
-  (show-media-browser {:expanded-tags #{""} :group-by :tag}))
+  (show-media-browser {:included-tags #{""} :group-by :tag}))
+
 
 (defroute "/media/tag/:tag" [tag]
-  (show-media-browser {:expanded-tags #{tag} :group-by :tag}))
+  (show-media-browser {:included-tags #{tag} :group-by :tag}))
 
 
 ;(secretary/locate-route "/media/tag/ab")

@@ -23,17 +23,25 @@
 
 (def unique-tags* (memoize unique-tags))
 
-(defn equal-tag? [tag1 tag2]
-  (= (str/trim (str/lower-case tag1))
-     (str/trim (str/lower-case tag2))))
+(defn items-for-tags
+  "Returns only the items which are tagged with any tag from `set-of-tags`."
+  [items set-of-tags]
+  (if (empty? set-of-tags)
+    items
+    (filter
+     (fn [{:keys [tags]}]
+       (->> tags
+            (map str/lower-case)
+            (set)
+            (clojure.set/intersection set-of-tags)
+            (count)
+            (pos?)))
+     items)))
 
-(defn items-for-tag [media-items tag]
-  "Returns items from media-items which contain the tag `tag`."
-  (filter (fn [{:keys [tags]}]
-            (some #(equal-tag? tag %) tags)) media-items))
+(defn items-for-tag [items tag]
+  (items-for-tags items #{(str/lower-case tag)}))
 
 (defonce items-for-tag* (memoize items-for-tag))
-
 
 (defn- text->tag
   "Make a tag struct from a tag title.

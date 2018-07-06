@@ -9,7 +9,7 @@
    [:div
     [:a {:href "/media/tag/music"} "Muzica"]]
    [:div
-    [:a {:href "/media/tag/radio"} "Emisiuni Radio"]]
+    [:a {:href "/media/tag/radio+guerilla"} "Emisiuni Radio"]]
    [:div
     [:a {:href "/media/tag/tv"} "Emisiuni TV"]]
    [:div
@@ -17,7 +17,7 @@
    [:div
     [:a {:href "/media/tag/scurtmetraj"} "Scurtmetraje"]]
    [:div
-    [:a {:href "/media/tag/text"} "Carti si texte"]]
+    [:a {:href "/text"} "Carti si texte"]]
    [:div
     [:a {:href "/about"} "Despre proiect"]]])
 

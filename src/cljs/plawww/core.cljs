@@ -13,6 +13,7 @@
    [clojure.string :as str]
    [plawww.crt :refer [crt-page]]
    [plawww.home :refer [home-page]]
+   [plawww.texts.core :as texts-section]
    [plawww.welcome :as welcome]
    [plawww.medialist.core :as media-page]
    [plawww.media-player.controller :as media-controller]
@@ -36,18 +37,28 @@
    [media-page/media-page ALLMEDIA]])
 
 (defn- show-media-browser [& [opts :or {}]]
-  (js/console.log "show-media-browser: " opts)
-  (session/put! :current-page #'media-browser-page)
-  (media-page/set-opts opts))
+  (let [;Force nil for :included-tags so that it is applied during the `merge`.
+        opts (update opts :included-tags identity)]
+    (js/console.log "show-media-browser: " opts)
+    (session/put! :current-page #'media-browser-page)
+    (media-page/set-opts opts)))
 
 (defn about-page []
   [crt-page
    [:div [:h2 "About plawww?"]
     [:div [:a {:href "/"} "go to the home page"]]]])
 
+;Home - shown when (*) is clicked
 (defn show-home-page []
   [crt-page
    [home-page]])
+
+;Texte si Carti
+(defn render-text-page [] [crt-page [texts-section/main-menu]])
+
+(defn show-text-page [& [opts]]
+  (swap! texts-section/state merge opts)
+  (session/put! :current-page #'render-text-page))
 
 (defn media-item-for-id [id]
   (first (filter #(= id (:id %)) ALLMEDIA)))
@@ -67,24 +78,35 @@
 (defroute #"/home/?" []
   (session/put! :current-page #'show-home-page))
 
+
+(defroute #"/text/?|/carti/?" []
+  (show-text-page {:sub-menu nil}))
+
+(defroute "/text/:page" [page]
+  (show-text-page {:sub-menu page}))
+
+(defroute "/carti/:page" [page]
+  (show-text-page {:sub-menu (keyword page)}))
+
+
 (defroute #"/media/?" [q]
   (show-media-browser))
 
 (defroute #"/media/(\d+)" [id q]
   (show-media-browser)
   (if-let [item (media-item-for-id (js/parseInt id))]
-    (media-controller/set-current-media-item item)
+          (media-controller/set-current-media-item item)
     (js/console.log "Could not find media item for id " id)))
 
 (defroute #"/media/letter/?([a-zA-Z])?" [letter]
   (show-media-browser {:cur-letter (or letter "A") :group-by :plain}))
 
 (defroute #"/media/tag/?" []
-  (show-media-browser {:included-tags #{""} :group-by :tag}))
-
+  (show-media-browser {:included-tags #{} :group-by :tag}))
 
 (defroute "/media/tag/:tag" [tag]
-  (show-media-browser {:included-tags #{tag} :group-by :tag}))
+  (let [tag-set (set (str/split tag #"\+"))]
+    (show-media-browser {:included-tags tag-set :group-by :tag})))
 
 
 ;(secretary/locate-route "/media/tag/ab")

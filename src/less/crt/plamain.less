@@ -24,7 +24,6 @@
   justify-content: stretch;
   align-items: center;
   .components {
-    width: 80%;
     display: flex;
     flex-direction: column; 
     justify-content: center; 
@@ -99,4 +98,17 @@
 }
 
 
+.book {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .description {
+    text-align: justify;
+    font-size: 18px;
+    max-width: 480px;
+  }
 
+  .coperta {
+    border: 2px solid @console-color;
+  }
+}

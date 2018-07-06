@@ -89,6 +89,8 @@
   (GET "/media*" [] (main-page))
   (GET "/home*" [] (main-page))
   (GET "/about*" [] (main-page))
+  (GET "/text*" [] (main-page))
+  (GET "/carti*" [] (main-page))
   (GET "/settings*" [] (main-page))
   (resources "/")
   (compojure/context "/data" []

@@ -15,6 +15,7 @@
    [plawww.home :refer [home-page]]
    [plawww.texts.core :as texts-section]
    [plawww.welcome :as welcome]
+   [plawww.about.core :as about]
    [plawww.medialist.core :as media-page]
    [plawww.media-player.controller :as media-controller]
    [reagent.core :as reagent :refer [atom]]
@@ -45,8 +46,7 @@
 
 (defn about-page []
   [crt-page
-   [:div [:h2 "About plawww?"]
-    [:div [:a {:href "/"} "go to the home page"]]]])
+   [about/page]])
 
 ;Home - shown when (*) is clicked
 (defn show-home-page []

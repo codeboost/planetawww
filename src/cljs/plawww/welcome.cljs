@@ -30,7 +30,6 @@ In scurt timp toate tarile de pe Pamant s-au refugiat in spatiu, au cerut azil p
 (defn a-link []
   (-> (js/$ "#cont-a")
       (.on "click touchstart" (fn [e]
-                                (.log js/console "A link click")
                                 (-> e
                                     (.preventDefault))
                                 (-> (js/$ ".content")
@@ -39,7 +38,6 @@ In scurt timp toate tarile de pe Pamant s-au refugiat in spatiu, au cerut azil p
                                                  (aset js/location "href" "/menu")) 1000)))))
 
 (defn continue-on-click[]
-  (comment (a-link))
   (-> (js/$ "body")
       (.on "click touchstart" (fn[]
                                (-> (js/jQuery "#continue-button")

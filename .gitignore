@@ -19,3 +19,6 @@ pom.xml.asc
 builds
 *-init.clj
 resources/public/css/crt
+package.json
+package-lock.json
+plaww.iml

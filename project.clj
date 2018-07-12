@@ -9,6 +9,7 @@
                  [clj-http "3.7.0"]
                  [cljsjs/typedjs "1.1.1-0"] ;jquery plugin that types
                  [cljsjs/react-draggable "3.0.3-0"] ;draggable
+                 [cljsjs/react-player "1.5.1-0"]
                  [compojure "1.6.0"]
                  [garden "1.3.3"]
                  [hiccup "1.0.5"]

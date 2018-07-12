@@ -7,13 +7,30 @@
 
 (ns plawww.media-player.core
   (:require
+   [cljsjs.react-player]
    [cljsjs.react-draggable]
    [plawww.media-player.audio-player :as audio-player]
    [plawww.media-player.item-detail :as detail]
    [plawww.media-player.progress-bar :as progress-bar]
    [plawww.utils :as utils]
    [reagent.session :as session]
-   [reagent.interop :refer-macros [$ $!]]))
+   [reagent.interop :refer-macros [$ $!]]
+   [plawww.paths :as paths]
+   [reagent.core :as r]))
+
+(def react-player (r/adapt-react-class js/ReactPlayer))
+
+(defonce mplayer (r/atom nil))
+
+(defn s->ms
+  "Seconds to milliseconds."
+  [s]
+  (* 1000 s))
+
+(defn ms->s
+  "Milliseconds to seconds"
+  [s]
+  (/ s 1000))
 
 (defn- logv
   [& args]
@@ -42,8 +59,9 @@
   [:span.song-progress
    (progress-bar/progress-bar
     progress
-    #(send-player-command {:command :set-pos
-                           :percent %}))])
+    (fn [x]
+      ()
+      (.seekTo @mplayer x)))])
 
 (defn- set-audio-volume [percent]
   (send-player-command {:command :set-volume
@@ -52,7 +70,7 @@
 
 (defn time-label [ms-duration progress]
   (let [ms-duration (js/parseFloat ms-duration)
-        duration (/ ms-duration 1000)]
+        duration (ms->s ms-duration)]
     [:div.time-label.playback-time.small-text
      (str
       (utils/format-duration (* progress duration))
@@ -78,12 +96,10 @@
   The player should then update the [:player-state :playback-state] key."
   []
   (let [ps (session/cursor [:player-state :playback-state])]
-    (fn []
+       (fn [])
       [:div.accessory-button.play-button {:class (when (= @ps :play) :playing)}
-       [:a {:on-click (fn [e]
-                        (.preventDefault e)
-                        (audio-player/command (or (state-map @ps) :play)))}
-        (play-button-text (or @ps :pause))]])))
+       [:a {:on-click #(session/update-in! [:player-state] assoc :playback-state (or (state-map @ps) :play))}
+        (play-button-text (or @ps :pause))]]))
 
 (defn volume-slider-control [progress]
   (progress-bar/progress-bar
@@ -91,10 +107,9 @@
    #(set-audio-volume %)))
 
 (defn player-controls [{:keys [playback-progress playback-duration item volume]}]
-  ;(logv "progress: " playback-progress)
   (let [{:keys [title]} item
         duration (if (zero? (or playback-duration 0))
-                   (* 1000 (js/parseFloat (or (:duration item) 0)))
+                   (s->ms (js/parseFloat (or (:duration item) 0)))
                    playback-duration)]
     [:div.controls.vstack
      [:div.hstack
@@ -126,11 +141,32 @@
 (defn player []
   (let [state (session/cursor [:player-state])]
     (fn []
-      (let [{:keys [visible detail-visible? item]} @state]
+      (let [{:keys [visible detail-visible? item playback-state]} @state
+            filename (paths/media-path (:filename item))
+            _ (js/console.log "Loading " filename)]
         (if visible
           [:div.player.window.vstack {:class (when detail-visible? :detail)}
-           (when detail-visible? [:div.detail [detail/detail-component item]])
+           (when detail-visible? [:div.detail
+                                  [detail/detail-component item]])
+           [react-player {:url filename
+                          :playing (= playback-state :play)
+                          :ref #(reset! mplayer %)
+                          :on-ready (fn [] (js/console.log "READY!"))
+                          :on-progress (fn [state]
+                                         (js/console.log "state:" state)
+                                         (let [percent (.. state -played)
+                                               playedSeconds (.. state -playedSeconds)
+                                               loadedSeconds (.. state -loadedSeconds)]
+                                           (session/update-in! [:player-state] assoc
+                                                               :playback-progress percent
+                                                               :playback-position (s->ms playedSeconds)
+                                                               :playback-duration (s->ms loadedSeconds))))}]
+
+
+
+
            [:div.toolbar]
+
            [:div.content [player-view @state]]]
           [:div.player.window.hidden])))))
 

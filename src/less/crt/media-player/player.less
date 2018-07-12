@@ -44,6 +44,7 @@
 	align-content: stretch;
 	left: 25%;
 	right: 25%;
+	min-width: 320px;
 	@media (max-width: 640px) {
 		left: 8px;
 		right: 8px;
@@ -51,16 +52,31 @@
 	
 	.detail {
 		padding: 20px;
+		display: none;
+
+		.pm-media-player {
+			position: relative;
+			height: 320px;
+			.react-player {
+				position: absolute; 
+				top: 0;
+				left: 0;
+			}
+		}
 	}
 
-	&.detail {
+	&.detail-visible {
 		top: 16px;
 		.toolbar {
 			border-top: 1px solid @console-color;
 		}
+
 		.detail {
 			bottom: 4px;
 			flex-grow: 2;
+			display: block;
+			top: 0px;
+			bottom: 0px;
 		}
 	}
 
@@ -81,13 +97,21 @@
 			#player-controls > .progress-bar;
 		}
 
-		.title-label {
-			text-overflow: ellipsis;
-			white-space: nowrap;
-			overflow: hidden; 
-		}
-		.time-label {
-			text-align: right;
+		.title-and-time {
+			position: relative;
+			width: 100%;
+			.title-label {
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				overflow: hidden; 
+				display: inline;
+			}
+			.time-label {
+				display: inline;
+				text-align: right;
+				max-width: 120px;
+				float: right;
+			}
 		}
 
 		.volume-control {

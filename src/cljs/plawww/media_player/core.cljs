@@ -112,7 +112,7 @@
                    (s->ms (js/parseFloat (or (:duration item) 0)))
                    playback-duration)]
     [:div.controls.vstack
-     [:div.hstack
+     [:div.title-and-time
       [:div.title-label title]
       [time-label duration playback-progress]]
      [song-progress playback-progress]
@@ -138,35 +138,31 @@
    [:div.content-area [player-controls state]]
    [:div.accessory-area [accessory-view]]])
 
+(defn media-player [{:keys [item playback-state volume]}]
+  [:div.pm-media-player
+   [react-player
+    {:url (paths/item-path item)
+     :class-name :react-player
+     :width "100%"
+     :height "100%"
+     :volume volume
+     :playing (= playback-state :play)
+     :ref #(reset! mplayer %)
+     :on-ended #(js/console.log "Gata!")
+     :on-ready #(js/console.log "react-player: ready.")
+     :on-duration #(session/update-in! [:player-state] assoc :playback-duration (s->ms %))
+     :on-progress #(session/update-in! [:player-state] assoc :playback-progress (.. % -played))}]])
+
 (defn player []
   (let [state (session/cursor [:player-state])]
     (fn []
-      (let [{:keys [visible detail-visible? item playback-state]} @state
-            filename (paths/media-path (:filename item))
-            _ (js/console.log "Loading " filename)]
+      (let [{:keys [visible detail-visible? item]} @state]
         (if visible
-          [:div.player.window.vstack {:class (when detail-visible? :detail)}
-           (when detail-visible? [:div.detail
-                                  [detail/detail-component item]])
-           [react-player {:url filename
-                          :playing (= playback-state :play)
-                          :ref #(reset! mplayer %)
-                          :on-ready (fn [] (js/console.log "READY!"))
-                          :on-progress (fn [state]
-                                         (js/console.log "state:" state)
-                                         (let [percent (.. state -played)
-                                               playedSeconds (.. state -playedSeconds)
-                                               loadedSeconds (.. state -loadedSeconds)]
-                                           (session/update-in! [:player-state] assoc
-                                                               :playback-progress percent
-                                                               :playback-position (s->ms playedSeconds)
-                                                               :playback-duration (s->ms loadedSeconds))))}]
-
-
-
-
+          [:div.player.window.vstack {:class (when detail-visible? :detail-visible)}
+           [:div.detail
+            [detail/detail-component item]
+            [media-player @state]]
            [:div.toolbar]
-
            [:div.content [player-view @state]]]
           [:div.player.window.hidden])))))
 

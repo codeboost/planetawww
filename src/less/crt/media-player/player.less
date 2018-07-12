@@ -51,18 +51,7 @@
 	}
 	
 	.detail {
-		padding: 20px;
 		display: none;
-
-		.pm-media-player {
-			position: relative;
-			height: 320px;
-			.react-player {
-				position: absolute; 
-				top: 0;
-				left: 0;
-			}
-		}
 	}
 
 	&.detail-visible {
@@ -75,8 +64,19 @@
 			bottom: 4px;
 			flex-grow: 2;
 			display: block;
-			top: 0px;
-			bottom: 0px;
+			padding: 20px;
+			position: relative;
+			.pm-media-player {
+				position: absolute; 
+				left: 8px;
+				right: 8px;
+				min-height: 320px;
+				.react-player {
+					position: absolute;
+					top: 0;
+					left: 0;
+				}
+			}
 		}
 	}
 

@@ -52,6 +52,19 @@
 	
 	.detail {
 		display: none;
+
+	  .min-button {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        width: 16px;
+        height: 16px;
+        cursor: pointer;
+        .pressed {
+					background-color: @console-color;
+					color: @console-bg;
+        }
+    }
 	}
 
 	&.detail-visible {
@@ -85,7 +98,7 @@
 	}
 
 	.content {
-		height: 80px;
+	//	height: 80px;
 		display: flex;
 		flex-direction: column; 
 		justify-content: center;
@@ -95,6 +108,18 @@
 		
 		.progress-bar {
 			#player-controls > .progress-bar;
+		}
+
+		.play-button {
+			background-color: @console-bg;
+			color: @console-color;
+			&.playing {
+				color: @console-bg;
+				background-color: @console-color;
+				a,a:visited,a:active,a:focus {
+				  color: @console-bg;
+				}
+			}
 		}
 
 		.title-and-time {
@@ -133,20 +158,63 @@
 		.player-buttons {
 			display: flex;
 			flex-grow: 0;
-			.play-button {
-				background-color: @console-bg;
-				color: @console-color;
-				&.playing {
-					color: @console-bg;
-					background-color: @console-color;
-					a,a:visited,a:active,a:focus {
-					  color: @console-bg;
-					}
+		}
+	}
 
-				}
-			}
+	.min-player {
+		.controls {
+			display: flex;
+			flex-flow: row;
+			align-items: center;
+			position: relative;
 		}
 
+		.song-progress {
+			flex-grow: 2;
+			margin-left: 4px;
+			margin-right: 4px;
+		}
+
+		.accessory-button {
+			font-size: 14px;
+			margin-right:4px;
+			z-index: 10;
+		}
+
+		.volume-control {
+			z-index: 0;
+			position: absolute;
+			right: 4px;
+			bottom: 0px;
+			width: 32px;
+			height: 200px;
+			border: 2px solid @console-color;
+			background-color: @console-bg;
+			border-radius: 23px;
+			.vertical-progress-bar {
+				width: 100%;
+				height: 100%;
+				position: relative;
+				.vertical-progress-bar-progress {
+					background-color: @console-color; 
+					width: 100%;
+					pointer-events: none; 
+					position: absolute;
+					border-top-left-radius: 23px;
+					border-top-right-radius: 23px;
+					bottom: 32px;
+					cursor: move;
+				}
+				.faker {
+						border-radius: 23px;
+						position: absolute;
+						bottom: 0px;
+						height: 44px;
+						width: 100%;
+						background-color: @console-color; 
+				}
+			}	
+		}
 	}
 }
 

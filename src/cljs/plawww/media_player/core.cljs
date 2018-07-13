@@ -130,6 +130,12 @@
     :class    (when (get-setting key) :selected)}
    text])
 
+(defn- minimise-button [text key]
+  [:div.min-button
+   {:on-click #(toggle-setting! key)
+    :style {:cursor :pointer}}
+   text])
+
 (defn accessory-view []
   [toggle-accessory-button "i" :detail-visible?])
 
@@ -153,6 +159,27 @@
      :on-duration #(session/update-in! [:player-state] assoc :playback-duration (s->ms %))
      :on-progress #(session/update-in! [:player-state] assoc :playback-progress (.. % -played))}]])
 
+(defn volume-control [volume]
+  [:div.volume-control
+   [progress-bar/vertical-progress-bar
+    volume
+    (fn [v]
+      (session/update-in! [:player-state] assoc :volume v))]])
+
+(defn min-player [{:keys [playback-progress volume-visible? volume]}]
+  [:div.min-player
+   [:div.controls
+    [play-button]
+    [song-progress playback-progress]
+    [accessory-view]
+    [toggle-accessory-button "v" :volume-visible?]
+    (when volume-visible?
+      [volume-control
+       volume])]])
+
+
+
+
 (defn player []
   (let [state (session/cursor [:player-state])]
     (fn []
@@ -160,10 +187,12 @@
         (if visible
           [:div.player.window.vstack {:class (when detail-visible? :detail-visible)}
            [:div.detail
+            [minimise-button "x" :detail-visible?]
             [detail/detail-component item]
             [media-player @state]]
            [:div.toolbar]
-           [:div.content [player-view @state]]]
+           [:div.content
+            [min-player @state]]]
           [:div.player.window.hidden])))))
 
 ;(def draggable (r/adapt-react-class js/ReactDraggable))

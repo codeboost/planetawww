@@ -27,8 +27,14 @@
   (js/console.log "media-page/set-opts: " opts)
   (swap! *state* merge opts))
 
-(defn- detail-title [{:keys [title duration]}]
-  (str title " - " (utils/format-duration duration)))
+(defn- mtype-str [type]
+  (case type
+    "audio" ""
+    "video" "(V) "
+    ""))
+
+(defn- detail-title [{:keys [title duration type]}]
+  (str (mtype-str type) title " - " (utils/format-duration duration)))
 
 (defn render-menu-item [{:keys [title id description] :as item} {:keys [detail-items? selected-id]}]
   "Menu item."
@@ -194,13 +200,17 @@
       :plain [items-by-alphabet items state])))
 
 (defn media-page [media-items]
-  (fn []
-    [:div.media-page
-     [:div.components
-      [toolbar/buttons *state*]
-      [:div.v16px]
-      [:div.page-content
-       [media-items-component media-items @*state*]]]]))
+  [:div.media-page
+   {:tab-index 0
+    :on-key-press (fn [event]
+                    (if (= "d" (str/lower-case (.-key event)))
+                      (swap! *state* update :detail-items? not)))}
+   [:div.components
+    [toolbar/buttons *state*]
+    [:div.v16px]
+    [:div.page-content
+     [media-items-component media-items @*state*]]]])
+
 
 
 (comment

@@ -136,7 +136,9 @@
              (swap! state merge {:played played :duration duration}))
           500)))
 
-      :component-will-unmount #(js/clearInterval update-interval)
+      :component-will-unmount (fn []
+                                (js/clearInterval update-interval)
+                                (js/console.log "will unmount!"))
 
       :reagent-render
       (fn []

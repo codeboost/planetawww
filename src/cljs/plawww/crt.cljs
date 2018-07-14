@@ -29,5 +29,5 @@
      [:div.piece.output
       [:div.planeta-experience
        (when navbar? [navbar])
-       [page-or-search-results page navbar/state]]]]
-    [player/player]]])
+       [page-or-search-results page navbar/state]]]]]])
+    

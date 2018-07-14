@@ -20,7 +20,8 @@
    [plawww.media-player.controller :as media-controller]
    [reagent.core :as reagent :refer [atom]]
    [reagent.session :as session]
-   [secretary.core :as secretary :refer [defroute]]))
+   [secretary.core :as secretary :refer [defroute]]
+   [plawww.media-player.core :as player]))
 
 
 (defonce ^:export ALLMEDIA (js->clj js/kolbasulPlanetar :keywordize-keys true))
@@ -117,7 +118,8 @@
 (defn current-page []
   (let [page (session/get :current-page)]
     (if page
-      [:div [page]]
+      [:div [page]
+       [:div [player/player]]]
       [:div "Dapu-kaneshna-kiar-amush ! Nu-i asa ceva, nu-i ! "])))
 
 (defn mount-root []

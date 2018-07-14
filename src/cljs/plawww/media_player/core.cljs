@@ -12,6 +12,7 @@
    [plawww.media-player.item-detail :as detail]
    [plawww.media-player.progress-bar :as progress-bar]
    [plawww.utils :as utils]
+   [reagent.ratom :as ratom]
    [reagent.session :as session]
    [reagent.interop :refer-macros [$ $!]]
    [plawww.paths :as paths]
@@ -24,7 +25,7 @@
 (defonce mplayer-state (r/atom {:playing false
                                 :url nil
                                 :volume 0.7
-                                :muted false
+                                :muted true ;Safari restriction. First time must be muted. Reset when user clicks play
                                 :played 0
                                 :loaded 0
                                 :duration 0
@@ -50,10 +51,13 @@
   (js/console.log "media-player: " (apply str args)))
 
 (defn set-current-item [item]
-  (swap! mplayer-state merge {:item item
-                              :visible true
-                              :detail-visible? true
-                              :playing true}))
+  (let [muted (:muted @mplayer-state)
+        playing? (not muted)]
+    (swap! mplayer-state merge {:item item
+                                :visible true
+                                :detail-visible? true
+                                :playing playing?}))
+  (reagent.core/flush))
 
 (defn- set-audio-volume [percent]
   (swap! mplayer-state assoc :volume percent))
@@ -68,6 +72,16 @@
       "/"
       (utils/format-duration duration))]))
 
+(defn- flush-play!
+  "Call when muted is true.
+  Resets `muted` to false and sets `playing` to true, then calls `reagent.core/flush` to trigger
+  an immediate re-render.
+  This is necessary for Safari which requires first time playback to be started from a click event handler."
+  [state]
+  (swap! state merge {:muted false
+                      :playing true})
+  (reagent.core/flush))
+
 (defn play-button
   "Play button component.
   Reacts to changes in the [:player-state :playback-state] path.
@@ -75,11 +89,15 @@
   The player should then update the [:player-state :playback-state] key."
   []
   (fn [state]
-    (let [playing? (:playing @state)
-          text (if playing? "||" ">>")]
+    (let [{:keys [playing muted]} @state
+          text (if playing "||" ">>")]
       [:div.accessory-button.play-button
-       {:class (when playing? :selected)
-        :on-click #(swap! state update :playing not)}
+       {:class (when playing :selected)
+        :on-click (fn []
+                    (if muted ; Safari restriction - media must be loaded in a muted state.
+                      (flush-play! state)
+                      (swap! state update :playing not)))}
+
        text])))
 
 
@@ -104,24 +122,45 @@
    text])
 
 (defn media-player [state]
-  (fn []
-    (let [{:keys [item playing volume]} @state]
-      [:div.pm-media-player
-       [react-player
-        {:url (paths/item-path item)
-         :class-name :react-player
-         :width "100%"
-         :height "100%"
-         :playing playing
-         :volume volume
-         :ref #(reset! mplayer %)
-         :on-ended #(js/console.log "Gata!")
-         :on-ready #(js/console.log "react-player: ready.")
-         :on-play #(swap! state assoc :playing true)
-         :on-pause #(swap! state assoc :playing false)
-         :on-error #(swap! state merge {:playing false :error %})
-         :on-duration #(swap! state assoc :duration %)
-         :on-progress #(swap! state assoc :played (.. % -played))}]])))
+  (let [update-interval (r/atom 0)]
+    (r/create-class
+     {:component-did-mount
+      (fn []
+        (reset!
+         update-interval
+         (js/setInterval
+          #(let [current-time (.getCurrentTime @mplayer)
+                 duration     (.getDuration @mplayer)
+                 played       (if (pos? duration) (/ current-time duration) 0)]
+             #_(js/console.log "duration" duration "current-time" current-time "played" played)
+             (swap! state merge {:played played :duration duration}))
+          500)))
+
+      :component-will-unmount #(js/clearInterval update-interval)
+
+      :reagent-render
+      (fn []
+        (let [{:keys [item playing volume muted]} @state]
+          [:div.pm-media-player
+           [react-player
+            {:url (paths/item-path item)
+             :class-name :react-player
+             :width "100%"
+             :height "100%"
+             :muted muted
+             :playing playing ;Not playing if muted
+             :volume volume
+             :ref #(reset! mplayer %)
+             :on-ended #(js/console.log "Gata!")
+             :on-ready #(js/console.log "react-player: ready.")
+             :on-play #(swap! state assoc :playing true)
+             :on-pause #(swap! state assoc :playing false)
+             :on-error (fn [err]
+                         (swap! state merge {:playing false :error err})
+                         (js/console.log "Error: " err))
+             :on-duration #(swap! state assoc :duration %)
+             :on-progress (fn [p]
+                            #_(swap! state assoc :played (.. p -played)))}]]))})))
 
 
 (defn- volume-text [percent]
@@ -164,6 +203,7 @@
   (let [state mplayer-state]
     (fn []
       (let [{:keys [visible item detail-visible?]} @state]
+        #_(js/console.log "state: " (str (dissoc @state :item))) ;Safari
         (if visible
           [:div.player.window.vstack {:class (when detail-visible? :detail-visible)}
            [:div.detail

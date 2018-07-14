@@ -32,23 +32,38 @@
                  :padding-left (if (and (> percent 0) (< percent 10)) "8px" "0px")}})]])
 
 
+
+(defn clamp-v
+  "Rounds off `v` to 0 if `v < vmin` and to 1 if `v > vmax`.
+  v is a double value in the range 0..1"
+  [v vmin vmax]
+  (cond
+    (< v vmin) 0
+    (> v vmax) 1
+    :else v))
+
 (defn vertical-progress-bar [progress callback]
-  [:div.vertical-progress-bar
-   {:on-click
-    (fn [e]
-      (let [_this (r/current-component)
-            target (js/$ ($ e :target))
-            faker  (.find target ".faker")
-            faker-height (if faker ($ faker height) 0)
-            page-y ($ e :pageY)
-            offset ($ target offset)
-            offset-top ($ offset :top)
-            offset-y (- page-y offset-top)
-            offset-y (- ($ target height) offset-y faker-height)
-            offset-y (if (<= offset-y 8) 0 offset-y) ;trim to 0 if clicked within 8 pixels.
-            percent (percent-height target offset-y)]
-        (callback percent)))}
-   [:div.vertical-progress-bar-progress
-    (let [percent (* 100 (min 1 progress))]
-      {:style {:height (str percent "%")}})]
-   [:div.faker]])
+  (let [el (r/atom nil)]
+    [:div.vertical-progress-bar
+     {:ref #(reset! el %)
+      :on-click
+      (fn [e]
+        (let [_this (r/current-component)
+              _ (js/console.log "_this:" el)
+              target (js/$ ($ e :target))
+              ;faker  (.find target ".faker")
+              ;progress-el (.find target ".vertical-progress-bar-progress")
+              ;progress-bottom (bottom-offset (.get progress-el 0) (.get target 0))
+              ;faker-height (if faker ($ faker height) 0)
+              height ($ target height)
+              _ (js/console.log "height = " height)
+              bottom (+ height (.. ($ target offset) -top))
+              click-y ($ e :pageY)
+              click-pos (- bottom click-y)
+              percent (if (pos? height) (/ click-pos height) 0)
+              percent (clamp-v percent 0.1 0.95)
+              _ (js/console.log "percent=" percent)]
+          (callback percent)))}
+     [:div.vertical-progress-bar-progress
+      (let [percent (* 100 (min 1 progress))]
+        {:style {:height (str percent "%")}})]]))

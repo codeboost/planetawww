@@ -9,7 +9,6 @@
   (:require
    [cljsjs.react-player]
    [cljsjs.react-draggable]
-   [plawww.media-player.audio-player :as audio-player]
    [plawww.media-player.item-detail :as detail]
    [plawww.media-player.progress-bar :as progress-bar]
    [plawww.utils :as utils]
@@ -21,6 +20,20 @@
 (def react-player (r/adapt-react-class js/ReactPlayer))
 
 (defonce mplayer (r/atom nil))
+
+(defonce mplayer-state (r/atom {:playing false
+                                :url nil
+                                :volume 0.7
+                                :muted false
+                                :played 0
+                                :loaded 0
+                                :duration 0
+                                :playback-rate 0
+                                :loop false
+                                :item nil
+                                ;lump them all together
+                                :detail-visible? false
+                                :volume-visible? false}))
 
 (defn s->ms
   "Seconds to milliseconds."
@@ -36,37 +49,15 @@
   [& args]
   (js/console.log "media-player: " (apply str args)))
 
-(defn update-state!
-  "Saves the state into the session under the `player-state-key`.
-  (update-state! conj :show-details? true)"
-  [& args]
-  (apply (partial session/update-in! [:player-state]) args)
-  nil)
-
-(defn- toggle-setting! [k]
-  (session/update-in! [:player-state k] not))
-
-(defn- get-setting
-  [ks]
-  (if (keyword? ks)
-    (session/get-in [:player-state ks])
-    (session/get-in (into [:player-state] ks))))
-
-(defn send-player-command [command]
-  (plawww.media-player.audio-player/command command))
-
-(defn song-progress [progress]
-  [:span.song-progress
-   (progress-bar/progress-bar
-    progress
-    (fn [x]
-      ()
-      (.seekTo @mplayer x)))])
+(defn set-current-item [item]
+  (swap! mplayer-state merge {:item item
+                              :visible true
+                              :detail-visible? true
+                              :playing true}))
 
 (defn- set-audio-volume [percent]
-  (send-player-command {:command :set-volume
-                        :percent percent})
-  (session/update-in! [:player-state] assoc :volume percent))
+  (swap! mplayer-state assoc :volume percent))
+
 
 (defn time-label [ms-duration progress]
   (let [ms-duration (js/parseFloat ms-duration)
@@ -77,122 +68,109 @@
       "/"
       (utils/format-duration duration))]))
 
-(def state-map
-  {:play  :pause
-   :pause :play
-   :stop  :play})
-
-(defn play-button-text
-  "Returns the text to display on the button for the current playback state."
-  [s]
-  (s {:play  "||"
-      :pause ">>"
-      :stop  ">>"}))
-
 (defn play-button
   "Play button component.
   Reacts to changes in the [:player-state :playback-state] path.
   Clicking on the button will place a command onto the player command channel.
   The player should then update the [:player-state :playback-state] key."
   []
-  (let [ps (session/cursor [:player-state :playback-state])]
-       (fn [])
-      [:div.accessory-button.play-button {:class (when (= @ps :play) :playing)}
-       [:a {:on-click #(session/update-in! [:player-state] assoc :playback-state (or (state-map @ps) :play))}
-        (play-button-text (or @ps :pause))]]))
+  (fn [state]
+    (let [playing? (:playing @state)
+          text (if playing? "||" ">>")]
+      [:div.accessory-button.play-button
+       {:class (when playing? :selected)
+        :on-click #(swap! state update :playing not)}
+       text])))
 
-(defn volume-slider-control [progress]
-  (progress-bar/progress-bar
-   progress
-   #(set-audio-volume %)))
 
-(defn player-controls [{:keys [playback-progress playback-duration item volume]}]
-  (let [{:keys [title]} item
-        duration (if (zero? (or playback-duration 0))
-                   (s->ms (js/parseFloat (or (:duration item) 0)))
-                   playback-duration)]
-    [:div.controls.vstack
-     [:div.title-and-time
-      [:div.title-label title]
-      [time-label duration playback-progress]]
-     [song-progress playback-progress]
-     [:div.hstack.bottom-part
-      [:div.player-buttons
-       [play-button]]
-      [:div.button-spacer]
-      [:span.volume-control
-       [volume-slider-control volume]]]]))
+(defn song-progress [state]
+  (fn []
+    (let [{:keys [played]} @state]
+      [:span.song-progress
+       (progress-bar/progress-bar played #(.seekTo @mplayer %))])))
 
 (defn- toggle-accessory-button
-  [text key]
+  [state text key]
   [:div.accessory-button
-   {:on-click #(toggle-setting! key)
-    :class    (when (get-setting key) :selected)}
+   {:on-click #(swap! state update-in [key] not)
+    :class    (when (@state key) :selected)}
    text])
 
-(defn- minimise-button [text key]
+(defn- minimise-button
+  [state text key]
   [:div.min-button
-   {:on-click #(toggle-setting! key)
+   {:on-click #(swap! state update key not)
     :style {:cursor :pointer}}
    text])
 
-(defn accessory-view []
-  [toggle-accessory-button "i" :detail-visible?])
+(defn media-player [state]
+  (fn []
+    (let [{:keys [item playing volume]} @state]
+      [:div.pm-media-player
+       [react-player
+        {:url (paths/item-path item)
+         :class-name :react-player
+         :width "100%"
+         :height "100%"
+         :playing playing
+         :volume volume
+         :ref #(reset! mplayer %)
+         :on-ended #(js/console.log "Gata!")
+         :on-ready #(js/console.log "react-player: ready.")
+         :on-play #(swap! state assoc :playing true)
+         :on-pause #(swap! state assoc :playing false)
+         :on-error #(swap! state merge {:playing false :error %})
+         :on-duration #(swap! state assoc :duration %)
+         :on-progress #(swap! state assoc :played (.. % -played))}]])))
 
-(defn player-view [state]
-  [:div.lv-cell.hstack
-   [:div.content-area [player-controls state]]
-   [:div.accessory-area [accessory-view]]])
 
-(defn media-player [{:keys [item playback-state volume]}]
-  [:div.pm-media-player
-   [react-player
-    {:url (paths/item-path item)
-     :class-name :react-player
-     :width "100%"
-     :height "100%"
-     :volume volume
-     :playing (= playback-state :play)
-     :ref #(reset! mplayer %)
-     :on-ended #(js/console.log "Gata!")
-     :on-ready #(js/console.log "react-player: ready.")
-     :on-duration #(session/update-in! [:player-state] assoc :playback-duration (s->ms %))
-     :on-progress #(session/update-in! [:player-state] assoc :playback-progress (.. % -played))}]])
-
-(defn volume-control [volume]
-  [:div.volume-control
-   [progress-bar/vertical-progress-bar
-    volume
-    (fn [v]
-      (session/update-in! [:player-state] assoc :volume v))]])
-
-(defn min-player [{:keys [playback-progress volume-visible? volume]}]
-  [:div.min-player
-   [:div.controls
-    [play-button]
-    [song-progress playback-progress]
-    [accessory-view]
-    [toggle-accessory-button "v" :volume-visible?]
-    (when volume-visible?
-      [volume-control
-       volume])]])
+(defn- volume-text [percent]
+  (cond
+    (< percent 0.01) "   "
+    (and (>= percent 0.1) (< percent 0.3)) " . "
+    (and (>= percent 0.3) (< percent 0.6)) " v "
+    (and (>= percent 0.6) (< percent 0.9)) " V "
+    (> percent 0.9) "+V+"))
 
 
 
+(defn volume-control
+  "Fancy volume control.
+  By default a toggle accessory is rendered, which, when clicked will display a vertical volume selector
+  allowing the human to set the volume."
+  [state]
+  (let [ls (r/atom {:progress-visible? false})]
+    (fn []
+      (let [{:keys [volume]} @state]
+        [:div.volume-control
+         [toggle-accessory-button ls (volume-text volume) :progress-visible?]
+         (when (:progress-visible? @ls)
+           [:div.volume-selector
+            [progress-bar/vertical-progress-bar
+             volume
+             #(swap! state assoc :volume %)]
+            [:div.faker]])]))))
+
+(defn min-player [state]
+  (fn []
+    [:div.min-player
+     [:div.controls
+      [play-button state]
+      [song-progress state]
+      [toggle-accessory-button state "i" :detail-visible?]
+      [volume-control state]]]))
 
 (defn player []
-  (let [state (session/cursor [:player-state])]
+  (let [state mplayer-state]
     (fn []
-      (let [{:keys [visible detail-visible? item]} @state]
+      (let [{:keys [visible item detail-visible?]} @state]
         (if visible
           [:div.player.window.vstack {:class (when detail-visible? :detail-visible)}
            [:div.detail
-            [minimise-button "x" :detail-visible?]
+            [minimise-button state "x" :detail-visible?]
             [detail/detail-component item]
-            [media-player @state]]
+            [media-player state]]
            [:div.toolbar]
            [:div.content
-            [min-player @state]]]
+            [min-player state]]]
           [:div.player.window.hidden])))))
-
-;(def draggable (r/adapt-react-class js/ReactDraggable))

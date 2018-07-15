@@ -99,7 +99,8 @@
 
 (defn items-by-tag-component
   "Given a list of items, group by tags and render a bunch of `tag-component`s.
-  Clicking on a tag-component's title will toggle the visibility of child items (expanded tags)."
+  Clicking on a tag-component's title will toggle the visibility of child items (expanded tags).
+  If `show-all?` then all tags are considered expanded."
   [_ opts]
   (let [state (r/atom {:expanded-tags (:included-tags opts)})]
     (fn [tagged {:keys [show-all?] :as opts}]
@@ -111,22 +112,11 @@
                               :on-title-clicked #(swap! state update-in [:expanded-tags] utils/toggle-item %))])
                tagged))))))
 
-
-(defn render-one-tag
-  "This renders just one tag component, which is expanded and all its items are visible."
-  [items tag-title state]
-  (let [tag (->> (media-db/by-tags items)
-                 (filter #(= tag-title (:title %)))
-                 (first))]
-    [tag-component tag
-     (assoc state :expanded? true)]))
-
-
 (defn items-by-tag
   "Renders a collection of Tag components or just one single Tag.
   included-tags
   Each Tag component has a bunch of items, which are hidden by default.
-  If `show-all?` then all items are visible."
+  If `included-tags` is non-empty, only the tags in `included-tags` will be rendered."
   [items {:keys [included-tags] :as opts}]
   (let [tagged (by-tags* items)
         tagged (if-not

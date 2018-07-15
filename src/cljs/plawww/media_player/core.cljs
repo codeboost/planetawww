@@ -183,7 +183,8 @@
                          (js/console.log "Error: " err))
              :on-duration #(swap! state assoc :duration %)
              :on-progress (fn [p]
-                            (swap! state assoc :played (.. p -played)))}]]))})))
+                            ;don't do this - scrolling won't work
+                            #_(swap! state assoc :played (.. p -played)))}]]))})))
 
 
 (defn- volume-text [percent]

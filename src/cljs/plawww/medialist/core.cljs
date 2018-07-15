@@ -141,9 +141,9 @@
  (media-db/items-for-tags (session/get :media-items) #{"music"}))
 
 ;Todo: Search needs its own state atom
-(defn render-search-results [items s no-results-fn]
-  (let [items (media-db/search-in-items items s)
-        tagged-items (media-db/filter-tagged (by-tags* items) items s)]
+(defn render-search-results [all-items s no-results-fn]
+  (let [items (media-db/search-in-items all-items s)
+        tagged-items (media-db/by-tags-which-start-with (by-tags* all-items) s)]
     [:div.search-results
      (when (seq tagged-items)
        [:div.tags

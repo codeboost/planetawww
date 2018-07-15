@@ -82,11 +82,13 @@
   [items letter]
   (filter #(utils/starts-with-letter? (:title %) letter) items))
 
-(defn- filter-tagged
-  "Filters tagged items (result of a `by-tags` call) leaving only those which have items with title that matches `s`."
-  [items-by-tag items s]
-  (let [titles (tag-titles items s)]
-    (filter #(titles (:title %)) items-by-tag)))
+(defn by-tags-which-start-with
+  "Returns the tag items which have title starting with `s`.
+  `tags` is a collection of {:title '' :items []} maps, presumably from a call to `by-tags`."
+  [tags s]
+  (filter
+   (fn [{:keys [title]}] (search-match? title s))
+   tags))
 
 (defn search-in-items [items s]
   (filter #(search-match? (:title %) s) items))

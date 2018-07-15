@@ -43,7 +43,6 @@
 	align-content: stretch;
 	left: 25%;
 	right: 25%;
-	min-width: 320px;
 	@media (max-width: 640px) {
 		left: 8px;
 		right: 8px;
@@ -67,30 +66,70 @@
 	}
 
 	&.detail-visible {
-		top: 16px;
-		.toolbar {
-			border-top: 1px solid @console-color;
+
+		@media (max-height: 800px) {
+			top: 8px;
 		}
+
+		@media (min-height: 800px) {
+			height: 640px;
+		}			
 
 		.detail {
 			bottom: 4px;
 			flex-grow: 2;
-			display: block;
-			padding: 20px;
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-end; 
+			padding: 10px;
 			position: relative;
 
-			.pm-media-player {
-				position: absolute; 
-				left: 8px;
-				right: 8px;
-				min-height: 320px;
-				.react-player {
-					position: absolute;
-					top: 0;
-					left: 0;
+			.player-container {
+				flex-grow: 1;
+				display: flex;
+				flex-direction: column; 
+				justify-content: center;
+				border-radius: 32px;
+
+				.pm-media-player {
+					.album-art {
+						margin-left: auto;
+						margin-right: auto;
+						position: relative;
+						img {
+							width: 100%;
+							height: 100%;
+						}
+					}
+
+					.react-player {
+						border-radius: 23px;
+						margin-top: auto;
+						margin-bottom: auto;
+					}
 				}
-			}
-		}
+			}			
+		} //.detail
+	
+			.toolbar {
+				border-top: 1px solid @console-color;
+				border-bottom: 1px solid @console-color;;
+				display: flex;
+				flex-direction: row;
+				justify-content: space-around;
+				width: 100%;
+				flex-wrap: nowrap;
+
+				.toolbar-item {
+					border-right: 1px solid @console-color;
+					width: 100px;
+					flex-grow: 1;
+					text-align: center;
+					&:last-child {
+						border-right: none;
+					}
+				} 
+			}//toolbar
 	}
 
 	.bottom-part {

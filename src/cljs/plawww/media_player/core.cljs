@@ -22,7 +22,8 @@
 
 (defonce mplayer (r/atom nil))
 
-(defonce mplayer-state (r/atom {:playing false
+(defonce mplayer-state (r/atom {:height 320
+                                :playing false
                                 :url nil
                                 :volume 0.7
                                 :muted true ;Safari restriction. First time must be muted. Reset when user clicks play
@@ -34,7 +35,8 @@
                                 :item nil
                                 ;lump them all together
                                 :detail-visible? false
-                                :volume-visible? false}))
+                                :volume-visible? false
+                                :fullscreen? false}))
 
 (defn s->ms
   "Seconds to milliseconds."
@@ -121,34 +123,45 @@
     :style {:cursor :pointer}}
    text])
 
+(defn- start-update-duration-timer
+  "update-interval is an atom which will contain the interval id.
+   state is the atom where the :duration and :played values will be stored."
+  [mplayer state update-interval]
+  (reset!
+   update-interval
+   (js/setInterval
+    #(let [current-time (.getCurrentTime @mplayer)
+           duration     (.getDuration @mplayer)
+           played       (if (pos? duration) (/ current-time duration) 0)]
+       (swap! state merge {:played played :duration duration}))
+    500)))
+
 (defn media-player [state]
-  (let [update-interval (r/atom 0)]
+  (let [update-interval (r/atom 0)
+        container-el (r/atom nil)]
     (r/create-class
      {:component-did-mount
       (fn []
-        (reset!
-         update-interval
-         (js/setInterval
-          #(let [current-time (.getCurrentTime @mplayer)
-                 duration     (.getDuration @mplayer)
-                 played       (if (pos? duration) (/ current-time duration) 0)]
-             #_(js/console.log "duration" duration "current-time" current-time "played" played)
-             (swap! state merge {:played played :duration duration}))
-          500)))
+        (start-update-duration-timer mplayer state update-interval)
+        ;This hack is necessary in order to adjust the media player height, which fights me
+        ;if I try to do it with CSS. I wish I didn't have to do it though.
+        (let [parent-height (.height (js/$ (.-parentNode @container-el)))
+              parent-height (Math/round (* 0.88 parent-height))]
+          (swap! state assoc :height parent-height)))
 
-      :component-will-unmount (fn []
-                                (js/clearInterval update-interval)
-                                (js/console.log "will unmount!"))
+      :component-will-unmount #(js/clearInterval @update-interval)
 
       :reagent-render
       (fn []
-        (let [{:keys [item playing volume muted]} @state]
+        (let [{:keys [item playing volume muted height fullscreen?]} @state
+              audio? (= (:type item) "audio")]
           [:div.pm-media-player
+           {:ref #(reset! container-el %)}
            [react-player
             {:url (paths/item-path item)
              :class-name :react-player
              :width "100%"
-             :height "100%"
+             :height (if audio? 0 height)
              :muted muted
              :playing playing ;Not playing if muted
              :volume volume
@@ -162,7 +175,10 @@
                          (js/console.log "Error: " err))
              :on-duration #(swap! state assoc :duration %)
              :on-progress (fn [p]
-                            #_(swap! state assoc :played (.. p -played)))}]]))})))
+                            #_(swap! state assoc :played (.. p -played)))}]
+           (when audio?
+             [:div.album-art
+              [:img {:src (paths/l-image-path (:id item))}]])]))})))
 
 
 (defn- volume-text [percent]
@@ -201,18 +217,31 @@
       [toggle-accessory-button state "i" :detail-visible?]
       [volume-control state]]]))
 
+(defn toolbar-item [title on-click]
+  [:div.toolbar-item
+   [:a {:href "#"
+        :on-click on-click}
+    title]])
+
 (defn player []
   (let [state mplayer-state]
     (fn []
       (let [{:keys [visible item detail-visible?]} @state]
-        #_(js/console.log "state: " (str (dissoc @state :item))) ;Safari
         (if visible
           [:div.player.window.vstack {:class (when detail-visible? :detail-visible)}
-           [:div.detail
+           [:div.detail {:class-name (:type item)} ;'audio' or 'video'
             [minimise-button state "x" :detail-visible?]
-            [detail/detail-component item]
-            [media-player state]]
-           [:div.toolbar]
+            [:div.player-container
+             [media-player state]]
+            [detail/detail-component item]]
+           (when detail-visible?
+             [:div.toolbar
+              [toolbar-item "DESCARC"]
+              [toolbar-item "DESCARC"]
+              [toolbar-item "DISCUT"]
+              [toolbar-item "$"]
+              [toolbar-item "FULLSCREEN" (fn []
+                                           (js/console.log "Inca nu-i gata!"))]])
            [:div.content
             [min-player state]]]
           [:div.player.window.hidden])))))

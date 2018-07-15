@@ -33,8 +33,11 @@
     [item-content item]
     [:div.item-accessory]]])
 
-(defn duration-comp [{:keys [duration]}]
-  [:div.duration (utils/format-duration duration)])
+(defn duration-comp [duration played]
+  [:div.times
+   [:span.played (utils/format-duration (* played duration))]
+   [:span " / "]
+   [:span.duration (utils/format-duration duration)]])
 
 (defn tag-list-comp [{:keys [tags]}]
   [:div.tags
@@ -51,12 +54,13 @@
   (is (= [:div.tags "one, two, three"]
          (tag-list-comp {:tags ["one" "two" "three"]}))))
 
-(defn detail-component [item]
-  [:div.media-item-detail
-   [:div.detail-info
-    [:div.top-part
-     [:div.info-container
-      [:div.title (:title item)]
-      [duration-comp item]
-      [tag-list-comp item]]]
-    [:div.description (:description_plain item)]]])
+(defn detail-component [item duration played]
+  (let [duration (if (zero? duration) (or (:duration item) 0) duration)]
+    [:div.media-item-detail
+     [:div.detail-info
+      [:div.top-part
+       [:div.info-container
+        [:div.title (:title item)]
+        [duration-comp duration played]
+        [tag-list-comp item]]]
+      [:div.description (:description_plain item)]]]))

@@ -201,10 +201,6 @@
 
 (defn media-page [media-items]
   [:div.media-page
-   {:tab-index 0
-    :on-key-press (fn [event]
-                    (if (= "d" (str/lower-case (.-key event)))
-                      (swap! *state* update :detail-items? not)))}
    [:div.components
     [toolbar/buttons *state*]
     [:div.v16px]

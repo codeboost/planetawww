@@ -146,15 +146,18 @@
 
 (defn media-player [state]
   (let [update-interval (r/atom 0)
-        container-el (r/atom nil)]
+        container-el (r/atom nil)
+        resize-handler #(adjust-player-dimensions! container-el state)]
     (r/create-class
      {:component-did-mount
       (fn []
         (start-update-duration-timer mplayer state update-interval)
-        (adjust-player-dimensions! container-el state))
+        (adjust-player-dimensions! container-el state)
+        (.addEventListener js/window "resize" resize-handler))
 
-
-      :component-will-unmount #(js/clearInterval @update-interval)
+      :component-will-unmount (fn []
+                                (js/clearInterval @update-interval)
+                                (.removeEventListener js/window "resize" resize-handler))
 
       :reagent-render
       (fn []
@@ -228,7 +231,7 @@
 (defn player []
   (let [state mplayer-state]
     (fn []
-      (let [{:keys [visible item detail-visible?]} @state
+      (let [{:keys [visible item detail-visible? duration played]} @state
             audio? (= (:type item) "audio")]
         (if visible
           [:div.player.window.vstack {:class (when detail-visible? :detail-visible)}
@@ -239,12 +242,10 @@
              (when audio?
                [:div.album-art
                 [:img {:src (paths/l-image-path (:id item))}]])]
-            [detail/detail-component item]]
+            [detail/detail-component item duration played]]
            (when detail-visible?
              [:div.toolbar
-              [toolbar-item "DESCARC"]
-              [toolbar-item "DESCARC"]
-              [toolbar-item "DISCUT"]
+              [toolbar-item "INFO"]
               [toolbar-item "$"]
               [toolbar-item "FULLSCREEN" (fn []
                                            (js/console.log "Inca nu-i gata!"))]])

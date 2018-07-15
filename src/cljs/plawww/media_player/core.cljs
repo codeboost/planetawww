@@ -136,6 +136,14 @@
        (swap! state merge {:played played :duration duration}))
     500)))
 
+;This hack is necessary in order to adjust the media player height, which fights me
+;if I try to do it with CSS. I wish I didn't have to do it though.
+(defn- adjust-player-dimensions!
+  [container-el state]
+  (let [parent-height (.height (js/$ (.-parentNode @container-el)))
+        parent-height (Math/round (* 0.88 parent-height))]
+    (swap! state assoc :height parent-height)))
+
 (defn media-player [state]
   (let [update-interval (r/atom 0)
         container-el (r/atom nil)]
@@ -143,11 +151,8 @@
      {:component-did-mount
       (fn []
         (start-update-duration-timer mplayer state update-interval)
-        ;This hack is necessary in order to adjust the media player height, which fights me
-        ;if I try to do it with CSS. I wish I didn't have to do it though.
-        (let [parent-height (.height (js/$ (.-parentNode @container-el)))
-              parent-height (Math/round (* 0.88 parent-height))]
-          (swap! state assoc :height parent-height)))
+        (adjust-player-dimensions! container-el state))
+
 
       :component-will-unmount #(js/clearInterval @update-interval)
 
@@ -175,10 +180,7 @@
                          (js/console.log "Error: " err))
              :on-duration #(swap! state assoc :duration %)
              :on-progress (fn [p]
-                            #_(swap! state assoc :played (.. p -played)))}]
-           (when audio?
-             [:div.album-art
-              [:img {:src (paths/l-image-path (:id item))}]])]))})))
+                            (swap! state assoc :played (.. p -played)))}]]))})))
 
 
 (defn- volume-text [percent]
@@ -226,13 +228,17 @@
 (defn player []
   (let [state mplayer-state]
     (fn []
-      (let [{:keys [visible item detail-visible?]} @state]
+      (let [{:keys [visible item detail-visible?]} @state
+            audio? (= (:type item) "audio")]
         (if visible
           [:div.player.window.vstack {:class (when detail-visible? :detail-visible)}
            [:div.detail {:class-name (:type item)} ;'audio' or 'video'
             [minimise-button state "x" :detail-visible?]
             [:div.player-container
-             [media-player state]]
+             [media-player state]
+             (when audio?
+               [:div.album-art
+                [:img {:src (paths/l-image-path (:id item))}]])]
             [detail/detail-component item]]
            (when detail-visible?
              [:div.toolbar

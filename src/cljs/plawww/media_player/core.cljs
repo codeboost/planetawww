@@ -242,7 +242,7 @@
              (when audio?
                [:div.album-art
                 [:img {:src (paths/l-image-path (:id item))}]])]
-            [detail/detail-component item duration played]]
+            [detail/detail-component state]]
            (when detail-visible?
              [:div.toolbar
               [toolbar-item "INFO"]

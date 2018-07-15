@@ -39,28 +39,27 @@
    [:span " / "]
    [:span.duration (utils/format-duration duration)]])
 
-(defn tag-list-comp [{:keys [tags]}]
-  [:div.tags
-   (when (not-empty tags)
-     (str/join ", " tags))])
+(defn tag-list-comp [state]
+  (fn []
+    (into
+     [:div.tags]
+     (for [tag (get-in @state [:item :tags])]
+       [:span
+        [:a
+         {:href (str "/media/tag/" tag)
+          :on-click #(swap! state assoc :detail-visible? false)}
+         tag]
+        " "]))))
 
-(deftest detail-comp-tests
-  (is (= [:div.tags]
-         (tag-list-comp {})))
-
-  (is (= [:div.tags "one"]
-         (tag-list-comp {:tags ["one"]})))
-
-  (is (= [:div.tags "one, two, three"]
-         (tag-list-comp {:tags ["one" "two" "three"]}))))
-
-(defn detail-component [item duration played]
-  (let [duration (if (zero? duration) (or (:duration item) 0) duration)]
-    [:div.media-item-detail
-     [:div.detail-info
-      [:div.top-part
-       [:div.info-container
-        [:div.title (:title item)]
-        [duration-comp duration played]
-        [tag-list-comp item]]]
-      [:div.description (:description_plain item)]]]))
+(defn detail-component [state]
+  (fn []
+    (let [{:keys [duration item played]} @state
+          duration (if (zero? duration) (or (:duration item) 0) duration)]
+      [:div.media-item-detail
+       [:div.detail-info
+        [:div.top-part
+         [:div.info-container
+          [:div.title (:title item)]
+          [duration-comp duration played]
+          [tag-list-comp state]]]
+        [:div.description (:description_plain item)]]])))

@@ -1,9 +1,10 @@
 //This is the detail part of the media player
 .media-item-detail {
     display: flex; 
-    flex-direction: row;
     align-items: stretch;
-    flex-wrap: wrap;
+    flex-direction: row; 
+    justify-content: center;
+
 
     max-height: 240px;
 
@@ -25,9 +26,16 @@
                 flex-direction: column;
                 .title {
                     font-size: 2.1rem;
+                    text-align: center;
                 }
                 .tags {
                     font-size: 1.2rem;
+                }
+
+                .times {
+                    display: flex;
+                    flex-direction: row; 
+                    justify-content: center;
                 }
                 @media (max-height: 400px) { display: none; }
             }

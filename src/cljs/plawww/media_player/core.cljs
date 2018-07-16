@@ -11,8 +11,6 @@
    [plawww.media-player.item-detail :as detail]
    [plawww.media-player.progress-bar :as progress-bar]
    [plawww.utils :as utils]
-   [reagent.ratom :as ratom]
-   [reagent.session :as session]
    [reagent.interop :refer-macros [$ $!]]
    [plawww.paths :as paths]
    [reagent.core :as r]))

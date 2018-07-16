@@ -8,7 +8,6 @@
 (ns plawww.media-player.core
   (:require
    [cljsjs.react-player]
-   [cljsjs.react-draggable]
    [plawww.media-player.item-detail :as detail]
    [plawww.media-player.progress-bar :as progress-bar]
    [plawww.utils :as utils]

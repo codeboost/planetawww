@@ -80,7 +80,6 @@
            "/css/animations.css"])
     [:body {:class "body-container"}
      mount-target
-     (include-js "/lib/soundmanager2-nodebug-jsmin.js")
      (include-js "/js/app.js")]))
 
 (defroutes routes

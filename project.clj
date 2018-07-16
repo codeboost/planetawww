@@ -8,7 +8,7 @@
                  [binaryage/dirac "1.2.35"]
                  [clj-http "3.7.0"]
                  [cljsjs/typedjs "1.1.1-0"] ;jquery plugin that types
-                 [cljsjs/react-draggable "3.0.3-0"] ;draggable
+                 ;[cljsjs/react-draggable "3.0.3-0"] ;draggable
                  [cljsjs/react-player "1.5.1-0"]
                  [compojure "1.6.0"]
                  [garden "1.3.3"]
@@ -19,8 +19,8 @@
                  [org.clojure/clojure "1.8.0"]
                  [org.clojure/clojurescript "1.9.946" :scope "provided"]
                  [org.clojure/core.async "0.3.465"]
-                 [reagent "0.7.0"]
-                 [reagent-utils "0.2.1"]
+                 [reagent "0.8.1"]
+                 [reagent-utils "0.3.1"]
                  [ring "1.6.3"]
                  [ring-server "0.5.0"]
                  [ring/ring-defaults "0.3.1"]

@@ -49,20 +49,13 @@
       :on-click
       (fn [e]
         (let [_this (r/current-component)
-              _ (js/console.log "_this:" el)
               target (js/$ ($ e :target))
-              ;faker  (.find target ".faker")
-              ;progress-el (.find target ".vertical-progress-bar-progress")
-              ;progress-bottom (bottom-offset (.get progress-el 0) (.get target 0))
-              ;faker-height (if faker ($ faker height) 0)
               height ($ target height)
-              _ (js/console.log "height = " height)
               bottom (+ height (.. ($ target offset) -top))
               click-y ($ e :pageY)
               click-pos (- bottom click-y)
               percent (if (pos? height) (/ click-pos height) 0)
-              percent (clamp-v percent 0.1 0.95)
-              _ (js/console.log "percent=" percent)]
+              percent (clamp-v percent 0.1 0.95)]
           (callback percent)))}
      [:div.vertical-progress-bar-progress
       (let [percent (* 100 (min 1 progress))]

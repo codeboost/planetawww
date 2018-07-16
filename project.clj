@@ -5,8 +5,8 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
 
   :dependencies [[binaryage/devtools "0.9.10"]
-                 [binaryage/dirac "1.2.35"]
-                 [clj-http "3.7.0"]
+                 [binaryage/dirac "1.2.36"]
+                 [clj-http "3.9.0"]
                  [cljsjs/typedjs "1.1.1-0"] ;jquery plugin that types
                  ;[cljsjs/react-draggable "3.0.3-0"] ;draggable
                  [cljsjs/react-player "1.5.1-0"]
@@ -16,14 +16,14 @@
                  [honeysql "0.9.2"]
                  [mysql/mysql-connector-java "6.0.5"]
                  [org.clojure/java.jdbc "0.7.7"]
-                 [org.clojure/clojure "1.8.0"]
-                 [org.clojure/clojurescript "1.9.946" :scope "provided"]
-                 [org.clojure/core.async "0.3.465"]
+                 [org.clojure/clojure "1.9.0"]
+                 [org.clojure/clojurescript "1.10.339" :scope "provided"]
+                 [org.clojure/core.async "0.4.474"]
                  [reagent "0.8.1"]
                  [reagent-utils "0.3.1"]
                  [ring "1.6.3"]
                  [ring-server "0.5.0"]
-                 [ring/ring-defaults "0.3.1"]
+                 [ring/ring-defaults "0.3.2"]
                  [secretary "1.2.3"]
                  [venantius/accountant "0.2.3" :exclusions [org.clojure/tools.reader]]
                  [yogthos/config "0.9"]]

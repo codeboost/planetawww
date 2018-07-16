@@ -10,10 +10,10 @@
                  [cljsjs/typedjs "1.1.1-0"] ;jquery plugin that types
                  ;[cljsjs/react-draggable "3.0.3-0"] ;draggable
                  [cljsjs/react-player "1.5.1-0"]
-                 [compojure "1.6.0"]
-                 [garden "1.3.3"]
+                 [compojure "1.6.1"]
+                 [garden "1.3.5"]
                  [hiccup "1.0.5"]
-                 [honeysql "0.9.2"]
+                 [honeysql "0.9.3"]
                  [mysql/mysql-connector-java "6.0.5"]
                  [org.clojure/java.jdbc "0.7.7"]
                  [org.clojure/clojure "1.9.0"]
@@ -25,8 +25,8 @@
                  [ring-server "0.5.0"]
                  [ring/ring-defaults "0.3.2"]
                  [secretary "1.2.3"]
-                 [venantius/accountant "0.2.3" :exclusions [org.clojure/tools.reader]]
-                 [yogthos/config "0.9"]]
+                 [venantius/accountant "0.2.4" :exclusions [org.clojure/tools.reader]]
+                 [yogthos/config "1.1.1"]]
 
 
   :plugins [[lein-environ "1.0.2"]
@@ -111,16 +111,16 @@
 
                    :dependencies [[ring/ring-mock "0.3.2"]
                                   [ring/ring-devel "1.6.3"]
-                                  [prone "1.1.4"]
-                                  [figwheel-sidecar "0.5.14"]
+                                  [prone "1.6.0"]
+                                  [figwheel-sidecar "0.5.16"]
                                   [org.clojure/tools.nrepl "0.2.13"]
                                   [com.cemerick/piggieback "0.2.2"]
-                                  [devcards "0.2.4"]
+                                  [devcards "0.2.5"]
                                   [pjstadig/humane-test-output "0.8.3"]]
 
 
                    :source-paths ["env/dev/clj"]
-                   :plugins [[lein-figwheel "0.5.14"]
+                   :plugins [[lein-figwheel "0.5.16"]
                              [lein-less "1.7.5"]]
 
                    :injections [(require 'pjstadig.humane-test-output)

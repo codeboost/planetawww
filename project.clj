@@ -30,8 +30,8 @@
 
 
   :plugins [[lein-environ "1.0.2"]
-            [lein-cljsbuild "1.1.1"]
-            [lein-asset-minifier "0.2.7"
+            [lein-cljsbuild "1.1.7"]
+            [lein-asset-minifier "0.4.4"
              :exclusions [org.clojure/clojure]]]
 
   :ring {:handler plawww.handler/app
@@ -51,9 +51,8 @@
   :source-paths ["src/clj" "src/cljc"]
   :resource-paths ["resources" "target/cljsbuild"]
 
-  :minify-assets
-  {:assets
-   {"resources/public/css/site.min.css" "resources/public/css/site.css"}}
+  :minify-assets [[:css {:source "resources/public/css/site.css" :target "resources/public/css/site.min.css"}]]
+
 
   :cljsbuild
   {:builds {
@@ -64,9 +63,10 @@
               :output-dir "target/uberjar"
               :optimizations :advanced
               ;Created by the generate-extern tool
-              :externs ["externs.js" "soundManager-externs.js"]
+              :externs ["externs.js" "react-player-externs.js"]
               :optimize-constants true
-              :pseudo-names false}}
+              :pseudo-names false
+              :pretty-print false}}
             :app
             {:source-paths ["src/cljs" "src/cljc" "env/dev/cljs"]
              :compiler

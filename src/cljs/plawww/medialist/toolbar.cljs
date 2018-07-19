@@ -1,12 +1,15 @@
 (ns plawww.medialist.toolbar)
 
-(defn- toggle-button [props text]
-  [:a.toggle-button props text])
 
-(defn- button-all [*state]
+(defn- on-off-component [text state ks]
   (fn []
-    [toggle-button {:on-click #(swap! *state update-in [:show-all?] not)
-                    :class-name (when (:show-all? @*state) :on)} "TOT"]))
+    [:a.toggle-button
+     {:on-click #(swap! state update-in ks not)
+      :class (when (get-in @state ks) :on)}
+     text]))
+
+(defn- button-all [state]
+  [on-off-component "TOT" state [:show-all?]])
 
 (defn cycle-button
   "A button component which cycles through several possible texts/states, defined in `items`.
@@ -31,7 +34,7 @@
       (let [cur (get-in @*state ks)
             i (.indexOf states cur)
             title (nth titles (next-index i))]
-        [toggle-button
+        [:a.toggle-button
          {:on-click (fn []
                       (swap! *state update-in ks #(nth states (next-index (.indexOf states cur)))))}
          title]))))
@@ -48,12 +51,8 @@
    *state
    [:av]])
 
-(defn- button-item-details [*state]
-  (fn []
-    (let [detail-items? (:detail-items? @*state)]
-      [toggle-button    {:on-click #(swap! *state update-in [:detail-items?] not)
-                         :class-name (when detail-items? :on)}
-       "DET"])))
+(defn- button-item-details [state]
+  [on-off-component "DET" state [:detail-items?]])
 
 (defn buttons [*state]
   (fn []

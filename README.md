@@ -1,9 +1,9 @@
-#Planeta Moldova 
+# Planeta Moldova 
 
 Site-ul proiectului. 
 
 
-##Data directory
+## Data directory
 
 Clone the `git@github.com:codeboost/planeta-data.git` repository in the dir above current dir (../).
 The tree looks like this:
@@ -20,7 +20,7 @@ Then,
 And you can now start the application.
 
 
-##Starting 
+## Starting 
 
 Production:
 	
@@ -28,19 +28,21 @@ Production:
 	java -jar target/planeta-crt.jar
 
 
-##Docker
+## Docker
 
 	lein uberjar
 	docker build -t florinbraghis/planeta-crt .
 	docker push florinbraghis/planeta-crt
 
 
-##Development
+## Development
 
 Start the app:
+
     $ lein figwheel app
 
 Start the less watcher:
+
     $ lein less auto
 
 Ports

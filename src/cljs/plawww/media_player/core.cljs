@@ -171,7 +171,11 @@
              :playing playing ;Not playing if muted
              :volume volume
              :ref #(reset! mplayer %)
-             :on-ended #(js/console.log "Gata!")
+             :on-start (fn []
+                         (if muted ; Safari restriction - media must be loaded in a muted state.
+                           (flush-play! state)
+                           (swap! state update :playing true)))
+             :on-ended #(swap! state update :playing false)
              :on-ready #(js/console.log "react-player: ready.")
              :on-play #(swap! state assoc :playing true)
              :on-pause #(swap! state assoc :playing false)

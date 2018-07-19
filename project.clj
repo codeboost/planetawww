@@ -31,7 +31,7 @@
 
   :plugins [[lein-environ "1.0.2"]
             [lein-cljsbuild "1.1.7"]
-            [lein-asset-minifier "0.4.4"
+            [lein-asset-minifier "0.2.7"
              :exclusions [org.clojure/clojure]]]
 
   :ring {:handler plawww.handler/app
@@ -51,7 +51,8 @@
   :source-paths ["src/clj" "src/cljc"]
   :resource-paths ["resources" "target/cljsbuild"]
 
-  :minify-assets [[:css {:source "resources/public/css/site.css" :target "resources/public/css/site.min.css"}]]
+  :minify-assets  {:assets
+                   {"resources/public/css/site.min.css" "resources/public/css/site.css"}}
 
 
   :cljsbuild

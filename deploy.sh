@@ -1,3 +1,5 @@
+#Creates uberjar, then builds the docker container and uploads it to docker hub.
+
 echo "Creating uberjar..."
 lein uberjar
 if [ $? -eq 0 ]; then

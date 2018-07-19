@@ -158,15 +158,16 @@
                     (.preventDefault e))}
     letter]])
 
-(defn expanded-items-component [items]
-  [:ul.items (doall (map render-menu-item items))])
+(defn expanded-items-component [items opts]
+  ;Must pass second argument
+  [:ul.items (doall (map #(render-menu-item % opts) items))])
 
 (defn- items-by-alphabet
   "Produces a collection of components with items grouped by first letter.
   `items` - items to display.
   `expanded` - a set of letters. The items in these letter are displayed, otherwise only the letter is visible.
   `show-all` - all items are displayed."
-  [items {:keys [expanded-letters show-all?]}]
+  [items {:keys [expanded-letters show-all?] :as opts}]
   ;TODO: scroll to *letter
   (let [items-by-first-letter (group-by-first-letter* items)
         first-letters         (sort (keys items-by-first-letter))]
@@ -179,7 +180,7 @@
             [letter-component letter]
             (when show-items?
               {:class :expanded}
-              [expanded-items-component (get items-by-first-letter letter)])]))
+              [expanded-items-component (get items-by-first-letter letter) opts])]))
        first-letters))))
 
 (defn media-items-component [items state]

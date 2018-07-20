@@ -174,8 +174,8 @@
              :on-start (fn []
                          (if muted ; Safari restriction - media must be loaded in a muted state.
                            (flush-play! state)
-                           (swap! state update :playing true)))
-             :on-ended #(swap! state update :playing false)
+                           (swap! state assoc :playing true)))
+             :on-ended #(swap! state assoc :playing false)
              :on-ready #(js/console.log "react-player: ready.")
              :on-play #(swap! state assoc :playing true)
              :on-pause #(swap! state assoc :playing false)
@@ -226,9 +226,16 @@
 
 (defn toolbar-item [title on-click]
   [:div.toolbar-item
-   [:a {:href "#"
-        :on-click on-click}
-    title]])
+   {:on-click on-click}
+   title])
+
+(defn player-toolbar [state]
+  (fn []
+    [:div.toolbar
+     [toolbar-item "INFO"]
+     [toolbar-item [detail/duration-comp @state]]
+     [toolbar-item "FULLSCREEN" (fn []
+                                  (js/console.log "Inca nu-i gata!"))]]))
 
 (defn player []
   (let [state mplayer-state]
@@ -239,6 +246,9 @@
           [:div.player.window.vstack {:class (when detail-visible? :detail-visible)}
            [:div.detail {:class-name (:type item)} ;'audio' or 'video'
             [minimise-button state "x" :detail-visible?]
+            [:div.top-part
+             [:div.title (:title item)]
+             [detail/tag-list-comp state]]
             [:div.player-container
              [media-player state]
              (when audio?
@@ -246,11 +256,7 @@
                 [:img {:src (paths/l-image-path (:id item))}]])]
             [detail/detail-component state]]
            (when detail-visible?
-             [:div.toolbar
-              [toolbar-item "INFO"]
-              [toolbar-item "$"]
-              [toolbar-item "FULLSCREEN" (fn []
-                                           (js/console.log "Inca nu-i gata!"))]])
+             [player-toolbar state])
            [:div.content
             [min-player state]]]
           [:div.player.window.hidden])))))

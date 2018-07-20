@@ -7,7 +7,14 @@
             [plawww.utils :as utils]
             [cljs.test :refer-macros [deftest is testing run-tests]]
             [cljs.core.async :refer [put!]]
-            [reagent.interop :refer-macros [$ $!]]))
+            [reagent.interop :refer-macros [$ $!]])
+  (:import [goog.async Debouncer]))
+
+(defn debounce [f interval]
+  (let [dbnc (Debouncer. f interval)]
+    ;; We use apply here to support functions of various arities
+    (fn [& args] (.apply (.-fire dbnc) dbnc (to-array args)))))
+
 
 (defn image-path [item]
   (let [id (:id item)]
@@ -33,33 +40,50 @@
     [item-content item]
     [:div.item-accessory]]])
 
-(defn duration-comp [duration played]
-  [:div.times
-   [:span.played (utils/format-duration (* played duration))]
-   [:span " / "]
-   [:span.duration (utils/format-duration duration)]])
+(defn duration-comp-svg [{:keys [duration item played]}]
+  (let [duration (if (zero? duration) (or (:duration item) 0) duration)]
+    [:svg {:viewBox "0 0 50 20"}
+     [:text {:x 0 :y "15"}
+      (str (utils/format-duration (* played duration)) "/" (utils/format-duration duration))]]))
+
+(defn duration-comp
+  [_]
+  (let [duration-hide-timer (r/atom 0)
+        flash-duration (fn []
+                         (js/clearTimeout @duration-hide-timer)
+                         (reset!
+                          duration-hide-timer
+                          (js/setTimeout #(reset! duration-hide-timer 0) 1000)))]
+    (fn [{:keys [duration item played playing]}]
+      (let [duration (if (zero? duration) (or (:duration item) 0) duration)
+            display-type (if (and (= 0 @duration-hide-timer) playing) :played :duration)
+            text (if (= display-type :played)
+                   [:span.played (utils/format-duration (* played duration))]
+                   [:span.duration (utils/format-duration duration)])]
+        @duration-hide-timer
+        [:div.position-and-duration
+         {:on-click #(flash-duration)}
+         text]))))
 
 (defn tag-list-comp [state]
   (fn []
-    (into
-     [:div.tags]
-     (for [tag (get-in @state [:item :tags])]
-       [:span
-        [:a
-         {:href (str "/media/tag/" tag)
-          :on-click #(swap! state assoc :detail-visible? false)}
-         tag]
-        " "]))))
+    (let [tags (get-in @state [:item :tags])]
+      (into
+       [:ul.tags]
+       (for [tag tags]
+         (let [tag-text (if (= tag (last tags)) tag (str tag ","))]
+           [:li
+            [:a
+             {:href (str "/media/tag/" tag)
+              :on-click #(swap! state assoc :detail-visible? false)}
+             tag-text]
+            " "]))))))
 
 (defn detail-component [state]
   (fn []
-    (let [{:keys [duration item played]} @state
-          duration (if (zero? duration) (or (:duration item) 0) duration)]
+    (let [{:keys [item]} @state]
       [:div.media-item-detail
        [:div.detail-info
         [:div.top-part
-         [:div.info-container
-          [:div.title (:title item)]
-          [duration-comp duration played]
-          [tag-list-comp state]]]
+         [:div.info-container]]
         [:div.description (:description_plain item)]]])))

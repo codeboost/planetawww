@@ -84,6 +84,23 @@
 			padding: 10px;
 			position: relative;
 
+			.title {
+	            font-size: 2.1rem;
+                text-align: center;
+			}
+
+            .tags {
+                font-size: 1.2rem;
+                display: flex;
+                justify-content: center;
+                li {
+                    list-style: none;
+                    margin-left: 4px;
+                    &:first-child { margin-left: 0; }
+                }
+            }
+
+
 			.player-container {
 				flex-grow: 1;
 				display: flex;
@@ -131,7 +148,16 @@
 					&:last-child {
 						border-right: none;
 					}
+					cursor: pointer;
 				} 
+
+			    .position-and-duration {
+			        display: flex;
+			        flex-direction: row; 
+			        justify-content: center;
+			        .duration {
+			        }
+			    }				
 			}//toolbar
 	}
 

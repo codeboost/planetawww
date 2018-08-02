@@ -4,10 +4,21 @@
    [goog.string :as gstring]
    [goog.string.format]))
 
+(defn time-to-str
+  "Returns a two character "
+  [t]
+  (if-not (js/isNaN t)
+    (gstring/format "%02d" t)
+    "--"))
+
 (defn format-duration [timestamp]
   (let [minutes (quot timestamp 60)
-        seconds (mod timestamp 60)]
-    (gstring/format "%02d:%02d" minutes seconds)))
+        seconds (mod timestamp 60)
+        minutes (time-to-str minutes)
+        seconds (time-to-str seconds)]
+    (gstring/format "%s:%s" minutes seconds)))
+
+(format-duration js/NaN)
 
 (defn extract-first-letter [str]
   (let [letter (or (first (str/trim str)) "#")

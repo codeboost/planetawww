@@ -7,6 +7,7 @@
             [plawww.middleware :refer [wrap-middleware]]
             [plawww.db.core :as db]
             [ring.middleware.file :refer [wrap-file]]
+            [plawww.partial :refer [wrap-partial-content]]
             [config.core :refer [env]]
             [clj-http.client :as http-client]
             [clojure.string :as str]))
@@ -93,8 +94,10 @@
   (GET "/settings*" [] (main-page))
   (resources "/")
   (compojure/context "/data" []
-    (-> (not-found "File Not Found")
-        (wrap-file (media-path))))
+    (->
+     (not-found "File Not Found")
+     (wrap-file (media-path))
+     (wrap-partial-content)))
 
   (not-found "Not Found"))
 

@@ -81,7 +81,8 @@
            "/css/animations.css"])
     [:body {:class "body-container"}
      mount-target
-     (include-js "/js/app.js")]))
+     (include-js "/js/app.js")
+     (include-js "//unpkg.com/oscilloscope@1.1.0/dist/oscilloscope.min.js")]))
 
 (defroutes routes
   (GET "/" [] (main-page))
@@ -102,4 +103,3 @@
   (not-found "Not Found"))
 
 (def app (wrap-middleware #'routes))
-

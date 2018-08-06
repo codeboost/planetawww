@@ -141,6 +141,33 @@
         parent-height (Math/round (* 0.88 parent-height))]
     (swap! state assoc :height parent-height)))
 
+
+(def canvas-el (r/atom nil))
+
+(defn get-2d-context []
+  (let [context (.getContext @canvas-el "2d")]
+    (aset context "strokeStyle" "#14fdce")
+    (aset context "lineWidth" 1)
+    (aset context "shadowColor" "#14fdce")
+    context))
+
+(defn create-oscilloscope []
+  (js/console.log "Creating oscilloscope.")
+  (if-not (and @canvas-el @mplayer)
+    (js/console.error "Error: Canvas:" @canvas-el " and @mplayer" @mplayer)
+    (let [audioElement (.getInternalPlayer @mplayer)
+          AudioContextConstructor (or js/window.AudioContext js/window.webkitAudioContext)
+          audioContext (new AudioContextConstructor)
+          destination (.-destination audioContext)
+          source (.createMediaElementSource audioContext audioElement)
+          scope (new js/window.Oscilloscope source)
+          context (get-2d-context)]
+      (.connect source destination)
+      (if (and scope context)
+        (.animate scope context)
+        (js/console.error "create-oscilloscope error: scope or context is nil: " scope context)))))
+
+
 (defn media-player [state]
   (let [update-interval (r/atom 0)
         container-el (r/atom nil)
@@ -176,8 +203,10 @@
                            (flush-play! state)
                            (swap! state assoc :playing true)))
              :on-ended #(swap! state assoc :playing false)
-             :on-ready #(js/console.log "react-player: ready.")
-             :on-play #(swap! state assoc :playing true)
+             :on-ready #()
+             :on-play (fn []
+                        (create-oscilloscope)
+                        (swap! state assoc :playing true))
              :on-pause #(swap! state assoc :playing false)
              :on-error (fn [err]
                          (swap! state merge {:playing false :error err})
@@ -237,11 +266,14 @@
      [toolbar-item "FULLSCREEN" (fn []
                                   (js/console.log "Inca nu-i gata!"))]]))
 
+
+
 (defn player []
   (let [state mplayer-state]
     (fn []
       (let [{:keys [visible item detail-visible? duration played]} @state
             audio? (= (:type item) "audio")]
+        (js/console.log state)
         (if visible
           [:div.player.window.vstack {:class (when detail-visible? :detail-visible)}
            [:div.detail {:class-name (:type item)} ;'audio' or 'video'
@@ -253,7 +285,9 @@
              [media-player state]
              (when audio?
                [:div.album-art
-                [:img {:src (paths/l-image-path (:id item))}]])]
+                [:canvas.oscilloscope
+                 {:ref #(reset! canvas-el %)}]
+                #_[:img {:src (paths/l-image-path (:id item))}]])]
             [detail/detail-component state]]
            (when detail-visible?
              [player-toolbar state])

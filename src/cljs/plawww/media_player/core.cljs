@@ -33,6 +33,7 @@
                                 ;lump them all together
                                 :detail-visible? false
                                 :volume-visible? false
+                                :oscilloscope-visible? false
                                 :fullscreen? false}))
 
 (defn s->ms
@@ -260,11 +261,13 @@
 
 (defn player-toolbar [state]
   (fn []
-    [:div.toolbar
-     [toolbar-item "INFO"]
-     [toolbar-item [detail/duration-comp @state]]
-     [toolbar-item "FULLSCREEN" (fn []
-                                  (js/console.log "Inca nu-i gata!"))]]))
+    (let [audio? (= "audio" (get-in @state [:item :type]))]
+      [:div.toolbar
+       [toolbar-item "INFO"]
+       [toolbar-item [detail/duration-comp @state]]
+       (if audio?
+         [toolbar-item "PRIBORUL" #(swap! state assoc :oscilloscope-visible? not)]
+         [toolbar-item "FULLSCREEN" (fn [])])])))
 
 
 

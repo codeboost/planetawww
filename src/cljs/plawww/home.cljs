@@ -1,9 +1,33 @@
 (ns plawww.home)
 
-(defn home-page []
+(def titles
+  ["MENIU"
+   "MENU"
+   "OFERTA"
+   "PROPUNERI"
+   "CE DORITI?"
+   "ALEGE"
+   "-----"
+   "ORDINEA ZILEI"
+   "OPTIUNI"
+   "COMANDATI"
+   "DORINTA?"
+   "CE TURNAM IN CAP?"
+   "ALEGE PROGRAMA"
+   "YOKLMN"
+   "***"
+   "*"
+   "?"])
 
+(defn rand-title []
+  (nth titles (rand (count titles))))
+
+(defn home-page []
   [:div.home-page
-   [:h3 "MENIU PLANETAR"]
+   [:h1 "PLANETA MOLDOVA"]
+   [:h3 (rand-title)]
+   [:div
+    [:a {:href "/barul"} "Barul"]]
    [:div
     [:a {:href "/media"} "Exploreaza"]]
    [:div

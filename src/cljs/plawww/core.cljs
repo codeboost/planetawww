@@ -11,6 +11,7 @@
    [cljs.core.async :refer [put!]]
    [cljsjs.typedjs]
    [clojure.string :as str]
+   [plawww.barul.core :as barul]
    [plawww.crt :refer [crt-page]]
    [plawww.home :refer [home-page]]
    [plawww.texts.core :as texts-section]
@@ -49,6 +50,10 @@
   [crt-page
    [about/page]])
 
+(defn barul-page []
+  [crt-page
+   [barul/page]])
+
 ;Home - shown when (*) is clicked
 (defn show-home-page []
   [crt-page
@@ -75,6 +80,8 @@
 
 (defroute "/about" []
   (session/put! :current-page #'about-page))
+
+(defroute "/barul" [] (session/put! :current-page #'barul-page))
 
 (defroute #"/home/?" []
   (session/put! :current-page #'show-home-page))

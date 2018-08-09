@@ -3,30 +3,14 @@
    [goog.net.XhrIo]
    [cljs.reader]
    [cljs.core.async :as async :refer [<! >! chan close!]]
-
    [reagent.core :as r])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
-(def actors
-  [["Vanea"
-    [[0 1.289]
-     [2.461 4.040]
-     [4.574 6.548]]]
+(def state (r/atom {:audio-context nil
+                    :multi-track? false
+                    :playing-sources #{}}))
 
-   ["Jora"
-    [[7.628 10.426]
-     [11.157 14.848]
-     [15.871 17.113]]]
-
-   ["Serioja"
-    [[19.225 22.590]
-     [24.345 27.645]
-     [29.544 31.613]
-     [33.551 36.878]
-     [38.633 41.173]
-     [42.915 46.804]]]])
-
-(defn random-actor-slice [i]
+(defn random-actor-slice [actors i]
   (let [slices (second (nth actors i))]
     (if-not slices
       [0 0]
@@ -54,13 +38,6 @@
       (.send url "GET"))
     ch))
 
-(comment
-  (go
-    (let [src (<! (get-url "/data/sounds/barul-2.edn" "text"))
-          actors (cljs.reader/read-string src)])))
-
-
-
 (defn url->buffer [context url on-ready]
   (go
    (let [response (<! (get-url (str url ".mp3") "arraybuffer"))
@@ -75,83 +52,74 @@
     (aset source "buffer" buffer)
     source))
 
-(def audio-context (atom nil))
-
 (defn reset-audio-context! []
-  (when @audio-context
-    (.close @audio-context)))
+  (when (:audio-context @state)
+    (.close (:audio-context @state))))
 
 (defn create-audio-context! []
   (reset-audio-context!)
-
   (let [AudioContext (or (.-AudioContext js/window)
                          (.-webkitAudioContext js/window))]
-    (reset! audio-context (AudioContext.))
-    @audio-context))
-
-(def multi-track (r/atom true))
-
-(def playing-sources (atom #{}))
+    (swap! state assoc :audio-context (AudioContext.))
+    (:audio-context @state)))
 
 (defn stop-all! []
-  (doseq [source @playing-sources]
+  (doseq [source (:playing-sources @state)]
     (.stop source))
-  (reset! playing-sources #{}))
+  (swap! state assoc :playing-sources #{}))
 
 (defn play-slice [buffer slice]
-  (let [source (buffer->source @audio-context buffer)
-        _ (.connect source (.-destination @audio-context))
+  (let [source (buffer->source (:audio-context @state) buffer)
+        _ (.connect source (.-destination (:audio-context @state)))
         [start-time end-time] slice
         duration (- end-time start-time)]
     (js/console.log "Playing slice at " start-time " for " duration "seconds on source " source)
-    (if-not @multi-track
+    (if-not (:multi-track? @state)
       (do
         (stop-all!)
-        (reset! playing-sources #{source}))
-      (swap! playing-sources conj source))
+        (swap! state assoc :playing-sources #{source}))
+      (swap! state update-in [:playing-sources] conj source))
     (.start source 0 start-time duration)))
 
-
-(defn bar-page [buffer]
+(defn bar-page [{:keys [buffer actors] :as stage}]
+  (js/console.log "buffer: " buffer "actors: " actors)
   [:div.barul-page
    [:h3 "Barul"]
    [:div
     [:input {:type :checkbox
-             :checked @multi-track
-             :on-change (fn [e]
-                          (reset! multi-track (.. e -target -checked)))}]
+             :checked (:multi-track? @state)
+             :on-change #(swap! state assoc :multi-track? (.. % -target -checked))}]
     [:span " Multi-track?"]]
    [:div.ab.person
-    {:on-click #(play-slice buffer (random-actor-slice 0))}
+    {:on-click #(play-slice buffer (random-actor-slice actors 0))}
     "VANEA"]
    [:div.ab.person
-    {:on-click #(play-slice buffer (random-actor-slice 1))}
+    {:on-click #(play-slice buffer (random-actor-slice actors 1))}
     "LIONEA"]
    [:div.ab.person
-    {:on-click #(play-slice buffer (random-actor-slice 2))}
+    {:on-click #(play-slice buffer (random-actor-slice actors 2))}
     "SERIOJA"]
    [:div.ab.stop-button
     {:on-click #(stop-all!)}
     "STOP"]])
 
-
 (defn page []
   (let [url-base "/data/sounds/barul-2"
-        buffer (r/atom nil)]
+        stage (r/atom nil)]
     (r/create-class
      {:component-did-mount
       (fn []
         (let [context (create-audio-context!)]
           (when context
-            (url->buffer context url-base #(reset! buffer %)))))
+            (url->buffer context url-base #(reset! stage %)))))
 
       :component-will-unmount
       (fn [] (reset-audio-context!))
 
       :reagent-render
       (fn []
-        (if-not @buffer
+        (if-not @stage
           [:div "Incarcare..."]
-          [bar-page @buffer]))})))
+          [bar-page @stage]))})))
 
 

@@ -81,7 +81,8 @@
 (defroute "/about" []
   (session/put! :current-page #'about-page))
 
-(defroute "/barul" [] (session/put! :current-page #'barul-page))
+(defroute #"/barul/?" []
+  (session/put! :current-page #'barul-page))
 
 (defroute #"/home/?" []
   (session/put! :current-page #'show-home-page))

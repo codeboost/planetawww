@@ -90,6 +90,7 @@
   (GET "/media*" [] (main-page))
   (GET "/home*" [] (main-page))
   (GET "/about*" [] (main-page))
+  (GET "/barul*" [] (main-page))
   (GET "/text*" [] (main-page))
   (GET "/carti*" [] (main-page))
   (GET "/settings*" [] (main-page))

@@ -26,8 +26,8 @@
   [:div.home-page
    [:h1 "PLANETA MOLDOVA"]
    [:h3 (rand-title)]
-   [:div
-    [:a {:href "/barul"} "Barul"]]
+   #_[:div
+      [:a {:href "/barul"} "Barul"]]
    [:div
     [:a {:href "/media"} "Exploreaza"]]
    [:div

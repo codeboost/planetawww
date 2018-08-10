@@ -82,7 +82,7 @@
     [:body {:class "body-container"}
      mount-target
      (include-js "/js/app.js")
-     (include-js "//unpkg.com/oscilloscope@1.1.0/dist/oscilloscope.min.js")]))
+     (include-js "/lib/oscilloscope.js")]))
 
 (defroutes routes
   (GET "/" [] (main-page))

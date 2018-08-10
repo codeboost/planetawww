@@ -145,12 +145,16 @@
 
 (def canvas-el (r/atom nil))
 
+
 (defn get-2d-context []
   (let [context (.getContext @canvas-el "2d")]
     (aset context "strokeStyle" "#14fdce")
     (aset context "lineWidth" 1)
     (aset context "shadowColor" "#14fdce")
     context))
+
+
+(def oscilloscope-source (atom nil))
 
 (defn create-oscilloscope []
   (js/console.log "Creating oscilloscope.")
@@ -163,10 +167,18 @@
           source (.createMediaElementSource audioContext audioElement)
           scope (new js/window.Oscilloscope source)
           context (get-2d-context)]
+      (reset! oscilloscope-source source)
       (.connect source destination)
       (if (and scope context)
         (.animate scope context)
         (js/console.error "create-oscilloscope error: scope or context is nil: " scope context)))))
+
+(defn stop-oscilloscope []
+  (js/console.log "stop-oscilloscope")
+  (let [source @oscilloscope-source]
+    (reset! oscilloscope-source nil)
+    (when source (.stop source))   
+    (swap! mplayer-state assoc :oscilloscope-visible? false)))
 
 
 (defn media-player [state]
@@ -181,6 +193,7 @@
         (.addEventListener js/window "resize" resize-handler))
 
       :component-will-unmount (fn []
+                                (stop-oscilloscope)
                                 (js/clearInterval @update-interval)
                                 (.removeEventListener js/window "resize" resize-handler))
 
@@ -203,13 +216,18 @@
                          (if muted ; Safari restriction - media must be loaded in a muted state.
                            (flush-play! state)
                            (swap! state assoc :playing true)))
-             :on-ended #(swap! state assoc :playing false)
+             :on-ended (fn []
+                         (swap! state assoc :playing false)
+                         (stop-oscilloscope))
              :on-ready #()
              :on-play (fn []
                         (create-oscilloscope)
                         (swap! state assoc :playing true))
-             :on-pause #(swap! state assoc :playing false)
+             :on-pause (fn []
+                         (swap! state assoc :playing false)
+                         (stop-oscilloscope))
              :on-error (fn [err]
+                         (stop-oscilloscope)
                          (swap! state merge {:playing false :error err})
                          (js/console.log "Error: " err))
              :on-duration #(swap! state assoc :duration %)
@@ -266,7 +284,9 @@
        [toolbar-item "INFO"]
        [toolbar-item [detail/duration-comp @state]]
        (if audio?
-         [toolbar-item "PRIBORUL" #(swap! state assoc :oscilloscope-visible? not)]
+         [toolbar-item "PRIBORUL" (fn []
+                                    (js/console.log "Priborul clicked.")
+                                    (swap! state update :oscilloscope-visible? not))]
          [toolbar-item "FULLSCREEN" (fn [])])])))
 
 
@@ -274,9 +294,9 @@
 (defn player []
   (let [state mplayer-state]
     (fn []
-      (let [{:keys [visible item detail-visible? duration played]} @state
+      (let [{:keys [visible item detail-visible? duration played oscilloscope-visible?]} @state
             audio? (= (:type item) "audio")]
-        (js/console.log state)
+        (js/console.log "state:" @state)
         (if visible
           [:div.player.window.vstack {:class (when detail-visible? :detail-visible)}
            [:div.detail {:class-name (:type item)} ;'audio' or 'video'
@@ -289,8 +309,11 @@
              (when audio?
                [:div.album-art
                 [:canvas.oscilloscope
-                 {:ref #(reset! canvas-el %)}]
-                #_[:img {:src (paths/l-image-path (:id item))}]])]
+                 {:ref #(reset! canvas-el %)
+                  :style {:display (if oscilloscope-visible? :block :none)}}]
+                [:img
+                 {:src (paths/l-image-path (:id item))
+                  :style {:display (if oscilloscope-visible? :none :block)}}]])]
             [detail/detail-component state]]
            (when detail-visible?
              [player-toolbar state])

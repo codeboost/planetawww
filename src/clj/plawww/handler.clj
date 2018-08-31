@@ -91,6 +91,7 @@
   (GET "/home*" [] (main-page))
   (GET "/about*" [] (main-page))
   (GET "/barul*" [] (main-page))
+  (GET "/explorer*" [] (main-page))
   (GET "/text*" [] (main-page))
   (GET "/carti*" [] (main-page))
   (GET "/settings*" [] (main-page))

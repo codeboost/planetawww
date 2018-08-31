@@ -1,4 +1,6 @@
-(ns plawww.medialist.toolbar)
+(ns plawww.medialist.toolbar
+  (:require
+   [reagent.core :as r]))
 
 
 (defn- on-off-component [text state ks]
@@ -63,3 +65,44 @@
          [button-av *state]
          [button-item-details *state]
          [button-group-by *state]]))))
+
+(defn button-sort-mode [*state]
+  [cycle-button
+   {:title "A-Z "
+    :date-asc "DATA+"
+    :date-desc "DATA-"}
+   *state
+   [:sort-by]])
+
+(defn- toggle-item [text on? on-click]
+  [:a.toggle-button
+   {:on-click on-click
+    :class (when on? :on)}
+   text])
+
+
+(defn- toggle-group [state toggle-k buttons]
+  (fn []
+    (into
+     [:div.toggle-group]
+     (for [[title k] buttons]
+       [toggle-item
+        title
+        (= k (get-in @state toggle-k))
+        #(swap! state assoc-in toggle-k k)]))))
+
+(comment
+ (let [test (r/atom {:group-by :something})]
+   (swap! test assoc-in [:group-by] :xxx)
+   @test))
+
+
+(defn explorer-buttons [*state]
+  (fn []
+    (let [searching? (pos? (count (:search-string @*state)))]
+      (when-not searching?
+        [:div.toolbar.filters
+         [toggle-group *state [:sort-by]
+          [["A-Z" :title]
+           ["VECHI" :old]
+           ["NOI" :new]]]]))))

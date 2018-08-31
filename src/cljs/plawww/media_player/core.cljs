@@ -290,6 +290,21 @@
          [toolbar-item "FULLSCREEN" (fn [])])])))
 
 
+(defn artwork-bg-image [url]
+  (str "url(" url  "), radial-gradient(#14fdce, #000),  repeating-linear-gradient(transparent 0,rgba(0,0,0,0.1) 2px,transparent 4px)"))
+
+
+(defn item-detail-component [{:keys [item] :as state} album-art]
+  [:div.detail {:class-name (:type item)} ;'audio' or 'video'
+   [minimise-button state "x" :detail-visible?]
+   [:div.top-part
+    [:div.title (:title item)]
+    [detail/tag-list-comp state]]
+   [:div.player-container
+    [media-player state]
+    [:div.album-art
+     album-art]]
+   [detail/detail-component state]])
 
 (defn player []
   (let [state mplayer-state]
@@ -311,9 +326,10 @@
                 [:canvas.oscilloscope
                  {:ref #(reset! canvas-el %)
                   :style {:display (if oscilloscope-visible? :block :none)}}]
-                [:img
-                 {:src (paths/l-image-path (:id item))
-                  :style {:display (if oscilloscope-visible? :none :block)}}]])]
+                [:div.img-container
+                 {:style
+                  {:display (if oscilloscope-visible? :none :block)
+                   :background-image (artwork-bg-image (paths/l-image-path (:id item)))}}]])]
             [detail/detail-component state]]
            (when detail-visible?
              [player-toolbar state])

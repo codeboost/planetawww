@@ -18,6 +18,7 @@
    [plawww.welcome :as welcome]
    [plawww.about.core :as about]
    [plawww.medialist.core :as media-page]
+   [plawww.medialist.explorer :as explorer]
    [plawww.media-player.controller :as media-controller]
    [reagent.core :as reagent :refer [atom]]
    [reagent.session :as session]
@@ -37,7 +38,7 @@
 
 (defn- media-browser-page []
   [crt-page
-   [media-page/media-page ALLMEDIA]])
+   [explorer/explorer-page]])
 
 (defn- show-media-browser [& [opts :or {}]]
   (let [;Force nil for :included-tags so that it is applied during the `merge`.
@@ -54,10 +55,15 @@
   [crt-page
    [barul/page]])
 
+(defn explorer-page []
+  [crt-page
+   [explorer/explorer-page]])
+
 ;Home - shown when (*) is clicked
 (defn show-home-page []
   [crt-page
    [home-page]])
+
 
 ;Texte si Carti
 (defn render-text-page [] [crt-page [texts-section/main-menu]])
@@ -83,6 +89,9 @@
 
 (defroute #"/barul/?" []
   (session/put! :current-page #'barul-page))
+
+(defroute #"/explorer/?" []
+          (session/put! :current-page #'explorer-page))
 
 (defroute #"/home/?" []
   (session/put! :current-page #'show-home-page))

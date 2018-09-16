@@ -304,7 +304,7 @@
     [media-player state]
     [:div.album-art
      album-art]]
-   [detail/detail-component state]])
+   [:div.description (:description_plain item)]])
 
 (defn player []
   (let [state mplayer-state]

@@ -2,11 +2,18 @@
   (:require
    [plawww.paths :as paths]
    [reagent.session :as session]
+   [plawww.media-item.core :as media-item]
    [plawww.medialist.toolbar :as toolbar]
    [reagent.core :as r]
    [goog.string :as gstring]
    [goog.string.format]))
 
+(defonce *state* (r/atom {:detailed #{}
+                          :selected-item nil}))
+
+
+(defn show-detail [item]
+  (swap! *state* assoc :selected-item item))
 
 (defn format-date [d]
   (gstring/format "%d-%02d-%02d" (.getFullYear d) (.getMonth d) (.getDay d)))
@@ -67,22 +74,21 @@
    (map :title sorted)))
 
 
-
-
 (defn explorer-page []
-  (let [state (r/atom {:detailed #{}})
+  (let [state *state*
         media-items (take 10 (session/get :media-items))
         media-items (parse-dates media-items)
         sort-by-cursor (r/cursor state [:sort-by])]
     (fn []
-      (js/console.log "state=" @state)
-      (let [sort-by @sort-by-cursor
-            sort-fn (sorter @sort-by-cursor)
+      (let [sort-fn (sorter @sort-by-cursor)
             media-items (sort-fn media-items)]
-        [:div.explorer
-         [toolbar/explorer-buttons state]
-         [:span.spacer]
-         (into
-          [:ul.items]
-          (map m->item media-items))
-         [:span.spacer]]))))
+        [:div
+         [:div.explorer
+          [toolbar/explorer-buttons state]
+          [:span.spacer]
+          (into
+           [:ul.items]
+           (map m->item media-items))
+          [:span.spacer]]
+         [media-item/item-info-component state]]))))
+

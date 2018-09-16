@@ -1,0 +1,135 @@
+@import "../base";
+
+.media-item-info-container {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    z-index: 998;
+    background-color: @console-bg;
+    border: 1px solid @console-color;
+    max-width: 640px;
+    max-height: 480px;
+
+    @media @mobile {
+       margin: 16px;       
+    }
+
+    @media @desktop-xl {
+        max-width: 800px;
+        max-height: 600px;
+    }
+
+    .media-item-info {
+        bottom: 4px;
+        flex-grow: 2;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end; 
+        padding: 10px;
+        position: relative;
+
+        .title {
+            font-size: 2.1rem;
+            text-align: center;
+        }
+
+        .tags {
+            font-size: 1.2rem;
+            display: flex;
+            justify-content: center;
+            li {
+                list-style: none;
+                margin-left: 4px;
+                &:first-child { margin-left: 0; }
+            }
+        }
+
+
+        .player-container {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column; 
+            justify-content: center;
+            border-radius: 23px;
+            overflow: hidden;
+
+            .album-art {
+                margin-left: auto;
+                margin-right: auto;
+                position: relative;
+                display: flex;
+                flex-direction: row; 
+                justify-content: center;
+
+                @media (max-height: 320px)
+                {
+                    width: 150px;
+                    height: 150px;
+                }
+
+                @media (min-height: 400px) and (min-width: 320px)
+                { 
+                    width: 250px; 
+                    height: 250px;
+                }
+
+                @media (min-width: 500px) and (min-height: 550px) {
+                    width: 400px;
+                    height: 400px;
+                }
+
+                border-radius: 50%;
+                border: 4px solid @console-color;
+
+                .img-container {
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 50%;
+                    background-position:50% 50%;
+                    background-repeat: no-repeat;
+                    background-size: cover;
+                    background-position: center;
+                    background-blend-mode: overlay;
+                }
+            }
+            .pm-media-player {
+                .react-player {
+                    margin-top: auto;
+                    margin-bottom: auto;
+                }
+            }
+        }           
+    } //.detail
+
+        .toolbar {
+            border-top: 1px solid @console-color;
+            border-bottom: 1px solid @console-color;;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            width: 100%;
+            flex-wrap: nowrap;
+
+            .toolbar-item {
+                border-right: 1px solid @console-color;
+                width: 100px;
+                flex-grow: 1;
+                text-align: center;
+                &:last-child {
+                    border-right: none;
+                }
+                cursor: pointer;
+            } 
+
+            .position-and-duration {
+                display: flex;
+                flex-direction: row; 
+                justify-content: center;
+                .duration {
+                }
+            }               
+        }//toolbar
+    }

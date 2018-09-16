@@ -17,6 +17,7 @@
    [plawww.texts.core :as texts-section]
    [plawww.welcome :as welcome]
    [plawww.about.core :as about]
+   [plawww.media-item.core :as media-item]
    [plawww.medialist.core :as media-page]
    [plawww.medialist.explorer :as explorer]
    [plawww.media-player.controller :as media-controller]
@@ -30,11 +31,6 @@
 
 ;; -------------------------
 ;; Views
-
-(defn hook-up-the-stuff
-  []
-  (session/put! :media-items ALLMEDIA)
-  (media-controller/hook-up-the-stuff))
 
 (defn- media-browser-page []
   [crt-page
@@ -143,7 +139,7 @@
   (reagent/render [current-page] (.getElementById js/document "app")))
 
 (defn init! []
-  (hook-up-the-stuff)
+  (session/put! :media-items ALLMEDIA)
   (accountant/configure-navigation!
     {:nav-handler
      (fn [path]

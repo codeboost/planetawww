@@ -4,14 +4,13 @@
    [reagent.core :as reagent]
    [reagent.session :as session]
    [plawww.paths :as paths]
-   [plawww.media-player.core :as media-player]
+   [plawww.media-item.core :as media-item]
+   [plawww.medialist.explorer :as explorer]
    [plawww.medialist.core :as media-page]))
 
 (def default-player-state {:visible false
                            :detail-visible? false
                            :should-show-detail? true})
-(defn hook-up-the-stuff
-  [])
 
 (defn with-item-image [item]
   (assoc item :image (paths/s-image-path (:id item))))
@@ -27,6 +26,6 @@
         state   (or (session/get :player-state) default-player-state)
         detail? (or (:should-show-detail? state) (:detail-visible? state))]
     (media-page/set-opts {:selected-id (:id item)})
-    (media-player/set-current-item item)))
-    ;(when detail? (session/update-in! [:player-state] dissoc :should-show-detail?))))
-    ;(start-playback item)))
+    (explorer/show-detail item)))
+
+    ;(media-player/set-current-item item)))

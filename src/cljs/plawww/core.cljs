@@ -132,7 +132,9 @@
   (let [page (session/get :current-page)]
     (if page
       [:div [page]
-       [:div [player/player]]]
+       ;The things below are not affected by page scrolling
+       [:div [player/player]]
+       [:div [media-item/item-info-component explorer/*state*]]]
       [:div "Dapu-kaneshna-kiar-amush ! Nu-i asa ceva, nu-i ! "])))
 
 (defn mount-root []

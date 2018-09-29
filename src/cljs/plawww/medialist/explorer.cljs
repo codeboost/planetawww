@@ -13,7 +13,7 @@
 
 
 (defn show-detail [item]
-  (swap! *state* assoc :selected-item item))
+  (swap! *state* assoc :selected-item item :item-info-visible? true))
 
 (defn format-date [d]
   (gstring/format "%d-%02d-%02d" (.getFullYear d) (.getMonth d) (.getDay d)))
@@ -89,6 +89,5 @@
           (into
            [:ul.items]
            (map m->item media-items))
-          [:span.spacer]]
-         [media-item/item-info-component state]]))))
+          [:span.spacer]]]))))
 

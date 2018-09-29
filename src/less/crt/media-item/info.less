@@ -1,5 +1,6 @@
 @import "../base";
 
+
 .media-item-info-container {
     position: absolute;
     left: 0;
@@ -9,7 +10,8 @@
     margin: auto;
     z-index: 998;
     background-color: @console-bg;
-    border: 1px solid @console-color;
+    border: 2px solid @console-color;
+    border-radius: 23px;
     max-width: 640px;
     max-height: 480px;
 
@@ -22,6 +24,34 @@
         max-height: 600px;
     }
 
+    .min-button {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        width: 16px;
+        height: 16px;
+        cursor: pointer;
+        z-index: 1001;
+        .pressed {
+            background-color: @console-color;
+            color: @console-bg;
+        }
+    }
+
+    .actions {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 40px;
+        border-top: 1px solid @console-color;
+        .action-button {
+            font-size: 28px;
+            text-align: center;
+        }
+    }
+
+
     .media-item-info {
         bottom: 4px;
         flex-grow: 2;
@@ -30,6 +60,7 @@
         justify-content: flex-end; 
         padding: 10px;
         position: relative;
+        overflow: scroll;
 
         .title {
             font-size: 2.1rem;
@@ -47,8 +78,14 @@
             }
         }
 
+        .description {
+            margin-top: 10px;
+            text-align: center;
+        }
 
-        .player-container {
+
+        .album-art-container {
+            margin-top: 16px;
             flex-grow: 1;
             display: flex;
             flex-direction: column; 
@@ -64,21 +101,13 @@
                 flex-direction: row; 
                 justify-content: center;
 
-                @media (max-height: 320px)
+                width: 330px;
+                height: 330px;
+
+                @media @mobile
                 {
                     width: 150px;
                     height: 150px;
-                }
-
-                @media (min-height: 400px) and (min-width: 320px)
-                { 
-                    width: 250px; 
-                    height: 250px;
-                }
-
-                @media (min-width: 500px) and (min-height: 550px) {
-                    width: 400px;
-                    height: 400px;
                 }
 
                 border-radius: 50%;
@@ -95,41 +124,34 @@
                     background-blend-mode: overlay;
                 }
             }
-            .pm-media-player {
-                .react-player {
-                    margin-top: auto;
-                    margin-bottom: auto;
-                }
-            }
         }           
-    } //.detail
+    } //.media-item-info
 
-        .toolbar {
-            border-top: 1px solid @console-color;
-            border-bottom: 1px solid @console-color;;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-around;
-            width: 100%;
-            flex-wrap: nowrap;
-
-            .toolbar-item {
-                border-right: 1px solid @console-color;
-                width: 100px;
-                flex-grow: 1;
-                text-align: center;
-                &:last-child {
-                    border-right: none;
-                }
-                cursor: pointer;
-            } 
-
-            .position-and-duration {
-                display: flex;
-                flex-direction: row; 
-                justify-content: center;
-                .duration {
-                }
-            }               
-        }//toolbar
-    }
+    @toolbar-height: 40px;
+    .toolbar {
+        position: absolute; 
+        bottom: 0;
+        left: 0; 
+        right:0;
+        height: @toolbar-height;
+        border-top: 1px solid @console-color;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        width: 100%;
+        flex-wrap: nowrap;
+        .toolbar-item {
+            border-right: 1px solid @console-color;
+            width: 100px;
+            height: 100%;
+            vertical-align: center;
+            line-height: @toolbar-height;
+            flex-grow: 1;
+            text-align: center;
+            &:last-child {
+                border-right: none;
+            }
+            cursor: pointer;
+        } 
+    }//toolbar
+} //media-item-info-container

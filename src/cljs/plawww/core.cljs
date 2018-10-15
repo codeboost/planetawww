@@ -17,10 +17,9 @@
    [plawww.texts.core :as texts-section]
    [plawww.welcome :as welcome]
    [plawww.about.core :as about]
-   [plawww.media-item.core :as media-item]
+   [plawww.media-item.media-item :as media-item]
    [plawww.medialist.core :as media-page]
    [plawww.medialist.explorer :as explorer]
-   [plawww.media-player.controller :as media-controller]
    [reagent.core :as reagent :refer [atom]]
    [reagent.session :as session]
    [secretary.core :as secretary :refer [defroute]]
@@ -36,13 +35,6 @@
   [crt-page
    [explorer/explorer-page]])
 
-(defn- show-media-browser [& [opts :or {}]]
-  (let [;Force nil for :included-tags so that it is applied during the `merge`.
-        opts (update opts :included-tags identity)]
-    (js/console.log "show-media-browser: " opts)
-    (session/put! :current-page #'media-browser-page)
-    (media-page/set-opts opts)))
-
 (defn about-page []
   [crt-page
    [about/page]])
@@ -52,8 +44,9 @@
    [barul/page]])
 
 (defn explorer-page []
-  [crt-page
-   [explorer/explorer-page]])
+  (fn []
+    [crt-page
+     [explorer/explorer-page]]))
 
 ;Home - shown when (*) is clicked
 (defn show-home-page []
@@ -86,8 +79,18 @@
 (defroute #"/barul/?" []
   (session/put! :current-page #'barul-page))
 
+
 (defroute #"/explorer/?" []
-          (session/put! :current-page #'explorer-page))
+  (session/put! :current-media-item nil)
+  (session/put! :current-page #'explorer-page))
+
+(defroute #"/explorer/(\d+)" [id q]
+          (js/console.log (session/get :current-page))
+  (when (not= 'explorer-page (session/get :current-page))
+    (session/put! :current-page #'explorer-page))
+  (let [item (media-item-for-id (js/parseInt id))]
+    (session/put! :current-media-item item)))
+
 
 (defroute #"/home/?" []
   (session/put! :current-page #'show-home-page))
@@ -103,45 +106,28 @@
   (show-text-page {:sub-menu (keyword page)}))
 
 
-(defroute #"/media/?" [q]
-  (show-media-browser))
-
-(defroute #"/media/(\d+)" [id q]
-  (show-media-browser)
-  (if-let [item (media-item-for-id (js/parseInt id))]
-          (media-controller/set-current-media-item item)
-    (js/console.log "Could not find media item for id " id)))
-
-(defroute #"/media/letter/?([a-zA-Z])?" [letter]
-  (show-media-browser {:cur-letter (or letter "A") :group-by :plain}))
-
-(defroute #"/media/tag/?" []
-  (show-media-browser {:included-tags #{} :group-by :tag}))
-
-(defroute "/media/tag/:tag" [tag]
-  (let [tag-set (set (str/split tag #"\+"))]
-    (show-media-browser {:included-tags tag-set :group-by :tag})))
-
-
-;(secretary/locate-route "/media/tag/ab")
-
 ;; -------------------------
 ;; Initialize app
 
 (defn current-page []
-  (let [page (session/get :current-page)]
+  (let [page (session/get :current-page)
+        current-item (session/get :current-media-item)]
     (if page
       [:div [page]
        ;The things below are not affected by page scrolling
        [:div [player/player]]
-       [:div [media-item/item-info-component explorer/*state*]]]
+       (when current-item
+         [:div [media-item/item-info-component
+                {:on-play (fn []
+                            (plawww.media-player.core/set-current-item current-item)
+                            (session/put! :current-media-item nil))} {:selected-item current-item}]])]
       [:div "Dapu-kaneshna-kiar-amush ! Nu-i asa ceva, nu-i ! "])))
 
 (defn mount-root []
   (reagent/render [current-page] (.getElementById js/document "app")))
 
 (defn init! []
-  (session/put! :media-items ALLMEDIA)
+  (session/put! :media-items (explorer/parse-dates ALLMEDIA))
   (accountant/configure-navigation!
     {:nav-handler
      (fn [path]

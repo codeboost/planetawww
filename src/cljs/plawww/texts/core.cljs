@@ -1,6 +1,6 @@
 (ns plawww.texts.core
   (:require
-   [plawww.components.core :refer [typed-text-component]]
+   [plawww.components.components :refer [typed-text-component]]
    [reagent.core :as r]
    [cljsjs.typedjs]))
 

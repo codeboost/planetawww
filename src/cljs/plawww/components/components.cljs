@@ -1,4 +1,4 @@
-(ns plawww.components.core
+(ns plawww.components.components
   (:require
    [reagent.core :as r]
    [cljsjs.typedjs]))
@@ -25,8 +25,8 @@
    text])
 
 (defn- minimise-button
-  [state text key]
+  [text on-click]
   [:div.min-button
-   {:on-click #(swap! state update key not)
+   {:on-click on-click
     :style {:cursor :pointer}}
    text])

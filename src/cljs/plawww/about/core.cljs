@@ -1,5 +1,5 @@
 (ns plawww.about.core
-  (:require [plawww.components.core :refer [typed-text-component]]))
+  (:require [plawww.components.components :refer [typed-text-component]]))
 
 (def about-text
   "

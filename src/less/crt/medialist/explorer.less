@@ -30,23 +30,26 @@
 		flex-grow: 0;
 		display: flex;
 		flex-direction: column;
-		justify-content: stretch; 
+		justify-content: stretch;
 
 		.item {
 
 			a {
 			}
 
+
 			.item-container {
 				&:hover {
-					background-color: @console-color;
-					color: @console-bg;
+					//background-color: @console-color;
+					//color: @console-bg;
 				}
 
-				border: 2px solid @console-color;
+				border: 1px solid @console-color;
+				padding: 8px;
+				height: 70px;
 
 				margin-top: 24px;
-				border-radius: 40px;
+				//border-radius: 40px;
 
 				display: flex;
 				align-items: center;
@@ -61,7 +64,8 @@
 				.item-info {
 					flex-grow: 1;
 					display: flex;
-					flex-direction: column; 
+					flex-direction: column;
+					justify-content: stretch;
 					margin-left: 8px;
 					.title {
 						text-transform: uppercase;
@@ -71,7 +75,10 @@
 						@media @mobile {
 							display: none;
 						}
-				
+						white-space: nowrap;
+						overflow: hidden;
+						text-overflow: ellipsis;
+						max-width: 500px;
 					}
 
 		            .tags {

@@ -8,6 +8,7 @@
 (ns plawww.media-player.core
   (:require
    [cljsjs.react-player]
+   [plawww.components.components :refer [minimise-button]]
    [plawww.media-player.item-detail :as detail]
    [plawww.media-player.progress-bar :as progress-bar]
    [plawww.utils :as utils]
@@ -115,13 +116,6 @@
   [:div.accessory-button
    {:on-click #(swap! state update-in [key] not)
     :class    (when (@state key) :selected)}
-   text])
-
-(defn- minimise-button
-  [state text key]
-  [:div.min-button
-   {:on-click #(swap! state update key not)
-    :style {:cursor :pointer}}
    text])
 
 (defn- start-update-duration-timer
@@ -299,7 +293,7 @@
 
 (defn item-detail-component [{:keys [item] :as state} album-art]
   [:div.detail {:class-name (:type item)} ;'audio' or 'video'
-   [minimise-button state "x" :detail-visible?]
+   [minimise-button "x" #(swap! state assoc :detail-visible? false)]
    [:div.top-part
     [:div.title (:title item)]
     [detail/tag-list-comp state]]
@@ -318,7 +312,7 @@
         (if visible
           [:div.player.window.vstack {:class (when detail-visible? :detail-visible)}
            [:div.detail {:class-name (:type item)} ;'audio' or 'video'
-            [minimise-button state "x" :detail-visible?]
+            [minimise-button "x" #(swap! state assoc :detail-visible? false)]
             [:div.top-part
              [:div.title (:title item)]
              [detail/tag-list-comp state]]

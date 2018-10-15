@@ -2,7 +2,6 @@
   (:require
    [plawww.paths :as paths]
    [reagent.session :as session]
-   [plawww.media-item.core :as media-item]
    [plawww.medialist.toolbar :as toolbar]
    [reagent.core :as r]
    [goog.string :as gstring]
@@ -10,11 +9,6 @@
 
 (defonce *state* (r/atom {:detailed #{}
                           :selected-item nil}))
-
-
-(defn show-detail [item]
-  (plawww.media-player.core/set-detail-visible false)
-  (swap! *state* assoc :selected-item item :item-info-visible? true))
 
 (defn format-date [d]
   (gstring/format "%d-%02d-%02d" (.getFullYear d) (.getMonth d) (.getDay d)))
@@ -39,12 +33,12 @@
 
 (defn m->item [{:keys [title id type tags publish_on description_plain] :as m}]
   [:li.item
-   [:a {:href (str "/media/" id)}
+   [:a {:href (str "/explorer/" id)}
     [:span.item-container
      [:img.thumbnail {:src (paths/s-image-path id)}]
      [:span.item-info
-      [:div.title title
-        [:div.description description_plain]]
+      [:div.title title]
+      [:div.description description_plain]
       #_[tag-list-comp tags]]
      [:span.item-more-info
       [:span.published (format-date publish_on)]]]]])
@@ -70,10 +64,10 @@
 
 (defn explorer-page []
   (let [state *state*
-        media-items (take 1000 (session/get :media-items))
-        media-items (parse-dates media-items)
+        media-items (session/get :media-items)
         sort-by-cursor (r/cursor state [:sort-by])]
     (fn []
+      (js/console.log "rendering!")
       (let [sort-fn (sorter @sort-by-cursor)
             media-items (sort-fn media-items)]
         [:div

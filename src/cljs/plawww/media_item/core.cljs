@@ -18,14 +18,15 @@
       (when item-info-visible?
         [:div.media-item-info-container
          [felurite/minimise-button state "x" :item-info-visible?]
-         [:div.media-item-info
-          [:div.title (:title selected-item)]
-          [:div.album-art-container
-           [:div.album-art
-            [:div.img-container
-             {:style
-              {:background-image (artwork-bg-image (paths/l-image-path (:id selected-item)))}}]]]
-          [:div.description (:description_plain selected-item)]]
+         [:div.scroll-container
+          [:div.media-item-info
+           [:div.title (:title selected-item)]
+           [:div.album-art-container
+            [:div.album-art
+             [:div.img-container
+              {:style
+               {:background-image (artwork-bg-image (paths/l-image-path (:id selected-item)))}}]]]
+           [:div.description (:description_plain selected-item)]]]
          [:div.toolbar
           [toolbar-item "PLAY" (fn []
                                  (media-player/set-current-item selected-item)

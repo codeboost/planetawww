@@ -9,6 +9,11 @@
     bottom: 0;
     margin: auto;
     z-index: 998;
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+    padding: 8px;
+
     background-color: @console-bg;
     border: 2px solid @console-color;
     border-radius: 23px;
@@ -51,6 +56,10 @@
         }
     }
 
+    .scroll-container {
+        overflow: scroll;
+        height: 100%;
+    }
 
     .media-item-info {
         bottom: 4px;
@@ -60,7 +69,7 @@
         justify-content: flex-end; 
         padding: 10px;
         position: relative;
-        overflow: scroll;
+
 
         .title {
             font-size: 2.1rem;
@@ -129,17 +138,13 @@
 
     @toolbar-height: 40px;
     .toolbar {
-        position: absolute; 
-        bottom: 0;
-        left: 0; 
-        right:0;
         height: @toolbar-height;
-        border-top: 1px solid @console-color;
         display: flex;
         flex-direction: row;
         justify-content: space-around;
-        width: 100%;
+        background-color: @console-bg;
         flex-wrap: nowrap;
+        border-top: 2px solid @console-color; 
         .toolbar-item {
             border-right: 1px solid @console-color;
             width: 100px;
@@ -148,10 +153,16 @@
             line-height: @toolbar-height;
             flex-grow: 1;
             text-align: center;
+            &:first-child {
+            }
             &:last-child {
-                border-right: none;
+               border-right: none; 
             }
             cursor: pointer;
+            &:hover {
+                background-color: @console-color;
+                color: @console-bg;
+            }
         } 
     }//toolbar
 } //media-item-info-container

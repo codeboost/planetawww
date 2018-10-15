@@ -59,6 +59,9 @@
                                 :playing playing?}))
   (reagent.core/flush))
 
+(defn set-detail-visible [visible?]
+  (swap! mplayer-state assoc :detail-visible? visible?))
+
 (defn- set-audio-volume [percent]
   (swap! mplayer-state assoc :volume percent))
 

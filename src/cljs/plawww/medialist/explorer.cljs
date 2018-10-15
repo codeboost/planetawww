@@ -13,6 +13,7 @@
 
 
 (defn show-detail [item]
+  (plawww.media-player.core/set-detail-visible false)
   (swap! *state* assoc :selected-item item :item-info-visible? true))
 
 (defn format-date [d]
@@ -67,16 +68,9 @@
                                        (js/Date. s)))) media-items))
 
 
-(comment
- (let [media-items (parse-dates (take 100 (session/get :media-items)))
-       sort-fn (sorter :old)
-       sorted (sort-fn media-items)]
-   (map :title sorted)))
-
-
 (defn explorer-page []
   (let [state *state*
-        media-items (take 10 (session/get :media-items))
+        media-items (take 1000 (session/get :media-items))
         media-items (parse-dates media-items)
         sort-by-cursor (r/cursor state [:sort-by])]
     (fn []

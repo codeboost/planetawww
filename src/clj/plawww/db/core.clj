@@ -52,3 +52,7 @@
 
 (defn get-media []
   (get-media-hsql))
+
+
+(let [+ (fn [& args] (->> args (apply +) inc))]
+  (+ 2 2))

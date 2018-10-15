@@ -1,7 +1,8 @@
 (ns plawww.media-item.core
   (:require [reagent.core :as r]
             [plawww.paths :as paths]
-            [plawww.components.core :as felurite]))
+            [plawww.components.core :as felurite]
+            [plawww.media-player.core :as media-player]))
 
 (defn artwork-bg-image [url]
   (str "url(" url  "), radial-gradient(#14fdce, #000),  repeating-linear-gradient(transparent 0,rgba(0,0,0,0.1) 2px,transparent 4px)"))
@@ -26,7 +27,9 @@
               {:background-image (artwork-bg-image (paths/l-image-path (:id selected-item)))}}]]]
           [:div.description (:description_plain selected-item)]]
          [:div.toolbar
-          [toolbar-item "PLAY" (fn [])]
+          [toolbar-item "PLAY" (fn []
+                                 (media-player/set-current-item selected-item)
+                                 (swap! state assoc :item-info-visible? false))]
           [toolbar-item "ECOURI" (fn [])]]]))))
 
 

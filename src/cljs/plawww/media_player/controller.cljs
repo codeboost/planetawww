@@ -15,6 +15,8 @@
 (defn with-item-image [item]
   (assoc item :image (paths/s-image-path (:id item))))
 
+(defn start-playback [item])
+
 (defn set-current-media-item
   "Updates the current media item in the session-state, which should trigger the media player to show and load the corresponding media.
   If :should-show-detail? is true, detail-visible? is set to true (which opens the player in detail mode).

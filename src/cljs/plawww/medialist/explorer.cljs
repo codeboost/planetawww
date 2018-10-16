@@ -32,6 +32,7 @@
     [:p description_plain]]])
 
 (defn m->item [{:keys [title id type tags publish_on description_plain] :as m}]
+  ^{:key id}
   [:li.item
    [:a {:href (str "/explorer/" id)}
     [:span.item-container

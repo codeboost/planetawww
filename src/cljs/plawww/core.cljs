@@ -64,6 +64,13 @@
 (defn media-item-for-id [id]
   (first (filter #(= id (:id %)) ALLMEDIA)))
 
+(defn show-explorer-page [id]
+  (when-not (= (session/get :current-page) #'explorer-page)
+    (js/console.log "not equal")
+    (session/put! :current-page #'explorer-page))
+  (let [item (and id (media-item-for-id (js/parseInt id)))]
+    (session/put! :current-media-item item)))
+
 ;; -------------------------
 ;; Routes
 
@@ -79,18 +86,11 @@
 (defroute #"/barul/?" []
   (session/put! :current-page #'barul-page))
 
-
 (defroute #"/explorer/?" []
-  (session/put! :current-media-item nil)
-  (session/put! :current-page #'explorer-page))
+  (show-explorer-page nil))
 
 (defroute #"/explorer/(\d+)" [id q]
-          (js/console.log (session/get :current-page))
-  (when (not= 'explorer-page (session/get :current-page))
-    (session/put! :current-page #'explorer-page))
-  (let [item (media-item-for-id (js/parseInt id))]
-    (session/put! :current-media-item item)))
-
+  (show-explorer-page id))
 
 (defroute #"/home/?" []
   (session/put! :current-page #'show-home-page))
@@ -110,18 +110,21 @@
 ;; Initialize app
 
 (defn current-page []
-  (let [page (session/get :current-page)
-        current-item (session/get :current-media-item)]
-    (if page
-      [:div [page]
-       ;The things below are not affected by page scrolling
-       [:div [player/player]]
-       (when current-item
-         [:div [media-item/item-info-component
-                {:on-play (fn []
-                            (plawww.media-player.core/set-current-item current-item)
-                            (session/put! :current-media-item nil))} {:selected-item current-item}]])]
-      [:div "Dapu-kaneshna-kiar-amush ! Nu-i asa ceva, nu-i ! "])))
+  (let [page-cursor (session/cursor [:current-page])
+        current-item-cursor (session/cursor [:current-media-item])]
+    (fn []
+      (let [page @page-cursor
+            current-item @current-item-cursor]
+        (if page
+          [:div [page]
+           ;The things below are not affected by page scrolling
+           [:div [player/player]]
+           (when current-item
+             [:div [media-item/item-info-component
+                    {:on-play (fn []
+                                (plawww.media-player.core/set-current-item current-item)
+                                (session/put! :current-media-item nil))} {:selected-item current-item}]])]
+          [:div "Dapu-kaneshna-kiar-amush ! Nu-i asa ceva, nu-i ! "])))))
 
 (defn mount-root []
   (reagent/render [current-page] (.getElementById js/document "app")))

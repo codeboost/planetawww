@@ -25,7 +25,6 @@
    [secretary.core :as secretary :refer [defroute]]
    [plawww.media-player.core :as player]))
 
-
 (defonce ^:export ALLMEDIA (js->clj js/kolbasulPlanetar :keywordize-keys true))
 
 ;; -------------------------
@@ -50,6 +49,7 @@
 
 ;Home - shown when (*) is clicked
 (defn show-home-page []
+  (swap! plawww.navbar.core/state assoc :search-string "")
   [crt-page
    [home-page]])
 

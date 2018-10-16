@@ -29,7 +29,7 @@
    #_[:div
       [:a {:href "/barul"} "Barul"]]
    [:div
-    [:a {:href "/media"} "Exploreaza"]]
+    [:a {:href "/explorer"} "Exploreaza"]]
    [:div
     [:a {:href "/media/tag/music"} "Muzica"]]
    [:div

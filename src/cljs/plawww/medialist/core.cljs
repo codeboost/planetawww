@@ -42,7 +42,7 @@
         title     (if detail-items? (detail-title item) title)]
     ^{:key id}
     [:li.media-item
-     [:a {:href  (str "/media/" id)
+     [:a {:href  (str "/explorer/" id)
           :class (when selected? :selected)}
       title]
      (when detail-items?

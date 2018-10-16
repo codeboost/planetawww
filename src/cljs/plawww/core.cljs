@@ -30,10 +30,6 @@
 ;; -------------------------
 ;; Views
 
-(defn- media-browser-page []
-  [crt-page
-   [explorer/explorer-page]])
-
 (defn about-page []
   [crt-page
    [about/page]])
@@ -52,6 +48,7 @@
   (swap! plawww.navbar.core/state assoc :search-string "")
   [crt-page
    [home-page]])
+
 
 
 ;Texte si Carti
@@ -92,6 +89,16 @@
 (defroute #"/explorer/(\d+)" [id q]
   (show-explorer-page id))
 
+(defroute #"/explorer/tag/?" []
+  (show-explorer-page nil)
+  (explorer/set-opts {:tag-editor-visible? true}))
+
+(defroute "/explorer/tag/:tag" [tag]
+  (let [tag-set (set (str/split tag #"\+"))]
+    (show-explorer-page nil)
+    (explorer/set-opts {:included-tags tag-set})))
+
+
 (defroute #"/home/?" []
   (session/put! :current-page #'show-home-page))
 
@@ -104,7 +111,6 @@
 
 (defroute "/carti/:page" [page]
   (show-text-page {:sub-menu (keyword page)}))
-
 
 ;; -------------------------
 ;; Initialize app

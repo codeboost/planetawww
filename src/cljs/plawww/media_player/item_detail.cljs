@@ -74,7 +74,7 @@
          (let [tag-text (if (= tag (last tags)) tag (str tag ","))]
            [:li
             [:a
-             {:href (str "/media/tag/" tag)
+             {:href (str "/explorer/tag/" tag)
               :on-click #(swap! state assoc :detail-visible? false)}
              tag-text]
             " "]))))))

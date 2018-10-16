@@ -36,8 +36,6 @@
 
 			a {
 			}
-
-
 			.item-container {
 				&:hover {
 					//background-color: @console-color;
@@ -101,6 +99,72 @@
 						@media @mobile { display: none;}
 					}
 				}
+			}
+		}
+	}
+
+	.taglist {
+		margin-top: 15px;
+		width: 100%;
+		text-align: center;
+		cursor: pointer;
+	}
+
+	.glass {
+		opacity: 0.7;
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		background-color: @console-bg;
+		top:0;
+		left:0;
+		z-index: 0;
+	}
+
+	.tag-editor {
+		position: absolute;
+		top: 0; left: 0;
+		bottom: 0; right: 0;
+		border: 1px solid @console-color;
+		margin: 20px;
+		margin-top: 0;
+		overflow: scroll;
+
+		.all-tags {
+			padding: 10px;
+			border: 2px solid @console-color;
+			text-align: center;
+			cursor: pointer;
+			max-width: 70px;
+			margin: 10px;
+			&.selected {
+				background-color: @console-color;
+				color: @console-bg;
+			}
+		}
+		.min-button {
+			position: absolute;
+			right: 4px;
+			top: 4px;
+		}
+		ul.tags {
+			z-index: 100;
+			display: flex;
+			flex-direction: row;
+			flex-wrap: wrap;
+			align-content: space-around;
+
+			li.tag {
+				background-color: @console-bg;
+				padding: 10px;
+				border: 1px solid @console-color;
+				margin: 10px;
+				cursor: pointer;
+				&.selected {
+					background-color: @console-color;
+					color: @console-bg;
+				}
+				opacity: 1;
 			}
 		}
 	}	

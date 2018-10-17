@@ -1,5 +1,7 @@
 @import "../base";
 
+@max-width: 500px;
+
 .explorer {
 	display: flex;
 	flex-direction: column;
@@ -76,7 +78,7 @@
 						white-space: nowrap;
 						overflow: hidden;
 						text-overflow: ellipsis;
-						max-width: 500px;
+						max-width: @max-width;
 					}
 
 		            .tags {
@@ -105,9 +107,10 @@
 
 	.taglist {
 		margin-top: 15px;
-		width: 100%;
 		text-align: center;
 		cursor: pointer;
+		width: 100%;
+		border: 1px solid @console-color;
 	}
 
 	.glass {
@@ -129,19 +132,28 @@
 		margin: 20px;
 		margin-top: 0;
 		overflow: scroll;
-
-		.all-tags {
-			padding: 10px;
-			border: 2px solid @console-color;
-			text-align: center;
-			cursor: pointer;
-			max-width: 70px;
-			margin: 10px;
-			&.selected {
-				background-color: @console-color;
-				color: @console-bg;
-			}
+		.buttons {
+			margin-top: 20px;
+			margin-bottom: 20px;
+			border-bottom: 1px solid @console-color;
+			display: flex;
+			align-items: space-between;
+			justify-content: center;
+			padding-bottom: 10px;
+			.all-tags, .gata {
+				padding: 10px;
+				border: 2px solid @console-color;
+				text-align: center;
+				cursor: pointer;
+				max-width: 70px;
+				margin-left: 10px;
+				&.selected {
+					background-color: @console-color;
+					color: @console-bg;
+				}
+			}			
 		}
+
 		.min-button {
 			position: absolute;
 			right: 4px;

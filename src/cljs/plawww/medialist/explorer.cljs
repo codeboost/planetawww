@@ -72,20 +72,33 @@
    [:div {:on-click #(set-opts {:tag-editor-visible? true})}
     (if (empty? included-tags)
       "Toate"
-      (clojure.string/join "," included-tags))]])
+      (clojure.string/join ", " included-tags))]])
 
 (defn tag-editor-component [all-tags included-tags {:keys [tag-click all-click close-click]}]
-  [:div.tag-editor
-   [minimise-button "x" close-click]
-   [:div.all-tags
-    {:on-click all-click
-     :class (when (empty? included-tags) :selected)} [:strong "TOATE"]]
-   (into [:ul.tags]
-         (map (fn [s]
-                (let [class-name (when (included-tags s) :selected)]
-                  [:li.tag
-                   {:class class-name
-                    :on-click #(tag-click s)} s])) all-tags))])
+  (let [keydown-handler (fn [e]
+                          (when (#{"Escape" "Esc"} (.-key e))
+                            (close-click)))]
+    (r/create-class
+     {:component-did-mount (fn []
+                             (.addEventListener js/window "keydown" keydown-handler))
+      :component-will-unmount (fn []
+                                (.removeEventListener js/window "keydown" keydown-handler))
+      :reagent-render
+      (fn [all-tags included-tags _]
+        [:div.tag-editor
+         #_[minimise-button "x" close-click]
+         [:div.buttons
+          [:div.all-tags
+           {:on-click all-click
+            :class (when (empty? included-tags) :selected)} "TOATE"]
+          [:div.gata {:on-click close-click}
+           "GATA"]]
+         (into [:ul.tags]
+               (map (fn [s]
+                      (let [class-name (when (included-tags s) :selected)]
+                        [:li.tag
+                         {:class class-name
+                          :on-click #(tag-click s)} s])) all-tags))])})))
 
 (defn explorer-page []
   (let [state *state*

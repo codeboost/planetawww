@@ -26,17 +26,6 @@ In scurt timp toate tarile de pe Pamant s-au refugiat in spatiu, au cerut azil p
       [:a#cont-a {:href "/home"} "CONTINUARE"]]]
     {:navbar? false}))
 
-
-(defn a-link []
-  (-> (js/$ "#cont-a")
-      (.on "click touchstart" (fn [e]
-                                (-> e
-                                    (.preventDefault))
-                                (-> (js/$ ".content")
-                                    (.addClass "scale-out-animation"))
-                                (js/setTimeout (fn []
-                                                 (aset js/location "href" "/menu")) 1000)))))
-
 (defn continue-on-click[]
   (-> (js/$ "body")
       (.on "click touchstart" (fn[]

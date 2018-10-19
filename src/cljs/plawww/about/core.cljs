@@ -18,5 +18,4 @@
   [:div.about-page
    [:h3.centered-text "DESPRE PLANETA MOLDOVA"]
    [:div.centered-text "-----"]
-   [typed-text-component {:strings [about-text]
-                          :showCursor false}]])
+   [:p about-text]])

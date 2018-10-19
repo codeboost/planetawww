@@ -31,15 +31,15 @@
    [:div
     [:a {:href "/explorer"} "Exploreaza"]]
    [:div
-    [:a {:href "/media/tag/music"} "Muzica"]]
+    [:a {:href "/explorer/tag/music"} "Muzica"]]
    [:div
-    [:a {:href "/media/tag/radio+guerilla"} "Emisiuni Radio"]]
+    [:a {:href "/explorer/tag/radio+guerilla"} "Emisiuni Radio"]]
    [:div
-    [:a {:href "/media/tag/tv"} "Emisiuni TV"]]
+    [:a {:href "/explorer/tag/tv"} "Emisiuni TV"]]
    [:div
-    [:a {:href "/media/tag/animatie"} "Animatie"]]
+    [:a {:href "/explorer/tag/animatie"} "Animatie"]]
    [:div
-    [:a {:href "/media/tag/scurtmetraj"} "Scurtmetraje"]]
+    [:a {:href "/explorer/tag/scurtmetraj"} "Scurtmetraje"]]
    [:div
     [:a {:href "/text"} "Carti si texte"]]
    [:div

@@ -1,3 +1,10 @@
+;   Copyright (c) Braghis Florin. All rights reserved.
+;   The use and distribution terms for this software are covered by the
+;   Common Public License 1.0 (http://opensource.org/licenses/cpl.php).
+;   By using this software in any fashion, you are agreeing to be bound by
+;   the terms of this license.
+;   You must not remove this notice, or any other, from this software.
+
 (ns plawww.medialist.explorer
   (:require
    [plawww.paths :as paths]
@@ -106,7 +113,6 @@
         all-tags (db/unique-tags* media-items)
         sort-by-cursor (r/cursor state [:sort-by])]
     (fn []
-      (js/console.log "rendering!" all-tags)
       (let [included-tags (:included-tags @state)
             media-items (db/items-for-tags media-items included-tags)
             sort-fn (sorter @sort-by-cursor)

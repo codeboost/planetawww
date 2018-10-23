@@ -19,11 +19,11 @@
                                  :storage_id]
                         :from [:media_files])
         mtq (hsql/build
-             {:select [:media_id
-                       [(hsql/raw "GROUP_CONCAT(t.name SEPARATOR ', ')") :tags]]
-              :from [[:media_tags :mt]]
-              :join [[:tags :t]
-                     [:= :t.id :mt.tag_id]]
+             {:select   [:media_id
+                         [(hsql/raw "GROUP_CONCAT(t.name SEPARATOR ', ')") :tags]]
+              :from     [[:media_tags :mt]]
+              :join     [[:tags :t]
+                         [:= :t.id :mt.tag_id]]
               :group-by [:media_id]})
         sql (hsql/build
              {:select [:id
@@ -44,15 +44,25 @@
                        :width
                        :height
                        :mf.storage_id]
-              :from :media
-              :join [[mfq :mf] [:= :mf.media_id :id]]
+              :from      :media
+              :join      [[mfq :mf] [:= :mf.media_id :id]]
               :left-join [[mtq :mt] [:= :mt.media_id :id]]})]
 
     (j/query mysql-uri (hsql/format sql))))
+
+(defn get-comments [media-id]
+  (let [q (hsql/build {:select [:subject :created_on :modified_on :author_name :author_email :body]
+                       :from   :comments
+                       :where  [:and
+                                [:= :publishable true]
+                                [:= :reviewed true]
+                                [:= :media_id media-id]]})]
+    (j/query mysql-uri (hsql/format q))))
 
 (defn get-media []
   (get-media-hsql))
 
 
-(let [+ (fn [& args] (->> args (apply +) inc))]
-  (+ 2 2))
+(comment
+ (get-comments 11))
+

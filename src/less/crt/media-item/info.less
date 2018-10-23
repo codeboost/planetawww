@@ -7,16 +7,15 @@
     right: 0;
     top: 0;
     bottom: 0;
-    margin: auto;
     z-index: 998;
     display: flex;
     flex-direction: column;
     justify-content: stretch;
     background-color: @console-bg;
     border: 2px solid @console-color;
-    //border-radius: 23px;
-    max-width: 640px;
-    max-height: 480px;
+    margin: 20px;
+    max-height: 80%;
+    border-radius: 23px;
 
     @media @mobile {
        margin: 16px;       
@@ -57,6 +56,7 @@
     .scroll-container {
         overflow: scroll;
         height: 100%;
+        padding: 10px;
     }
 
     .media-item-info {
@@ -143,6 +143,8 @@
         background-color: @console-bg;
         flex-wrap: nowrap;
         border-top: 2px solid @console-color; 
+        border-bottom-left-radius: 23px;
+        border-bottom-right-radius: 23px;
         .toolbar-item {
             border-right: 1px solid @console-color;
             width: 100px;
@@ -152,9 +154,11 @@
             flex-grow: 1;
             text-align: center;
             &:first-child {
+                border-bottom-left-radius: 23px;
             }
             &:last-child {
                border-right: none; 
+               border-bottom-right-radius: 23px;
             }
             cursor: pointer;
             &:hover {

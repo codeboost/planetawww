@@ -14,10 +14,12 @@
    [plawww.mediadb.core :as db]
    [reagent.core :as r]
    [goog.string :as gstring]
-   [goog.string.format]))
+   [goog.string.format]
+   [plawww.media-item.media-item :as media-item]))
 
 (defonce *state* (r/atom {:sort-by :title
-                          :included-tags #{}}))
+                          :included-tags #{}
+                          :visible-dialog :none}))
 
 (defn set-opts [opts]
   (swap! *state* merge opts))
@@ -76,7 +78,7 @@
 
 (defn tags-component [included-tags]
   [:div.taglist
-   [:div {:on-click #(set-opts {:tag-editor-visible? true})}
+   [:div {:on-click #(set-opts {:visible-dialog :tag-editor})}
     (if (empty? included-tags)
       "Toate"
       (clojure.string/join ", " included-tags))]])
@@ -111,7 +113,8 @@
   (let [state *state*
         media-items (session/get :media-items)
         all-tags (db/unique-tags* media-items)
-        sort-by-cursor (r/cursor state [:sort-by])]
+        sort-by-cursor (r/cursor state [:sort-by])
+        current-item (session/cursor [:current-media-item])]
     (fn []
       (let [included-tags (:included-tags @state)
             media-items (db/items-for-tags media-items included-tags)
@@ -127,7 +130,8 @@
            [:ul.items]
            (map m->item media-items))
           [:span.spacer]
-          (when (:tag-editor-visible? @state)
+          (case (:visible-dialog @state)
+            :tag-editor
             [:div
              [:div.glass ""]
              [tag-editor-component
@@ -135,5 +139,12 @@
               included-tags
               {:tag-click #(swap! state update :included-tags (if (included-tags %) disj conj) %)
                :all-click #(swap! state assoc :included-tags #{})
-               :close-click #(swap! state assoc :tag-editor-visible? false)}]])]]))))
+               :close-click #(swap! state assoc :visible-dialog :none)}]]
+            :media-info
+            [:div [media-item/item-info-component
+                   {:on-play (fn []
+                               (plawww.media-player.core/set-current-item @current-item)
+                               (session/put! :current-media-item nil))}
+                   {:selected-item @current-item}]]
+            nil)]]))))
 

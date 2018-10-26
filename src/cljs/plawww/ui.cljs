@@ -124,6 +124,7 @@
 
       :component-will-unmount
       (fn [_]
+        (.removeEventListener js/window "keydown" key-handler)
         (reset! node nil))
 
       :reagent-render

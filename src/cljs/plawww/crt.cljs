@@ -14,19 +14,20 @@
             [plawww.navbar.search-component :as search-component]
             [clojure.string :as str]))
 
-(defn search-results [ss]
-  [medialist/render-search-results
-   (session/get :media-items)
-   ss
-   [search-component/random-not-found-msg (session/get :xx?)]])
+(defn search-results [state]
+  (let [ss (:search-string @state)]
+    [medialist/render-search-results
+     (session/get :media-items)
+     ss
+     [search-component/random-not-found-msg (session/get :xx?)]
+     #(swap! state assoc :search-string "")]))
 
 (defn page-or-search-results [page *state]
   (fn []
     (let [ss (:search-string @*state)
           searching? (not (str/blank? ss))]
       (if searching?
-        [search-results ss]
-        page))))
+        [search-results *state ss]))))
 
 (defn crt-page [page & [{:keys [navbar?]
                          :or {navbar? true}}]]
@@ -36,5 +37,6 @@
      [:div.piece.output
       [:div.planeta-experience
        (when navbar? [navbar])
-       [page-or-search-results page navbar/state]]]]]])
+       [page-or-search-results page navbar/state]
+       page]]]]])
     

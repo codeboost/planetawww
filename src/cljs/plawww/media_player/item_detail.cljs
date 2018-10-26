@@ -93,4 +93,4 @@
        [:div.detail-info
         [:div.top-part
          [:div.info-container]]
-        [:div.description (:description_plain item)]]])))
+        #_[:div.description (:description_plain item)]]])))

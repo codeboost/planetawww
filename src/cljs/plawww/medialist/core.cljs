@@ -130,17 +130,28 @@
 (by-tags*
  (media-db/items-for-tags (session/get :media-items) #{"music"}))
 
+
+
 ;Todo: Search needs its own state atom
-(defn render-search-results [all-items s no-results-fn]
-  (let [items (media-db/search-in-items all-items s)
-        tagged-items (media-db/by-tags-which-start-with (by-tags* all-items) s)]
-    [:div.search-results
-     (when (seq tagged-items)
-       [:div.tags
-        [items-by-tag-component tagged-items {:show-all?      false
-                                              :detail-items?  false}]
-        [:div "---"]])
-     [:ul.items
-      (if (seq items)
-        (doall (map render-menu-item items))
-        [:li.no-results no-results-fn])]]))
+(defn render-search-results [all-items s no-results-fn on-close]
+  (let [key-handler #(when (= (.-keyCode %) 27) (on-close))]
+    (r/create-class
+     {:display-name "search-results"
+      :component-did-mount #(.addEventListener js/window "keydown" key-handler)
+      :component-will-unmount #(.removeEventListener js/window "keydown" key-handler)
+      :reagent-render
+      (fn [all-items s no-results-fn on-close]
+        (let [items (media-db/search-in-items all-items s)
+              tagged-items (media-db/by-tags-which-start-with (by-tags* all-items) s)]
+          [:div.search-results
+           [:div.close-button {:on-click on-close} "x"]
+           [:div.search-results-content
+            (when (seq tagged-items)
+              [:div.tags
+               [items-by-tag-component tagged-items {:show-all?      false
+                                                     :detail-items?  false}]
+               [:div "---"]])
+            [:ul.items
+             (if (seq items)
+               (doall (map render-menu-item items))
+               [:li.no-results no-results-fn])]]]))})))

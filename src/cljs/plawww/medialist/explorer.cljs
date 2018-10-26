@@ -121,7 +121,8 @@
    [media-item/item-info-component
     {:on-play (fn []
                 (plawww.media-player.core/set-current-item current-item)
-                (session/put! :current-media-item nil))}
+                (session/put! :current-media-item nil)
+                (reagent.core/flush))}
     {:selected-item current-item}]])
 
 (defn explorer-page []

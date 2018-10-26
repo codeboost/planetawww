@@ -14,7 +14,8 @@
    [plawww.utils :as utils]
    [reagent.interop :refer-macros [$ $!]]
    [plawww.paths :as paths]
-   [reagent.core :as r]))
+   [reagent.core :as r]
+   [reagent.session :as session]))
 
 (def react-player (r/adapt-react-class js/ReactPlayer))
 
@@ -276,9 +277,12 @@
 
 (defn player-toolbar [state]
   (fn []
-    (let [audio? (= "audio" (get-in @state [:item :type]))]
+    (let [item (:item @state)
+          audio? (= "audio" (get-in @state [:item :type]))]
       [:div.toolbar
-       [toolbar-item "INFO"]
+       [toolbar-item "INFO" (fn []
+                              (swap! state assoc :detail-visible? false)
+                              (session/put! :current-media-item item))]
        [toolbar-item [detail/duration-comp @state]]
        (if audio?
          [toolbar-item "PRIBORUL" (fn []
@@ -290,25 +294,11 @@
 (defn artwork-bg-image [url]
   (str "url(" url  "), radial-gradient(#14fdce, #000),  repeating-linear-gradient(transparent 0,rgba(0,0,0,0.1) 2px,transparent 4px)"))
 
-
-(defn item-detail-component [{:keys [item] :as state} album-art]
-  [:div.detail {:class-name (:type item)} ;'audio' or 'video'
-   [minimise-button "x" #(swap! state assoc :detail-visible? false)]
-   [:div.top-part
-    [:div.title (:title item)]
-    [detail/tag-list-comp state]]
-   [:div.player-container
-    [media-player state]
-    [:div.album-art
-     album-art]]
-   [:div.description (:description_plain item)]])
-
 (defn player []
   (let [state mplayer-state]
     (fn []
       (let [{:keys [visible item detail-visible? duration played oscilloscope-visible?]} @state
             audio? (= (:type item) "audio")]
-        (js/console.log "state:" @state)
         (if visible
           [:div.player.window.vstack {:class (when detail-visible? :detail-visible)}
            [:div.detail {:class-name (:type item)} ;'audio' or 'video'

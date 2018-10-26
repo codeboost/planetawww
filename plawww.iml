@@ -129,6 +129,7 @@
     <orderEntry type="library" name="Leiningen: org.ow2.asm/asm-all:4.2" level="project" />
     <orderEntry type="library" name="Leiningen: pjstadig/humane-test-output:0.8.3" level="project" />
     <orderEntry type="library" name="Leiningen: potemkin:0.4.5" level="project" />
+    <orderEntry type="library" name="Leiningen: prismatic/dommy:1.1.0" level="project" />
     <orderEntry type="library" name="Leiningen: prone:1.6.0" level="project" />
     <orderEntry type="library" name="Leiningen: reagent-utils:0.3.1" level="project" />
     <orderEntry type="library" name="Leiningen: reagent:0.8.1" level="project" />

@@ -12,6 +12,7 @@
    [plawww.medialist.toolbar :as toolbar]
    [plawww.components.components :refer [minimise-button]]
    [plawww.mediadb.core :as db]
+   [plawww.ui :as ui]
    [reagent.core :as r]
    [goog.string :as gstring]
    [goog.string.format]
@@ -102,12 +103,13 @@
             :class (when (empty? included-tags) :selected)} "TOATE"]
           [:div.gata {:on-click close-click}
            "GATA"]]
-         (into [:ul.tags]
-               (map (fn [s]
-                      (let [class-name (when (included-tags s) :selected)]
-                        [:li.tag
-                         {:class class-name
-                          :on-click #(tag-click s)} s])) all-tags))])})))
+         [:div.tags-container
+          (into [:ul.tags]
+                (map (fn [s]
+                       (let [class-name (when (included-tags s) :selected)]
+                         [:li.tag
+                          {:class class-name
+                           :on-click #(tag-click s)} s])) all-tags))]])})))
 
 (defn explorer-page []
   (let [state *state*
@@ -119,7 +121,9 @@
       (let [included-tags (:included-tags @state)
             media-items (db/items-for-tags media-items included-tags)
             sort-fn (sorter @sort-by-cursor)
-            media-items (sort-fn media-items)]
+            media-items (sort-fn media-items)
+            visible-dialog (or (and @current-item :media-info) (:visible-dialog @state))]
+
         [:div
          [:div.explorer
           [toolbar/explorer-buttons state]
@@ -130,16 +134,18 @@
            [:ul.items]
            (map m->item media-items))
           [:span.spacer]
-          (case (:visible-dialog @state)
+          (case visible-dialog
             :tag-editor
-            [:div
-             [:div.glass ""]
-             [tag-editor-component
-              all-tags
-              included-tags
-              {:tag-click #(swap! state update :included-tags (if (included-tags %) disj conj) %)
-               :all-click #(swap! state assoc :included-tags #{})
-               :close-click #(swap! state assoc :visible-dialog :none)}]]
+            [ui/modal
+             {:on-close #(swap! state assoc :visible-dialog :none)
+              :visible? true}
+             [:div
+              [tag-editor-component
+               all-tags
+               included-tags
+               {:tag-click #(swap! state update :included-tags (if (included-tags %) disj conj) %)
+                :all-click #(swap! state assoc :included-tags #{})
+                :close-click #(swap! state assoc :visible-dialog :none)}]]]
             :media-info
             [:div [media-item/item-info-component
                    {:on-play (fn []

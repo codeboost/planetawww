@@ -63,7 +63,6 @@
 
 (defn show-explorer-page [id]
   (when-not (= (session/get :current-page) #'explorer-page)
-    (js/console.log "not equal")
     (session/put! :current-page #'explorer-page))
   (let [item (and id (media-item-for-id (js/parseInt id)))]
     (session/put! :current-media-item item)))
@@ -124,12 +123,7 @@
         (if page
           [:div [page]
            ;The things below are not affected by page scrolling
-           [:div [player/player]]
-           (when current-item
-             [:div [media-item/item-info-component
-                    {:on-play (fn []
-                                (plawww.media-player.core/set-current-item current-item)
-                                (session/put! :current-media-item nil))} {:selected-item current-item}]])]
+           [:div [player/player]]]
           [:div "Dapu-kaneshna-kiar-amush ! Nu-i asa ceva, nu-i ! "])))))
 
 (defn mount-root []

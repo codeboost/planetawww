@@ -122,62 +122,70 @@
 		top:0;
 		left:0;
 		z-index: 0;
+	}	
+}
+
+
+.tag-editor {
+	position: absolute;
+	border: 1px solid @console-color;
+	margin: 32px;
+	top: 0; bottom: 0; left: 0; right: 0;
+	overflow: hidden;
+	background-color: @console-bg;
+	border-radius: 23px;
+
+	.buttons {
+		margin-top: 20px;
+		margin-bottom: 20px;
+		border-bottom: 1px solid @console-color;
+		display: flex;
+		align-items: space-between;
+		justify-content: center;
+		padding-bottom: 10px;
+		.all-tags, .gata {
+			padding: 10px;
+			border: 2px solid @console-color;
+			text-align: center;
+			cursor: pointer;
+			max-width: 70px;
+			margin-left: 10px;
+			&.selected {
+				background-color: @console-color;
+				color: @console-bg;
+			}
+		}			
 	}
 
-	.tag-editor {
+	.min-button {
 		position: absolute;
-		top: 0; left: 0;
-		bottom: 0; right: 0;
-		border: 1px solid @console-color;
-		margin: 20px;
-		margin-top: 0;
+		right: 4px;
+		top: 4px;
+	}
+
+	.tags-container {
+		position: absolute;
+		height:100%;
+		width:100%;
 		overflow: scroll;
-		.buttons {
-			margin-top: 20px;
-			margin-bottom: 20px;
-			border-bottom: 1px solid @console-color;
-			display: flex;
-			align-items: space-between;
-			justify-content: center;
-			padding-bottom: 10px;
-			.all-tags, .gata {
-				padding: 10px;
-				border: 2px solid @console-color;
-				text-align: center;
-				cursor: pointer;
-				max-width: 70px;
-				margin-left: 10px;
-				&.selected {
-					background-color: @console-color;
-					color: @console-bg;
-				}
-			}			
-		}
+	}
 
-		.min-button {
-			position: absolute;
-			right: 4px;
-			top: 4px;
-		}
-		ul.tags {
-			z-index: 100;
-			display: flex;
-			flex-direction: row;
-			flex-wrap: wrap;
-			align-content: space-around;
-
-			li.tag {
-				background-color: @console-bg;
-				padding: 10px;
-				border: 1px solid @console-color;
-				margin: 10px;
-				cursor: pointer;
-				&.selected {
-					background-color: @console-color;
-					color: @console-bg;
-				}
-				opacity: 1;
+	ul.tags {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		align-content: space-around;
+		li.tag {
+			background-color: @console-bg;
+			padding: 10px;
+			border: 1px solid @console-color;
+			margin: 10px;
+			cursor: pointer;
+			&.selected {
+				background-color: @console-color;
+				color: @console-bg;
 			}
+			opacity: 1;
 		}
-	}	
+	}
 }

@@ -8,7 +8,6 @@
 (ns plawww.ui
   (:require
    [cljsjs.react.dom]
-   [dommy.core :as dom]
    [reagent.core :as r]))
 
 
@@ -95,12 +94,11 @@
 
   Children:
     - It accepts one and only one children and it's the content of the modal."
-  [_ _]
+  [{:keys [on-close]} _]
   (let [node               (atom nil)
         key-handler        (fn [e]
                              (when (= (.-keyCode e) 27)     ;; Escape key
-                               (let [{:keys [on-close]} (r/props @node)]
-                                 (on-close e))))
+                               (on-close e)))
         mouse-down-handler (fn [e]
                              ;; Close the modal only if the overlay div is clicked
                              (when (= (.-target e) (.-currentTarget e))
@@ -113,14 +111,16 @@
 
       :component-did-mount
       (fn [this]
-        (reset! node this))
+        (reset! node this)
+        (.addEventListener js/window "keydown" key-handler))
 
       :component-did-update
       (fn [this [_]]
         (let [{:keys [visible?]} (r/props this)]
+          (.removeEventListener js/window "keydown" key-handler)
           (if visible?
-            (dom/listen! js/window :keydown key-handler)
-            (dom/unlisten! js/window :keydown key-handler))))
+            (.addEventListener js/window "keydown" key-handler)
+            (.removeEventListener js/window "keydown" key-handler))))
 
       :component-will-unmount
       (fn [_]
@@ -129,7 +129,6 @@
       :reagent-render
       (fn [{:keys [on-close visible?] :or {visible? false} :as props} content]
         (when visible?
-          (js/console.log "rendering modal.")
           [overlay {:class "pm-modal--overlay" :on-mouse-down mouse-down-handler}
            [:div.pm-modal--container
             [:div.pm-modal (dissoc props :on-close :visible?)

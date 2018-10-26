@@ -37,6 +37,16 @@
 		.item {
 
 			a {
+				&:focus {
+					.item-container {
+						background-color: @console-color; 
+						color: @console-bg; 
+					}
+				}
+				.item-container {
+					background-color: @console-bg; 
+					color: @console-color; 
+				}
 			}
 			.item-container {
 				&:hover {
@@ -49,7 +59,7 @@
 				height: 70px;
 
 				margin-top: 24px;
-				//border-radius: 40px;
+				border-radius: 23px;
 
 				display: flex;
 				align-items: center;

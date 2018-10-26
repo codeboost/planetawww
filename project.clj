@@ -19,7 +19,6 @@
                  [org.clojure/clojure "1.9.0"]
                  [org.clojure/clojurescript "1.10.339" :scope "provided"]
                  [org.clojure/core.async "0.4.474"]
-                 [prismatic/dommy "1.1.0"]
                  [reagent "0.8.1"]
                  [reagent-utils "0.3.1"]
                  [ring "1.6.3"]

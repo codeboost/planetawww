@@ -84,32 +84,45 @@
       "Toate"
       (clojure.string/join ", " included-tags))]])
 
-(defn tag-editor-component [all-tags included-tags {:keys [tag-click all-click close-click]}]
-  (let [keydown-handler (fn [e]
-                          (when (#{"Escape" "Esc"} (.-key e))
-                            (close-click)))]
-    (r/create-class
-     {:component-did-mount (fn []
-                             (.addEventListener js/window "keydown" keydown-handler))
-      :component-will-unmount (fn []
-                                (.removeEventListener js/window "keydown" keydown-handler))
-      :reagent-render
-      (fn [all-tags included-tags _]
-        [:div.tag-editor
-         #_[minimise-button "x" close-click]
-         [:div.buttons
-          [:div.all-tags
-           {:on-click all-click
-            :class (when (empty? included-tags) :selected)} "TOATE"]
-          [:div.gata {:on-click close-click}
-           "GATA"]]
-         [:div.tags-container
-          (into [:ul.tags]
-                (map (fn [s]
-                       (let [class-name (when (included-tags s) :selected)]
-                         [:li.tag
-                          {:class class-name
-                           :on-click #(tag-click s)} s])) all-tags))]])})))
+(defn tag-editor [all-tags included-tags {:keys [tag-click all-click close-click]}]
+  [:div.tag-editor
+   [:div.buttons
+    [:div.all-tags
+     {:on-click all-click
+      :class (when (empty? included-tags) :selected)} "TOATE"]
+    [:div.gata {:on-click close-click}
+     "GATA"]]
+   [:div.tags-container
+    (into [:ul.tags]
+          (map (fn [s]
+                 (let [class-name (when (included-tags s) :selected)]
+                   [:li.tag
+                    {:class class-name
+                     :on-click #(tag-click s)} s])) all-tags))]])
+
+(defn- tag-editor-modal [state {:keys [included-tags all-tags]}]
+  [ui/modal
+   {:on-close #(swap! state assoc :visible-dialog :none)
+    :visible? true}
+   [:div
+    [tag-editor
+     all-tags
+     included-tags
+     {:tag-click #(swap! state update :included-tags (if (included-tags %) disj conj) %)
+      :all-click #(swap! state assoc :included-tags #{})
+      :close-click #(swap! state assoc :visible-dialog :none)}]]])
+
+(defn- media-info-modal [state current-item]
+  [ui/modal
+   {:on-close (fn []
+                (session/put! :current-media-item nil)
+                (swap! state assoc :visible-dialog :none))
+    :visible? true}
+   [media-item/item-info-component
+    {:on-play (fn []
+                (plawww.media-player.core/set-current-item current-item)
+                (session/put! :current-media-item nil))}
+    {:selected-item current-item}]])
 
 (defn explorer-page []
   (let [state *state*
@@ -118,12 +131,13 @@
         sort-by-cursor (r/cursor state [:sort-by])
         current-item (session/cursor [:current-media-item])]
     (fn []
+
       (let [included-tags (:included-tags @state)
             media-items (db/items-for-tags media-items included-tags)
             sort-fn (sorter @sort-by-cursor)
             media-items (sort-fn media-items)
             visible-dialog (or (and @current-item :media-info) (:visible-dialog @state))]
-
+        (js/console.log "visible-dialog:" visible-dialog)
         [:div
          [:div.explorer
           [toolbar/explorer-buttons state]
@@ -136,21 +150,9 @@
           [:span.spacer]
           (case visible-dialog
             :tag-editor
-            [ui/modal
-             {:on-close #(swap! state assoc :visible-dialog :none)
-              :visible? true}
-             [:div
-              [tag-editor-component
-               all-tags
-               included-tags
-               {:tag-click #(swap! state update :included-tags (if (included-tags %) disj conj) %)
-                :all-click #(swap! state assoc :included-tags #{})
-                :close-click #(swap! state assoc :visible-dialog :none)}]]]
+            [tag-editor-modal state {:included-tags included-tags
+                                     :all-tags all-tags}]
             :media-info
-            [:div [media-item/item-info-component
-                   {:on-play (fn []
-                               (plawww.media-player.core/set-current-item @current-item)
-                               (session/put! :current-media-item nil))}
-                   {:selected-item @current-item}]]
+            [media-info-modal state @current-item]
             nil)]]))))
 

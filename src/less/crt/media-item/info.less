@@ -13,16 +13,17 @@
     justify-content: stretch;
     background-color: @console-bg;
     border: 2px solid @console-color;
-    margin-left: 100px;
-    margin-right: 100px;    
     border-radius: 23px;
+    margin: auto;
 
-    @media @mobile {
+    .multi-media ({
        margin: 16px;       
-    }
-
-    @media @desktop-xl {
-    }
+    }, {
+        margin: 40px;
+    }, {
+        max-width: 800px;
+        max-height: 600px;
+    });
 
     .min-button {
         position: absolute;
@@ -52,7 +53,7 @@
     }
 
     .scroll-container {
-        overflow: scroll;
+        overflow: auto;
         height: 100%;
         padding: 10px;
     }
@@ -116,7 +117,7 @@
                 }
 
                 border-radius: 50%;
-                border: 4px solid @console-color;
+                //border: 4px solid @console-color;
 
                 .img-container {
                     width: 100%;

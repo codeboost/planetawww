@@ -12,7 +12,7 @@
             [plawww.media-player.core :as media-player]))
 
 (defn artwork-bg-image [url]
-  (str "url(" url  "), radial-gradient(#14fdce, #000),  repeating-linear-gradient(transparent 0,rgba(0,0,0,0.1) 2px,transparent 4px)"))
+  (str "url(" url ")"))
 
 (defn toolbar-item [title on-click]
   [:div.toolbar-item

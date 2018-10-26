@@ -16,6 +16,11 @@
 @desktop:     ~"only screen and (min-width: 950px) and (max-width: 1128px)";
 @desktop-xl:  ~"only screen and (min-width: 1129px)";
 
+.multi-media (@mobile-rules, @tablet-rules, @desktop-rules) {
+  @media @mobile { @mobile-rules(); }
+  @media @tablet  { @tablet-rules(); }
+  @media @desktop-xl { @desktop-rules(); }
+}
 
 // global settings
 
@@ -111,7 +116,7 @@ ul {
   display: block;
   border-radius: 23px;
   padding: 20px;
-  overflow: scroll;
+  overflow: auto;
   width: 100%;
   height: 100%;
 

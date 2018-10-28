@@ -54,10 +54,11 @@
 
 (defn set-current-item [item]
   (let [muted (:muted @mplayer-state)
-        playing? (not muted)]
+        playing? (not muted)
+        detail-visible? (not (:playing @mplayer-state))]
     (swap! mplayer-state merge {:item item
                                 :visible true
-                                :detail-visible? true
+                                :detail-visible? detail-visible?
                                 :playing playing?}))
   (reagent.core/flush))
 
@@ -316,8 +317,7 @@
                 [:div.img-container
                  {:style
                   {:display (if oscilloscope-visible? :none :block)
-                   :background-image (artwork-bg-image (paths/l-image-path (:id item)))}}]])]
-            [detail/detail-component state]]
+                   :background-image (artwork-bg-image (paths/l-image-path (:id item)))}}]])]]
            (when detail-visible?
              [player-toolbar state])
            [:div.content

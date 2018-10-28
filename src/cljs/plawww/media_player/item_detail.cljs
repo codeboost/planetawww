@@ -85,12 +85,3 @@
               :on-click #(swap! state assoc :detail-visible? false)}
              tag-text]
             " "]))))))
-
-(defn detail-component [state]
-  (fn []
-    (let [{:keys [item]} @state]
-      [:div.media-item-detail
-       [:div.detail-info
-        [:div.top-part
-         [:div.info-container]]
-        #_[:div.description (:description_plain item)]]])))

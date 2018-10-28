@@ -6,20 +6,20 @@
 ;   You must not remove this notice, or any other, from this software.
 
 (ns plawww.medialist.core
+  "This namespace has a long history. It is where the whole story started,
+  I've been pounding on it for a long time, refactoring as I was learning
+  more and more Clojure(script). You can check out the commit history.
+  Eventually, most of the functionality has been reimplemented in `explorer`,
+  while this namespace remains only for rendering search results.
+  For historical reasons, I won't rename it, just a reminder of the long trip
+  that I took."
   (:require
-   [cljsjs.typedjs]
    [clojure.string :as str]
-   [plawww.navbar.core :as navbar]
-   [plawww.medialist.toolbar :as toolbar]
    [plawww.mediadb.core :as media-db]
    [plawww.utils :as utils]
-   [reagent.core :as r]
-   [reagent.session :as session]))
+   [reagent.core :as r]))
 
-(defonce *state* (r/atom {:group-by         :tag
-                          :item-view-mode   :plain
-                          :expanded-letters #{}
-                          :show-all?        false
+(defonce *state* (r/atom {:show-all?        false
                           :detail-items?    false
                           :selected-id ""}))
 
@@ -50,9 +50,6 @@
                                (-> description
                                    (str/replace "<p>" "")   ;Rudimentary and temporary
                                    (str/replace "</p>" "")))]])]))
-
-(defn toggle-expanded-letter [letter]
-  (swap! *state* update-in [:expanded-letters] utils/toggle-item letter))
 
 (defn render-menu [{:keys [title items]} {:keys [expanded? detail-items? on-title-clicked] :as opts}]
   "A 'menu' in this context is a div which displays a title and optionally a `ul` containing  child items.
@@ -111,26 +108,6 @@
                   (assoc opts :expanded? (or show-all? (expand? title (:expanded-tags @state)))
                               :on-title-clicked #(swap! state update-in [:expanded-tags] utils/toggle-item %))])
                tagged))))))
-
-(defn items-by-tag
-  "Renders a collection of Tag components or just one single Tag.
-  included-tags
-  Each Tag component has a bunch of items, which are hidden by default.
-  If `included-tags` is non-empty, only the tags in `included-tags` will be rendered."
-  [items {:keys [included-tags] :as opts}]
-  (let [tagged (by-tags* items)
-        tagged (if-not
-                (pos? (count included-tags))
-                tagged
-                (filter (fn [{:keys [title]}] (included-tags title))
-                        tagged))]
-    [:div.media-items.horiz-container
-     [items-by-tag-component tagged opts]]))
-
-(by-tags*
- (media-db/items-for-tags (session/get :media-items) #{"music"}))
-
-
 
 ;Todo: Search needs its own state atom
 (defn render-search-results [all-items s no-results-fn on-close]

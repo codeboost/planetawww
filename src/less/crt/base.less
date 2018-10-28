@@ -19,7 +19,7 @@
 .multi-media (@mobile-rules, @tablet-rules, @desktop-rules) {
   @media @mobile { @mobile-rules(); }
   @media @tablet  { @tablet-rules(); }
-  @media @desktop-xl { @desktop-rules(); }
+  @media @desktop, @desktop-xl { @desktop-rules(); }
 }
 
 // global settings

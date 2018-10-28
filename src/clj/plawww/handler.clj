@@ -79,8 +79,7 @@
   (html5
     (head ["/css/crt/crt.css"
            "/css/animations.css"])
-    [:body {:class "body-container"
-            :scroll :no}
+    [:body {:class "body-container"}
      mount-target
      (include-js "/js/app.js")
      (include-js "/lib/oscilloscope.js")]))

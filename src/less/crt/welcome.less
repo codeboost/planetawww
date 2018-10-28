@@ -1,17 +1,21 @@
-p.welcome {
+.welcome-content {
 	text-align: justify;
-}
+	margin: auto;
+	.multi-media ({ //mobile
+		margin: 16px;
+	}, { //tablet
+		max-width: 640px; 
+		max-height: 480px;
+	}, { //desktop
+		max-width: 800px; 
+		max-height: 600px;
+	});
 
-#planeta-text {
-	display: none;
 }
 
 h1.ok-button {
 	width: 100%;
 	text-align: center;
-}
-
-#continue-button{
 	display: none;
 }
 

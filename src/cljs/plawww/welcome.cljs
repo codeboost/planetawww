@@ -27,7 +27,7 @@ In scurt timp toate tarile de pe Pamant s-au refugiat in spatiu, au cerut azil p
 
 (defn page []
   (crt-page
-    [:div.content
+    [:div.welcome-content
      [:p#story-text]
      [:h1#continue-button.ok-button
       [:a#cont-a {:href "/home"} "CONTINUARE"]]]

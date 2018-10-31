@@ -11,6 +11,7 @@
    [plawww.components.components :refer [minimise-button]]
    [plawww.media-player.item-detail :as detail]
    [plawww.media-player.progress-bar :as progress-bar]
+   [plawww.media-player.oscilloscope :as oscilloscope]
    [plawww.utils :as utils]
    [reagent.interop :refer-macros [$ $!]]
    [plawww.paths :as paths]
@@ -141,44 +142,11 @@
         parent-height (Math/round (* 0.88 parent-height))]
     (swap! state assoc :height parent-height)))
 
-
 (def canvas-el (r/atom nil))
 
-
-(defn get-2d-context []
-  (let [context (.getContext @canvas-el "2d")]
-    (aset context "strokeStyle" "#14fdce")
-    (aset context "lineWidth" 1)
-    (aset context "shadowColor" "#14fdce")
-    context))
-
-
-(def oscilloscope-source (atom nil))
-
-(defn create-oscilloscope []
-  (js/console.log "Creating oscilloscope.")
-  (if-not (and @canvas-el @mplayer)
-    (js/console.error "Error: Canvas:" @canvas-el " and @mplayer" @mplayer)
-    (let [audioElement (.getInternalPlayer @mplayer)
-          AudioContextConstructor (or js/window.AudioContext js/window.webkitAudioContext)
-          audioContext (new AudioContextConstructor)
-          destination (.-destination audioContext)
-          source (.createMediaElementSource audioContext audioElement)
-          scope (new js/window.Oscilloscope source)
-          context (get-2d-context)]
-      (reset! oscilloscope-source source)
-      (.connect source destination)
-      (if (and scope context)
-        (.animate scope context)
-        (js/console.error "create-oscilloscope error: scope or context is nil: " scope context)))))
-
 (defn stop-oscilloscope []
-  (js/console.log "stop-oscilloscope")
-  (let [source @oscilloscope-source]
-    (reset! oscilloscope-source nil)
-    (when source (.stop source))   
-    (swap! mplayer-state assoc :oscilloscope-visible? false)))
-
+  (oscilloscope/stop-oscilloscope)
+  (swap! mplayer-state assoc :oscilloscope-visible? false))
 
 (defn media-player [state]
   (let [update-interval (r/atom 0)
@@ -220,7 +188,7 @@
                          (stop-oscilloscope))
              :on-ready #()
              :on-play (fn []
-                        (create-oscilloscope)
+                        (oscilloscope/create-oscilloscope @canvas-el (.getInternalPlayer @mplayer))
                         (swap! state assoc :playing true))
              :on-pause (fn []
                          (swap! state assoc :playing false)

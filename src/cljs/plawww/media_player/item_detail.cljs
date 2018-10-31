@@ -34,19 +34,6 @@
 (defn item-href [id]
   (str "/media/" id))
 
-(defn item-content [{:keys [title id description]}]
-  [:div.item-content
-   [:div.title [:a {:href (item-href id)} title]]
-   [:div.description (or description "")]])
-
-(defn item->detail-item [item]
-  ^{:key (:id item)}
-  [:li.media-item.detail
-   [ui/list-view-cell
-    (image-path item)
-    [item-content item]
-    [:div.item-accessory]]])
-
 (defn duration-comp-svg [{:keys [duration item played]}]
   (let [duration (if (zero? duration) (or (:duration item) 0) duration)]
     [:svg {:viewBox "0 0 50 20"}

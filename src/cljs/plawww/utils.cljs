@@ -25,8 +25,6 @@
         seconds (time-to-str seconds)]
     (gstring/format "%s:%s" minutes seconds)))
 
-(format-duration js/NaN)
-
 (defn extract-first-letter [str]
   (let [letter (or (first (str/trim str)) "#")
         letter (str/upper-case letter)

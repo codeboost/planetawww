@@ -14,11 +14,10 @@
    [plawww.barul.core :as barul]
    [plawww.crt :refer [crt-page]]
    [plawww.home :refer [home-page]]
+   [plawww.paths :refer [explorer-path]]
    [plawww.texts.core :as texts-section]
    [plawww.welcome :as welcome]
    [plawww.about.core :as about]
-   [plawww.media-item.media-item :as media-item]
-   [plawww.medialist.core :as media-page]
    [plawww.medialist.explorer :as explorer]
    [reagent.core :as reagent :refer [atom]]
    [reagent.session :as session]
@@ -70,6 +69,9 @@
 ;; -------------------------
 ;; Routes
 
+(defn explorer-path-regex [subpath]
+  (re-pattern (explorer-path subpath)))
+
 (secretary/set-config! :prefix "#")
 
 (defroute "/" []
@@ -82,17 +84,17 @@
 (defroute #"/barul/?" []
   (session/put! :current-page #'barul-page))
 
-(defroute #"/explorer/?" []
+(defroute (explorer-path-regex "?") []
   (show-explorer-page nil))
 
-(defroute #"/explorer/(\d+)" [id q]
+(defroute (explorer-path-regex "(\\d+)") [id q]
   (show-explorer-page id))
 
-(defroute #"/explorer/tag/?" []
+(defroute (explorer-path-regex "tag/?") []
   (show-explorer-page nil)
   (explorer/set-opts {:tag-editor-visible? true}))
 
-(defroute "/explorer/tag/:tag" [tag]
+(defroute (explorer-path "tag/:tag") [tag]
   (let [tag-set (set (str/split tag #"\+"))]
     (show-explorer-page nil)
     (explorer/set-opts {:included-tags tag-set})))

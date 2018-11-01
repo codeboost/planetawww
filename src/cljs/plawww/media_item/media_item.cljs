@@ -7,9 +7,7 @@
 
 (ns plawww.media-item.media-item
   (:require [reagent.core :as r]
-            [plawww.paths :as paths]
-            [plawww.components.components :as felurite]
-            [plawww.media-player.core :as media-player]))
+            [plawww.paths :as paths]))
 
 (defn artwork-bg-image [url]
   (str "url(" url ")"))
@@ -33,7 +31,7 @@
   (let [state (r/atom {:section :info})]
     (fn [_ {:keys [selected-item]}]
       [:div.media-item-info-container
-       [:div.min-button [:a {:href "/explorer"} "x"]]
+       [:div.min-button [:a {:href (paths/explorer-path "")} "x"]]
        [:div.scroll-container
         (case (:section @state)
           :info

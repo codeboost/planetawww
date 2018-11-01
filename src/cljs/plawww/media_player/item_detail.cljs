@@ -7,10 +7,7 @@
 
 (ns plawww.media-player.item-detail
   (:require [reagent.core :as r]
-            [plawww.ui :as ui]
             [plawww.paths :as paths]
-            [reagent.session :as session]
-            [clojure.string :as str]
             [plawww.utils :as utils]
             [cljs.test :refer-macros [deftest is testing run-tests]]
             [cljs.core.async :refer [put!]]
@@ -68,7 +65,7 @@
          (let [tag-text (if (= tag (last tags)) tag (str tag ","))]
            [:li
             [:a
-             {:href (str "/explorer/tag/" tag)
+             {:href (paths/explorer-path (str "tag/" tag))
               :on-click #(swap! state assoc :detail-visible? false)}
              tag-text]
             " "]))))))

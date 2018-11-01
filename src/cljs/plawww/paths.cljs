@@ -8,6 +8,7 @@
 (ns plawww.paths)
 
 (def AUDIO_IMAGE_PATH "/images/planeta.png")
+(def EXPLORER_PATH "/pragoane")
 
 (defn s-image-path [id]
   AUDIO_IMAGE_PATH
@@ -19,6 +20,16 @@
 
 (defn media-path [filename]
   (str "/data/media/" filename))
+
+(defn explorer-path
+  "Returns the relative path to the media explorer.
+  subpath must be a relative path (eg. not start with /).
+  If subpath is empty, the root explorer path is returned."
+  [subpath]
+  (let [subpath (str subpath)]
+    (if-not (empty? subpath)
+      (str EXPLORER_PATH "/" subpath)
+      EXPLORER_PATH)))
 
 (def storage-file 1)
 (def storage-youtube 3)

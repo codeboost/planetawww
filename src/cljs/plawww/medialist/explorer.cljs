@@ -12,6 +12,7 @@
    [plawww.medialist.toolbar :as toolbar]
    [plawww.components.components :refer [minimise-button]]
    [plawww.mediadb.core :as db]
+   [plawww.paths :refer [explorer-path]]
    [plawww.ui :as ui]
    [reagent.core :as r]
    [goog.string :as gstring]
@@ -35,7 +36,7 @@
      (let [tag-text (if (= tag (last tags)) tag (str tag ","))]
        [:li
         [:a
-         {:href (str "/explorer/tag/" tag)}
+         {:href (explorer-path (str "tag/" tag))}
          tag-text]
         " "]))))
 
@@ -49,7 +50,7 @@
 (defn m->item [{:keys [title id type tags publish_on description_plain] :as m}]
   ^{:key id}
   [:li.item
-   [:a {:href (str "/explorer/" id)}
+   [:a {:href (explorer-path id)}
     [:span.item-container
      [:img.thumbnail {:src (paths/s-image-path id)}]
      [:span.item-info
@@ -138,7 +139,6 @@
             sort-fn (sorter @sort-by-cursor)
             media-items (sort-fn media-items)
             visible-dialog (or (and @current-item :media-info) (:visible-dialog @state))]
-        (js/console.log "visible-dialog:" visible-dialog)
         [:div
          [:div.explorer
           [toolbar/explorer-buttons state]

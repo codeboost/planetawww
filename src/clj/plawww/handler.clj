@@ -92,6 +92,7 @@
   (GET "/about*" [] (main-page))
   (GET "/barul*" [] (main-page))
   (GET "/explorer*" [] (main-page))
+  (GET "/pragoane*" [] (main-page))
   (GET "/text*" [] (main-page))
   (GET "/carti*" [] (main-page))
   (GET "/settings*" [] (main-page))
@@ -105,14 +106,3 @@
   (not-found "Not Found"))
 
 (def app (wrap-middleware #'routes))
-
-(comment
- (def age 8)
- (def names #{"Julia" "Rita" "Novak" "Bea" "Joana" "Alan"})
-
- (set names)
-
-
- (:name {:name "beatriz"
-         :age 8
-         :hair-color "brown"}))

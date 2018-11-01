@@ -5,7 +5,8 @@
 ;   the terms of this license.
 ;   You must not remove this notice, or any other, from this software.
 
-(ns plawww.home)
+(ns plawww.home
+  (:require [plawww.paths :refer [explorer-path]]))
 
 (def titles
   ["MENIU"
@@ -29,28 +30,24 @@
 (defn rand-title []
   (nth titles (rand (count titles))))
 
+(defn menu-item [path title]
+  (let [href (if (= "/" (first path)) path (explorer-path path))]
+    [:div
+     [:a {:href href} title]]))
+
 (defn home-page []
   [:div.home-page
    [:h1 "PLANETA MOLDOVA"]
    [:h3 (rand-title)]
    #_[:div
       [:a {:href "/barul"} "Barul"]]
-   [:div
-    [:a {:href "/explorer"} "Exploreaza"]]
-   [:div
-    [:a {:href "/explorer/tag/music"} "Muzica"]]
-   [:div
-    [:a {:href "/explorer/tag/radio+guerilla"} "Emisiuni Radio"]]
-   [:div
-    [:a {:href "/explorer/tag/tv"} "Emisiuni TV"]]
-   [:div
-    [:a {:href "/explorer/tag/animatie"} "Animatie"]]
-   [:div
-    [:a {:href "/explorer/tag/scurtmetraj"} "Scurtmetraje"]]
-   [:div
-    [:a {:href "/text"} "Carti si texte"]]
-   [:div
-    [:a {:href "/about"} "Despre proiect"]]])
-
+   [menu-item "" "Exploreaza"]
+   [menu-item "tag/music" "Muzica"]
+   [menu-item "tag/radio+guerilla" "Emisiuni Radio"]
+   [menu-item "tag/tv" "Emisiuni TV"]
+   [menu-item "tag/animatie" "Animatie"]
+   [menu-item "tag/scurtmetraj" "Scurtmetraje"]
+   [menu-item "/text" "Carti si texte"]
+   [menu-item "/about" "Despre proiect"]])
 
 

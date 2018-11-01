@@ -63,6 +63,7 @@
 (defn show-explorer-page [id]
   (when-not (= (session/get :current-page) #'explorer-page)
     (session/put! :current-page #'explorer-page))
+  (explorer/set-opts {:included-tags #{}})
   (let [item (and id (media-item-for-id (js/parseInt id)))]
     (player/set-detail-visible false)
     (session/put! :current-media-item item)))

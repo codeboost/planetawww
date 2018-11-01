@@ -1,6 +1,6 @@
 (ns plawww.testsuite
   (:require [cljs.test :refer-macros [deftest is testing run-tests]]
-            [plawww.medialist.core :as medialist]))
+            [plawww.medialist.search-results :as medialist]))
 
 
 

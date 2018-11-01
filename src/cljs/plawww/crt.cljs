@@ -8,7 +8,7 @@
 (ns plawww.crt
   (:require [plawww.media-player.core :as player]
             [plawww.navbar.core :refer [navbar]]
-            [plawww.medialist.core :as medialist]
+            [plawww.medialist.search-results :as medialist]
             [reagent.session :as session]
             [plawww.navbar.core :as navbar]
             [plawww.navbar.search-component :as search-component]

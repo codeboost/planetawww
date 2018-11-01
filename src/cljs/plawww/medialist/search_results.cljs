@@ -5,7 +5,7 @@
 ;   the terms of this license.
 ;   You must not remove this notice, or any other, from this software.
 
-(ns plawww.medialist.core
+(ns plawww.medialist.search-results
   "This namespace has a long history. It is where the whole story started,
   I've been pounding on it for a long time, refactoring as I was learning
   more and more Clojure(script). You can check out the commit history.

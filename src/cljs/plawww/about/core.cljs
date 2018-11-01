@@ -20,9 +20,8 @@
   Cu sufletism dezekilibrat si dor neimpacat, de dupa Cordon, ai vostri Planeta Moldova.
   ")
 
-
 (defn page []
   [:div.about-page
    [:h3.centered-text "DESPRE PLANETA MOLDOVA"]
    [:div.centered-text "-----"]
-   [:p about-text]])
+   [:p {:dangerouslySetInnerHTML {:__html about-text}}]])

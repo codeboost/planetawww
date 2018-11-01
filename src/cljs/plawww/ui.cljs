@@ -10,17 +10,6 @@
    [cljsjs.react.dom]
    [reagent.core :as r]))
 
-
-(defn list-view-cell[image content accessory-view]
-  [:div.lv-cell.hstack
-   [:div.image-area
-    [:img.image {:src image}]]
-   [:div.content-area content]
-   [:div.accessory-area accessory-view]])
-
-;; "Good artists steal"
-
-
 (defn mount-to-body
   "The mount-to-body component takes care of mounting a given children to a div
    in body. In fact, it uses the document.body.appendChild function and uses

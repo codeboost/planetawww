@@ -24,13 +24,6 @@
       :reagent-render
       (fn [] [:p.description {:ref #(reset! dom-el %)}])})))
 
-(defn- toggle-accessory-button
-  [state text key]
-  [:div.accessory-button
-   {:on-click #(swap! state update-in [key] not)
-    :class    (when (@state key) :selected)}
-   text])
-
 (defn- minimise-button
   [text on-click]
   [:div.min-button

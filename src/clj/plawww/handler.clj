@@ -69,7 +69,14 @@
    (map (fn [css-include]
           (include-css css-include)) css-includes)
    [:script
-    (str "var kolbasulPlanetar = " @db-json ";")]])
+    (str "var kolbasulPlanetar = " @db-json ";")]
+   [:script {:async true
+             :src "https://www.googletagmanager.com/gtag/js?id=UA-128602722-1"}]
+   [:script
+    "window.dataLayer = window.dataLayer || [];\n
+    function gtag(){dataLayer.push(arguments);}\n
+    gtag('js', new Date());
+    gtag('config', 'UA-128602722-1');"]])
 
 
 (def classic-css [(if (env :dev) "/css/site.css" "/css/site.min.css")

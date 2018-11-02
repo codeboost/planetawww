@@ -188,7 +188,7 @@
                          (stop-oscilloscope))
              :on-ready #()
              :on-play (fn []
-                        (oscilloscope/create-oscilloscope @canvas-el (.getInternalPlayer @mplayer))
+                        #_(oscilloscope/create-oscilloscope @canvas-el (.getInternalPlayer @mplayer))
                         (swap! state assoc :playing true))
              :on-pause (fn []
                          (swap! state assoc :playing false)

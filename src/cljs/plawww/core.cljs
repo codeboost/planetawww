@@ -65,8 +65,12 @@
     (session/put! :current-page #'explorer-page))
   (explorer/set-opts {:included-tags #{}})
   (let [item (and id (media-item-for-id (js/parseInt id)))]
-    (player/set-detail-visible false)
-    (session/put! :current-media-item item)))
+    ;If player is playing, show item detail, otherwise, show the player and start playback
+    (if (or (nil? item) (player/is-playing?))
+      (do
+        (player/set-detail-visible false)
+        (session/put! :current-media-item item))
+      (player/set-current-item item))))
 
 ;; -------------------------
 ;; Routes

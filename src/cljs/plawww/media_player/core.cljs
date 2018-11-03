@@ -63,6 +63,9 @@
                                 :playing playing?}))
   (reagent.core/flush))
 
+(defn is-playing? []
+  (:playing @mplayer-state))
+
 (defn set-detail-visible [visible?]
   (swap! mplayer-state assoc :detail-visible? visible?))
 
@@ -90,10 +93,7 @@
   (reagent.core/flush))
 
 (defn play-button
-  "Play button component.
-  Reacts to changes in the [:player-state :playback-state] path.
-  Clicking on the button will place a command onto the player command channel.
-  The player should then update the [:player-state :playback-state] key."
+  "Play button component."
   []
   (fn [state]
     (let [{:keys [playing muted]} @state

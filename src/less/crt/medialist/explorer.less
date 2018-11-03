@@ -146,29 +146,57 @@
 	overflow: hidden;
 	background-color: @console-bg;
 	border-radius: 23px;
+	display: flex;
+	flex-direction: column;
 
 	.app-dialog-dimensions();
 
-	.buttons {
+	.tags-toolbar {
 		margin-top: 20px;
 		margin-bottom: 20px;
 		border-bottom: 1px solid @console-color;
 		display: flex;
-		align-items: space-between;
-		justify-content: center;
-		padding-bottom: 10px;
-		.all-tags, .gata {
-			padding: 10px;
-			border: 2px solid @console-color;
-			text-align: center;
-			cursor: pointer;
-			max-width: 70px;
-			margin-left: 10px;
-			&.selected {
-				background-color: @console-color;
-				color: @console-bg;
+		flex-direction: column;
+
+		.filtering {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin-top: 20px;
+			margin-bottom: 20px;
+
+			input.search-box {
+				background-color: transparent;
+				border: none;
+				font-size: 24px;
+				-webkit-font-smoothing: none;
+				line-height: 1.2;
+				color: @console-color;
+				font-family: 'VT323';
+				text-transform: uppercase;
+				border: 1px solid darken(@console-color, 30%);
+				max-width: 260px;
+			}								
+		}
+
+		.buttons {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding-bottom: 10px;
+			.all-tags, .gata, .mode {
+				padding: 10px;
+				border: 2px solid @console-color;
+				text-align: center;
+				cursor: pointer;
+				max-width: 70px;
+				margin-left: 10px;
+				&.selected {
+					background-color: @console-color;
+					color: @console-bg;
+				}
 			}
-		}			
+		}		
 	}
 
 	.min-button {
@@ -178,10 +206,9 @@
 	}
 
 	.tags-container {
-		position: absolute;
-		height:80%;
+		height:100%;
 		width:100%;
-		overflow: auto;
+		overflow-y: auto;
   	    -ms-overflow-style: none;
 	}
 

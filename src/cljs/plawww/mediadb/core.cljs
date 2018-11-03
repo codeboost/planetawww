@@ -7,16 +7,9 @@
 
 (ns plawww.mediadb.core
   (:require [clojure.string :as str]
-            [plawww.utils :as utils]))
+            [plawww.utils :as utils :refer [search-match?]]))
 
-(defn search-match?
-  "Returns true if `title` starts with `search-string`, regardless of case.
-  If search string is empty, returns true."
-  [title search-string]
-  (or (str/blank? search-string)
-      (str/starts-with?
-       (str/lower-case title)
-       (str/lower-case search-string))))
+
 
 (defn unique-tags
   "Returns a set of unique tags extracted from the media items."
@@ -26,7 +19,7 @@
        (apply concat)
        (map str/trim)
        (remove empty?)
-       (set)))
+       (into (sorted-set))))
 
 (def unique-tags* (memoize unique-tags))
 

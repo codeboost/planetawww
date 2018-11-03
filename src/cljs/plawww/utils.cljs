@@ -64,6 +64,15 @@
      (remove #{text} coll)
      (conj coll text))))
 
+(defn search-match?
+  "Returns true if `title` starts with `search-string`, regardless of case.
+  If search string is empty, returns true."
+  [title search-string]
+  (or (str/blank? search-string)
+      (str/starts-with?
+       (str/lower-case title)
+       (str/lower-case search-string))))
+
 (comment
   ;TODO: Move to unit test
 

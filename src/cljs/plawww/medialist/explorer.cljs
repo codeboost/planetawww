@@ -14,6 +14,7 @@
    [plawww.mediadb.core :as db]
    [plawww.paths :refer [explorer-path]]
    [plawww.ui :as ui]
+   [plawww.utils :refer [search-match?]]
    [reagent.core :as r]
    [goog.string :as gstring]
    [goog.string.format]
@@ -85,21 +86,34 @@
       "Toate"
       (clojure.string/join ", " included-tags))]])
 
-(defn tag-editor [all-tags included-tags {:keys [tag-click all-click close-click]}]
-  [:div.tag-editor
-   [:div.buttons
-    [:div.all-tags
-     {:on-click all-click
-      :class (when (empty? included-tags) :selected)} "TOATE"]
-    [:div.gata {:on-click close-click}
-     "GATA"]]
-   [:div.tags-container
-    (into [:ul.tags]
-          (map (fn [s]
-                 (let [class-name (when (included-tags s) :selected)]
-                   [:li.tag
-                    {:class class-name
-                     :on-click #(tag-click s)} s])) all-tags))]])
+(defn tag-editor [_ _ _]
+  (let [filter-options (r/atom {:search-string ""})]
+    (fn [all-tags included-tags {:keys [tag-click all-click close-click]}]
+      (let [ss (:search-string @filter-options)
+            filtered-tags (if-not (empty? ss)
+                            (filter #(search-match? % ss) all-tags)
+                            all-tags)]
+        [:div.tag-editor
+         [:div.tags-toolbar
+          [:div.buttons
+           [:div.all-tags
+            {:on-click (fn []
+                         (swap! filter-options assoc :search-string "")
+                         (all-click))
+             :class (when (empty? included-tags) :selected)} "TOATE"]
+           [:div.gata {:on-click close-click}
+            "GATA"]]
+          [:div.filtering
+           [:input.search-box {:type      "text"
+                               :on-change #(swap! filter-options assoc :search-string (-> % .-target .-value))
+                               :value (:search-string @filter-options)}]]]
+         [:div.tags-container
+          (into [:ul.tags]
+            (map (fn [s]
+                   (let [class-name (when (included-tags s) :selected)]
+                     [:li.tag
+                      {:class class-name
+                       :on-click #(tag-click s)} s])) filtered-tags))]]))))
 
 (defn- tag-editor-modal [state {:keys [included-tags all-tags]}]
   [ui/modal

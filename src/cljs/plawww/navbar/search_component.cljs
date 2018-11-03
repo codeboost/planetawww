@@ -11,11 +11,11 @@
             [reagent.session :as session]))
 
 (defn- search-input
-  "Renders the search input box and swaps the :search-string "
-  [settings-atom keyname]
-  [:input.search-box {:type      "text"
-                      :on-change #(swap! settings-atom conj {keyname (-> % .-target .-value)})
-                      :value (get @settings-atom keyname)}])
+  "Renders the search input box"
+  [search-string on-change]
+  [:input.search-box {:type :text
+                      :on-change on-change
+                      :value search-string}])
 
 
 (defn- censor-strings
@@ -98,10 +98,10 @@
        " "
        [:span.message message]])))
 
-(defn search-component [*state]
+(defn search-component [{:keys [search-string on-change]}]
   [:div.search-component
    [:div.search-control
     [:div.search-text (random-search-prompt (session/get :xx?))]
-    [search-input *state :search-string]]])
+    [search-input search-string on-change]]])
 
 

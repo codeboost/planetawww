@@ -25,8 +25,8 @@
 (defn page-or-search-results [page *state]
   (fn []
     (let [ss (:search-string @*state)
-          searching? (not (str/blank? ss))]
-      (if searching?
+          searching? (not (empty? ss))]
+      (when searching?
         [search-results *state ss]))))
 
 (defn crt-page [page & [{:keys [navbar?]

@@ -8,7 +8,7 @@
 (ns plawww.media-player.core
   (:require
    [cljsjs.react-player]
-   [plawww.components.components :refer [minimise-button]]
+   [plawww.components.components :refer [minimise-button tag-list-component]]
    [plawww.media-player.item-detail :as detail]
    [plawww.media-player.progress-bar :as progress-bar]
    [plawww.media-player.oscilloscope :as oscilloscope]
@@ -274,7 +274,7 @@
             [minimise-button "x" #(swap! state assoc :detail-visible? false)]
             [:div.top-part
              [:div.title (:title item)]
-             [detail/tag-list-comp state]]
+             [tag-list-component (:tags item) #(swap! state assoc :detail-visible false)]]
             [:div.player-container
              [media-player state]
              (when audio?

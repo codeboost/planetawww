@@ -7,6 +7,7 @@
 
 (ns plawww.media-item.media-item
   (:require [reagent.core :as r]
+            [plawww.components.components :refer [tag-list-component]]
             [plawww.paths :as paths]))
 
 (defn artwork-bg-image [url]
@@ -20,6 +21,7 @@
 (defn info-component [selected-item]
   [:div.media-item-info
    [:div.title (:title selected-item)]
+   [tag-list-component (:tags selected-item) #()]
    [:div.album-art-container
     [:div.album-art
      [:div.img-container

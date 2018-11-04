@@ -8,7 +8,8 @@
 (ns plawww.components.components
   (:require
    [reagent.core :as r]
-   [cljsjs.typedjs]))
+   [cljsjs.typedjs]
+   [plawww.paths :as paths]))
 
 (defn typed-text-component
   "Renders a p element and applies typedjs on it, passing `opts` to it.
@@ -30,3 +31,16 @@
    {:on-click on-click
     :style {:cursor :pointer}}
    text])
+
+(defn tag-list-component [tags on-click]
+  (fn []
+    (into
+     [:ul.tags]
+     (for [tag tags]
+       (let [tag-text (if (= tag (last tags)) tag (str tag ","))]
+         [:li
+          [:a
+           {:href     (paths/explorer-path (str "tag/" tag))
+            :on-click on-click}
+           tag-text]
+          " "])))))

@@ -55,17 +55,3 @@
         [:div.position-and-duration
          {:on-click #(flash-duration)}
          text]))))
-
-(defn tag-list-comp [state]
-  (fn []
-    (let [tags (get-in @state [:item :tags])]
-      (into
-       [:ul.tags]
-       (for [tag tags]
-         (let [tag-text (if (= tag (last tags)) tag (str tag ","))]
-           [:li
-            [:a
-             {:href (paths/explorer-path (str "tag/" tag))
-              :on-click #(swap! state assoc :detail-visible? false)}
-             tag-text]
-            " "]))))))

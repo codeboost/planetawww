@@ -153,21 +153,20 @@
             sort-fn (sorter @sort-by-cursor)
             media-items (sort-fn media-items)
             visible-dialog (or (and @current-item :media-info) (:visible-dialog @state))]
-        [:div
-         [:div.explorer
-          [toolbar/explorer-buttons state]
-          [:span.spacer]
-          [tags-component (:included-tags @state)]
-          [:span.spacer]
-          (into
-           [:ul.items]
-           (map m->item media-items))
-          [:span.spacer]
-          (case visible-dialog
-            :tag-editor
-            [tag-editor-modal state {:included-tags included-tags
-                                     :all-tags all-tags}]
-            :media-info
-            [media-info-modal state @current-item]
-            nil)]]))))
+        [:div.explorer
+         [toolbar/explorer-buttons state]
+         [:span.spacer]
+         [tags-component (:included-tags @state)]
+         [:span.spacer]
+         (into
+          [:ul.items]
+          (map m->item media-items))
+         [:span.spacer]
+         (case visible-dialog
+           :tag-editor
+           [tag-editor-modal state {:included-tags included-tags
+                                    :all-tags all-tags}]
+           :media-info
+           [media-info-modal state @current-item]
+           nil)]))))
 

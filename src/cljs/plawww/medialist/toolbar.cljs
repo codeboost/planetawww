@@ -15,22 +15,15 @@
     :class (when on? :on)}
    text])
 
-(defn- toggle-group [state toggle-k buttons]
-  (fn []
-    (into
-     [:div.toggle-group]
-     (for [[title k] buttons]
-       [toggle-item
-        title
-        (= k (get-in @state toggle-k))
-        #(swap! state assoc-in toggle-k k)]))))
+(defn- toggle-group [buttons]
+  (into
+   [:div.toggle-group]
+   (for [[title on? on-click] buttons]
+     [toggle-item title on? on-click])))
 
-(defn explorer-buttons [*state]
-  (fn []
-    (let [searching? (pos? (count (:search-string @*state)))]
-      (when-not searching?
-        [:div.toolbar.filters
-         [toggle-group *state [:sort-by]
-          [["A-Z" :title]
-           ["VECHI" :old]
-           ["NOI" :new]]]]))))
+(defn explorer-buttons [{:keys [sort-by clicked]}]
+  [:div.toolbar.filters
+   [toggle-group
+    [["A-Z"   (= sort-by :title) #(clicked :title)]
+     ["VECHI" (= sort-by :old)   #(clicked :old)]
+     ["NOI"   (= sort-by :new)   #(clicked :new)]]]])

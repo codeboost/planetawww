@@ -152,9 +152,12 @@
             media-items (db/items-for-tags media-items included-tags)
             sort-fn (sorter @sort-by-cursor)
             media-items (sort-fn media-items)
-            visible-dialog (or (and @current-item :media-info) (:visible-dialog @state))]
+            visible-dialog (or (and @current-item :media-info) (:visible-dialog @state))
+            searching? (not (empty? (:search-string @state)))]
         [:div.explorer
-         [toolbar/explorer-buttons state]
+         (when-not searching?
+           [toolbar/explorer-buttons {:sort-by (:sort-by @state)
+                                      :clicked #(swap! state assoc :sort-by %)}])
          [:span.spacer]
          [tags-component (:included-tags @state)]
          [:span.spacer]

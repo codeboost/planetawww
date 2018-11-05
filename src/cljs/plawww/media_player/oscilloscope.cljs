@@ -34,13 +34,12 @@
     (when source
       (.disconnect source (.-destination (:audio-context @state))))
     (when audio-context
-      (.close audio-context))))
+      (.close audio-context))
+    (reset! state {:audio-context nil :source nil})))
 
 (defn resume-context []
-  (js/console.log "resume-context: " (:audio-context @state))
   (when (:audio-context @state)
-    (.resume (:audio-context @state))
-    (js/console.log "context state after resume:" (.-state (:audio-context @state)))))
+    (.resume (:audio-context @state))))
 
 (defn create-oscilloscope [canvas-element audio-element]
   (let [audio-context (create-audio-context)

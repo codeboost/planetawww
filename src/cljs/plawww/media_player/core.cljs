@@ -53,7 +53,8 @@
 (defn set-current-item [item]
   (let [muted (:muted @mplayer-state)
         playing? (not muted)
-        detail-visible? (not (:playing @mplayer-state))]
+        detail-visible? (or (= (:type item) "video")
+                            (not (:playing @mplayer-state)))]
     (swap! mplayer-state merge {:item item
                                 :visible true
                                 :detail-visible? detail-visible?
@@ -151,7 +152,6 @@
         (.addEventListener js/window "resize" resize-handler))
 
       :component-will-unmount (fn []
-                                (oscilloscope/destroy-oscilloscope)
                                 (js/clearInterval @update-interval)
                                 (.removeEventListener js/window "resize" resize-handler))
 

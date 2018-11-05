@@ -63,6 +63,7 @@
   (when (or (not @db-json) *reload-db-always*)
     (load-db-data!))
   [:head
+   [:title "Planeta Moldova"]
    [:meta {:charset "utf-8"}]
    [:meta {:name    "viewport"
            :content "width=device-width, initial-scale=1"}]

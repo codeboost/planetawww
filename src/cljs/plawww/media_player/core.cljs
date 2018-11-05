@@ -21,6 +21,7 @@
 (def react-player (r/adapt-react-class js/ReactPlayer))
 
 (defonce mplayer (r/atom nil))
+(def canvas-el (r/atom nil))
 
 (defonce mplayer-state (r/atom {:height 320
                                 :playing false
@@ -49,10 +50,6 @@
   [s]
   (/ s 1000))
 
-(defn- logv
-  [& args]
-  (js/console.log "media-player: " (apply str args)))
-
 (defn set-current-item [item]
   (let [muted (:muted @mplayer-state)
         playing? (not muted)
@@ -72,7 +69,6 @@
 (defn- set-audio-volume [percent]
   (swap! mplayer-state assoc :volume percent))
 
-
 (defn time-label [ms-duration progress]
   (let [ms-duration (js/parseFloat ms-duration)
         duration (ms->s ms-duration)]
@@ -90,7 +86,9 @@
   [state]
   (swap! state merge {:muted false
                       :playing true})
-  (reagent.core/flush))
+  (reagent.core/flush)
+  ;Safari needs this to happen in a click handler, otherwise the audio context comes out suspended.
+  (oscilloscope/create-oscilloscope @canvas-el (.getInternalPlayer @mplayer)))
 
 (defn play-button
   "Play button component."
@@ -104,7 +102,6 @@
                     (if muted ; Safari restriction - media must be loaded in a muted state.
                       (flush-play! state)
                       (swap! state update :playing not)))}
-
        text])))
 
 
@@ -142,12 +139,6 @@
         parent-height (Math/round (* 0.88 parent-height))]
     (swap! state assoc :height parent-height)))
 
-(def canvas-el (r/atom nil))
-
-(defn stop-oscilloscope []
-  (oscilloscope/stop-oscilloscope)
-  (swap! mplayer-state assoc :oscilloscope-visible? false))
-
 (defn media-player [state]
   (let [update-interval (r/atom 0)
         container-el (r/atom nil)
@@ -160,7 +151,7 @@
         (.addEventListener js/window "resize" resize-handler))
 
       :component-will-unmount (fn []
-                                (stop-oscilloscope)
+                                (oscilloscope/destroy-oscilloscope)
                                 (js/clearInterval @update-interval)
                                 (.removeEventListener js/window "resize" resize-handler))
 
@@ -183,23 +174,17 @@
                          (if muted ; Safari restriction - media must be loaded in a muted state.
                            (flush-play! state)
                            (swap! state assoc :playing true)))
-             :on-ended (fn []
-                         (swap! state assoc :playing false)
-                         (stop-oscilloscope))
+             :on-ended #(swap! state assoc :playing false :oscilloscope-visible? false)
              :on-ready #()
-             :on-play (fn []
-                        #_(oscilloscope/create-oscilloscope @canvas-el (.getInternalPlayer @mplayer))
-                        (swap! state assoc :playing true))
-             :on-pause (fn []
-                         (swap! state assoc :playing false)
-                         (stop-oscilloscope))
+             :on-play  #(swap! state assoc :playing true :oscilloscope-visible? (and audio? true))
+             :on-pause #(swap! state assoc :playing false :oscilloscope-visible? false)
              :on-error (fn [err]
-                         (stop-oscilloscope)
                          (swap! state merge {:playing false :error err})
                          (js/console.log "Error: " err))
              :on-duration #(swap! state assoc :duration %)
              :on-progress (fn [p]
                             ;don't do this - scrolling won't work
+                            ;there's a timer that takes care of it
                             #_(swap! state assoc :played (.. p -played)))}]]))})))
 
 
@@ -210,8 +195,6 @@
     (and (>= percent 0.3) (< percent 0.6)) " v "
     (and (>= percent 0.6) (< percent 0.9)) " V "
     (> percent 0.9) "+V+"))
-
-
 
 (defn volume-control
   "Fancy volume control.
@@ -254,14 +237,23 @@
                               (session/put! :current-media-item item))]
        [toolbar-item [detail/duration-comp @state]]
        (if audio?
-         [toolbar-item "PRIBORUL" (fn []
-                                    (js/console.log "Priborul clicked.")
-                                    (swap! state update :oscilloscope-visible? not))]
+         [toolbar-item "PRIBORUL" #(swap! state update :oscilloscope-visible? not)]
          [toolbar-item "FULLSCREEN" (fn [])])])))
 
 
 (defn artwork-bg-image [url]
   (str "url(" url ")"))
+
+
+(defn audio-artwork [item oscilloscope-visible?]
+  [:div.album-art
+   [:canvas.oscilloscope
+    {:ref #(reset! canvas-el %)
+     :style {:display (if oscilloscope-visible? :block :none)}}]
+   [:div.img-container
+    {:style
+     {:display (if oscilloscope-visible? :none :block)
+      :background-image (artwork-bg-image (paths/l-image-path (:id item)))}}]])
 
 (defn player []
   (let [state mplayer-state]
@@ -278,14 +270,7 @@
             [:div.player-container
              [media-player state]
              (when audio?
-               [:div.album-art
-                [:canvas.oscilloscope
-                 {:ref #(reset! canvas-el %)
-                  :style {:display (if oscilloscope-visible? :block :none)}}]
-                [:div.img-container
-                 {:style
-                  {:display (if oscilloscope-visible? :none :block)
-                   :background-image (artwork-bg-image (paths/l-image-path (:id item)))}}]])]]
+               [audio-artwork item oscilloscope-visible?])]]
            (when detail-visible?
              [player-toolbar state])
            [:div.content

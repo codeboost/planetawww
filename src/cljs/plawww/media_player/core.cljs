@@ -57,7 +57,7 @@
                             (not (:playing @mplayer-state)))]
     (swap! mplayer-state merge {:item item
                                 :visible true
-                                :detail-visible? detail-visible?
+                                :detail-visible? true
                                 :playing playing?}))
   (reagent.core/flush))
 
@@ -88,6 +88,7 @@
   (swap! state merge {:muted false
                       :playing true})
   (reagent.core/flush)
+
   ;Safari needs this to happen in a click handler, otherwise the audio context comes out suspended.
   (oscilloscope/create-oscilloscope @canvas-el (.getInternalPlayer @mplayer)))
 
@@ -175,7 +176,8 @@
                            (flush-play! state)
                            (swap! state assoc :playing true)))
              :on-ended #(swap! state assoc :playing false :oscilloscope-visible? false)
-             :on-ready #()
+             :on-ready (fn []
+                         (oscilloscope/create-oscilloscope @canvas-el (.getInternalPlayer @mplayer)))
              :on-play  #(swap! state assoc :playing true :oscilloscope-visible? (and audio? true))
              :on-pause #(swap! state assoc :playing false :oscilloscope-visible? false)
              :on-error (fn [err]
@@ -245,8 +247,9 @@
   (str "url(" url ")"))
 
 
-(defn audio-artwork [item oscilloscope-visible?]
+(defn audio-artwork [item oscilloscope-visible? on-click]
   [:div.album-art
+   {:on-click on-click}
    [:canvas.oscilloscope
     {:ref #(reset! canvas-el %)
      :style {:display (if oscilloscope-visible? :block :none)}}]
@@ -270,7 +273,7 @@
             [:div.player-container
              [media-player state]
              (when audio?
-               [audio-artwork item oscilloscope-visible?])]]
+               [audio-artwork item oscilloscope-visible? #(swap! state update :oscilloscope-visible? not)])]]
            (when detail-visible?
              [player-toolbar state])
            [:div.content

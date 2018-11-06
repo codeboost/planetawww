@@ -24,8 +24,9 @@
 
 (defn- create-media-element-source [audio-context audio-element]
   (let [destination (.-destination audio-context)
-        source (or (:source @state) (.createMediaElementSource audio-context audio-element))]
-    (swap! state assoc :source source)
+        source (or (and (= audio-element (:element @state)) (:source @state))
+                   (.createMediaElementSource audio-context audio-element))]
+    (swap! state assoc :source source :element audio-element)
     (.connect source destination)
     source))
 
@@ -42,14 +43,14 @@
     (.resume (:audio-context @state))))
 
 (defn create-oscilloscope [canvas-element audio-element]
-  (let [audio-context (create-audio-context)
-        source (create-media-element-source audio-context audio-element)
-        scope (new js/window.Oscilloscope source)
-        draw-context (get-2d-context canvas-element)]
-    #_(js/console.log "scope: " scope "; context:" audio-context "; context state:" (.-state audio-context))
-    (if (and scope draw-context)
-      (do
-        (.animate scope draw-context)
-        (.resume audio-context))
-      (js/console.error "create-oscilloscope error: scope or context is nil: " scope draw-context))))
+  (when (= js/HTMLAudioElement (type audio-element))
+    (let [audio-context (create-audio-context)
+          source (create-media-element-source audio-context audio-element)
+          scope (new js/window.Oscilloscope source)
+          draw-context (get-2d-context canvas-element)]
+      (if (and scope draw-context)
+        (do
+          (.animate scope draw-context)
+          (.resume audio-context))
+        (js/console.error "create-oscilloscope error: scope or context is nil: " scope draw-context)))))
 

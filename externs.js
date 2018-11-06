@@ -5,5 +5,6 @@ var Oscilloscope = function () {};
 Oscilloscope.prototype = {
   "animate": function () {},
   "draw": function () {},
-  "stop": function () {}
+  "stop": function () {},
+  "setDrawfn": function() {}
 };

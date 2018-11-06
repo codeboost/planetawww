@@ -32,15 +32,15 @@
     :style {:cursor :pointer}}
    text])
 
+
 (defn tag-list-component [tags on-click]
-  (fn []
-    (into
-     [:ul.tags]
-     (for [tag tags]
-       (let [tag-text (if (= tag (last tags)) tag (str tag ","))]
-         [:li
-          [:a
-           {:href     (paths/explorer-path (str "tag/" tag))
-            :on-click on-click}
-           tag-text]
-          " "])))))
+  (into
+   [:ul.tags]
+   (for [tag tags]
+     (let [tag-text (if (= tag (last tags)) tag (str tag ","))]
+       [:li
+        [:a
+         {:href     (paths/explorer-path (str "tag/" tag))
+          :on-click on-click}
+         tag-text]
+        " "]))))

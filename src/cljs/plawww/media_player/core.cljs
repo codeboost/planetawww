@@ -23,6 +23,12 @@
 (defonce mplayer (r/atom nil))
 (def canvas-el (r/atom nil))
 
+(defn next-oscilloscope [current]
+  (let [oscilloscopes [:none :sine :spectrum]
+        i (max 0 (.indexOf oscilloscopes current))
+        i (mod (inc i) (count oscilloscopes))]
+    (nth oscilloscopes i)))
+
 (defonce mplayer-state (r/atom {:height 320
                                 :playing false
                                 :url nil
@@ -37,8 +43,12 @@
                                 ;lump them all together
                                 :detail-visible? false
                                 :volume-visible? false
-                                :oscilloscope-visible? false
+                                :oscilloscope-type :none
                                 :fullscreen? false}))
+
+
+;This is used to change the type of the oscilloscope
+(add-watch mplayer-state :oscillo-watch #(oscilloscope/set-oscilloscope-type (:oscilloscope-type %4)))
 
 (defn s->ms
   "Seconds to milliseconds."
@@ -175,11 +185,11 @@
                          (if muted ; Safari restriction - media must be loaded in a muted state.
                            (flush-play! state)
                            (swap! state assoc :playing true)))
-             :on-ended #(swap! state assoc :playing false :oscilloscope-visible? false)
+             :on-ended #(swap! state assoc :playing false :oscilloscope-type :sine)
              :on-ready (fn []
                          (oscilloscope/create-oscilloscope @canvas-el (.getInternalPlayer @mplayer)))
-             :on-play  #(swap! state assoc :playing true :oscilloscope-visible? (and audio? true))
-             :on-pause #(swap! state assoc :playing false :oscilloscope-visible? false)
+             :on-play  #(swap! state assoc :playing true :oscilloscope-type (if audio? :sine :none))
+             :on-pause #(swap! state assoc :playing false :oscilloscope-type :none)
              :on-error (fn [err]
                          (swap! state merge {:playing false :error err})
                          (js/console.log "Error: " err))
@@ -239,7 +249,7 @@
                               (session/put! :current-media-item item))]
        [toolbar-item [detail/duration-comp @state]]
        (if audio?
-         [toolbar-item "PRIBORUL" #(swap! state update :oscilloscope-visible? not)]
+         [toolbar-item "PRIBORUL" #(swap! state update :oscilloscope-type (next-oscilloscope (:oscilloscope-type @state)))]
          [toolbar-item "FULLSCREEN" (fn [])])])))
 
 
@@ -247,21 +257,22 @@
   (str "url(" url ")"))
 
 
-(defn audio-artwork [item oscilloscope-visible? on-click]
-  [:div.album-art
-   {:on-click on-click}
-   [:canvas.oscilloscope
-    {:ref #(reset! canvas-el %)
-     :style {:display (if oscilloscope-visible? :block :none)}}]
-   [:div.img-container
-    {:style
-     {:display (if oscilloscope-visible? :none :block)
-      :background-image (artwork-bg-image (paths/l-image-path (:id item)))}}]])
+(defn audio-artwork [item oscilloscope-type on-click]
+  (let [display (if (= :none oscilloscope-type) :none :block)]
+    [:div.album-art
+     {:on-click on-click}
+     [:canvas.oscilloscope
+      {:ref #(reset! canvas-el %)
+       :style {:display (if (= :none oscilloscope-type) :none :block)}}]
+     [:div.img-container
+      {:style
+       {:display (if (= :none oscilloscope-type) :block :none)
+        :background-image (artwork-bg-image (paths/l-image-path (:id item)))}}]]))
 
 (defn player []
   (let [state mplayer-state]
     (fn []
-      (let [{:keys [visible item detail-visible? duration played oscilloscope-visible?]} @state
+      (let [{:keys [visible item detail-visible? duration played oscilloscope-type]} @state
             audio? (= (:type item) "audio")]
         (if visible
           [:div.player.window.vstack {:class (when detail-visible? :detail-visible)}
@@ -273,7 +284,7 @@
             [:div.player-container
              [media-player state]
              (when audio?
-               [audio-artwork item oscilloscope-visible? #(swap! state update :oscilloscope-visible? not)])]]
+               [audio-artwork item oscilloscope-type #(swap! state assoc :oscilloscope-type (next-oscilloscope (:oscilloscope-type @state)))])]]
            (when detail-visible?
              [player-toolbar state])
            [:div.content

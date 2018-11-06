@@ -9,7 +9,10 @@
     (aset context "shadowColor" "#14fdce")
     context))
 
-(def state (r/atom nil))
+(def state (r/atom {:audio-context nil
+                    :source nil
+                    :element nil
+                    :scope nil}))
 
 (defn- create-audio-context []
   (when-not (:audio-context @state)
@@ -38,6 +41,11 @@
       (.close audio-context))
     (reset! state {:audio-context nil :source nil})))
 
+(defn set-oscilloscope-type [type]
+  (let [scope (:scope @state)]
+    (when scope
+      (.setDrawfn scope (name type)))))
+
 (defn resume-context []
   (when (:audio-context @state)
     (.resume (:audio-context @state))))
@@ -50,6 +58,7 @@
           draw-context (get-2d-context canvas-element)]
       (if (and scope draw-context)
         (do
+          (swap! state assoc :scope scope)
           (.animate scope draw-context)
           (.resume audio-context))
         (js/console.error "create-oscilloscope error: scope or context is nil: " scope draw-context)))))

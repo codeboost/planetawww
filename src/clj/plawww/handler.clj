@@ -1,6 +1,5 @@
 (ns plawww.handler
   (:require [compojure.core :refer [GET defroutes] :as compojure]
-            [clojure.data.json :as json]
             [clojure.tools.logging :refer [info error]]
             [compojure.route :refer [not-found resources]]
             [hiccup.page :refer [include-js include-css html5 html4]]
@@ -9,79 +8,54 @@
             [ring.middleware.file :refer [wrap-file]]
             [plawww.partial :refer [wrap-partial-content]]
             [config.core :refer [env]]
-            [clj-http.client :as http-client]
-            [clojure.string :as str]))
-
-
-(defonce db-json (atom nil))
+            [clojure.data.json :as json]))
 
 (defn media-path [& [file]]
   (let [data-path (or (env :planeta-mediadrop-data) "../planeta-data/mediadrop")
         ret-path (if file (str data-path file) data-path)]
     ret-path))
 
-(defn my-value-writer [key value]
-  (if (= key :publish_on)
-    (str (java.sql.Date. (.getTime value)))
-    value))
-
-
-(defn ->tagv [value]
-  (when value
-    (mapv str/trim
-      (-> value
-          (str/split #",")))))
-
-(defn massage-item [item]
-  (into {}
-    (remove
-     nil?
-     (map (fn [[key value]]
-            (cond
-              (nil? value) nil
-              (= key :tags) [key (->tagv value)]
-              :else
-              [key value]))
-          item))))
-
-(defn massage-results [results]
-  (mapv massage-item results))
-
-(defn load-db-data! []
-  (let [results (db/get-media)
-        results (massage-results results)]
-    (reset! db-json (json/write-str results
-                                    :value-fn my-value-writer))))
+(defn load-db-data
+  "Loads the media info from database.
+  Returns a map, containing:
+    :media - published media items.
+    :categories - media categories."
+  []
+  {:media (db/get-media)
+   :categories (db/get-categories)})
 
 (def mount-target
   [:div#app
    [:h3 "Nu ti graghi..."]])
 
-(def ^:dynamic *reload-db-always* true)
+(defn google-analytics-include []
+  [:script {:async true
+            :src "https://www.googletagmanager.com/gtag/js?id=UA-128602722-1"}])
 
-(defn head [css-includes]
-  (when (or (not @db-json) *reload-db-always*)
-    (load-db-data!))
-  [:head
-   [:title "Planeta Moldova"]
-   [:meta {:charset "utf-8"}]
-   [:meta {:name    "viewport"
-           :content "width=device-width, initial-scale=1"}]
-   (map (fn [css-include]
-          (include-css css-include)) css-includes)
-   [:script
-    (str "var kolbasulPlanetar = " @db-json ";")]
-   [:script {:async true
-             :src "https://www.googletagmanager.com/gtag/js?id=UA-128602722-1"}]
-   [:script
-    "window.dataLayer = window.dataLayer || [];\n
-    function gtag(){dataLayer.push(arguments);}\n
-    gtag('js', new Date());
-    gtag('config', 'UA-128602722-1');"]])
+(defn google-analytics-init []
+  [:script
+   "window.dataLayer = window.dataLayer || [];\n
+  function gtag(){dataLayer.push(arguments);}\n
+  gtag('js', new Date());
+  gtag('config', 'UA-128602722-1');"])
 
-
-(def classic-css [(if (env :dev) "/css/site.css" "/css/site.min.css")
-                  "https://fonts.googleapis.com/css?family=Orbitron:700"])
+(defn head
+  "Head tag for the website, including css and scripts required by the app.
+  The head also contains the media database, which should be accessible on the client
+  as `kolbasulPlanetar` global javascript variable."
+  [css-includes]
+  (let [db-data (load-db-data)
+        db-json (json/write-str db-data)]
+    [:head
+     [:title "Planeta Moldova"]
+     [:meta {:charset "utf-8"}]
+     [:meta {:name    "viewport"
+             :content "width=device-width, initial-scale=1"}]
+     (map (fn [css-include]
+            (include-css css-include)) css-includes)
+     [:script (str "var kolbasulPlanetar = " db-json ";")]
+     (google-analytics-include)
+     (google-analytics-init)]))
 
 (defn main-page []
   (html5

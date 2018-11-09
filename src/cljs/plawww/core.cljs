@@ -48,8 +48,6 @@
   [crt-page
    [home-page]])
 
-
-
 ;Texte si Carti
 (defn render-text-page [] [crt-page [texts-section/main-menu]])
 
@@ -58,7 +56,7 @@
   (session/put! :current-page #'render-text-page))
 
 (defn media-item-for-id [id]
-  (first (filter #(= id (:id %)) ALLMEDIA)))
+  (first (filter #(= id (:id %)) (session/get :media-items))))
 
 (defn show-explorer-page [id]
   (when-not (= (session/get :current-page) #'explorer-page)
@@ -137,8 +135,12 @@
 (defn mount-root []
   (reagent/render [current-page] (.getElementById js/document "app")))
 
+(defn parse-dates [media-items]
+  (map #(update-in % [:publish_on] (fn [s]
+                                     (when s
+                                       (js/Date. s)))) media-items))
 (defn init! []
-  (session/put! :media-items (explorer/parse-dates ALLMEDIA))
+  (session/put! :media-items (parse-dates (:media ALLMEDIA)))
   (accountant/configure-navigation!
     {:nav-handler
      (fn [path]

@@ -74,11 +74,6 @@
     :old   (partial sort-by :publish_on #(compare %1 %2))
     (partial sort-by :title)))
 
-(defn parse-dates [media-items]
-  (map #(update-in % [:publish_on] (fn [s]
-                                     (when s
-                                       (js/Date. s)))) media-items))
-
 (defn tags-component [included-tags]
   [:div.taglist
    [:div {:on-click #(set-opts {:visible-dialog :tag-editor})}

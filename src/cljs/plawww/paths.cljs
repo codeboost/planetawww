@@ -11,13 +11,15 @@
 (def EXPLORER_PATH "/pragoane")
 (def CATEGORIES_PATH "/colectii")
 
-(defn s-image-path [id]
-  AUDIO_IMAGE_PATH
-  #_(str "/data/images/media/" id "s.jpg"))
+(defn s-image-path [id & [show-custom?]]
+  (if-not (= true show-custom?)
+    AUDIO_IMAGE_PATH
+    (str "/data/images/media/" id "s.jpg")))
 
-(defn l-image-path [id]
-  AUDIO_IMAGE_PATH
-  #_(str "/data/images/media/" id "l.jpg"))
+(defn l-image-path [id & [show-custom?]]
+  (if-not (= true show-custom?)
+    AUDIO_IMAGE_PATH
+    (str "/data/images/media/" id "l.jpg")))
 
 (defn media-path [filename]
   (str "/data/media/" filename))

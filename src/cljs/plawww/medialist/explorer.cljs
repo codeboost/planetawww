@@ -48,12 +48,21 @@
     [:h3 title]
     [:p description_plain]]])
 
-(defn m->item [{:keys [title id type tags publish_on description_plain] :as m}]
+(def show-anims [:show-scaled :show-scaled-x :show-scaled-y])
+
+(defn random-animation-class []
+  (let [anim (nth show-anims (rand-int (count show-anims)))]
+    (js/console.log "Anim:" anim)
+    anim))
+
+(defn m->item [i {:keys [title id type tags publish_on description_plain type] :as m} anim-class]
   ^{:key id}
-  [:li.item
+  [:li.item {:class anim-class
+             :style {:visibility :hidden
+                     :animation-delay (str (* i 100) "ms")}}
    [:a {:href (explorer-path id)}
     [:span.item-container
-     [:img.thumbnail {:src (paths/s-image-path id)}]
+     [:img.thumbnail {:src (paths/s-image-path id (= type "video"))}]
      [:span.item-info
       [:div.title title]
       [:div.description description_plain]
@@ -148,7 +157,8 @@
             sort-fn (sorter @sort-by-cursor)
             media-items (sort-fn media-items)
             visible-dialog (or (and @current-item :media-info) (:visible-dialog @state))
-            searching? (not (empty? (:search-string @state)))]
+            searching? (not (empty? (:search-string @state)))
+            anim-class :show-scaled-y]
         [:div.explorer
          (when-not searching?
            [toolbar/explorer-buttons {:sort-by (:sort-by @state)
@@ -158,7 +168,7 @@
          [:span.spacer]
          (into
           [:ul.items]
-          (map m->item media-items))
+          (map-indexed #(m->item %1 %2 anim-class) media-items))
          [:span.spacer]
          (case visible-dialog
            :tag-editor

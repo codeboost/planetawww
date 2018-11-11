@@ -119,7 +119,7 @@
       :reagent-render
       (fn [{:keys [on-close visible?] :or {visible? false} :as props} content]
         (when visible?
-          [overlay {:class "pm-modal--overlay" :on-mouse-down mouse-down-handler}
+          [overlay {:class "pm-modal--overlay show-scaled" :on-mouse-down mouse-down-handler}
            [:div.pm-modal--container
             [:div.pm-modal (dissoc props :on-close :visible?)
              [:div.pm-modal--close {:on-click on-close} "x"]

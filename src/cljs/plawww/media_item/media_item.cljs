@@ -18,16 +18,16 @@
    {:on-click on-click}
    title])
 
-(defn info-component [selected-item]
+(defn info-component [{:keys [title tags id description_plain type]}]
   [:div.media-item-info
-   [:div.title (:title selected-item)]
-   [tag-list-component (:tags selected-item) #()]
+   [:div.title title]
+   [tag-list-component tags #()]
    [:div.album-art-container
     [:div.album-art
      [:div.img-container
       {:style
-       {:background-image (artwork-bg-image (paths/l-image-path (:id selected-item)))}}]]]
-   [:div.description (:description_plain selected-item)]])
+       {:background-image (artwork-bg-image (paths/l-image-path id (= type "video")))}}]]]
+   [:div.description description_plain]])
 
 (defn item-info-component [{:keys [on-play]} _]
   (let [state (r/atom {:section :info})]

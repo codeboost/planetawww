@@ -179,3 +179,56 @@ ul {
 input::-ms-clear {
   display: none;
 }
+
+.show-scaled {
+  animation: 0.5s fadeIn;
+  animation-fill-mode: forwards;
+  @keyframes fadeIn {
+    0% {
+      transform: scale(0.1);
+      visibility: visible;
+    }
+
+    75% {
+      transform: scale(1.2);
+      visibility: visible;
+
+    }
+    100% {
+      transform: scale(1);
+      visibility: visible;
+    }
+  }
+}
+
+.show-scaled-x {
+  animation: 0.5s fadeInX;
+  animation-fill-mode: forwards;
+  @keyframes fadeInX {
+    0% {
+      transform: scaleX(0);
+      visibility: visible;
+    }
+
+    100% {
+      transform: scaleX(1);
+      visibility: visible;
+    }
+  }
+}
+
+.show-scaled-y {
+  animation: 0.5s fadeInY;
+  animation-fill-mode: forwards;
+  @keyframes fadeInY {
+    0% {
+      transform: scaleY(0);
+      visibility: visible;
+    }
+
+    100% {
+      transform: scaleY(1);
+      visibility: visible;
+    }
+  }
+}

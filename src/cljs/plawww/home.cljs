@@ -41,6 +41,7 @@
    [:h3 (rand-title)]
    #_[:div
       [:a {:href "/barul"} "Barul"]]
+   [menu-item "/colectii" "Colectii"]
    [menu-item "" "Exploreaza"]
    [menu-item "tag/music" "Muzica"]
    [menu-item "tag/radio+guerilla" "Emisiuni Radio"]

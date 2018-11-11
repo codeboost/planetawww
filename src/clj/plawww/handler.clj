@@ -78,6 +78,7 @@
   (GET "/text*" [] (main-page))
   (GET "/carti*" [] (main-page))
   (GET "/settings*" [] (main-page))
+  (GET "/colectii*" [] (main-page))
   (resources "/")
   (compojure/context "/data" []
     (->

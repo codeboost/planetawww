@@ -12,9 +12,10 @@
    [cljsjs.typedjs]
    [clojure.string :as str]
    [plawww.barul.core :as barul]
+   [plawww.categories.categories :as categories]
    [plawww.crt :refer [crt-page]]
    [plawww.home :refer [home-page]]
-   [plawww.paths :refer [explorer-path]]
+   [plawww.paths :refer [explorer-path categories-path]]
    [plawww.texts.core :as texts-section]
    [plawww.welcome :as welcome]
    [plawww.about.core :as about]
@@ -41,6 +42,11 @@
   (fn []
     [crt-page
      [explorer/explorer-page]]))
+
+(defn categories-page []
+  (fn []
+    [crt-page
+     [categories/page]]))
 
 ;Home - shown when (*) is clicked
 (defn show-home-page []
@@ -70,11 +76,17 @@
         (session/put! :current-media-item item))
       (player/set-current-item item))))
 
+(defn show-categories-page []
+  (session/put! :current-page #'categories-page))
+
 ;; -------------------------
 ;; Routes
 
 (defn explorer-path-regex [subpath]
   (re-pattern (explorer-path subpath)))
+
+(defn categories-path-regex [subpath]
+  (re-pattern (categories-path subpath)))
 
 (secretary/set-config! :prefix "#")
 
@@ -103,6 +115,11 @@
     (show-explorer-page nil)
     (explorer/set-opts {:included-tags tag-set})))
 
+(defroute (categories-path-regex "?") []
+  (show-categories-page))
+
+(defroute (categories-path-regex "(\\d+)") [coll]
+  (show-categories-page))
 
 (defroute #"/home/?" []
   (session/put! :current-page #'show-home-page))
@@ -141,6 +158,7 @@
                                        (js/Date. s)))) media-items))
 (defn init! []
   (session/put! :media-items (parse-dates (:media ALLMEDIA)))
+  (session/put! :categories (:categories ALLMEDIA))
   (accountant/configure-navigation!
     {:nav-handler
      (fn [path]

@@ -49,6 +49,7 @@
 
 ;This is used to change the type of the oscilloscope
 (add-watch mplayer-state :oscillo-watch #(oscilloscope/set-oscilloscope-type (:oscilloscope-type %4)))
+;(add-watch mplayer-state :printer #(js/console.log %4))
 
 (defn s->ms
   "Seconds to milliseconds."
@@ -75,7 +76,7 @@
   (:playing @mplayer-state))
 
 (defn set-detail-visible [visible?]
-  (swap! mplayer-state assoc :detail-visible? visible?))
+  (swap! mplayer-state assoc :detail-visible? visible? :volume-visible? false))
 
 (defn- set-audio-volume [percent]
   (swap! mplayer-state assoc :volume percent))
@@ -213,12 +214,12 @@
   By default a toggle accessory is rendered, which, when clicked will display a vertical volume selector
   allowing the human to set the volume."
   [state]
-  (let [ls (r/atom {:progress-visible? false})]
+  (let [ls state]
     (fn []
       (let [{:keys [volume]} @state]
         [:div.volume-control
-         [toggle-accessory-button ls (volume-text volume) :progress-visible?]
-         (when (:progress-visible? @ls)
+         [toggle-accessory-button ls (volume-text volume) :volume-visible?]
+         (when (:volume-visible? @ls)
            [:div.volume-selector
             [progress-bar/vertical-progress-bar
              volume
@@ -269,18 +270,20 @@
        {:display (if (= :none oscilloscope-type) :block :none)
         :background-image (artwork-bg-image (paths/l-image-path (:id item)))}}]]))
 
+
 (defn player []
   (let [state mplayer-state]
     (fn []
       (let [{:keys [visible item detail-visible? duration played oscilloscope-type]} @state
             audio? (= (:type item) "audio")]
         (if visible
-          [:div.player.window.vstack {:class (when detail-visible? :detail-visible)}
-           [:div.detail {:class-name (:type item)} ;'audio' or 'video'
-            [minimise-button "x" #(swap! state assoc :detail-visible? false)]
+          [:div.player.window.vstack {:class (when detail-visible? "detail-visible")}
+           [:div.detail {:class (:type item)}
+
+            [minimise-button "x" #(set-detail-visible false)]
             [:div.top-part
              [:div.title (:title item)]
-             [tag-list-component (:tags item) #(swap! state assoc :detail-visible false)]]
+             [tag-list-component (:tags item) #(set-detail-visible false)]]
             [:div.player-container
              [media-player state]
              (when audio?

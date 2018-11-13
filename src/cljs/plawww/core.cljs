@@ -64,10 +64,13 @@
 (defn media-item-for-id [id]
   (first (filter #(= id (:id %)) (session/get :media-items))))
 
-(defn show-explorer-page [id]
+(defn category-for-slug [slug]
+  (plawww.mediadb.core/category-by-slug (session/get :categories) slug))
+
+(defn show-explorer-page [id & [opts]]
   (when-not (= (session/get :current-page) #'explorer-page)
     (session/put! :current-page #'explorer-page))
-  (explorer/set-opts {:included-tags #{}})
+  (explorer/set-opts (or opts {:included-tags #{}}))
   (let [item (and id (media-item-for-id (js/parseInt id)))]
     ;If player is playing, show item detail, otherwise, show the player and start playback
     (if (or (nil? item) (player/is-playing?))
@@ -78,6 +81,11 @@
 
 (defn show-categories-page []
   (session/put! :current-page #'categories-page))
+
+(defn category-from-query-params [qp]
+  (let [slug (get-in qp [:query-params :colectia])]
+    (when slug
+      (plawww.mediadb.core/category-by-slug (session/get :categories) slug))))
 
 ;; -------------------------
 ;; Routes
@@ -100,25 +108,22 @@
 (defroute #"/barul/?" []
   (session/put! :current-page #'barul-page))
 
-(defroute (explorer-path-regex "?") []
-  (show-explorer-page nil))
+(defroute (explorer-path-regex "?") [p qp]
+  (js/console.log qp)
+  (show-explorer-page nil {:category (category-from-query-params qp)
+                           :included-tags #{}}))
 
-(defroute (explorer-path-regex "(\\d+)") [id q]
+(defroute (explorer-path-regex "(\\d+)") [id qp]
   (show-explorer-page id))
 
 (defroute (explorer-path-regex "tag/?") []
-  (show-explorer-page nil)
-  (explorer/set-opts {:tag-editor-visible? true}))
+  (show-explorer-page nil {:tag-editor-visible? true}))
 
 (defroute (explorer-path "tag/:tag") [tag]
   (let [tag-set (set (str/split tag #"\+"))]
-    (show-explorer-page nil)
-    (explorer/set-opts {:included-tags tag-set})))
+    (show-explorer-page nil {:included-tags tag-set})))
 
 (defroute (categories-path-regex "?") []
-  (show-categories-page))
-
-(defroute (categories-path-regex "(\\d+)") [coll]
   (show-categories-page))
 
 (defroute #"/home/?" []

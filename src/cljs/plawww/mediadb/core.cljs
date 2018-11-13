@@ -92,3 +92,14 @@
 
 (defn search-in-items [items s]
   (filter #(search-match? (:title %) s) items))
+
+(defn category-by-slug [categories slug]
+  (->> categories
+       (filter #(= slug (:slug %)))
+       first))
+
+(defn items-for-category [items category-id]
+  (js/console.log "items for category" category-id)
+  (if-not category-id
+    items
+    (filter #(some #{category-id} (:categories %)) items)))

@@ -25,7 +25,7 @@
   (str "/data/media/" filename))
 
 (defn category-image [name]
- (str "data/images/categories/" name ".jpg"))
+ (str "/data/images/categories/" name ".jpg"))
 
 (defn *-path [THE_PATH subpath]
   (let [subpath (str subpath)]

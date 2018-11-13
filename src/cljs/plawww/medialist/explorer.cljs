@@ -22,7 +22,8 @@
 
 (defonce *state* (r/atom {:sort-by :title
                           :included-tags #{}
-                          :visible-dialog :none}))
+                          :visible-dialog :none
+                          :category nil}))
 
 (defn set-opts [opts]
   (swap! *state* merge opts))
@@ -153,6 +154,7 @@
     (fn []
 
       (let [included-tags (:included-tags @state)
+            media-items (db/items-for-category media-items (get-in @state [:category :id]))
             media-items (db/items-for-tags media-items included-tags)
             sort-fn (sorter @sort-by-cursor)
             media-items (sort-fn media-items)
@@ -165,6 +167,9 @@
                                       :clicked #(swap! state assoc :sort-by %)}])
          [:span.spacer]
          [tags-component (:included-tags @state)]
+         [:span.spacer]
+         (when (:category @state)
+           [plawww.categories.categories/render-cat 0 (:category @state) (paths/categories-path "")])
          [:span.spacer]
          (into
           [:ul.items]

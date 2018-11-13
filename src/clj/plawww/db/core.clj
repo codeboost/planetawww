@@ -26,6 +26,13 @@
               :join     [[:tags :t]
                          [:= :t.id :mt.tag_id]]
               :group-by [:media_id]})
+        mcat (hsql/build
+              {:select   [:media_id
+                          [(hsql/raw "GROUP_CONCAT(c.id SEPARATOR ', ')") :categories]]
+               :from     [[:media_categories :mc]]
+               :join     [[:categories :c]
+                          [:= :c.id :mc.category_id]]
+               :group-by [:media_id]})
         sql (hsql/build
              {:select [:id
                        :mf.type
@@ -44,10 +51,12 @@
                        :size
                        :width
                        :height
-                       :mf.storage_id]
+                       :mf.storage_id
+                       :categories]
               :from      :media
               :join      [[mfq :mf] [:= :mf.media_id :id]]
-              :left-join [[mtq :mt] [:= :mt.media_id :id]]
+              :left-join [[mtq :mt] [:= :mt.media_id :id]
+                          [mcat :mcat] [:= :mcat.media_id :id]]
               :where [:not [:= :publish_on nil]]})]
 
     (j/query mysql-uri (hsql/format sql))))
@@ -66,13 +75,11 @@
     (j/query mysql-uri (hsql/format hsql))))
 
 
-(defn ->tagv
-  "Splits a tag string into a vector of tags, using ',' as separator."
+(defn ->vector
+  "Trims, then splits a comma-separated string into a vector."
   [value]
   (when value
-    (mapv str/trim
-          (-> value
-              (str/split #",")))))
+    (mapv str/trim (str/split value #","))))
 
 (defn massage-item
   "Remove nil values, trim tags and split them into arrays"
@@ -83,7 +90,8 @@
          (map (fn [[key value]]
                 (cond
                   (nil? value) nil
-                  (= key :tags) [key (->tagv value)]
+                  (= key :tags) [key (->vector value)]
+                  (= key :categories) [key (mapv #(Integer/parseInt %) (->vector value))]
                   (= key :publish_on) [key (str (java.sql.Date. (.getTime value)))]
                   :else
                   [key value]))
@@ -98,6 +106,9 @@
 
 
 (comment
- (map :publish_on (get-media))
- (get-categories))
+ (map :categories (get-media))
+ (get-categories)
+
+ (let [media (get-media)]
+   (map :id (filter #(some #{"guerilla"} (:tags %)) media))))
 

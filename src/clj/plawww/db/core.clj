@@ -71,7 +71,7 @@
     (j/query mysql-uri (hsql/format q))))
 
 (defn get-categories []
-  (let [hsql (hsql/build :select [:id :name :slug] :from :categories)]
+  (let [hsql (hsql/build :select [:id :name :slug] :from :categories :order-by [:name])]
     (j/query mysql-uri (hsql/format hsql))))
 
 
@@ -104,11 +104,25 @@
 (defn get-media []
   (massage-media-items (get-media-hsql)))
 
+(defn update-categories-based-on-tags [tag-or-tags category-id]
+  (let [tags (if (coll? tag-or-tags) (set tag-or-tags) #{tag-or-tags})
+        vals (->>
+              (get-media)
+              (filter #(some tags (:tags %)))
+              (map #(hash-map :media_id (:id %) :category_id category-id)))
+        q (hsql/build :insert-into :media_categories
+                      :values vals
+                      :on-conflict []
+                      :do-nothing [])]
+    (hsql/format q :parameterizer :none)
+    #_(j/execute! mysql-uri (hsql/format q))))
 
 (comment
+ (range 0 25 4)
+
  (map :categories (get-media))
  (get-categories)
+ (update-categories-based-on-tags ["febre39"] 21))
 
- (let [media (get-media)]
-   (map :id (filter #(some #{"guerilla"} (:tags %)) media))))
+
 

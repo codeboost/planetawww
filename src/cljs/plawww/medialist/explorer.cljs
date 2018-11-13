@@ -86,10 +86,12 @@
 
 (defn tags-component [included-tags]
   [:div.taglist
+   [:div.compressor]
    [:div {:on-click #(set-opts {:visible-dialog :tag-editor})}
     (if (empty? included-tags)
       "Toate"
-      (clojure.string/join ", " included-tags))]])
+      (clojure.string/join ", " included-tags))]
+   [:div.compressor]])
 
 (defn tag-editor [_ _ _]
   (let [filter-options (r/atom {:search-string ""})]
@@ -166,10 +168,10 @@
            [toolbar/explorer-buttons {:sort-by (:sort-by @state)
                                       :clicked #(swap! state assoc :sort-by %)}])
          [:span.spacer]
-         [tags-component (:included-tags @state)]
-         [:span.spacer]
          (when (:category @state)
-           [plawww.categories.categories/render-cat 0 (:category @state) (paths/categories-path "")])
+           [plawww.categories.categories/category-component 0 (:category @state) (paths/categories-path "")])
+         [:span.spacer]
+         [tags-component (:included-tags @state)]
          [:span.spacer]
          (into
           [:ul.items]

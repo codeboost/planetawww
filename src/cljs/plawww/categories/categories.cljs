@@ -3,15 +3,16 @@
             [plawww.paths :as paths]
             [reagent.core :as r]))
 
-
-(defn render-cat [i {:keys [id name slug]} & [url]]
+(defn category-component [i {:keys [name slug]} & [url]]
   (let [url (or url (paths/explorer-path (str "?colectia=" slug)))]
-    ^{:key id}
-    [:li.category.scale-on-hover
-     [:div.cat-container.show-scaled {:style {:animation-delay (str (* i 100) "ms")}}
+    [:div.category.scale-on-hover
+     [:div.cat-container.show-scaled {:style {:animation-delay  50 * i}}
       [:a {:href url}
-       [:img {:src (paths/category-image slug)}]
+       [:img.category-image {:src (paths/category-image slug)}]
        [:div.title name]]]]))
+
+(defn render-cat [i {:keys [id] :as category}]
+  ^{:key id} [:li [category-component i category]])
 
 (defn page []
   (let [cats (session/get :categories)]

@@ -11,7 +11,7 @@ Oscilloscope.prototype = {
 
 var screenfull = function() {};
 
-screenful.prototype = {
+screenfull.prototype = {
 	"request" : function() {},
 	"exit" : function() {},
 	"onchange": function() {},

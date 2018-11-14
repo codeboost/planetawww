@@ -12,6 +12,7 @@
                  [cljsjs/react-player "1.5.1-0"]
                  [compojure "1.6.1"]
                  [garden "1.3.5"]
+                 [cljsjs/google-analytics "2015.04.13-0"]
                  [hiccup "1.0.5"]
                  [honeysql "0.9.3"]
                  [mysql/mysql-connector-java "6.0.5"]

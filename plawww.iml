@@ -29,6 +29,7 @@
     <orderEntry type="library" name="Leiningen: clj-time:0.11.0" level="project" />
     <orderEntry type="library" name="Leiningen: clj-tuple:0.2.2" level="project" />
     <orderEntry type="library" name="Leiningen: cljsjs/create-react-class:15.6.3-0" level="project" />
+    <orderEntry type="library" name="Leiningen: cljsjs/google-analytics:2015.04.13-0" level="project" />
     <orderEntry type="library" name="Leiningen: cljsjs/jquery:2.1.4-0" level="project" />
     <orderEntry type="library" name="Leiningen: cljsjs/react-dom-server:16.3.2-0" level="project" />
     <orderEntry type="library" name="Leiningen: cljsjs/react-dom:16.3.2-0" level="project" />

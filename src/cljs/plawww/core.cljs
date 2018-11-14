@@ -23,9 +23,11 @@
    [reagent.core :as reagent :refer [atom]]
    [reagent.session :as session]
    [secretary.core :as secretary :refer [defroute]]
-   [plawww.media-player.core :as player]))
+   [plawww.media-player.core :as player]
+   [plawww.utils :as utils]))
 
 (defonce ^:export ALLMEDIA (js->clj js/kolbasulPlanetar :keywordize-keys true))
+
 
 ;; -------------------------
 ;; Views
@@ -158,6 +160,7 @@
                                      (when s
                                        (js/Date. s)))) media-items))
 (defn init! []
+  (utils/ga "create" "UA-128602722-1" "auto")
   (session/put! :media-items (parse-dates (:media ALLMEDIA)))
   (session/put! :categories (:categories ALLMEDIA))
   (accountant/configure-navigation!

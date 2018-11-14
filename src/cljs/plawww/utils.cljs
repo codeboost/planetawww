@@ -73,6 +73,12 @@
        (str/lower-case title)
        (str/lower-case search-string))))
 
+
+(defn ga [& more]
+  (when (aget js/window "ga")
+    (.. (aget js/window "ga")
+        (apply nil (clj->js more)))))
+
 (comment
   ;TODO: Move to unit test
 

@@ -70,7 +70,9 @@
     (swap! mplayer-state merge {:item item
                                 :visible true
                                 :detail-visible? true
-                                :playing playing?}))
+                                :playing playing?})
+    (utils/ga "set" "page" (.-pathname (.-location js/window)))
+    (utils/ga "send" "pageview"))
   (reagent.core/flush))
 
 (defn is-playing? []
@@ -232,8 +234,8 @@
    [:div.controls
     [play-button state]
     [song-progress state]
-    [volume-control state]
-    [toggle-accessory-button state "i" :detail-visible?]]])
+    [toggle-accessory-button state "i" :detail-visible?]
+    [volume-control state]]])
 
 (defn toolbar-item [title on-click]
   [:div.toolbar-item

@@ -104,7 +104,9 @@
 (defn get-media []
   (massage-media-items (get-media-hsql)))
 
-(defn update-categories-based-on-tags [tag-or-tags category-id]
+(defn- update-categories-based-on-tags
+  "Service function"
+  [tag-or-tags category-id]
   (let [tags (if (coll? tag-or-tags) (set tag-or-tags) #{tag-or-tags})
         vals (->>
               (get-media)
@@ -117,10 +119,28 @@
     (hsql/format q :parameterizer :none)
     #_(j/execute! mysql-uri (hsql/format q))))
 
-(comment
- (range 0 25 4)
 
- (map :categories (get-media))
+(defn- update-missing-categories
+  "Service function.
+  Inserts media-categories records for items that don't have any category, setting category-id to `category-id`.
+  Returns the number of records affected or nil if there were no items without cateogry."
+  [category-id]
+  (let [q (hsql/build :select [:id :title]
+                      :from [[:media :m]]
+                      :left-join [[:media-categories :mc]
+                                  [:= :mc.media_id :m.id]]
+                      :where [:= :mc.category_id nil])
+        without-cats (j/query mysql-uri (hsql/format q))]
+    (when-not (empty? without-cats)
+      (let [values (map #(hash-map :media_id % :category_id category-id) (map :id without-cats))
+            q (hsql/build :insert-into
+                          :media_categories
+                          :values values)]
+        (j/execute! mysql-uri (hsql/format q))))))
+
+
+(comment
+ (update-missing-categories 16)
  (get-categories)
  (update-categories-based-on-tags ["febre39"] 21))
 

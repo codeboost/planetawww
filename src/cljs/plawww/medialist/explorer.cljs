@@ -150,13 +150,13 @@
 (defn explorer-page []
   (let [state *state*
         media-items (session/get :media-items)
-        all-tags (db/unique-tags* media-items)
         sort-by-cursor (r/cursor state [:sort-by])
         current-item (session/cursor [:current-media-item])]
     (fn []
 
       (let [included-tags (:included-tags @state)
             media-items (db/items-for-category media-items (get-in @state [:category :id]))
+            all-tags (db/unique-tags* media-items)
             media-items (db/items-for-tags media-items included-tags)
             sort-fn (sorter @sort-by-cursor)
             media-items (sort-fn media-items)
@@ -169,7 +169,9 @@
                                       :clicked #(swap! state assoc :sort-by %)}])
          [:span.spacer]
          (when (:category @state)
-           [plawww.categories.categories/category-component 0 (:category @state) (paths/categories-path "")])
+           [plawww.categories.categories/category-component (:category @state) {:url (paths/categories-path "")
+                                                                                :index 0
+                                                                                :scale-on-hover? false}])
          [:span.spacer]
          [tags-component (:included-tags @state)]
          [:span.spacer]

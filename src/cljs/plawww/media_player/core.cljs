@@ -44,7 +44,8 @@
                                 :detail-visible? false
                                 :volume-visible? false
                                 :oscilloscope-type :none
-                                :fullscreen? false}))
+                                :fullscreen? false
+                                :minimal-player? false}))
 
 
 ;This is used to change the type of the oscilloscope
@@ -226,14 +227,16 @@
              #(swap! state assoc :volume %)]
             [:div.faker]])]))))
 
-(defn min-player [state]
+(defn medium-player [state]
   (fn []
-    [:div.min-player
-     [:div.controls
-      [play-button state]
-      [song-progress state]
-      [toggle-accessory-button state "i" :detail-visible?]
-      [volume-control state]]]))
+    (let [min-player? (:minimal-player? @state)]
+      [:div.min-player
+       [:div.controls
+        [play-button state]
+        (when-not min-player? [song-progress state])
+        (when-not min-player? [volume-control state])
+        (when-not min-player? [toggle-accessory-button state "i" :detail-visible?])
+        (when-not min-player? [toggle-accessory-button state "X" :minimal-player?])]])))
 
 (defn toolbar-item [title on-click]
   [:div.toolbar-item
@@ -279,7 +282,6 @@
         (if visible
           [:div.player.window.vstack {:class (when detail-visible? "detail-visible")}
            [:div.detail {:class (:type item)}
-
             [minimise-button "x" #(set-detail-visible false)]
             [:div.top-part
              [:div.title (:title item)]
@@ -291,5 +293,5 @@
            (when detail-visible?
              [player-toolbar state])
            [:div.content
-            [min-player state]]]
+            [medium-player state]]]
           [:div.player.window.hidden])))))

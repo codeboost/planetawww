@@ -251,7 +251,7 @@
        [toolbar-item [detail/duration-comp @state]]
        (if audio?
          [toolbar-item "PRIBORUL" #(swap! state update :oscilloscope-type (next-oscilloscope (:oscilloscope-type @state)))]
-         [toolbar-item "FULLSCREEN" (fn [])])])))
+         [toolbar-item "FULLSCREEN" #(.request js/window.screenfull (r/dom-node @mplayer))])])))
 
 
 (defn artwork-bg-image [url]

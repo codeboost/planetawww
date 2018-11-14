@@ -8,3 +8,14 @@ Oscilloscope.prototype = {
   "stop": function () {},
   "setDrawfn": function() {}
 };
+
+var screenfull = function() {};
+
+screenful.prototype = {
+	"request" : function() {},
+	"exit" : function() {},
+	"onchange": function() {},
+	"onerror" : function(){},
+	"toggle" : function() {}
+
+}

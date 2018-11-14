@@ -64,7 +64,8 @@
     [:body {:class "body-container"}
      mount-target
      (include-js "/js/app.js")
-     (include-js "/lib/oscilloscope.js")]))
+     (include-js "/lib/oscilloscope.js")
+     (include-js "/lib/screenfull.js")]))
 
 (defroutes routes
   (GET "/" [] (main-page))

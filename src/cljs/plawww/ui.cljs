@@ -123,5 +123,5 @@
                     :style {:animation-duration "0.2s"}}
            [:div.pm-modal--container
             [:div.pm-modal (dissoc props :on-close :visible?)
-             [:div.pm-modal--close {:on-click on-close} "x"]
+             #_[:div.pm-modal--close {:on-click on-close} "x"]
              content]]]))})))

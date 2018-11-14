@@ -23,6 +23,12 @@
   @media @desktop, @desktop-xl { @desktop-rules(); }
 }
 
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  -webkit-scrollbar { width: 0 !important }
+  overflow: -moz-scrollbars-none;
+  &::-webkit-scrollbar {display: none;}
+}
 
 .app-dialog-dimensions {
   .multi-media ({
@@ -167,6 +173,7 @@ ul {
 
     overflow-x: hidden;
     overflow-y: auto;
+    -ms-overflow-style: none;
   }
 
   &--close {

@@ -137,17 +137,19 @@
       :close-click #(swap! state assoc :visible-dialog :none)}]]])
 
 (defn- media-info-modal [state current-item]
-  [ui/modal
-   {:on-close (fn []
-                (session/put! :current-media-item nil)
-                (swap! state assoc :visible-dialog :none))
-    :visible? true}
-   [media-item/item-info-component
-    {:on-play (fn []
-                (plawww.media-player.core/set-current-item current-item)
-                (session/put! :current-media-item nil)
-                (reagent.core/flush))}
-    {:selected-item current-item}]])
+  (let [on-close (fn []
+                   (session/put! :current-media-item nil)
+                   (swap! state assoc :visible-dialog :none))]
+    [ui/modal
+     {:on-close on-close
+      :visible? true}
+     [media-item/item-info-component
+      {:on-play (fn []
+                  (plawww.media-player.core/set-current-item current-item)
+                  (session/put! :current-media-item nil)
+                  (reagent.core/flush))
+       :on-close on-close}
+      {:selected-item current-item}]]))
 
 (defn explorer-page []
   (let [state *state*

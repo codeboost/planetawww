@@ -8,6 +8,7 @@
 (ns plawww.media-item.media-item
   (:require [reagent.core :as r]
             [plawww.components.components :refer [tag-list-component]]
+            [plawww.mediadb.core :as db]
             [plawww.paths :as paths]))
 
 (defn artwork-bg-image [url]
@@ -18,7 +19,7 @@
    {:on-click on-click}
    title])
 
-(defn info-component [{:keys [title tags id description_plain type]}]
+(defn info-component [{:keys [title tags id description_plain type] :as item}]
   [:div.media-item-info
    [:div.title title]
    [tag-list-component tags #()]
@@ -26,7 +27,9 @@
     [:div.album-art
      [:div.img-container
       {:style
-       {:background-image (artwork-bg-image (paths/l-image-path id (= type "video")))}}]]]
+       {:background-image (artwork-bg-image (paths/media-image-path id {:show-custom? (= type "video")
+                                                                        :category-name (db/any-category-slug item)
+                                                                        :size :large}))}}]]]
    [:div.description description_plain]])
 
 (defn item-info-component [{:keys [on-play]} _]

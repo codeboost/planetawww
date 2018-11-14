@@ -16,7 +16,8 @@
    [reagent.interop :refer-macros [$ $!]]
    [plawww.paths :as paths]
    [reagent.core :as r]
-   [reagent.session :as session]))
+   [reagent.session :as session]
+   [plawww.mediadb.core :as db]))
 
 (def react-player (r/adapt-react-class js/ReactPlayer))
 
@@ -44,8 +45,7 @@
                                 :detail-visible? false
                                 :volume-visible? false
                                 :oscilloscope-type :none
-                                :fullscreen? false
-                                :minimal-player? false}))
+                                :fullscreen? false}))
 
 
 ;This is used to change the type of the oscilloscope
@@ -228,15 +228,12 @@
             [:div.faker]])]))))
 
 (defn medium-player [state]
-  (fn []
-    (let [min-player? (:minimal-player? @state)]
-      [:div.min-player
-       [:div.controls
-        [play-button state]
-        (when-not min-player? [song-progress state])
-        (when-not min-player? [volume-control state])
-        (when-not min-player? [toggle-accessory-button state "i" :detail-visible?])
-        (when-not min-player? [toggle-accessory-button state "X" :minimal-player?])]])))
+  [:div.min-player
+   [:div.controls
+    [play-button state]
+    [song-progress state]
+    [volume-control state]
+    [toggle-accessory-button state "i" :detail-visible?]]])
 
 (defn toolbar-item [title on-click]
   [:div.toolbar-item
@@ -270,9 +267,10 @@
        :style {:display (if (= :none oscilloscope-type) :none :block)}}]
      [:div.img-container
       {:style
-       {:display (if (= :none oscilloscope-type) :block :none)
-        :background-image (artwork-bg-image (paths/l-image-path (:id item)))}}]]))
-
+       {:display          (if (= :none oscilloscope-type) :block :none)
+        :background-image (artwork-bg-image (paths/media-image-path (:id item) {:show-custom?  (= (:type item) "video")
+                                                                                :category-name (db/any-category-slug item)
+                                                                                :size          :large}))}}]]))
 
 (defn player []
   (let [state mplayer-state]

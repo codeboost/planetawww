@@ -56,14 +56,16 @@
     (js/console.log "Anim:" anim)
     anim))
 
-(defn m->item [i {:keys [title id type tags publish_on description_plain type] :as m} anim-class]
+(defn m->item [i {:keys [title id type tags publish_on description_plain type] :as m} {:keys [anim-class category-name]}]
   ^{:key id}
   [:li.item {:class anim-class
              :style {:visibility :hidden
                      :animation-delay (str (* i 100) "ms")}}
    [:a {:href (explorer-path id)}
     [:span.item-container
-     [:img.thumbnail {:src (paths/s-image-path id (= type "video"))}]
+     [:img.thumbnail {:src (paths/media-image-path id {:show-custom? (= type "video")
+                                                       :category-name category-name
+                                                       :size :thumbnail})}]
      [:span.item-info
       [:div.title title]
       [:div.description description_plain]
@@ -177,7 +179,8 @@
          [:span.spacer]
          (into
           [:ul.items]
-          (map-indexed #(m->item %1 %2 anim-class) media-items))
+          (map-indexed #(m->item %1 %2 {:anim-class anim-class
+                                        :category-name (db/any-category-slug %2)}) media-items))
          [:span.spacer]
          (case visible-dialog
            :tag-editor

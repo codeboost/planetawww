@@ -9,7 +9,7 @@
 // basic screen module
 .piece {
   display: block;
-  height: 100%;
+  bottom: 16px; //space for player
   left: 0;
   top: 0;
   width: 100%;
@@ -28,20 +28,17 @@
   background-color: transparent;
   border-radius: 2rem;
   border: 1rem solid;
-  border-bottom-color: #121212;
-  border-left-color: #080808;
-  border-right-color: #080808;
-  border-top-color: #020202;
-  box-shadow:
-    inset 0 0 18rem black,
-    inset 0 0 3rem black,
-    0 0 10rem black;
+  border-bottom-color: @dark-border-color;
+  border-left-color: @dark-border-color;
+  border-right-color: @dark-border-color;
+  border-top-color: @dark-border-color;
   height: 96%;
   position: absolute;
   top: 2%;
   left: 2%;
   width: 96%;
   pointer-events: none;
+  background-color: @console-bg;
 }
 
 // screen output
@@ -54,7 +51,6 @@
   position: absolute;
   pointer-events: auto;
   text-shadow: 0rem 0.2rem 1rem lighten(@console-bg,20%);
-  z-index: -1
 }
 
 @keyframes crt-output {

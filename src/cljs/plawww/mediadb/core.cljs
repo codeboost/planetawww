@@ -7,7 +7,8 @@
 
 (ns plawww.mediadb.core
   (:require [clojure.string :as str]
-            [plawww.utils :as utils :refer [search-match?]]))
+            [plawww.utils :as utils :refer [search-match?]]
+            [reagent.session :as session]))
 
 
 
@@ -103,3 +104,14 @@
   (if-not category-id
     items
     (filter #(some #{category-id} (:categories %)) items)))
+
+(def group-by-id (memoize #(group-by :id %)))
+
+(defn any-category-slug [{:keys [categories]}]
+  (when categories
+    (let [categs-by-id (group-by-id (session/get :categories))]
+      (-> categories
+          (rand-nth)
+          (categs-by-id)
+          first
+          :slug))))

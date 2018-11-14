@@ -11,6 +11,9 @@
 (def EXPLORER_PATH "/pragoane")
 (def CATEGORIES_PATH "/colectii")
 
+(defn category-image [name]
+  (str "/data/images/categories/" name ".jpg"))
+
 (defn s-image-path [id & [show-custom?]]
   (if-not (= true show-custom?)
     AUDIO_IMAGE_PATH
@@ -21,11 +24,31 @@
     AUDIO_IMAGE_PATH
     (str "/data/images/media/" id "l.jpg")))
 
+(defn media-image-path
+  "Returns the path for the image for the media item identified by `id`.
+  If category-name is specified, returns the image for the category.
+  Otherwise, returns the default audio image path, unless `show-custom?` is true.
+  If `show-custom?` is true, returns the actual media item image.
+  Options:
+    size - :thumbnail or :large
+    category-name - if not nil, returns the image for the category.
+    show-custom? - Return the actual item image path, instead of the default image (should be true for video items)."
+  [id {:keys [size category-name show-custom?]
+       :or {size :thumbnail
+            category-name nil
+            show-custom? false}}]
+  (if-not (or (empty? category-name) show-custom?)
+    (category-image category-name)
+    (case size
+      :thumbnail
+      (s-image-path id show-custom?)
+      (l-image-path id show-custom?))))
+
+
+
+
 (defn media-path [filename]
   (str "/data/media/" filename))
-
-(defn category-image [name]
- (str "/data/images/categories/" name ".jpg"))
 
 (defn *-path [THE_PATH subpath]
   (let [subpath (str subpath)]

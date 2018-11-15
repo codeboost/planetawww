@@ -120,7 +120,8 @@
 
 (defroute (explorer-path "tag/:tag") [tag]
   (let [tag-set (set (str/split tag #"\+"))]
-    (show-explorer-page nil {:included-tags tag-set})))
+    (show-explorer-page nil {:included-tags tag-set
+                             :category nil})))
 
 (defroute (categories-path-regex "?") []
   (show-categories-page))

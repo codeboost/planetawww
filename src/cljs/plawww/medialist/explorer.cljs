@@ -53,7 +53,6 @@
 
 (defn random-animation-class []
   (let [anim (nth show-anims (rand-int (count show-anims)))]
-    (js/console.log "Anim:" anim)
     anim))
 
 (defn m->item [i {:keys [title id type tags publish_on description_plain type] :as m} {:keys [anim-class category-name]}]
@@ -61,7 +60,8 @@
   [:li.item {:class anim-class
              :style {:visibility :hidden
                      :animation-delay (str (* i 100) "ms")}}
-   [:a {:href (explorer-path id)}
+   [:a {:href :#
+        :on-click #(session/put! :current-media-item m)}
     [:span.item-container
      [:img.thumbnail {:src (paths/media-image-path id {:show-custom? (= type "video")
                                                        :category-name category-name
@@ -144,10 +144,7 @@
      {:on-close on-close
       :visible? true}
      [media-item/item-info-component
-      {:on-play (fn []
-                  (plawww.media-player.core/set-current-item current-item)
-                  (session/put! :current-media-item nil)
-                  (reagent.core/flush))
+      {:on-play #(accountant.core/navigate! (explorer-path (:id current-item)))
        :on-close on-close}
       {:selected-item current-item}]]))
 

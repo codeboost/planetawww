@@ -74,8 +74,9 @@
     (session/put! :current-page #'explorer-page))
   (explorer/set-opts (or opts {:included-tags #{}}))
   (let [item (and id (media-item-for-id (js/parseInt id)))]
-    (player/set-detail-visible false)
-    (session/put! :current-media-item item)))
+    (when item
+      (player/set-current-item item))
+    (session/put! :current-media-item nil)))
 
 (defn show-categories-page []
   (session/put! :current-page #'categories-page))

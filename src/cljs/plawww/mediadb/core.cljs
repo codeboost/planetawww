@@ -100,7 +100,6 @@
        first))
 
 (defn items-for-category [items category-id]
-  (js/console.log "items for category" category-id)
   (if-not category-id
     items
     (filter #(some #{category-id} (:categories %)) items)))

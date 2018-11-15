@@ -32,11 +32,12 @@
                                                                         :size :large}))}}]]]
    [:div.description description_plain]])
 
-(defn item-info-component [{:keys [on-play]} _]
+(defn item-info-component [{:keys [on-play on-close]} _]
   (let [state (r/atom {:section :info})]
     (fn [_ {:keys [selected-item]}]
       [:div.media-item-info-container
-       [:div.min-button [:a {:href (paths/explorer-path "")} "x"]]
+       [:div.min-button [:a {:href :#
+                             :on-click on-close} "x"]]
        [:div.scroll-container
         (case (:section @state)
           :info

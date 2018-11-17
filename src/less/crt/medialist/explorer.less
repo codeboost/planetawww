@@ -121,14 +121,16 @@
 				} //primary-info
 
 				.detail-info {
+					margin-top: 8px;
+					display: flex;
+					flex-direction: row;
+					flex-wrap: nowrap;
+					font-size: 14px;
+					.det {
+						flex-grow: 1;
+						border-left: 1px dotted @console-color;
 					}
 
-					.description {
-						white-space: nowrap;
-						overflow: hidden;
-						text-overflow: ellipsis;
-						.multi-media({
-							display: none;
 					.type {
 						width: @thumbnail-size;
 						max-width: @thumbnail-size;

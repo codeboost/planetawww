@@ -24,4 +24,9 @@
   [:div.about-page
    [:h3.centered-text "DESPRE PLANETA MOLDOVA"]
    [:div.centered-text "-----"]
-   [:p {:dangerouslySetInnerHTML {:__html about-text}}]])
+   [:p.about-text {:dangerouslySetInnerHTML {:__html about-text}}]
+   [:div.centered-text "-----"]
+   [:p "Ecouri, sugestii, propuneri: " [:a {:href "mailto:planetamoldova@planetamoldova.net"
+                                            :target "_new-mail"} "planetamoldova@planetamoldova.net"]]
+   [:p [:a {:href "https://twitter.com/planetamoldova_"
+            :target "_new-twitter"} "https://twitter.com/planetamoldova_"]]])

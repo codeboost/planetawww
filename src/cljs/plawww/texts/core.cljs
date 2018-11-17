@@ -27,6 +27,10 @@
     [:img.coperta {:src "/data/carti/nekrotitanium/img/nekro_coperta.jpg"}]]])
 
 
+(defn not-yet []
+  [:div.not-yet
+   [:a {:href "javascript:history.back()"} ".."]
+   [:h3 "Inca nu e gata."]])
 
 (defn main-menu []
   (fn []
@@ -34,10 +38,12 @@
       (case sub-menu
         :nekrotitanium
         [nekrotitanium]
+        :altele
+        [not-yet]
         [:div.home-page
          [:h3 "TEXTELE SI CARTI"]
          [:div
           [:a {:href "/carti/nekrotitanium"} "NEKROTITANIUM"]]
          [:div
-          [:a {:href "/carti/nekrotitanium"} "ALTE TEXTE"]]]))))
+          [:a {:href "/carti/altele"} "ALTE TEXTE"]]]))))
 

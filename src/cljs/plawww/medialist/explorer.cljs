@@ -18,12 +18,14 @@
    [reagent.core :as r]
    [goog.string :as gstring]
    [goog.string.format]
-   [plawww.media-item.media-item :as media-item]))
+   [plawww.media-item.media-item :as media-item]
+   [plawww.utils :as utils]))
 
 (defonce *state* (r/atom {:sort-by :title
                           :included-tags #{}
                           :visible-dialog :none
-                          :category nil}))
+                          :category nil
+                          :detail? false}))
 
 (defn set-opts [opts]
   (swap! *state* merge opts))
@@ -31,16 +33,12 @@
 (defn format-date [d]
   (gstring/format "%d-%02d-%02d" (.getFullYear d) (.getMonth d) (.getDay d)))
 
-(defn tag-list-comp [tags]
+(defn inline-tags-component [tags]
   (into
-   [:ul.tags]
+   [:ul.inline-tags]
    (for [tag tags]
-     (let [tag-text (if (= tag (last tags)) tag (str tag ","))]
-       [:li
-        [:a
-         {:href (explorer-path (str "tag/" tag))}
-         tag-text]
-        " "]))))
+     (let [tag-text (if (= tag (last tags)) tag (str tag ", "))]
+       [:li tag-text]))))
 
 (defn m->detail [state {:keys [title id type tags publish_on description_plain] :as m}]
   [:div.item-detail
@@ -55,7 +53,7 @@
   (let [anim (nth show-anims (rand-int (count show-anims)))]
     anim))
 
-(defn m->item [i {:keys [title id type tags publish_on description_plain type] :as m} {:keys [anim-class category-name]}]
+(defn m->item [i {:keys [title id tags publish_on description_plain type duration] :as m} {:keys [anim-class category-name detail?]}]
   ^{:key id}
   [:li.item {:class anim-class
              :style {:visibility :hidden
@@ -63,15 +61,21 @@
    [:a {:href :#
         :on-click #(session/put! :current-media-item m)}
     [:span.item-container
-     [:img.thumbnail {:src (paths/media-image-path id {:show-custom? (= type "video")
-                                                       :category-name category-name
-                                                       :size :thumbnail})}]
-     [:span.item-info
-      [:div.title title]
-      [:div.description description_plain]
-      #_[tag-list-comp tags]]
-     [:span.item-more-info
-      [:span.published (format-date publish_on)]]]]])
+     [:div.primary-info
+      [:img.thumbnail {:src (paths/media-image-path id {:show-custom? (= type "video")
+                                                        :category-name category-name
+                                                        :size :thumbnail})}]
+      [:span.item-info
+       [:div.title title]
+       [:div.description [:div.description-text description_plain]]]]
+     (when detail?
+       [:div.detail-info
+        [:div.det.type type]
+        [:div.det.duration (utils/format-duration duration "%sm %ss")]
+        [:div.det.tags [inline-tags-component tags]]
+        [:div.det.publish-on (format-date publish_on)]])]]])
+
+
 
 (defn sorter
   "Returns a function, which when called with a collection of media items,
@@ -167,7 +171,9 @@
         [:div.explorer
          (when-not searching?
            [toolbar/explorer-buttons {:sort-by (:sort-by @state)
-                                      :clicked #(swap! state assoc :sort-by %)}])
+                                      :clicked #(swap! state assoc :sort-by %)
+                                      :detail? (:detail? @state)
+                                      :detail-clicked #(swap! state update :detail? not)}])
          [:span.spacer]
          (when (:category @state)
            [plawww.categories.categories/category-component (:category @state) {:url (paths/categories-path "")
@@ -179,7 +185,8 @@
          (into
           [:ul.items]
           (map-indexed #(m->item %1 %2 {:anim-class anim-class
-                                        :category-name (db/any-category-slug %2)}) media-items))
+                                        :category-name (db/any-category-slug %2)
+                                        :detail? (:detail? @state)}) media-items))
          [:span.spacer]
          (case visible-dialog
            :tag-editor

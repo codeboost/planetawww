@@ -21,9 +21,10 @@
    (for [[title on? on-click] buttons]
      [toggle-item title on? on-click])))
 
-(defn explorer-buttons [{:keys [sort-by clicked]}]
+(defn explorer-buttons [{:keys [sort-by clicked detail? detail-clicked]}]
   [:div.toolbar.filters
    [toggle-group
     [["A-Z"   (= sort-by :title) #(clicked :title)]
      ["VECHI" (= sort-by :old)   #(clicked :old)]
-     ["NOI"   (= sort-by :new)   #(clicked :new)]]]])
+     ["NOI"   (= sort-by :new)   #(clicked :new)]
+     ["DETALIAT?" detail? #(detail-clicked)]]]])

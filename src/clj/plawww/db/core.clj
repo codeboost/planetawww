@@ -140,6 +140,7 @@
 
 
 (comment
+ (get-media)
  (update-missing-categories 16)
  (get-categories)
  (update-categories-based-on-tags ["febre39"] 21))

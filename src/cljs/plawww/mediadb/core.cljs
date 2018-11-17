@@ -110,7 +110,7 @@
   (when categories
     (let [categs-by-id (group-by-id (session/get :categories))]
       (-> categories
-          (rand-nth)
+          (first)
           (categs-by-id)
           first
           :slug))))

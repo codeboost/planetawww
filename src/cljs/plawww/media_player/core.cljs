@@ -17,7 +17,8 @@
    [plawww.paths :as paths]
    [reagent.core :as r]
    [reagent.session :as session]
-   [plawww.mediadb.core :as db]))
+   [plawww.mediadb.core :as db]
+   [plawww.ui :as ui]))
 
 (def react-player (r/adapt-react-class js/ReactPlayer))
 
@@ -45,7 +46,8 @@
                                 :detail-visible? false
                                 :volume-visible? false
                                 :oscilloscope-type :none
-                                :fullscreen? false}))
+                                :fullscreen? false
+                                :share-dialog-visible? false}))
 
 
 ;This is used to change the type of the oscilloscope
@@ -245,14 +247,14 @@
 (defn player-toolbar [state]
   (fn []
     (let [item (:item @state)
-          audio? (= "audio" (get-in @state [:item :type]))]
+          video? (= "video" (get-in @state [:item :type]))]
       [:div.toolbar
        [toolbar-item "INFO" (fn []
                               (swap! state assoc :detail-visible? false)
                               (session/put! :current-media-item item))]
        [toolbar-item [detail/duration-comp @state]]
-       (if audio?
-         [toolbar-item "PRIBORUL" #(swap! state update :oscilloscope-type (next-oscilloscope (:oscilloscope-type @state)))]
+       [toolbar-item "SHARE" #(swap! state assoc :share-dialog-visible? true)]
+       (when video?
          [toolbar-item "FULLSCREEN" #(.request js/window.screenfull (r/dom-node @mplayer))])])))
 
 
@@ -274,10 +276,41 @@
                                                                                 :category-name (db/any-category-slug item)
                                                                                 :size          :large}))}}]]))
 
+(defn share-dialog-modal [_]
+  (let [state (r/atom {:copied? false
+                       :input-element nil})]
+    (fn [{:keys [on-close]}]
+      (let [{:keys [copied? input-element]} @state]
+        [ui/modal
+         {:visible? true
+          :class [:share-dialog-modal]
+          :on-close on-close}
+         [:div.share-dialog-content
+          [:div.min-button [:a {:href :#
+                                :on-click on-close} "x"]]
+          [:div.dialog-content
+           (if copied?
+             [:h1 "COPIAT!"]
+             [:div.controls
+              [:input {:type :text
+                       :value (.-href (.-location js/window))
+                       :cols 50
+                       :read-only true
+                       :selected true
+                       :ref #(swap! state assoc :input-element %)}]
+              [:a.toggle-button.copy-button {:href :#
+                                             :on-click (fn []
+                                                         (when input-element
+                                                           (.select input-element)
+                                                           (.execCommand js/document "copy")
+                                                           (swap! state assoc :copied? true))
+                                                         (js/setTimeout #(on-close) 1000))}
+               "COPIAZA"]])]]]))))
+
 (defn player []
   (let [state mplayer-state]
     (fn []
-      (let [{:keys [visible item detail-visible? duration played oscilloscope-type]} @state
+      (let [{:keys [visible item detail-visible? oscilloscope-type share-dialog-visible?]} @state
             audio? (= (:type item) "audio")]
         (if visible
           [:div.player.window.vstack {:class (when detail-visible? "detail-visible")}
@@ -292,6 +325,8 @@
                [audio-artwork item oscilloscope-type #(swap! state assoc :oscilloscope-type (next-oscilloscope (:oscilloscope-type @state)))])]]
            (when detail-visible?
              [player-toolbar state])
+           (when share-dialog-visible?
+             [share-dialog-modal {:on-close #(swap! state assoc :share-dialog-visible? false)}])
            [:div.content
             [medium-player state]]]
           [:div.player.window.hidden])))))

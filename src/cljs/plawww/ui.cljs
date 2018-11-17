@@ -117,9 +117,11 @@
         (reset! node nil))
 
       :reagent-render
-      (fn [{:keys [on-close visible?] :or {visible? false} :as props} content]
+      (fn [{:keys [on-close visible? class] :or {visible? false} :as props} content]
+        (let [class (remove nil? (if (seq? class) class [class]))])
         (when visible?
-          [overlay {:class "pm-modal--overlay show-scaled" :on-mouse-down mouse-down-handler
+          [overlay {:class (into [:pm-modal--overlay :show-scaled] class)
+                    :on-mouse-down mouse-down-handler
                     :style {:animation-duration "0.2s"}}
            [:div.pm-modal--container
             [:div.pm-modal (dissoc props :on-close :visible?)

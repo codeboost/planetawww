@@ -314,6 +314,56 @@
 }
 
 
+.share-dialog-content {
+	position: absolute;
+	border: 1px solid @console-color;
+	margin: auto;
+	top: 0; bottom: 0; left: 0; right: 0;
+	overflow: hidden;
+	background-color: @console-bg;
+	border-radius: 23px;
+	.dialog-border();
+
+	.multi-media(
+		{margin: 16px;}, 
+		{max-width: 320px; max-height: 160px;}, 
+		{max-width: 320px; max-height: 160px;});
+
+	.dialog-content {
+		.controls {
+			margin-top: 50px;
+			display: flex;
+			align-items: center;
+			justify-content: : center;
+			flex-direction: column;
+
+			input {
+				text-transform: none;
+			}
+
+			.copy-button {
+				margin-top: 10px;
+			}
+		}
+		h1 {
+			align-self: center;
+			text-align: center;
+			vertical-align: middle;
+		}
+
+	}
+	
+	.min-button {
+		position: absolute;
+		right: 8px;
+		top: 4px;
+	}
+}
+
+.pm-overlay.share-dialog-modal {
+    z-index: 4000;
+    opacity: 0.8;
+ }
 
 
 

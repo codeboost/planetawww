@@ -43,12 +43,16 @@
           :info
           [info-component selected-item]
           :ecouri
-          [:div
-           [:p "Nu, nu poti sa postezi aici nimic. Nici comentariile altor persoane nu-s. Nici cate Like-uri sau View-uri."]
-           [:p "Da ce-ti trebuie ? Doar nu vrei sa vezi ce cred altii ca sa crezi si tu la fel ?"]
-           [:p "Scrie-ne un mail. Noua, autorilor. Vrem parerea ta cruda, fara pribambasuri si network effects.
-           Este foarte probabil ca iti vom raspunde."]
-           [:p [:a {:href "mailto:planetamoldova@planetamoldova.net"} "planetamoldova@planetamoldova.net"]]])]
+          [:div {:style {:padding "10px"
+                         :font-size "18px"}}
+           [:h3 "ECOURI"]
+           [:p "Inca nu-i gata. Dar poti sa ne scrii un e-mail:"]
+           [:p
+            [:a {:href "mailto:planetamoldova@planetamoldova.net"} "planetamoldova@planetamoldova.net"]]
+           [:p "Sau pe twitter:"]
+           [:p
+            [:a {:href "https://twitter.com/planetamoldova_"
+                 :target "_new-twitter"} "https://twitter.com/planetamoldova_"]]])]
        [:div.toolbar
         [toolbar-item "PLAY" on-play]
         (case (:section @state)

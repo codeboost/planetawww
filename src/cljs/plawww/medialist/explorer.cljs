@@ -59,7 +59,9 @@
              :style {:visibility :hidden
                      :animation-delay (str (* i 100) "ms")}}
    [:a {:href :#
-        :on-click #(session/put! :current-media-item m)}
+        :on-click #(do
+                     (session/put! :current-media-item m)
+                     (plawww.media-player.core/set-detail-visible false))}
     [:span.item-container
      [:div.primary-info
       [:img.thumbnail {:src (paths/media-image-path id {:show-custom? (= type "video")

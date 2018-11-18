@@ -123,11 +123,9 @@
        text])))
 
 
-(defn song-progress [state]
-  (fn []
-    (let [{:keys [played]} @state]
-      [:span.song-progress
-       (progress-bar/progress-bar played #(.seekTo @mplayer %))])))
+(defn song-progress [played on-click]
+  [:span.song-progress
+   (progress-bar/progress-bar played on-click)])
 
 (defn- toggle-accessory-button
   [state text key]
@@ -136,6 +134,13 @@
     :class    (when (@state key) :selected)}
    text])
 
+(defn- update-played-time! [mplayer state]
+  (let [current-time (.getCurrentTime @mplayer)
+        duration     (.getDuration @mplayer)
+        played       (if (pos? duration) (/ current-time duration) 0)]
+      (swap! state merge {:played played :duration duration})))
+
+
 (defn- start-update-duration-timer
   "update-interval is an atom which will contain the interval id.
    state is the atom where the :duration and :played values will be stored."
@@ -143,10 +148,9 @@
   (reset!
    update-interval
    (js/setInterval
-    #(let [current-time (.getCurrentTime @mplayer)
-           duration     (.getDuration @mplayer)
-           played       (if (pos? duration) (/ current-time duration) 0)]
-       (swap! state merge {:played played :duration duration}))
+    #(let [playing      (:playing @state)]
+       (when playing
+         (update-played-time! mplayer state)))
     500)))
 
 ;This hack is necessary in order to adjust the media player height, which fights me
@@ -235,7 +239,9 @@
   [:div.min-player
    [:div.controls
     [play-button state]
-    [song-progress state]
+    [song-progress (:played @state) #(do
+                                       (.seekTo @mplayer %)
+                                       (update-played-time! mplayer state))]
     [toggle-accessory-button state "i" :detail-visible?]
     [volume-control state]]])
 

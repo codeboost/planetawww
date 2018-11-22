@@ -26,7 +26,7 @@ class Oscilloscope {
   // begin default signal animation
   animate (ctx, x0, y0, width, height) {
 	if (this.drawRequest) {
-	  throw new Error('Oscilloscope animation is already running')
+		return; //Animation already running
 	}
 	this.ctx = ctx
 	this.gradient = ctx.createLinearGradient(0, 0, 0, ctx.canvas.height)

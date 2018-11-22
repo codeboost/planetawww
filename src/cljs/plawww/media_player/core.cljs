@@ -20,16 +20,20 @@
    [plawww.mediadb.core :as db]
    [plawww.ui :as ui]))
 
+
+
 (def react-player (r/adapt-react-class js/ReactPlayer))
 
 (defonce mplayer (r/atom nil))
 (def canvas-el (r/atom nil))
 
 (defn next-oscilloscope [current]
-  (let [oscilloscopes [:none :sine :spectrum]
-        i (max 0 (.indexOf oscilloscopes current))
-        i (mod (inc i) (count oscilloscopes))]
-    (nth oscilloscopes i)))
+  (if oscilloscope/oscilloscope-enabled?
+    (let [oscilloscopes [:none :sine :spectrum]
+          i (max 0 (.indexOf oscilloscopes current))
+          i (mod (inc i) (count oscilloscopes))]
+      (nth oscilloscopes i)))
+  :none)
 
 (defonce mplayer-state (r/atom {:height 320
                                 :playing false
@@ -52,7 +56,7 @@
 
 ;This is used to change the type of the oscilloscope
 (add-watch mplayer-state :oscillo-watch #(oscilloscope/set-oscilloscope-type (:oscilloscope-type %4)))
-;(add-watch mplayer-state :printer #(js/console.log %4))
+
 
 (defn s->ms
   "Seconds to milliseconds."
@@ -195,10 +199,12 @@
                          (if muted ; Safari restriction - media must be loaded in a muted state.
                            (flush-play! state)
                            (swap! state assoc :playing true)))
-             :on-ended #(swap! state assoc :playing false :oscilloscope-type :sine)
+             :on-ended #(swap! state assoc :playing false :oscilloscope-type :none)
              :on-ready (fn []
                          (oscilloscope/create-oscilloscope @canvas-el (.getInternalPlayer @mplayer)))
-             :on-play  #(swap! state assoc :playing true :oscilloscope-type (if audio? :sine :none))
+             :on-play  #(swap! state assoc :playing true :oscilloscope-type (if (and oscilloscope/oscilloscope-enabled? audio?)
+                                                                              :sine
+                                                                              :none))
              :on-pause #(swap! state assoc :playing false :oscilloscope-type :none)
              :on-error (fn [err]
                          (swap! state merge {:playing false :error err})

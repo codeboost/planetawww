@@ -26,6 +26,7 @@
 
 (defonce mplayer (r/atom nil))
 (def canvas-el (r/atom nil))
+(defonce the-player (r/atom nil))
 
 (defn next-oscilloscope [current]
   (if oscilloscope/oscilloscope-enabled?
@@ -267,7 +268,7 @@
        [toolbar-item [detail/duration-comp @state]]
        [toolbar-item "SHARE" #(swap! state assoc :share-dialog-visible? true)]
        (when video?
-         [toolbar-item "FULLSCREEN" #(.request js/window.screenfull (r/dom-node @mplayer))])])))
+         [toolbar-item "FULLSCREEN" #(.request js/window.screenfull (r/dom-node @the-player))])])))
 
 
 (defn artwork-bg-image [url]
@@ -325,7 +326,8 @@
       (let [{:keys [visible item detail-visible? oscilloscope-type share-dialog-visible?]} @state
             audio? (= (:type item) "audio")]
         (if visible
-          [:div.player.window.vstack {:class (when detail-visible? "detail-visible")}
+          [:div.player.window.vstack {:class (when detail-visible? "detail-visible")
+                                      :ref #(reset! the-player %)}
            [:div.detail {:class (:type item)}
             [minimise-button "x" #(set-detail-visible false)]
             [:div.top-part

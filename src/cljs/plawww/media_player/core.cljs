@@ -113,18 +113,21 @@
   ;Safari needs this to happen in a click handler, otherwise the audio context comes out suspended.
   (oscilloscope/create-oscilloscope @canvas-el (.getInternalPlayer @mplayer)))
 
+(defn toggle-play [state]
+  (let [{:keys [muted]} @state]
+    (if muted ; Safari restriction - media must be loaded in a muted state.
+      (flush-play! state)
+      (swap! state update :playing not))))
+
 (defn play-button
   "Play button component."
   []
   (fn [state]
-    (let [{:keys [playing muted]} @state
+    (let [{:keys [playing]} @state
           text (if playing "||" ">>")]
       [:div.accessory-button.play-button
        {:class (when playing :selected)
-        :on-click (fn []
-                    (if muted ; Safari restriction - media must be loaded in a muted state.
-                      (flush-play! state)
-                      (swap! state update :playing not)))}
+        :on-click #(toggle-play state)}
        text])))
 
 

@@ -12,7 +12,6 @@
    [plawww.media-item.media-item :as media-item]
    [plawww.media-player.item-detail :as detail]
    [plawww.media-player.progress-bar :as progress-bar]
-   [plawww.media-player.oscilloscope :as oscilloscope]
    [plawww.utils :as utils]
    [reagent.interop :refer-macros [$ $!]]
    [plawww.paths :as paths]
@@ -29,13 +28,6 @@
 (def canvas-el (r/atom nil))
 (defonce the-player (r/atom nil))
 
-(defn next-oscilloscope [current]
-  (if oscilloscope/oscilloscope-enabled?
-    (let [oscilloscopes [:none :sine :spectrum]
-          i (max 0 (.indexOf oscilloscopes current))
-          i (mod (inc i) (count oscilloscopes))]
-      (nth oscilloscopes i)))
-  :none)
 
 (defonce mplayer-state (r/atom {:height 320
                                 :playing false
@@ -51,13 +43,9 @@
                                 ;lump them all together
                                 :detail-visible? false
                                 :volume-visible? false
-                                :oscilloscope-type :none
                                 :fullscreen? false
                                 :share-dialog-visible? false}))
 
-
-;This is used to change the type of the oscilloscope
-(add-watch mplayer-state :oscillo-watch #(oscilloscope/set-oscilloscope-type (:oscilloscope-type %4)))
 
 
 (defn s->ms
@@ -109,10 +97,7 @@
   [state]
   (swap! state merge {:muted false
                       :playing true})
-  (reagent.core/flush)
-
-  ;Safari needs this to happen in a click handler, otherwise the audio context comes out suspended.
-  (oscilloscope/create-oscilloscope @canvas-el (.getInternalPlayer @mplayer)))
+  (reagent.core/flush))
 
 (defn toggle-play [state]
   (let [{:keys [muted]} @state]
@@ -204,13 +189,10 @@
                          (if muted ; Safari restriction - media must be loaded in a muted state.
                            (flush-play! state)
                            (swap! state assoc :playing true)))
-             :on-ended #(swap! state assoc :playing false :oscilloscope-type :none)
-             :on-ready (fn []
-                         (oscilloscope/create-oscilloscope @canvas-el (.getInternalPlayer @mplayer)))
-             :on-play  #(swap! state assoc :playing true :oscilloscope-type (if (and oscilloscope/oscilloscope-enabled? audio?)
-                                                                              :sine
-                                                                              :none))
-             :on-pause #(swap! state assoc :playing false :oscilloscope-type :none)
+             :on-ended #(swap! state assoc :playing false)
+             :on-ready (fn [])
+             :on-play  #(swap! state assoc :playing true)
+             :on-pause #(swap! state assoc :playing false)
              :on-error (fn [err]
                          (swap! state merge {:playing false :error err})
                          (js/console.log "Error: " err))
@@ -274,25 +256,6 @@
        (when video?
          [toolbar-item "FULLSCREEN" #(.request js/window.screenfull (r/dom-node @the-player))])])))
 
-
-(defn artwork-bg-image [url]
-  (str "url(" url ")"))
-
-
-(defn audio-artwork [item oscilloscope-type on-click]
-  (let [display (if (= :none oscilloscope-type) :none :block)]
-    [:div.album-art
-     {:on-click on-click}
-     [:canvas.oscilloscope
-      {:ref #(reset! canvas-el %)
-       :style {:display (if (= :none oscilloscope-type) :none :block)}}]
-     [:div.img-container
-      {:style
-       {:display          (if (= :none oscilloscope-type) :block :none)
-        :background-image (artwork-bg-image (paths/media-image-path (:id item) {:show-custom?  (= (:type item) "video")
-                                                                                :category-name (db/any-category-slug item)
-                                                                                :size          :large}))}}]]))
-
 (defn share-dialog-modal [_]
   (let [state (r/atom {:copied? false
                        :input-element nil})]
@@ -327,8 +290,7 @@
 (defn player []
   (let [state mplayer-state]
     (fn []
-      (let [{:keys [visible item detail-visible? oscilloscope-type share-dialog-visible?]} @state
-            audio? (= (:type item) "audio")]
+      (let [{:keys [visible item detail-visible? share-dialog-visible?]} @state]
         (if visible
           [:div.player.window.vstack {:class (when detail-visible? "detail-visible")
                                       :ref #(reset! the-player %)}

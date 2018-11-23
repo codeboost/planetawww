@@ -38,7 +38,7 @@
       [:div.media-item-info-container
        [:div.min-button [:a {:href :#
                              :on-click on-close} "x"]]
-       [:div.scroll-container
+       [:div.media-item-scroll-container
         (case (:section @state)
           :info
           [info-component selected-item]

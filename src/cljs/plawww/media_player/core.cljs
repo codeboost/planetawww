@@ -9,6 +9,7 @@
   (:require
    [cljsjs.react-player]
    [plawww.components.components :refer [minimise-button tag-list-component]]
+   [plawww.media-item.media-item :as media-item]
    [plawww.media-player.item-detail :as detail]
    [plawww.media-player.progress-bar :as progress-bar]
    [plawww.media-player.oscilloscope :as oscilloscope]
@@ -332,14 +333,10 @@
           [:div.player.window.vstack {:class (when detail-visible? "detail-visible")
                                       :ref #(reset! the-player %)}
            [:div.detail {:class (:type item)}
-            [minimise-button "x" #(set-detail-visible false)]
-            [:div.top-part
-             [:div.title (:title item)]
-             [tag-list-component (:tags item) #(set-detail-visible false)]]
-            [:div.player-container
-             [media-player state]
-             (when audio?
-               [audio-artwork item oscilloscope-type #(swap! state assoc :oscilloscope-type (next-oscilloscope (:oscilloscope-type @state)))])]]
+            [:div.media-item-scroll-container
+             [media-item/info-component item]]
+            [media-player state]
+            [minimise-button "x" #(set-detail-visible false)]]
            (when detail-visible?
              [player-toolbar state])
            (when share-dialog-visible?

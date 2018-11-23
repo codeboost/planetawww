@@ -47,80 +47,6 @@
         }
     }
 
-    .scroll-container {
-        overflow-y: auto;
-        .hide-scrollbar();
-        height: 100%;
-        padding: 10px;
-    }
-
-    .media-item-info {
-        bottom: 4px;
-        flex-grow: 2;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end; 
-        padding: 10px;
-        position: relative;
-
-
-        .title {
-            font-size: 2.1rem;
-            text-align: center;
-        }
-
-        .tags {
-            font-size: 1.2rem;
-            display: flex;
-            justify-content: center;
-            li {
-                list-style: none;
-                margin-left: 4px;
-                &:first-child { margin-left: 0; }
-            }
-        }
-
-        .description {
-            margin-top: 10px;
-            text-align: center;
-        }
-
-
-        .album-art-container {
-            margin-top: 16px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column; 
-            justify-content: center;
-            border-radius: 23px;
-            overflow: hidden;
-
-            .album-art {
-                margin-left: auto;
-                margin-right: auto;
-                position: relative;
-                display: flex;
-                flex-direction: row; 
-                justify-content: center;
-                .album-art-dimensions();
-                border-radius: 50%;
-                border: 2px solid @console-color;
-                .img-container {
-                    width: 100%;
-                    height: 100%;
-                    border-radius: 50%;
-                    background-position:50% 50%;
-                    background-repeat: no-repeat;
-                    background-size: cover;
-                    background-position: center;
-                    background-blend-mode: overlay;
-                    border: 2px solid @console-color;
-
-                }
-            }
-        }           
-    } //.media-item-info
-
     @toolbar-height: 40px;
     .toolbar {
         height: @toolbar-height;
@@ -155,3 +81,78 @@
         } 
     }//toolbar
 } //media-item-info-container
+
+
+.media-item-scroll-container {
+    overflow-y: auto;
+    .hide-scrollbar();
+    height: 100%;
+    padding: 10px;
+}
+
+.media-item-info {
+    bottom: 4px;
+    flex-grow: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; 
+    padding: 10px;
+    position: relative;
+
+
+    .title {
+        font-size: 2.1rem;
+        text-align: center;
+    }
+
+    .tags {
+        font-size: 1.2rem;
+        display: flex;
+        justify-content: center;
+        li {
+            list-style: none;
+            margin-left: 4px;
+            &:first-child { margin-left: 0; }
+        }
+    }
+
+    .description {
+        margin-top: 10px;
+        text-align: center;
+    }
+
+
+    .album-art-container {
+        margin-top: 16px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column; 
+        justify-content: center;
+        border-radius: 23px;
+        overflow: hidden;
+
+        .album-art {
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            display: flex;
+            flex-direction: row; 
+            justify-content: center;
+            .album-art-dimensions();
+            border-radius: 50%;
+            border: 2px solid @console-color;
+            .img-container {
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+                background-position:50% 50%;
+                background-repeat: no-repeat;
+                background-size: cover;
+                background-position: center;
+                background-blend-mode: overlay;
+                border: 2px solid @console-color;
+
+            }
+        }
+    }   //.media-item-info      
+}

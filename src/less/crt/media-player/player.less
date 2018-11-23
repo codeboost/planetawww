@@ -85,99 +85,43 @@
 			padding: 10px;
 			position: relative;
 
-			.title {
-	            font-size: 2.1rem;
-                text-align: center;
+			.pm-media-player {
+				.react-player {
+					margin-top: auto;
+					margin-bottom: auto;
+				}
 			}
 
-            .tags {
-                font-size: 1.2rem;
-                display: flex;
-                justify-content: center;
-                li {
-                    list-style: none;
-                    margin-left: 4px;
-                    &:first-child { margin-left: 0; }
-                }
-            }
-
-
-			.player-container {
-				flex-grow: 1;
-				display: flex;
-				flex-direction: column; 
-				justify-content: center;
-				border-radius: 23px;
-				overflow: hidden;
-
-				.album-art {
-					margin-left: auto;
-					margin-right: auto;
-					position: relative;
-					display: flex;
-					flex-direction: row; 
-					justify-content: center;
-
-					.album-art-dimensions();
-
-					border-radius: 50%;
-					border: 2px solid @console-color;
-
-					.img-container {
-						width: 100%;
-						height: 100%;
-						border-radius: 50%;
-						background-position:50% 50%;
-						background-repeat: no-repeat;
-						background-size: cover;
-						background-position: center;
-						background-blend-mode: overlay;
-					}
-
-					.oscilloscope {
-						width: 100%;
-						height: 100%;
-						border-radius: 50%;
-						border: 1px solid @console-color;
-					}
-				}
-				.pm-media-player {
-					.react-player {
-						margin-top: auto;
-						margin-bottom: auto;
-					}
-				}
-			}			
 		} //.detail
 	
-			.toolbar {
-				border-top: 1px solid @console-color;
-				border-bottom: 1px solid @console-color;;
-				display: flex;
-				flex-direction: row;
-				justify-content: space-around;
-				width: 100%;
-				flex-wrap: nowrap;
+		.toolbar {
+			border-top: 1px solid @console-color;
+			border-bottom: 1px solid @console-color;;
+			display: flex;
+			flex-direction: row;
+			justify-content: space-around;
+			width: 100%;
+			flex-wrap: nowrap;
 
-				.toolbar-item {
-					border-right: 1px solid @console-color;
-					width: 100px;
-					flex-grow: 1;
-					text-align: center;
-					&:last-child {
-						border-right: none;
-					}
-					cursor: pointer;
-				} 
+			.toolbar-item {
+				border-right: 1px solid @console-color;
+				width: 100px;
+				flex-grow: 1;
+				text-align: center;
+				&:last-child {
+					border-right: none;
+				}
+				cursor: pointer;
+			} 
 
-			    .position-and-duration {
-			        display: flex;
-			        flex-direction: row; 
-			        justify-content: center;
-			        .duration {
-			        }
-			    }				
-			}//toolbar
+		    .position-and-duration {
+		        display: flex;
+		        flex-direction: row; 
+		        justify-content: center;
+		        .duration {
+		        }
+		    }				
+		}//toolbar
 	}
 
 	.bottom-part {
@@ -342,13 +286,7 @@
 			vertical-align: middle;
 		}
 
-	}
-	
-	.min-button {
-		position: absolute;
-		right: 8px;
-		top: 4px;
-	}
+	}	
 }
 
 .pm-overlay.share-dialog-modal {

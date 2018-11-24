@@ -290,13 +290,12 @@
 (defn player []
   (let [state mplayer-state]
     (fn []
-      (let [{:keys [visible item detail-visible? share-dialog-visible?]} @state]
+      (let [{:keys [visible item detail-visible? share-dialog-visible? type]} @state]
         (if visible
           [:div.player.window.vstack {:class (when detail-visible? "detail-visible")
                                       :ref #(reset! the-player %)}
            [:div.detail {:class (:type item)}
-            [:div.media-item-scroll-container
-             [media-item/info-component item]]
+            [media-item/info-component item {:show-details? (= (:type item) "audio")}]
             [media-player state]
             [minimise-button "x" #(set-detail-visible false)]]
            (when detail-visible?

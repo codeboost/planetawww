@@ -1,7 +1,9 @@
 // set main colors
 
-@console-color: #14fdce;
-@console-bg: #031e11;
+//@console-color: #14fdce;
+//@console-bg: #031e11;
+@console-color: #ddd;
+@console-bg: #333;
 @highlight-color: lighten(@console-color, 50%);
 @thin-border-color: darken(@console-color, 30%);
 @dark-border-color: darken(@console-bg, 10%);
@@ -16,6 +18,19 @@
 @tablet:      ~"only screen and (min-width: 530px) and (max-width: 949px)";
 @desktop:     ~"only screen and (min-width: 950px) and (max-width: 1128px)";
 @desktop-xl:  ~"only screen and (min-width: 1129px)";
+
+
+@iphone: ~"only screen and (min-device-width : 375px) and (max-device-width : 667px)";
+@iphone-l: ~"only screen and (min-device-width : 375px) and (max-device-width : 667px) and (orientation : landscape)";
+
+@ipad: ~"only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait)";
+
+@ipad-l: ~"only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape)";
+
+
+.device(@device, @rules) {
+  @media @device { @rules(); }
+}
 
 .multi-media (@mobile-rules, @tablet-rules, @desktop-rules) {
   @media @mobile { @mobile-rules(); }

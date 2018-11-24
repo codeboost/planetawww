@@ -1,13 +1,12 @@
 @import "../base";
 
-
 .media-item-info-container {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 50px;
     z-index: 998;
+    position: absolute;
+    bottom: 50px;
+    left: 25%;
+    right: 25%;
+    height: auto;
     display: flex;
     flex-direction: column;
     justify-content: stretch;
@@ -16,9 +15,19 @@
     border-radius: 23px;
     margin: auto;
 
-    .dialog-shadow();
+    .device(@iphone, @iphone-l; {
+        left: 8px;
+        right: 8px;
+        top: 0;
+    });
 
-    .app-dialog-dimensions();
+    .device(@ipad-l, {
+        left: 50%;
+        right: 8px;
+        top: 0px;
+    });
+
+    .dialog-shadow();
 
     .min-button {
         position: absolute;
@@ -86,8 +95,9 @@
 .media-item-scroll-container {
     overflow-y: auto;
     .hide-scrollbar();
-    height: 100%;
+    top: 0; left: 0; bottom: 0; right: 0;
     padding: 10px;
+    position: absolute;
 }
 
 .media-item-info {
@@ -97,12 +107,11 @@
     flex-direction: column;
     justify-content: flex-end; 
     padding: 10px;
-    position: relative;
-
 
     .title {
         font-size: 2.1rem;
         text-align: center;
+        flex-grow: 0;
     }
 
     .tags {
@@ -114,45 +123,37 @@
             margin-left: 4px;
             &:first-child { margin-left: 0; }
         }
+        flex-grow: 0;
     }
 
     .description {
         margin-top: 10px;
         text-align: center;
+        flex-grow: 1;
+        flex-basis: 50%;
     }
 
-
     .album-art-container {
+        flex-basis: 50%;
         margin-top: 16px;
-        flex-grow: 1;
+        flex-grow: 2;
+        flex-shrink: 1;
         display: flex;
         flex-direction: column; 
-        justify-content: center;
-        border-radius: 23px;
-        overflow: hidden;
-
-        .album-art {
-            margin-left: auto;
-            margin-right: auto;
-            position: relative;
-            display: flex;
-            flex-direction: row; 
-            justify-content: center;
-            .album-art-dimensions();
-            border-radius: 50%;
-            border: 2px solid @console-color;
-            .img-container {
-                width: 100%;
+        align-items: stretch;
+        position: relative;
+        .img-container {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            align-self: center;
+            img {
                 height: 100%;
+                width: 100%;
+                display: block;
                 border-radius: 50%;
-                background-position:50% 50%;
-                background-repeat: no-repeat;
-                background-size: cover;
-                background-position: center;
-                background-blend-mode: overlay;
-                border: 2px solid @console-color;
-
-            }
+                border: 1px solid @console-color;
+            }            
         }
     }   //.media-item-info      
 }

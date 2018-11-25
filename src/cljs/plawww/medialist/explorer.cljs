@@ -55,9 +55,7 @@
 
 (defn m->item [i {:keys [title id tags publish_on description_plain type duration] :as m} {:keys [anim-class category-name detail?]}]
   ^{:key id}
-  [:li.item {:class anim-class
-             :style {:visibility :hidden
-                     :animation-delay (str (* i 100) "ms")}}
+  [:li.item
    [:a {:href :#
         :on-click #(do
                      (session/put! :current-media-item m)
@@ -142,6 +140,12 @@
       :all-click #(swap! state assoc :included-tags #{})
       :close-click #(swap! state assoc :visible-dialog :none)}]]])
 
+(defn- media-info-comp [current-item on-close]
+  [media-item/item-info-component
+   {:on-play #(accountant.core/navigate! (explorer-path (:id current-item)))
+    :on-close on-close}
+   {:selected-item current-item}])
+
 (defn- media-info-modal [state current-item]
   (let [on-close (fn []
                    (session/put! :current-media-item nil)
@@ -149,10 +153,7 @@
     [ui/modal
      {:on-close on-close
       :visible? true}
-     [media-item/item-info-component
-      {:on-play #(accountant.core/navigate! (explorer-path (:id current-item)))
-       :on-close on-close}
-      {:selected-item current-item}]]))
+     [media-info-comp current-item on-close]]))
 
 (defn explorer-page []
   (let [state *state*
@@ -167,29 +168,31 @@
             media-items (db/items-for-tags media-items included-tags)
             sort-fn (sorter @sort-by-cursor)
             media-items (sort-fn media-items)
-            visible-dialog (or (and @current-item :media-info) (:visible-dialog @state))
+            ;visible-dialog (or (and @current-item :media-info) (:visible-dialog @state))
+            visible-dialog (:visible-dialog @state)
             searching? (not (empty? (:search-string @state)))
             anim-class :show-scaled-y]
         [:div.explorer
-         (when-not searching?
-           [toolbar/explorer-buttons {:sort-by (:sort-by @state)
-                                      :clicked #(swap! state assoc :sort-by %)
-                                      :detail? (:detail? @state)
-                                      :detail-clicked #(swap! state update :detail? not)}])
-         [:span.spacer]
-         (when (:category @state)
-           [plawww.categories.categories/category-component (:category @state) {:url (paths/categories-path "")
-                                                                                :index 0
-                                                                                :scale-on-hover? false}])
-         [:span.spacer]
-         [tags-component (:included-tags @state)]
-         [:span.spacer]
-         (into
-          [:ul.items]
-          (map-indexed #(m->item %1 %2 {:anim-class anim-class
-                                        :category-name (db/any-category-slug %2)
-                                        :detail? (:detail? @state)}) media-items))
-         [:span.spacer]
+         [:div.media-list
+          (when-not searching?
+            [toolbar/explorer-buttons {:sort-by (:sort-by @state)
+                                       :clicked #(swap! state assoc :sort-by %)
+                                       :detail? (:detail? @state)
+                                       :detail-clicked #(swap! state update :detail? not)}])
+          (when (:category @state)
+            [plawww.categories.categories/category-component (:category @state) {:url (paths/categories-path "")
+                                                                                 :index 0
+                                                                                 :scale-on-hover? false}])
+          #_[tags-component (:included-tags @state)]
+          (into
+           [:ul.items]
+           (map-indexed #(m->item %1 %2 {:anim-class anim-class
+                                         :category-name (db/any-category-slug %2)
+                                         :detail? (:detail? @state)}) media-items))]
+         [:div.current-item
+          (when @current-item
+            [media-info-comp @current-item])]
+
          (case visible-dialog
            :tag-editor
            [tag-editor-modal state {:included-tags included-tags

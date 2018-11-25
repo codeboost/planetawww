@@ -36,7 +36,9 @@
     [:div.frame.tv
      [:div.piece.output
       [:div.planeta-experience
-       (when navbar? [navbar])
-       [page-or-search-results page navbar/state]
-       page]]]]])
+       [:div.nav-area
+        (when navbar? [navbar])
+        [page-or-search-results page navbar/state]]
+       [:div.app-page
+        page]]]]]])
     

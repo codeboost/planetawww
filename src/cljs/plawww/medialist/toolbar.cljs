@@ -10,7 +10,7 @@
    [reagent.core :as r]))
 
 (defn- toggle-item [text on? on-click]
-  [:a.toggle-button
+  [:div.toggle-button
    {:on-click on-click
     :class (when on? :on)}
    text])

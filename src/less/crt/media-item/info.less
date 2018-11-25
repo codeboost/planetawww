@@ -23,21 +23,23 @@
     }
 
     .toolbar {
-        margin-bottom: 60px;
+        margin-bottom: 160px;
         display: flex;
         flex-direction: row;
         justify-content: center;
         background-color: @console-bg;
         flex-wrap: nowrap;
         .toolbar-item {
+            flex-basis: 25%;
             border: 1px solid @console-color;
             border-radius: 23px;
             vertical-align: middle;
-            flex-grow: 1;
+            flex-grow: 0;
             text-align: center;
             cursor: pointer;
             margin-left: 5px;
             margin-right: 5px;
+            padding: 16px;
             &:first-child {
             }
 
@@ -62,7 +64,7 @@
 
 .media-item-info {
     bottom: 4px;
-    flex-grow: 2;
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
     justify-content: flex-end; 
@@ -90,13 +92,13 @@
         margin-top: 10px;
         text-align: center;
         flex-grow: 1;
-        flex-basis: 50%;
+        flex-basis: 80%;
     }
 
     .album-art-container {
-        flex-basis: 50%;
+        flex-basis: 20%;
         margin-top: 16px;
-        flex-grow: 2;
+        flex-grow: 1;
         flex-shrink: 1;
         display: flex;
         flex-direction: column; 

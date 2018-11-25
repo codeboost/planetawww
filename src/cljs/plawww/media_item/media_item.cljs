@@ -9,7 +9,8 @@
   (:require [reagent.core :as r]
             [plawww.components.components :refer [tag-list-component]]
             [plawww.mediadb.core :as db]
-            [plawww.paths :as paths]))
+            [plawww.paths :as paths]
+            [plawww.ui :as ui]))
 
 (defn artwork-bg-image [url]
   (str "url(" url ")"))
@@ -97,7 +98,9 @@
          :info
          [info-component selected-item]
          :ecouri
-         [feedback-component])
+         [feedback-component]
+         :share
+         [ui/share-dialog-modal {:on-close on-close}])
 
        [:div.toolbar
         [toolbar-item "PLAY" on-play]
@@ -105,7 +108,10 @@
           :info
           [toolbar-item "ECOURI" #(swap! state assoc :section :ecouri)]
           :ecouri
-          [toolbar-item "INFO" #(swap! state assoc :section :info)])]])))
+          [toolbar-item "INFO" #(swap! state assoc :section :info)]
+          nil)
+
+        [toolbar-item "SHARE" #(swap! state assoc :section :share)]]])))
 
 
 

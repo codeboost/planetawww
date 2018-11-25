@@ -47,10 +47,11 @@
     (fn []
       [crt-page
        [explorer/explorer-page]
-       [media-item/item-info-component
-        {:on-play #(accountant.core/navigate! (explorer-path (:id @current-item-cursor)))
-         :on-close nil
-         :selected-item @current-item-cursor}]])))
+       (when @current-item-cursor
+         [media-item/item-info-component
+          {:on-play #(accountant.core/navigate! (explorer-path (:id @current-item-cursor)))
+           :on-close #(session/put! :current-media-item nil)
+           :selected-item @current-item-cursor}])])))
 
 (defn categories-page []
   (fn []

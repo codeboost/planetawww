@@ -256,37 +256,6 @@
        (when video?
          [toolbar-item "FULLSCREEN" #(.request js/window.screenfull (r/dom-node @the-player))])])))
 
-(defn share-dialog-modal [_]
-  (let [state (r/atom {:copied? false
-                       :input-element nil})]
-    (fn [{:keys [on-close]}]
-      (let [{:keys [copied? input-element]} @state]
-        [ui/modal
-         {:visible? true
-          :class [:share-dialog-modal]
-          :on-close on-close}
-         [:div.share-dialog-content
-          [:div.min-button [:a {:href :#
-                                :on-click on-close} "x"]]
-          [:div.dialog-content
-           (if copied?
-             [:h1 "COPIAT!"]
-             [:div.controls
-              [:input {:type :text
-                       :value (.-href (.-location js/window))
-                       :cols 50
-                       :read-only true
-                       :selected true
-                       :ref #(swap! state assoc :input-element %)}]
-              [:a.toggle-button.copy-button {:href :#
-                                             :on-click (fn []
-                                                         (when input-element
-                                                           (.select input-element)
-                                                           (.execCommand js/document "copy")
-                                                           (swap! state assoc :copied? true))
-                                                         (js/setTimeout #(on-close) 1000))}
-               "COPIAZA"]])]]]))))
-
 (defn player []
   (let [state mplayer-state]
     (fn []
@@ -301,7 +270,8 @@
            (when detail-visible?
              [player-toolbar state])
            (when share-dialog-visible?
-             [share-dialog-modal {:on-close #(swap! state assoc :share-dialog-visible? false)}])
+             [ui/share-dialog-modal {:on-close #(swap! state assoc :share-dialog-visible? false)
+                                     :share-url (.-href (.-location js/window))}])
            [:div.content
             [medium-player state]]]
           [:div.player.window.hidden])))))

@@ -90,10 +90,10 @@
     :old   (partial sort-by :publish_on #(compare %1 %2))
     (partial sort-by :title)))
 
-(defn tags-component [included-tags]
+(defn tags-component [included-tags on-click]
   [:div.taglist
    [:div.compressor]
-   [:div {:on-click #(set-opts {:visible-dialog :tag-editor})}
+   [:div {:on-click on-click}
     (if (empty? included-tags)
       "Toate"
       (clojure.string/join ", " included-tags))]
@@ -155,11 +155,20 @@
       :visible? true}
      [media-info-comp current-item on-close]]))
 
+(defn toolbar [{:keys [sort-by sort-by-clicked detail? detail-clicked tags tags-clicked]}]
+  [:div.toolbar.filters
+   [toolbar/explorer-buttons {:sort-by sort-by
+                              :clicked sort-by-clicked
+                              :detail? detail?
+                              :detail-clicked detail-clicked}]
+   [tags-component tags tags-clicked]])
+
 (defn explorer-page []
   (let [state *state*
         media-items (session/get :media-items)
         sort-by-cursor (r/cursor state [:sort-by])
-        current-item (session/cursor [:current-media-item])]
+        current-item (session/cursor [:current-media-item])
+        scrollable-items-ref (r/atom nil)]
     (fn []
 
       (let [included-tags (:included-tags @state)
@@ -175,17 +184,21 @@
         [:div.explorer
          [:div.media-list
           (when-not searching?
-            [toolbar/explorer-buttons {:sort-by (:sort-by @state)
-                                       :clicked #(swap! state assoc :sort-by %)
-                                       :detail? (:detail? @state)
-                                       :detail-clicked #(swap! state update :detail? not)}])
+            [toolbar {:sort-by (:sort-by @state)
+                      :sort-by-clicked (fn [sort-by]
+                                         (let [el @scrollable-items-ref]
+                                           (set! (.-scrollTop el)  0)
+                                           (swap! state assoc :sort-by sort-by)))
+                      :detail? (:detail? @state)
+                      :detail-clicked #(swap! state update :detail? not)
+                      :tags (:included-tags @state)
+                      :tags-clicked #(swap! state assoc :visible-dialog :tag-editor)}])
           (when (:category @state)
             [plawww.categories.categories/category-component (:category @state) {:url (paths/categories-path "")
                                                                                  :index 0
                                                                                  :scale-on-hover? false}])
-          #_[tags-component (:included-tags @state)]
           (into
-           [:ul.items]
+           [:ul.items {:ref #(reset! scrollable-items-ref %)}]
            (map-indexed #(m->item %1 %2 {:anim-class anim-class
                                          :category-name (db/any-category-slug %2)
                                          :detail? (:detail? @state)}) media-items))]

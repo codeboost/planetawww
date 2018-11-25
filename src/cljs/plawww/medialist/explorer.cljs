@@ -143,8 +143,8 @@
 (defn- media-info-comp [current-item on-close]
   [media-item/item-info-component
    {:on-play #(accountant.core/navigate! (explorer-path (:id current-item)))
-    :on-close on-close}
-   {:selected-item current-item}])
+    :on-close on-close
+    :selected-item current-item}])
 
 (defn- media-info-modal [state current-item]
   (let [on-close (fn []

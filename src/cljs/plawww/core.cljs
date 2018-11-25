@@ -24,7 +24,8 @@
    [reagent.session :as session]
    [secretary.core :as secretary :refer [defroute]]
    [plawww.media-player.core :as player]
-   [plawww.utils :as utils]))
+   [plawww.utils :as utils]
+   [plawww.media-item.media-item :as media-item]))
 
 (defonce ^:export ALLMEDIA (js->clj js/kolbasulPlanetar :keywordize-keys true))
 
@@ -34,16 +35,22 @@
 
 (defn about-page []
   [crt-page
-   [about/page]])
+   [about/page]
+   [:div "DETAIL!"]])
 
 (defn barul-page []
   [crt-page
    [barul/page]])
 
 (defn explorer-page []
-  (fn []
-    [crt-page
-     [explorer/explorer-page]]))
+  (let [current-item-cursor (session/cursor [:current-media-item])]
+    (fn []
+      [crt-page
+       [explorer/explorer-page]
+       [media-item/item-info-component
+        {:on-play #(accountant.core/navigate! (explorer-path (:id @current-item-cursor)))
+         :on-close nil
+         :selected-item @current-item-cursor}]])))
 
 (defn categories-page []
   (fn []

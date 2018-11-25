@@ -88,8 +88,11 @@
 
 (defn item-info-component [{:keys [on-play on-close]} _]
   (let [state (r/atom {:section :info})]
-    (fn [_ {:keys [selected-item]}]
+    (fn [{:keys [on-play on-close selected-item]}]
       [:div.media-item-info-container
+       (when on-close
+         [:div.min-button [:a {:href :#
+                               :on-click on-close} "x"]])
        (case (:section @state)
          :info
          [info-component selected-item]

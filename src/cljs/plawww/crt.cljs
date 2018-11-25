@@ -29,7 +29,7 @@
       (when searching?
         [search-results *state ss]))))
 
-(defn crt-page [page & [{:keys [detail-page]}]]
+(defn crt-page [page & [detail-page]]
   [:div.vert-container
    [:div.tv.noisy
     [:div.frame.tv
@@ -40,6 +40,7 @@
          [navbar]
          [page-or-search-results page navbar/state]]
         [:div.app-page page]]
-       [:div.detail detail-page]]]]]])
+       [:div.detail {:style (when (nil? detail-page) {:display :none})} detail-page]]]]]])
+
 
     

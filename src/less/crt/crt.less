@@ -9,11 +9,10 @@
 // basic screen module
 .piece {
   display: block;
-  bottom: 16px; //space for player
+  bottom: 0; //space for player
   left: 0;
   top: 0;
   width: 100%;
-  padding: 1rem;
 }
 
 // prevent clicks
@@ -26,11 +25,11 @@
 
 .frame {
   background-color: transparent;
-  height: 96%;
   position: absolute;
-  top: 2%;
-  left: 2%;
-  width: 96%;
+  top: 8px;
+  left: 8px;
+  bottom: 8px;
+  right: 8px;
   pointer-events: none;
   background-color: @console-bg;
 }
@@ -45,6 +44,8 @@
   //text-shadow: 0rem 0.2rem 1rem lighten(@console-bg,20%);
   overflow: hidden;
   .hide-scrollbar();
+  border: 1px solid @console-color;
+  border-radius: 23px;
 }
 
 @keyframes crt-output {

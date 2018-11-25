@@ -15,7 +15,7 @@
 
 .planeta-experience {
   position: absolute;
-  top: 0; right: 0; left: 0; bottom: 50px;
+  top: 0; right: 0; left: 0; bottom: 0;
   overflow: hidden;
   display: flex;
   flex-direction: row;
@@ -28,9 +28,11 @@
     flex-direction: column;
     .device(@ipad-l, @desktop, @desktop-xl; {
       flex-basis: 40%;
+      border-right: 2px dotted @console-color;
     });
 
     .nav-area {
+      margin-top: 8px;
       height: 120px;
       flex-grow: 0;
     }

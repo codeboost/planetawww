@@ -8,31 +8,39 @@
 	display: flex;
 	flex-direction: row;
 	align-items: stretch;
-	width: 100%;
 	height: 100%;
 	overflow: hidden;
 
+	.device(@iphone, @iphone-l; {
+		margin-left: 16px;
+		margin-right: 16px;
+	});
+
+	.device(@ipad, {
+		margin-left: 10%;
+		margin-right: 10%;
+	});
+
 	.current-item {
+		flex-basis: 60%;
+		flex-grow: 1;
+		flex-shrink: 1;
+		margin-left: 16px;
+		margin-right: 16px;
 		display: none;
-		.device(@ipad-l, {
+		.device(@ipad-l, @desktop, @desktop-xl; {
 			display: block;
 		});
 	}
 
 	.media-list {
+		flex-basis: 40%;
+		flex-grow: 1;
+		flex-shrink: 1;
 		display: flex;
 		flex-direction: column;
 		align-items: stretch;
-
-		.device(@iphone, @iphone-l; {
-			margin-left: 16px;
-			margin-right: 16px;
-		});
-
-		.device(@ipad, {
-			margin-left: auto;
-			margin-right: auto;
-		});
+		overflow: hidden;
 
 		.category {
 			align-self: center;
@@ -60,6 +68,7 @@
 			justify-content: stretch;
 			margin: 0;
 			overflow-y: auto;
+			.hide-scrollbar();
 
 			.item {
 				margin-top: 16px;
@@ -78,7 +87,7 @@
 				}
 
 				.item-container {
-					.dialog-shadow();
+					//.dialog-shadow();
 					
 					border: 1px solid @console-color;
 					padding: 10px 14px 10px 10px;
@@ -186,6 +195,9 @@
 			margin-top: 15px;
 			text-align: center;
 			cursor: pointer;
+			max-height: 70px;
+			overflow-y: auto;
+			.hide-scrollbar();
 		}
 
 		.glass {

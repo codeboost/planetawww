@@ -16,15 +16,43 @@
 .planeta-experience {
   position: absolute;
   top: 0; right: 0; left: 0; bottom: 50px;
-  overflow: hidden; 
-  .nav-area {
-    top: 0;
-    height: 120px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+
+  .primary {
+    flex-grow: 1;
+    flex-shrink: 1;
+    display: flex;
+    flex-direction: column;
+    .device(@ipad-l, @desktop, @desktop-xl; {
+      flex-basis: 40%;
+    });
+
+    .nav-area {
+      height: 120px;
+      flex-grow: 0;
+    }
+
+    .app-page {
+      flex-basis: 120px;
+      flex-grow: 1;
+      overflow: hidden;
+    }
+
   }
-  .app-page {
-    position: absolute;
-    top: 120px;
-    bottom: 0; left: 0; right: 0;
+
+  .detail {
+    display: none;
+    .device(@ipad-l, @desktop, @desktop-xl; {
+      flex-basis: 60%;
+      display: block;
+    });
+
+    flex-basis: 60%;
+    flex-grow: 1;
+    flex-shrink: 1;
   }
 }
 

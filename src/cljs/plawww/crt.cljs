@@ -29,16 +29,17 @@
       (when searching?
         [search-results *state ss]))))
 
-(defn crt-page [page & [{:keys [navbar?]
-                         :or {navbar? true}}]]
+(defn crt-page [page & [{:keys [detail-page]}]]
   [:div.vert-container
    [:div.tv.noisy
     [:div.frame.tv
      [:div.piece.output
       [:div.planeta-experience
-       [:div.nav-area
-        (when navbar? [navbar])
-        [page-or-search-results page navbar/state]]
-       [:div.app-page
-        page]]]]]])
+       [:div.primary
+        [:div.nav-area
+         [navbar]
+         [page-or-search-results page navbar/state]]
+        [:div.app-page page]]
+       [:div.detail detail-page]]]]]])
+
     

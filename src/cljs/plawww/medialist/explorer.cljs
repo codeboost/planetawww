@@ -202,9 +202,9 @@
            (map-indexed #(m->item %1 %2 {:anim-class anim-class
                                          :category-name (db/any-category-slug %2)
                                          :detail? (:detail? @state)}) media-items))]
-         [:div.current-item
-          (when @current-item
-            [media-info-comp @current-item])]
+         #_[:div.current-item
+            (when @current-item
+              [media-info-comp @current-item])]
 
          (case visible-dialog
            :tag-editor

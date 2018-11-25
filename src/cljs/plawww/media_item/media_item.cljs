@@ -90,8 +90,6 @@
   (let [state (r/atom {:section :info})]
     (fn [_ {:keys [selected-item]}]
       [:div.media-item-info-container
-       [:div.min-button [:a {:href :#
-                             :on-click on-close} "x"]]
        (case (:section @state)
          :info
          [info-component selected-item]

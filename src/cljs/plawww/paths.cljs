@@ -63,6 +63,10 @@
   [subpath]
   (*-path EXPLORER_PATH subpath))
 
+(defn full-explorer-path [basename subpath]
+  (str basename (explorer-path subpath)))
+
+
 (defn categories-path [subpath]
   (*-path CATEGORIES_PATH subpath))
 

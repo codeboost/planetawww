@@ -90,6 +90,7 @@
 (defn item-info-component [{:keys [on-play on-close]} _]
   (let [state (r/atom {:section :info})]
     (fn [{:keys [on-play on-close selected-item]}]
+      (js/console.log (paths/full-explorer-path (.-origin (.-location js/window)) (:id selected-item)))
       [:div.media-item-info-container
        (when on-close
          [:div.min-button [:a {:href :#
@@ -100,7 +101,8 @@
          :ecouri
          [feedback-component]
          :share
-         [ui/share-dialog-modal {:on-close on-close}])
+         [ui/share-dialog-modal {:on-close on-close
+                                 :share-url (paths/full-explorer-path (.-origin (.-location js/window)) (:id selected-item))}])
 
        [:div.toolbar
         [toolbar-item "PLAY" on-play]

@@ -157,9 +157,7 @@
       (let [page @page-cursor
             current-item @current-item-cursor]
         (if page
-          [:div [page]
-           ;The things below are not affected by page scrolling
-           [:div [player/player]]]
+          [page]
           [:div "Dapu-kaneshna-kiar-amush ! Nu-i asa ceva, nu-i ! "])))))
 
 (defn mount-root []

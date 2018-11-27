@@ -7,6 +7,7 @@
 @import "home";
 @import "interactive/core";
 @import "about/about";
+@import "dialogs";
 
 .frame.tv {
   overflow-y: auto;
@@ -16,41 +17,53 @@
 .planeta-experience {
   position: absolute;
   top: 0; right: 0; left: 0; bottom: 0;
-  overflow: hidden;
+
   display: flex;
-  flex-direction: row;
+  flex-direction: column; 
+  align-items: stretch; 
   flex-wrap: nowrap;
 
-  .primary {
-    flex-grow: 1;
-    flex-shrink: 1;
+  .page-layout {
+    overflow: hidden;
     display: flex;
-    flex-direction: column;
-    flex-basis: 80%;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    flex-grow: 1;
 
-    //By default, when detail is visible, primary pane should be hidden
-    &.detailed {
-      display: none;
-      //On an ipad and larger screen, primary pane takes 40% of the screen
-      .device(@ipad-l, @desktop, @desktop-xl; {
-        flex-basis: 40%;
-        border-right: 2px dotted @console-color;
-        display: flex;
-      });
-    }
-
-    .nav-area {
-      margin-top: 8px;
-      height: 120px;
-      flex-grow: 0;
-    }
-
-    .app-page {
-      flex-basis: 120px;
+    .primary {
       flex-grow: 1;
-      overflow: hidden;
-    }
+      flex-shrink: 1;
+      display: flex;
+      flex-direction: column;
+      flex-basis: 80%;
 
+      //By default, when detail is visible, primary pane should be hidden
+      &.detailed {
+        display: none;
+        //On an ipad and larger screen, primary pane takes 40% of the screen
+        .device(@ipad-l, @desktop, @desktop-xl; {
+          flex-basis: 40%;
+          border-right: 2px dotted @console-color;
+          display: flex;
+        });
+      }
+
+      .nav-area {
+        margin-top: 8px;
+        height: 120px;
+        flex-grow: 0;
+      }
+
+      .app-page {
+        flex-basis: 120px;
+        flex-grow: 1;
+        overflow: hidden;
+      }
+    }
+  }
+
+  .player-space {
+    height: @player-height;
   }
 
   //The detail pane, hidden in portrait and small screens

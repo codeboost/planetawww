@@ -35,12 +35,15 @@
     [:div.frame.tv
      [:div.piece.output
       [:div.planeta-experience
-       [:div.primary {:class (when detail-page :detailed)}
-        [:div.nav-area
-         [navbar]
-         [page-or-search-results page navbar/state]]
-        [:div.app-page page]]
-       [:div.detail {:class (when detail-page :detailed)} detail-page]]]]]])
+       [:div.page-layout
+        [:div.primary {:class (when detail-page :detailed)}
+         [:div.nav-area
+          [navbar]
+          [page-or-search-results page navbar/state]]
+         [:div.app-page page]]
+        [:div.detail {:class (when detail-page :detailed)} detail-page]]
+       [:div.player-space]]
+      [player/player]]]]])
 
 
     

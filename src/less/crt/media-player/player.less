@@ -15,15 +15,6 @@
 	display: none; 
 }
 
-
-.grow8 {
-	flex-grow: 8;
-}
-
-.grow2 {
-	flex-grow: 2;
-}
-
 .window {
 	border: 2px solid @console-color;
 	background-color: @console-bg;
@@ -34,15 +25,15 @@
 }
 
 .player {
+	position: absolute;
+	bottom: 0;
+	left: 0; right: 0;
 	z-index: 3999;
-	position: absolute; 
-	bottom: 16px;
-	height: auto;
+	height: @player-height;
 	justify-content: center; 
 	align-items: stretch;
 	align-content: stretch;
-	left: 25%;
-	right: 25%;
+	width: 100%;
 
 	@media (max-width: 640px) {
 		left: 8px;
@@ -51,19 +42,6 @@
 	
 	.detail {
 		display: none;
-
-	  .min-button {
-        position: absolute;
-        top: 8px;
-        right: 8px;
-        width: 16px;
-        height: 16px;
-        cursor: pointer;
-        .pressed {
-			background-color: @console-color;
-			color: @console-bg;
-        }
-    }
 	}
 
 	&.detail-visible {
@@ -248,51 +226,6 @@
 	}
 }
 
-
-.share-dialog-content {
-	position: absolute;
-	border: 1px solid @console-color;
-	margin: auto;
-	top: 0; bottom: 0; left: 0; right: 0;
-	overflow: hidden;
-	background-color: @console-bg;
-	border-radius: 23px;
-	.dialog-shadow();
-
-	.multi-media(
-		{margin: 16px;}, 
-		{max-width: 320px; max-height: 160px;}, 
-		{max-width: 320px; max-height: 160px;});
-
-	.dialog-content {
-		.controls {
-			margin-top: 50px;
-			display: flex;
-			align-items: center;
-			justify-content: : center;
-			flex-direction: column;
-
-			input {
-				text-transform: none;
-			}
-
-			.copy-button {
-				margin-top: 10px;
-			}
-		}
-		h1 {
-			align-self: center;
-			text-align: center;
-			vertical-align: middle;
-		}
-
-	}	
-}
-
-.pm-overlay.share-dialog-modal {
-    z-index: 4000;
-    opacity: 0.8;
- }
 
 
 

@@ -1,0 +1,77 @@
+@import "base";
+
+.min-button {
+	position: absolute;
+	top: 8px;
+	right: 8px;
+	width: 16px;
+	height: 16px;
+	cursor: pointer;
+	z-index: 9999;
+	.pressed {
+		background-color: @console-color;
+		color: @console-bg;
+	}
+}
+
+.share-dialog-content {
+	position: absolute;
+	border: 1px solid @console-color;
+	margin: auto;
+	top: 0; bottom: 0; left: 0; right: 0;
+	overflow: hidden;
+	background-color: @console-bg;
+	border-radius: 23px;
+	.dialog-shadow();
+
+	.multi-media(
+		{margin: 16px;}, 
+		{max-width: 320px; max-height: 160px;}, 
+		{max-width: 320px; max-height: 160px;});
+
+	.dialog-container {
+		display: flex;
+		flex-direction: column;
+		align-content: center;
+		justify-content: center;
+		position: absolute;
+		top: 0; left: 0;
+		bottom: 0; right: 0;
+		overflow: hidden;
+	}
+
+	.dialog-content {
+		.title {
+			align-self: center;
+			text-align: center;
+			vertical-align: middle;
+			width: 100%;
+			margin-bottom: 16px;
+		}
+		.controls {
+			display: flex;
+			align-items: center;
+			justify-content: : center;
+			flex-direction: column;
+
+			input {
+				text-transform: none;
+			}
+
+			.copy-button {
+				margin-top: 10px;
+			}
+		}
+		h1 {
+			align-self: center;
+			text-align: center;
+			vertical-align: middle;
+		}
+
+	}	
+}
+
+.pm-overlay.share-dialog-modal {
+	z-index: 4000;
+	opacity: 0.8;
+}

@@ -141,21 +141,24 @@
          [:div.share-dialog-content
           [:div.min-button [:a {:href :#
                                 :on-click on-close} "x"]]
-          [:div.dialog-content
-           (if copied?
-             [:h1 "COPIAT!"]
-             [:div.controls
-              [:input {:type :text
-                       :value share-url
-                       :cols 50
-                       :read-only true
-                       :selected true
-                       :ref #(swap! state assoc :input-element %)}]
-              [:a.toggle-button.copy-button {:href :#
-                                             :on-click (fn []
-                                                         (when input-element
-                                                           (.select input-element)
-                                                           (.execCommand js/document "copy")
-                                                           (swap! state assoc :copied? true))
-                                                         (js/setTimeout #(on-close) 1000))}
-               "COPIAZA"]])]]]))))
+          [:div.dialog-container
+           [:div.dialog-content
+            [:div.title [:strong "SHAREUIESTE URL-ul"]]
+
+            (if copied?
+              [:h1 "COPIAT!"]
+              [:div.controls
+               [:input {:type :text
+                        :value share-url
+                        :cols 50
+                        :read-only true
+                        :selected true
+                        :ref #(swap! state assoc :input-element %)}]
+               [:a.toggle-button.copy-button {:href :#
+                                              :on-click (fn []
+                                                          (when input-element
+                                                            (.select input-element)
+                                                            (.execCommand js/document "copy")
+                                                            (swap! state assoc :copied? true))
+                                                          (js/setTimeout #(on-close) 1000))}
+                "COPIAZA"]])]]]]))))

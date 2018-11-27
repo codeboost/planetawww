@@ -24,19 +24,25 @@
 (defn img-container [_]
   (let [dom-el (r/atom nil)
         transform-style (r/atom nil)
-        resize-proportionally (fn []
-                                (let [el @dom-el
-                                      w (.-offsetWidth el)
-                                      h (.-offsetHeight el)]
-                                  (js/console.log w "x" h)
-                                  (if (and (pos? w) (pos? h))
-                                    (let [scale-x (when (> w h) (/ h w))
-                                          scale-y (when (> h w) (/ w h))
-                                          scale-x (when scale-x (str "scaleX(" scale-x ")"))
-                                          scale-y (when scale-y (str "scaleY(" scale-y ")"))]
-                                      (reset! transform-style (or scale-x scale-y))
-                                      (js/console.log scale-x "-" scale-y))
-                                    (reset! transform-style nil))))]
+        display (r/atom :none)
+        resize-proportionally
+        (fn []
+          (let [el @dom-el
+                w (.-offsetWidth el)
+                h (.-offsetHeight el)]
+            (js/console.log w "x" h)
+            (if (and (pos? w) (pos? h))
+              (let [scale-x (when (> w h) (/ h w))
+                    scale-y (when (> h w) (/ w h))
+                    scale-x (when scale-x (str "scaleX(" scale-x ")"))
+                    scale-y (when scale-y (str "scaleY(" scale-y ")"))]
+                (reset! transform-style (or scale-x scale-y))
+                (js/console.log scale-x "-" scale-y))
+              (reset! transform-style nil))))
+        on-image-load
+        (fn []
+          (resize-proportionally)
+          (reset! display :block))]
 
       (r/create-class
        {:component-did-mount
@@ -60,7 +66,9 @@
            [:img {:src (paths/media-image-path id {:show-custom? (= type "video")
                                                    :category-name (db/any-category-slug item)
                                                    :size :large})
-                  :style {:transform @transform-style}}]])})))
+                  :style {:transform @transform-style
+                          :display @display}
+                  :on-load on-image-load}]])})))
 
 
 
@@ -88,9 +96,10 @@
          :target "_new-twitter"} "https://twitter.com/planetamoldova_"]]])
 
 (defn item-info-component [{:keys [on-play on-close]} _]
-  (let [state (r/atom {:section :info})]
+  (let [state (r/atom {:section :info
+                       :share-dialog-visible? false})]
     (fn [{:keys [on-play on-close selected-item]}]
-      (js/console.log (paths/full-explorer-path (.-origin (.-location js/window)) (:id selected-item)))
+      (js/console.log "section:" (:section @state))
       [:div.media-item-info-container
        (when on-close
          [:div.min-button [:a {:href :#
@@ -99,10 +108,7 @@
          :info
          [info-component selected-item]
          :ecouri
-         [feedback-component]
-         :share
-         [ui/share-dialog-modal {:on-close on-close
-                                 :share-url (paths/full-explorer-path (.-origin (.-location js/window)) (:id selected-item))}])
+         [feedback-component])
 
        [:div.toolbar
         [toolbar-item "PLAY" on-play]
@@ -113,7 +119,10 @@
           [toolbar-item "INFO" #(swap! state assoc :section :info)]
           nil)
 
-        [toolbar-item "SHARE" #(swap! state assoc :section :share)]]])))
+        [toolbar-item "SHARE" #(swap! state assoc :share-dialog-visible? true)]]
+       (when (:share-dialog-visible? @state)
+         [ui/share-dialog-modal {:on-close #(swap! state assoc :share-dialog-visible? false)
+                                 :share-url (paths/full-explorer-path (.-origin (.-location js/window)) (:id selected-item))}])])))
 
 
 

@@ -1,0 +1,53 @@
+@import "../base";
+
+.volume-control {
+	flex-grow: 0;
+	display: flex; 
+	align-items: center; 
+	.progress-bar {
+		width: 160px;
+		height: 16px;
+		.progress-bar-progress {
+		}
+	}
+
+}
+
+
+.volume-selector {
+	position: absolute;
+	right: 4px;
+	bottom: 0px;
+	width: 32px;
+	height: 200px;
+	.vertical-progress-bar {
+		width: 100%;
+		height: 100%;
+		position: relative;
+		bottom: 30px;
+		border: 2px solid @console-color;
+		background-color: @console-bg;
+		border-top-left-radius: 23px;
+		border-top-right-radius: 23px;
+
+		.vertical-progress-bar-progress {
+			background-color: @console-color; 
+			width: 100%;
+			pointer-events: none; 
+			position: absolute;
+			border-top-left-radius: 23px;
+			border-top-right-radius: 23px;
+			cursor: move;
+			bottom: 0;
+		}
+	}	
+	.faker {
+		border-radius: 23px;
+		position: absolute;
+		bottom: 0px;
+		height: 44px;
+		width: 100%;
+		background-color: @console-color; 
+	}
+}	
+

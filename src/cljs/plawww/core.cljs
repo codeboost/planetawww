@@ -83,8 +83,7 @@
   (explorer/set-opts (or opts {:included-tags #{}}))
   (let [item (and id (media-item-for-id (js/parseInt id)))]
     (when item
-      (player/set-current-item item))
-    (session/put! :current-media-item nil)))
+      (player/set-current-item item))))
 
 (defn show-categories-page []
   (session/put! :current-page #'categories-page))
@@ -157,7 +156,9 @@
       (let [page @page-cursor
             current-item @current-item-cursor]
         (if page
-          [page]
+          [:div
+           [page]
+           [player/player]]
           [:div "Dapu-kaneshna-kiar-amush ! Nu-i asa ceva, nu-i ! "])))))
 
 (defn mount-root []

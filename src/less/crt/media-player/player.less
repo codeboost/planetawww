@@ -1,26 +1,27 @@
 @import "progress-bar";
-@import "volume-control";
-
-.vstack {
-	display: flex; 
-	flex-direction: column; 
-}
-
-.hstack {
-	display: flex;
-	flex-direction: row;
-}
 
 .hidden {
 	display: none; 
 }
 
-.window {
-	border: 2px solid @console-color;
-	background-color: @console-bg;
-	border-radius: 23px;
-	.content {
-		margin: 4px;
+//Heights mixin for various player states 
+.player-heights () {
+
+	//Default, minimised
+	height: @player-height;
+
+	&.detail-visible.video {
+		@media (max-height: 800px) {
+			top: 8px;
+		}
+
+		@media (min-height: 800px) {
+			height: 800px;
+		}		
+	}
+
+	&.detail-visible.audio {
+		height: 100px;
 	}
 }
 
@@ -29,40 +30,30 @@
 	bottom: 0;
 	left: 0; right: 0;
 	z-index: 3999;
-	height: @player-height;
 	justify-content: center; 
 	align-items: stretch;
 	align-content: stretch;
 	width: 100%;
+	display: flex; 
+	flex-direction: column; 
+	border: 2px solid @console-color;
+	background-color: @console-bg;
+	border-radius: @ui-border-radius;
 
-	@media (max-width: 640px) {
-		left: 8px;
-		right: 8px;
-	}
-	
+	.player-heights();
+
 	.detail {
 		display: none;
 	}
-
+	
 	&.detail-visible {
 
-		@media (max-height: 800px) {
-			top: 8px;
-		}
-
-		@media (min-height: 800px) {
-			height: 800px;
-		}			
-
 		.detail {
-			bottom: 4px;
-			flex-grow: 2;
+			flex-grow: 1;
 			display: flex;
 			flex-direction: column;
 			justify-content: flex-end; 
-			padding: 10px;
-			position: relative;
-
+	
 			.pm-media-player {
 				.react-player {
 					margin-top: auto;
@@ -73,13 +64,13 @@
 		} //.detail
 	
 		.toolbar {
-			border-top: 1px solid @console-color;
 			border-bottom: 1px solid @console-color;;
 			display: flex;
 			flex-direction: row;
 			justify-content: space-around;
 			width: 100%;
 			flex-wrap: nowrap;
+			height: 26px;
 
 			.toolbar-item {
 				border-right: 1px solid @console-color;
@@ -111,9 +102,12 @@
 		display: flex;
 		flex-direction: column; 
 		justify-content: center;
+		margin: 4px;
 	}
 
 	.controls {
+		
+		@import "volume-control";
 		
 		.progress-bar {
 			#player-controls > .progress-bar;
@@ -133,18 +127,6 @@
 				text-align: right;
 				max-width: 120px;
 				float: right;
-			}
-		}
-
-		.volume-control {
-			flex-grow: 0;
-			display: flex; 
-			align-items: center; 
-			.progress-bar {
-				width: 160px;
-				height: 16px;
-				.progress-bar-progress {
-				}
 			}
 		}
 
@@ -178,50 +160,10 @@
 			z-index: 10;
 		}
 
-		.volume-control {
-				.accessory-button {
-					font-size: 16px;
-					margin-right:4px;
-					z-index: 10;
-				}
-		}
-
-		.volume-selector {
-			position: absolute;
-			right: 4px;
-			bottom: 0px;
-			width: 32px;
-			height: 200px;
-			.vertical-progress-bar {
-				width: 100%;
-				height: 100%;
-				position: relative;
-				bottom: 30px;
-				border: 2px solid @console-color;
-				background-color: @console-bg;
-				border-top-left-radius: 23px;
-				border-top-right-radius: 23px;
-
-				.vertical-progress-bar-progress {
-					background-color: @console-color; 
-					width: 100%;
-					pointer-events: none; 
-					position: absolute;
-					border-top-left-radius: 23px;
-					border-top-right-radius: 23px;
-					cursor: move;
-					bottom: 0;
-				}
-			}	
-			.faker {
-				border-radius: 23px;
-				position: absolute;
-				bottom: 0px;
-				height: 44px;
-				width: 100%;
-				background-color: @console-color; 
-			}
-
+		.volume-control .accessory-button {
+			font-size: 16px;
+			margin-right:4px;
+			z-index: 10;			
 		}
 	}
 }

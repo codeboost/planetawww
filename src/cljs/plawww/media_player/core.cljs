@@ -61,11 +61,12 @@
 (defn set-current-item [item]
   (let [muted (:muted @mplayer-state)
         playing? (not muted)
-        detail-visible? (or (= (:type item) "video")
+        video? (= (:type item) "video")
+        detail-visible? (or video?
                             (not (:playing @mplayer-state)))]
     (swap! mplayer-state merge {:item item
                                 :visible true
-                                :detail-visible? true
+                                :detail-visible? video?
                                 :playing playing?})
     (utils/ga "set" "page" (.-pathname (.-location js/window)))
     (utils/ga "send" "pageview"))
@@ -218,7 +219,7 @@
   [state]
   (let [ls state]
     (fn []
-      (let [{:keys [volume]} @state]
+      (let [{:keys [volume item]} @state]
         [:div.volume-control
          [toggle-accessory-button ls (volume-text volume) :volume-visible?]
          (when (:volume-visible? @ls)
@@ -235,7 +236,10 @@
     [song-progress (:played @state) #(do
                                        (.seekTo @mplayer %)
                                        (update-played-time! mplayer state))]
-    [toggle-accessory-button state "i" :detail-visible?]
+    [:div.accessory-button
+     {:on-click #(swap! state update :detail-visible? not)
+      :class    (when (:detail-visible? @state) :selected)}
+     "i"]
     [volume-control state]]])
 
 (defn toolbar-item [title on-click]
@@ -259,19 +263,17 @@
 (defn player []
   (let [state mplayer-state]
     (fn []
-      (let [{:keys [visible item detail-visible? share-dialog-visible? type]} @state]
-        (if visible
-          [:div.player.window.vstack {:class (when detail-visible? "detail-visible")
-                                      :ref #(reset! the-player %)}
-           [:div.detail {:class (:type item)}
-            [media-item/info-component item {:show-details? (= (:type item) "audio")}]
-            [media-player state]
-            [minimise-button "x" #(set-detail-visible false)]]
-           (when detail-visible?
-             [player-toolbar state])
-           (when share-dialog-visible?
-             [ui/share-dialog-modal {:on-close #(swap! state assoc :share-dialog-visible? false)
-                                     :share-url (.-href (.-location js/window))}])
-           [:div.content
-            [medium-player state]]]
-          [:div.player.window.hidden])))))
+      (let [{:keys [visible item detail-visible? share-dialog-visible? type]} @state
+            item-type (:type item)
+            video? (= item-type "video")
+            class (if detail-visible? [:detail-visible item-type] [item-type])]
+        [:div.player {:class class
+                      :ref #(reset! the-player %)}
+         [:div.detail
+          (when video? [minimise-button "x" #(set-detail-visible false)])
+          [media-player state]]
+         #_(when detail-visible? [player-toolbar state])
+         [:div.content [medium-player state]]
+         (when share-dialog-visible?
+           [ui/share-dialog-modal {:on-close #(swap! state assoc :share-dialog-visible? false)
+                                   :share-url (.-href (.-location js/window))}])]))))

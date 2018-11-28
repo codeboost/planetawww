@@ -42,8 +42,7 @@
           [page-or-search-results page navbar/state]]
          [:div.app-page page]]
         [:div.detail {:class (when detail-page :detailed)} detail-page]]
-       [:div.player-space]]
-      [player/player]]]]])
+       [:div.player-space]]]]]])
 
 
     

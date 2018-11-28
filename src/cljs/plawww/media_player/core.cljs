@@ -81,14 +81,6 @@
 (defn- set-audio-volume [percent]
   (swap! mplayer-state assoc :volume percent))
 
-(defn time-label [ms-duration progress]
-  (let [ms-duration (js/parseFloat ms-duration)
-        duration (ms->s ms-duration)]
-    [:div.time-label.playback-time.small-text
-     (str
-      (utils/format-duration (* progress duration))
-      "/"
-      (utils/format-duration duration))]))
 
 (defn- flush-play!
   "Call when muted is true.
@@ -116,18 +108,6 @@
        {:class (when playing :selected)
         :on-click #(toggle-play state)}
        text])))
-
-
-(defn song-progress [played on-click]
-  [:span.song-progress
-   (progress-bar/progress-bar played on-click)])
-
-(defn- toggle-accessory-button
-  [state text key]
-  [:div.accessory-button
-   {:on-click #(swap! state update-in [key] not)
-    :class    (when (@state key) :selected)}
-   text])
 
 (defn- update-played-time! [mplayer state]
   (let [current-time (.getCurrentTime @mplayer)
@@ -204,6 +184,31 @@
                             #_(swap! state assoc :played (.. p -played)))}]]))})))
 
 
+
+(defn time-label [ms-duration progress]
+  (let [ms-duration (js/parseFloat ms-duration)
+        duration (ms->s ms-duration)]
+    [:div.time-label.playback-time.small-text
+     (str
+      (utils/format-duration (* progress duration))
+      "/"
+      (utils/format-duration duration))]))
+
+
+(defn song-progress [progress duration on-click]
+  [:span.song-progress
+   [:div.time-label.current (utils/format-duration (* progress duration))]
+   (progress-bar/progress-bar progress on-click)
+   [:div.time-label.duration (utils/format-duration duration)]])
+
+
+(defn- toggle-accessory-button
+  [state text key]
+  [:div.accessory-button
+   {:on-click #(swap! state update-in [key] not)
+    :class    (when (@state key) :selected)}
+   text])
+
 (defn- volume-text [percent]
   (cond
     (< percent 0.01) "   "
@@ -233,9 +238,9 @@
   [:div.min-player
    [:div.controls
     [play-button state]
-    [song-progress (:played @state) #(do
-                                       (.seekTo @mplayer %)
-                                       (update-played-time! mplayer state))]
+    [song-progress (:played @state) (:duration @state) #(do
+                                                          (.seekTo @mplayer %)
+                                                          (update-played-time! mplayer state))]
     [:div.accessory-button
      {:on-click #(swap! state update :detail-visible? not)
       :class    (when (:detail-visible? @state) :selected)}
@@ -270,6 +275,9 @@
         [:div.player {:class class
                       :ref #(reset! the-player %)}
          [:div.detail
+          [:div.title-container
+           #_[:img.item-icon {:src (paths/media-image-path (:id item) {:show-custom? true})}]
+           [:h3.title (:title item)]]
           (when video? [minimise-button "x" #(set-detail-visible false)])
           [media-player state]]
          #_(when detail-visible? [player-toolbar state])

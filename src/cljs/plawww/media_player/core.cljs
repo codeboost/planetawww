@@ -277,7 +277,9 @@
          [:div.detail
           [:div.title-container
            #_[:img.item-icon {:src (paths/media-image-path (:id item) {:show-custom? true})}]
-           [:h3.title (:title item)]]
+           [:h3.title {:on-click #(do
+                                     (session/put! :current-media-item item)
+                                     (set-detail-visible false))} (:title item)]]
           (when video? [minimise-button "x" #(set-detail-visible false)])
           [media-player state]]
          #_(when detail-visible? [player-toolbar state])

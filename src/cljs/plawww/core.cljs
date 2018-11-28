@@ -35,8 +35,7 @@
 
 (defn about-page []
   [crt-page
-   [about/page]
-   [:div "DETAIL!"]])
+   [about/page]])
 
 (defn barul-page []
   [crt-page

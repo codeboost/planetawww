@@ -9,17 +9,30 @@
   (:require
    [plawww.navbar.search-component :refer [search-component]]
    [reagent.core :as r]
-   [plawww.media-player.core :as media-player]))
+   [plawww.media-player.core :as media-player]
+   [reagent.session :as session]))
 
-(def state (r/atom {:search-string ""}))
+(defonce state (r/atom {:search-string ""}))
 
 (defn navbar []
-  [:div.navbar
-   [:div.home-button [:a.accessory-button {:href "/home"} "(*)"]]
-   [search-component {:search-string (:search-string @state)
-                      :on-change (fn [e]
-                                   ;I don't like this, but will do for now; this thing needs a proper refactor.
-                                   (media-player/set-detail-visible false)
-                                   (swap! state assoc :search-string (-> e .-target .-value)))}]
-   [:div]])
+  (let [minimised-cursor (session/cursor [:navbar-minimised?])]
+    (fn []
+      (let [minimised? @minimised-cursor]
+        [:div.navbar
+         [:div.home-button [:a.accessory-button {:href "/home"} "(*)"]]
+
+         (when-not minimised?
+           [:div.min-button {:on-click #(session/put! :navbar-minimised? true)} "¿"])
+
+         (when-not minimised?
+           [search-component {:search-string (:search-string @state)
+                              :on-change (fn [e]
+                                           ;I don't like this, but will do for now; this thing needs a proper refactor.
+                                           (media-player/set-detail-visible false)
+                                           (swap! state assoc :search-string (-> e .-target .-value)))}])
+
+         (when minimised?
+           [:h2.max-button {:on-click #(session/put! :navbar-minimised? false)} "?"])
+
+         [:div]]))))
 

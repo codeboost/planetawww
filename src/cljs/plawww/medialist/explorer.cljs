@@ -166,7 +166,8 @@
         media-items (session/get :media-items)
         sort-by-cursor (r/cursor state [:sort-by])
         current-item (session/cursor [:current-media-item])
-        scrollable-items-ref (r/atom nil)]
+        scrollable-items-ref (r/atom nil)
+        navbar-minimised-cursor (session/cursor [:navbar-minimised?])]
     (fn []
 
       (let [included-tags (:included-tags @state)
@@ -178,19 +179,21 @@
             ;visible-dialog (or (and @current-item :media-info) (:visible-dialog @state))
             visible-dialog (:visible-dialog @state)
             searching? (not (empty? (:search-string @state)))
-            anim-class :show-scaled-y]
+            anim-class :show-scaled-y
+            navbar-minimised? @navbar-minimised-cursor]
         [:div.explorer
          [:div.media-list
           (when-not searching?
-            [toolbar {:sort-by (:sort-by @state)
-                      :sort-by-clicked (fn [sort-by]
-                                         (let [el @scrollable-items-ref]
-                                           (set! (.-scrollTop el)  0)
-                                           (swap! state assoc :sort-by sort-by)))
-                      :detail? (:detail? @state)
-                      :detail-clicked #(swap! state update :detail? not)
-                      :tags (:included-tags @state)
-                      :tags-clicked #(swap! state assoc :visible-dialog :tag-editor)}])
+            (when-not navbar-minimised?
+              [toolbar {:sort-by (:sort-by @state)
+                        :sort-by-clicked (fn [sort-by]
+                                           (let [el @scrollable-items-ref]
+                                             (set! (.-scrollTop el)  0)
+                                             (swap! state assoc :sort-by sort-by)))
+                        :detail? (:detail? @state)
+                        :detail-clicked #(swap! state update :detail? not)
+                        :tags (:included-tags @state)
+                        :tags-clicked #(swap! state assoc :visible-dialog :tag-editor)}]))
           (when (:category @state)
             [plawww.categories.categories/category-component (:category @state) {:url (paths/categories-path "")
                                                                                  :index 0

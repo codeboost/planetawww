@@ -29,7 +29,7 @@
       (when searching?
         [search-results *state ss]))))
 
-(defn crt-page [page & [detail-page]]
+(defn crt-page [page & [detail-page {:keys [navbar-hidden?]}]]
   [:div.vert-container
    [:div.tv.noisy
     [:div.frame.tv
@@ -37,11 +37,13 @@
       [:div.planeta-experience
        [:div.page-layout
         [:div.primary {:class (when detail-page :detailed)}
-         [:div.nav-area
-          [navbar]
-          [page-or-search-results page navbar/state]]
+         (when-not navbar-hidden?
+           [:div.nav-area
+            [navbar]
+            [page-or-search-results page navbar/state]])
          [:div.app-page page]]
-        [:div.detail {:class (when detail-page :detailed)} detail-page]]
+        (when detail-page
+          [:div.detail {:class (when detail-page :detailed)} detail-page])]
        [:div.player-space]]]]]])
 
 

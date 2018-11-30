@@ -14,6 +14,8 @@
   -webkit-overflow-scrolling: touch; 
 }
 
+@primary-view-detailed-width: 33%;
+
 .planeta-experience {
   position: absolute;
   top: 0; right: 0; left: 0; bottom: 0;
@@ -42,7 +44,7 @@
         display: none;
         //On an ipad and larger screen, primary pane takes 40% of the screen
         .device(@ipad-l, @desktop, @desktop-xl; {
-          flex-basis: 40%;
+          flex-basis: @primary-view-detailed-width;
           border-right: 2px dotted @console-color;
           display: flex;
         });
@@ -54,9 +56,12 @@
       }
 
       .app-page {
-        flex-basis: 120px;
         flex-grow: 1;
         overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: center;
       }
     }
   }

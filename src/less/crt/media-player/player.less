@@ -54,9 +54,19 @@
 			justify-content: flex-start; 
 	
 			.pm-media-player {
+				flex-grow: 1;
+				display: flex;
+				flex-direction: column;
+				align-items: stretch;
+				position: relative;
+				@margin: 16px;
 				.react-player {
-					margin-top: auto;
-					margin-bottom: auto;
+					border: 2px solid @console-color;
+					border-radius: 23px;
+					overflow: hidden;
+					position: absolute;
+					left: @margin; right: @margin;
+					top: @margin; bottom: @margin;
 				}
 			}
 
@@ -78,36 +88,7 @@
 				}
 			}
 		} //.detail
-	
-		.toolbar {
-			border-bottom: 1px solid @console-color;;
-			display: flex;
-			flex-direction: row;
-			justify-content: space-around;
-			width: 100%;
-			flex-wrap: nowrap;
-			height: 26px;
-
-			.toolbar-item {
-				border-right: 1px solid @console-color;
-				width: 100px;
-				flex-grow: 1;
-				text-align: center;
-				&:last-child {
-					border-right: none;
-				}
-				cursor: pointer;
-			} 
-
-		    .position-and-duration {
-		        display: flex;
-		        flex-direction: row; 
-		        justify-content: center;
-		        .duration {
-		        }
-		    }				
-		}//toolbar
-	}
+	} //.detail-visible
 
 	.bottom-part {
 		margin-top: 4px;

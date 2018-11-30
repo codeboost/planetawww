@@ -31,7 +31,8 @@ In scurt timp toate tarile de pe Pamant s-au refugiat in spatiu, au cerut azil p
      [:p#story-text]
      [:h1#continue-button.ok-button
       [:a#cont-a {:href "/home"} "CONTINUARE"]]]
-    {:navbar? false}))
+    nil
+    {:navbar-hidden? true}))
 
 (defn continue-on-click[]
   (-> (js/$ "body")

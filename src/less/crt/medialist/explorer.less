@@ -8,18 +8,17 @@
 	display: flex;
 	flex-direction: row;
 	align-items: stretch;
-	height: 100%;
 	overflow: hidden;
 
-	.device(@iphone, @iphone-l; {
-		margin-left: 16px;
-		margin-right: 16px;
-	});
+	// .device(@iphone, @iphone-l; {
+	// 	margin-left: 16px;
+	// 	margin-right: 16px;
+	// });
 
-	.device(@ipad, {
-		margin-left: 10%;
-		margin-right: 10%;
-	});
+	// .device(@ipad, {
+	// 	margin-left: 10%;
+	// 	margin-right: 10%;
+	// });
 
 	.current-item {
 		flex-basis: 60%;
@@ -40,7 +39,7 @@
 		display: flex;
 		flex-direction: column;
 		align-items: stretch;
-		overflow: hidden;
+		overflow-y: auto;
 
 		.category {
 			align-self: center;

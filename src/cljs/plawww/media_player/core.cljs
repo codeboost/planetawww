@@ -144,12 +144,12 @@
      {:component-did-mount
       (fn []
         (start-update-duration-timer mplayer state update-interval)
-        (adjust-player-dimensions! container-el state)
-        (.addEventListener js/window "resize" resize-handler))
+        #_(adjust-player-dimensions! container-el state)
+        #_(.addEventListener js/window "resize" resize-handler))
 
       :component-will-unmount (fn []
                                 (js/clearInterval @update-interval)
-                                (.removeEventListener js/window "resize" resize-handler))
+                                #_(.removeEventListener js/window "resize" resize-handler))
 
       :reagent-render
       (fn []
@@ -160,8 +160,8 @@
            [react-player
             {:url (paths/item-path item)
              :class-name :react-player
-             :width "100%"
-             :height (if audio? 0 height)
+             :width :auto
+             :height :auto
              :muted muted
              :playing playing ;Not playing if muted
              :volume volume

@@ -2,6 +2,14 @@
 
 
 .categories-outer {
+	display: flex;
+	flex-direction: column;
+	align-items: stretch; 
+	justify-content: stretch;
+	overflow: hidden;
+	.hide-scrollbar();
+	overflow-y: auto;
+
 	h1.logo {
 		text-align: center; 
 		width: 100%;
@@ -10,18 +18,7 @@
 }
 
 .categories {
-	margin-top: 20px;
-	.multi-media({
-		margin-left: auto;
-		margin-right: auto;
-	}, {
-		margin-left: auto;
-		margin-right: auto;
-	}, {
-		margin-left: 100px;
-		margin-right: 100px;
-	});
-
+	margin: auto;
 	ul.cats {
 		display: flex;
 		flex-direction: row;

@@ -23,7 +23,7 @@
     }
 
     .toolbar {
-        margin-bottom: 160px;
+        margin-bottom: 16px;
         display: flex;
         flex-direction: row;
         justify-content: center;
@@ -39,7 +39,7 @@
             cursor: pointer;
             margin-left: 5px;
             margin-right: 5px;
-            padding: 16px;
+            padding: 8px;
             &:first-child {
             }
 
@@ -67,13 +67,27 @@
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end; 
+    justify-content: flex-end;
+    align-items: center;
     padding: 10px;
+
+    span.key {
+        text-align: right; 
+        margin-right: 4px;
+        font-size: 1.2rem;
+
+    }
+    span.value {
+        text-align: left; 
+        margin-left: 4px;
+        font-size: 1.2rem;
+    }
 
     .title {
         font-size: 2.1rem;
         text-align: center;
         flex-grow: 0;
+        margin-bottom: 16px;
     }
 
     .tags {
@@ -81,6 +95,10 @@
         display: flex;
         justify-content: center;
         li {
+            border: 1px solid @console-color;
+            border-radius: 23px;
+            overflow: hidden;
+            padding: 4px;
             list-style: none;
             margin-left: 4px;
             &:first-child { margin-left: 0; }
@@ -104,6 +122,7 @@
         flex-direction: column; 
         align-items: stretch;
         position: relative;
+        width: 100%;
         .img-container {
             position: absolute;
             height: 100%;

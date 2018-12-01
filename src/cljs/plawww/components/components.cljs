@@ -37,7 +37,7 @@
   (into
    [:ul.tags]
    (for [tag tags]
-     (let [tag-text (if (= tag (last tags)) tag (str tag ","))]
+     (let [tag-text tag]
        [:li
         [:a
          {:href     (paths/explorer-path (str "tag/" tag))

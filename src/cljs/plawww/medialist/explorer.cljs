@@ -30,9 +30,6 @@
 (defn set-opts [opts]
   (swap! *state* merge opts))
 
-(defn format-date [d]
-  (gstring/format "%d-%02d-%02d" (.getFullYear d) (.getMonth d) (.getDay d)))
-
 (defn inline-tags-component [tags]
   (into
    [:ul.inline-tags]
@@ -57,7 +54,7 @@
   ^{:key id}
   [:li.item
    [:a {:href :#
-        :on-click #(session/put! :current-media-item m)}
+        :on-click #(accountant.core/navigate! (explorer-path id))}
     [:span.item-container
      [:div.primary-info
       [:img.thumbnail {:src (paths/media-image-path id {:show-custom? (= type "video")
@@ -71,7 +68,7 @@
         [:div.det.type type]
         [:div.det.duration (utils/format-duration duration "%sm %ss")]
         [:div.det.tags [inline-tags-component tags]]
-        [:div.det.publish-on (format-date publish_on)]])]]])
+        [:div.det.publish-on (utils/format-date publish_on)]])]]])
 
 
 
@@ -140,7 +137,8 @@
 
 (defn- media-info-comp [current-item on-close]
   [media-item/item-info-component
-   {:on-play #(accountant.core/navigate! (explorer-path (:id current-item)))
+   {:on-play #(do
+                (session/put! :current-media-item current-item))
     :on-close on-close
     :selected-item current-item}])
 

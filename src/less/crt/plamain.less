@@ -15,6 +15,7 @@
 }
 
 @primary-view-detailed-width: 33%;
+@player-min-height: 30px;
 
 .planeta-experience {
   position: absolute;
@@ -31,6 +32,7 @@
     flex-direction: row;
     flex-wrap: nowrap;
     flex-grow: 1;
+    margin-bottom: @player-min-height; 
 
     .primary {
       flex-grow: 1;
@@ -61,7 +63,7 @@
         display: flex;
         flex-direction: column;
         align-items: stretch;
-        justify-content: center;
+        justify-content: flex-start;
       }
     }
   }

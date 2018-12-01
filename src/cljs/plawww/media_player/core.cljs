@@ -18,7 +18,8 @@
    [reagent.core :as r]
    [reagent.session :as session]
    [plawww.mediadb.core :as db]
-   [plawww.ui :as ui]))
+   [plawww.ui :as ui]
+   [reagent.core :as reagent]))
 
 
 
@@ -46,8 +47,6 @@
                                 :fullscreen? false
                                 :share-dialog-visible? false}))
 
-
-
 (defn s->ms
   "Seconds to milliseconds."
   [s]
@@ -58,22 +57,11 @@
   [s]
   (/ s 1000))
 
-(defn set-current-item [item]
-  (let [muted (:muted @mplayer-state)
-        playing? (not muted)
-        video? (= (:type item) "video")
-        detail-visible? (or video?
-                            (not (:playing @mplayer-state)))]
-    (swap! mplayer-state merge {:item item
-                                :visible true
-                                :detail-visible? video?
-                                :playing playing?})
-    (utils/ga "set" "page" (.-pathname (.-location js/window)))
-    (utils/ga "send" "pageview"))
-  (reagent.core/flush))
-
 (defn is-playing? []
   (:playing @mplayer-state))
+
+(defn state-cursor [keys]
+  (reagent/cursor mplayer-state keys))
 
 (defn set-detail-visible [visible?]
   (swap! mplayer-state assoc :detail-visible? visible? :volume-visible? false))
@@ -97,6 +85,26 @@
     (if muted ; Safari restriction - media must be loaded in a muted state.
       (flush-play! state)
       (swap! state update :playing not))))
+
+(defn set-current-item
+  "Sets `item` as player's current item, which will cause the player to load the media file and possibly start playback.
+  If the same item is already playing, it will be paused. If it is paused, it will be resumed."
+  [item]
+  (if (= item (:item @mplayer-state))
+   (toggle-play mplayer-state)
+   (let [muted (:muted @mplayer-state)
+         playing? (not muted)
+         video? (= (:type item) "video")
+         detail-visible? (or video?
+                             (not (:playing @mplayer-state)))]
+     (js/console.log "player: set-current-item:" item)
+     (swap! mplayer-state merge {:item item
+                                 :visible true
+                                 :detail-visible? video?
+                                 :playing playing?})
+     (utils/ga "set" "page" (.-pathname (.-location js/window)))
+     (utils/ga "send" "pageview")))
+  (reagent.core/flush))
 
 (defn play-button
   "Play button component."

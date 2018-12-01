@@ -10,7 +10,8 @@
             [plawww.components.components :refer [tag-list-component]]
             [plawww.mediadb.core :as db]
             [plawww.paths :as paths]
-            [plawww.ui :as ui]))
+            [plawww.ui :as ui]
+            [plawww.utils :as utils]))
 
 (defn artwork-bg-image [url]
   (str "url(" url ")"))
@@ -47,18 +48,15 @@
       (r/create-class
        {:component-did-mount
         (fn []
-          (js/console.log "did-mount")
           (.addEventListener js/window "resize" resize-proportionally)
           (resize-proportionally))
 
         :component-did-update
         (fn [_]
-          (js/console.log "did-update")
           (resize-proportionally))
 
         :component-will-unmount
         (fn []
-          (js/console.log "will-unmount")
           (.removeEventListener js/window "resize" resize-proportionally))
         :reagent-render
         (fn [{:keys [title tags id description_plain type] :as item}]
@@ -72,11 +70,15 @@
 
 
 
-(defn info-component [{:keys [title tags id description_plain type] :as item} & [{:keys [show-details?] :or
-                                                                                        {show-details? true}}]]
+(defn info-component [{:keys [title tags duration id description_plain type publish_on] :as item} & [{:keys [show-details?] :or
+                                                                                                            {show-details? true}}]]
   [:div.media-item-info
    [:div.title title]
    [tag-list-component tags #()]
+   [:div.type [:span.key "Tip:" [:span.value type]]]
+   [:div.duration [:span.key "Durata:"] [:span.value (utils/format-duration duration "%sm %ss")]]
+   [:div.det.publish-on [:span.key "Publicat:" [:span.value (utils/format-date publish_on)]]]
+
    (when show-details?
      [:div.album-art-container
       [img-container item]])
@@ -98,31 +100,32 @@
 (defn item-info-component [{:keys [on-play on-close]} _]
   (let [state (r/atom {:section :info
                        :share-dialog-visible? false})]
-    (fn [{:keys [on-play on-close selected-item]}]
-      (js/console.log "section:" (:section @state))
-      [:div.media-item-info-container
-       (when on-close
-         [:div.min-button [:a {:href :#
-                               :on-click on-close} "x"]])
-       (case (:section @state)
-         :info
-         [info-component selected-item]
-         :ecouri
-         [feedback-component])
+    (fn [{:keys [on-play on-close selected-item playing-item playing?]}]
+      (let [play-button-text (if (and playing? (= (:id selected-item) (:id playing-item)))
+                               "PAUZA" "PLAY")]
+        [:div.media-item-info-container
+         (when on-close
+           [:div.min-button [:a {:href :#
+                                 :on-click on-close} "x"]])
+         (case (:section @state)
+           :info
+           [info-component selected-item]
+           :ecouri
+           [feedback-component])
 
-       [:div.toolbar
-        [toolbar-item "PLAY" on-play]
-        (case (:section @state)
-          :info
-          [toolbar-item "ECOURI" #(swap! state assoc :section :ecouri)]
-          :ecouri
-          [toolbar-item "INFO" #(swap! state assoc :section :info)]
-          nil)
+         [:div.toolbar
+          [toolbar-item play-button-text on-play]
+          (case (:section @state)
+            :info
+            [toolbar-item "ECOURI" #(swap! state assoc :section :ecouri)]
+            :ecouri
+            [toolbar-item "INFO" #(swap! state assoc :section :info)]
+            nil)
 
-        [toolbar-item "SHARE" #(swap! state assoc :share-dialog-visible? true)]]
-       (when (:share-dialog-visible? @state)
-         [ui/share-dialog-modal {:on-close #(swap! state assoc :share-dialog-visible? false)
-                                 :share-url (paths/full-explorer-path (.-origin (.-location js/window)) (:id selected-item))}])])))
+          [toolbar-item "SHARE" #(swap! state assoc :share-dialog-visible? true)]]
+         (when (:share-dialog-visible? @state)
+           [ui/share-dialog-modal {:on-close #(swap! state assoc :share-dialog-visible? false)
+                                   :share-url (paths/full-explorer-path (.-origin (.-location js/window)) (:id selected-item))}])]))))
 
 
 

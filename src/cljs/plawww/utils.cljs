@@ -34,6 +34,9 @@
                  letter)]
     letter))
 
+(defn format-date [d]
+  (gstring/format "%d-%02d-%02d" (.getFullYear d) (.getMonth d) (.getDay d)))
+
 (defn starts-with-letter?
   "Returns true if `word` starts with the letter.
    If `letter` is '#', will check if `word` starts with a digit (0-9).

@@ -42,15 +42,23 @@
    [barul/page]])
 
 (defn explorer-page []
-  (let [current-item-cursor (session/cursor [:current-media-item])]
+  (let [current-item-cursor (session/cursor [:current-media-item])
+        playing-item-cursor (player/state-cursor [:item])
+        playing-state-cursor (player/state-cursor [:playing])]
     (fn []
-      [crt-page
-       [explorer/explorer-page]
-       (when @current-item-cursor
-         [media-item/item-info-component
-          {:on-play #(accountant.core/navigate! (explorer-path (:id @current-item-cursor)))
-           :on-close #(session/put! :current-media-item nil)
-           :selected-item @current-item-cursor}])])))
+      (let [current-item @current-item-cursor
+            playing-item @playing-item-cursor
+            playing? @playing-state-cursor]
+        [crt-page
+         [explorer/explorer-page]
+         (when current-item
+           [media-item/item-info-component
+            {:on-play #(do
+                         (player/set-current-item current-item))
+             :on-close #(session/put! :current-media-item nil)
+             :selected-item current-item
+             :playing-item playing-item
+             :playing? playing?}])]))))
 
 (defn categories-page []
   (fn []
@@ -81,8 +89,7 @@
     (session/put! :current-page #'explorer-page))
   (explorer/set-opts (or opts {:included-tags #{}}))
   (let [item (and id (media-item-for-id (js/parseInt id)))]
-    (when item
-      (player/set-current-item item))))
+    (session/put! :current-media-item item)))
 
 (defn show-categories-page []
   (session/put! :current-page #'categories-page))
@@ -150,15 +157,15 @@
 
 (defn current-page []
   (let [page-cursor (session/cursor [:current-page])
-        current-item-cursor (session/cursor [:current-media-item])]
+        playback-item (session/cursor [:playback-item])]
     (fn []
-      (let [page @page-cursor
-            current-item @current-item-cursor]
-        (if page
-          [:div
-           [page]
-           [player/player]]
-          [:div "Dapu-kaneshna-kiar-amush ! Nu-i asa ceva, nu-i ! "])))))
+        (let [page @page-cursor]
+          (js/console.log "playback-item: " @playback-item)
+          (if page
+            [:div
+             [page]
+             [player/player]]
+            [:div "Dapu-kaneshna-kiar-amush ! Nu-i asa ceva, nu-i ! "])))))
 
 (defn mount-root []
   (reagent/render [current-page] (.getElementById js/document "app")))

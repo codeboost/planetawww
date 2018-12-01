@@ -21,7 +21,7 @@
 	}
 
 	&.detail-visible.audio {
-		//height: 100px;
+		height: 100px;
 	}
 }
 
@@ -47,6 +47,16 @@
 	
 	&.detail-visible {
 
+		&.audio {
+			.pm-media-player {
+				display: none;
+			}
+
+			.react-player {
+				display: none;
+			}
+		}
+
 		.detail {
 			flex-grow: 1;
 			display: flex;
@@ -59,12 +69,12 @@
 				flex-direction: column;
 				align-items: stretch;
 				position: relative;
-				@margin: 16px;
 				.react-player {
 					border: 2px solid @console-color;
 					border-radius: 23px;
 					overflow: hidden;
 					position: absolute;
+					@margin: 16px; //this is a variable, not a typo
 					left: @margin; right: @margin;
 					top: @margin; bottom: @margin;
 				}

@@ -157,14 +157,14 @@
 
 (defn current-page []
   (let [page-cursor (session/cursor [:current-page])
-        playback-item (session/cursor [:playback-item])]
+        player-item (player/state-cursor [:item])]
     (fn []
         (let [page @page-cursor]
-          (js/console.log "playback-item: " @playback-item)
           (if page
             [:div
              [page]
-             [player/player]]
+             (when @player-item
+               [player/player])]
             [:div "Dapu-kaneshna-kiar-amush ! Nu-i asa ceva, nu-i ! "])))))
 
 (defn mount-root []

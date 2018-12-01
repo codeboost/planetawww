@@ -243,17 +243,26 @@
             [:div.faker]])]))))
 
 (defn medium-player [state]
-  [:div.min-player
-   [:div.controls
-    [play-button state]
-    [song-progress (:played @state) (:duration @state) #(do
-                                                          (.seekTo @mplayer %)
-                                                          (update-played-time! mplayer state))]
-    [:div.accessory-button
-     {:on-click #(swap! state update :detail-visible? not)
-      :class    (when (:detail-visible? @state) :selected)}
-     "i"]
-    [volume-control state]]])
+  (fn [state]
+    (let [video? (= "video" (get-in @state [:item :type]))]
+      [:div.min-player
+       [:div.controls
+        [play-button state]
+        [song-progress (:played @state) (:duration @state) #(do
+                                                              (.seekTo @mplayer %)
+                                                              (update-played-time! mplayer state))]
+        [:div.accessory-button
+         {:on-click #(swap! state update :detail-visible? not)
+          :class    (when (:detail-visible? @state) :selected)}
+         "i"]
+        (when video?
+          [:div.accessory-button
+           {:on-click #(do
+                         (.toggle js/window.screenfull (r/dom-node @the-player))
+                         (swap! state update :fullscreen? not))
+            :class    (when (:fullscreen? @state) :selected)}
+           "F"])
+        [volume-control state]]])))
 
 (defn toolbar-item [title on-click]
   [:div.toolbar-item

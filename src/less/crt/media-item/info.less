@@ -95,13 +95,16 @@
         display: flex;
         justify-content: center;
         li {
-            border: 1px solid @console-color;
-            border-radius: 23px;
             overflow: hidden;
-            padding: 4px;
             list-style: none;
-            margin-left: 4px;
+            margin-left: 8px;
             &:first-child { margin-left: 0; }
+            a {
+                display: inline-block;
+                padding: 4px;
+                border: 1px solid @console-color;
+                border-radius: 23px;
+            }
         }
         flex-grow: 0;
     }

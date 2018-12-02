@@ -9,21 +9,33 @@
   (:require
    [reagent.core :as r]))
 
-(defn- toggle-item [text on? on-click]
+(defn- toggle-item [text tooltip on? on-click]
   [:div.toggle-button
    {:on-click on-click
-    :class (when on? :on)}
+    :class (when on? :on)
+    :title tooltip}
    text])
 
 (defn- toggle-group [buttons]
   (into
    [:div.toggle-group]
-   (for [[title on? on-click] buttons]
-     [toggle-item title on? on-click])))
+   (for [[text tooltip on? on-click ] buttons]
+     [toggle-item text tooltip on? on-click])))
+
+(defn alphabetic-button [sort-by clicked]
+  (if (= sort-by :title)
+    ["Z-A" "Invers" (#{:title :title-desc} sort-by) #(clicked :title-desc)]
+    ["A-Z" "Alfabetic" (#{:title :title-desc} sort-by) #(clicked :title)]))
+
+(defn randomize-button [sort-by clicked]
+  (if (= sort-by :random)
+    ["R!" "Randomizeaza !" (#{:random :random-1} sort-by) #(clicked :random-1)]
+    ["R!" "Randomizeaza !" (#{:random :random-1} sort-by) #(clicked :random)]))
 
 (defn explorer-buttons [{:keys [sort-by clicked detail? detail-clicked]}]
    [toggle-group
-    [["A-Z"   (= sort-by :title) #(clicked :title)]
-     ["VECHI" (= sort-by :old)   #(clicked :old)]
-     ["NOI"   (= sort-by :new)   #(clicked :new)]
-     ["DETALIAT?" detail? #(detail-clicked)]]])
+    [(alphabetic-button sort-by clicked)
+     ["VECHI" "Mai clasice asa"(= sort-by :old)   #(clicked :old)]
+     ["NOI"   "Prospaturi" (= sort-by :new)   #(clicked :new)]
+     (randomize-button sort-by clicked)
+     ["D?" "Detalii suplimentare" detail? #(detail-clicked)]]])

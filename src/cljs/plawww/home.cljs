@@ -41,14 +41,15 @@
    [:h3 (rand-title)]
    #_[:div
       [:a {:href "/barul"} "Barul"]]
-   [menu-item "/colectii" "Colectii"]
-   [menu-item "" "Exploreaza"]
-   [menu-item "tag/music" "Muzica"]
-   [menu-item "tag/radio+guerilla" "Emisiuni Radio"]
-   [menu-item "tag/tv" "Emisiuni TV"]
-   [menu-item "tag/animatie" "Animatie"]
-   [menu-item "tag/scurtmetraj" "Scurtmetraje"]
-   [menu-item "/text" "Carti si texte"]
-   [menu-item "/about" "Despre proiect"]])
+   [:div.menu-items
+    [menu-item "/colectii" "Colectii"]
+    [menu-item "" "Exploreaza"]
+    [menu-item "tag/music" "Muzica"]
+    [menu-item "tag/radio+guerilla" "Emisiuni Radio"]
+    [menu-item "tag/tv" "Emisiuni TV"]
+    [menu-item "tag/animatie" "Animatie"]
+    [menu-item "tag/scurtmetraj" "Scurtmetraje"]
+    [menu-item "/text" "Carti si texte"]
+    [menu-item "/about" "Despre proiect"]]])
 
 

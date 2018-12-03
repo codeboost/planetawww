@@ -98,10 +98,10 @@
        " "
        [:span.message message]])))
 
-(defn search-component [{:keys [search-string on-change]}]
+(defn search-component [{:keys [search-string on-change search-title-clicked]}]
   [:div.search-component
    [:div.search-control
-    [:div.search-text (random-search-prompt (session/get :xx?))]
+    [:div.search-text {:on-click search-title-clicked} (random-search-prompt (session/get :xx?))]
     [search-input search-string on-change]]])
 
 

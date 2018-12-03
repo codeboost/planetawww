@@ -20,16 +20,13 @@
       (let [minimised? @minimised-cursor]
         [:div.navbar
          [:div.home-button [:a.accessory-button {:href "/home"} "(*)"]]
-
-         (when-not minimised?
-           [:div.min-button {:on-click #(session/put! :navbar-minimised? true)} "¿"])
-
          (when-not minimised?
            [search-component {:search-string (:search-string @state)
                               :on-change (fn [e]
                                            ;I don't like this, but will do for now; this thing needs a proper refactor.
                                            (media-player/set-detail-visible false)
-                                           (swap! state assoc :search-string (-> e .-target .-value)))}])
+                                           (swap! state assoc :search-string (-> e .-target .-value)))
+                              :search-title-clicked #(session/put! :navbar-minimised? true)}])
 
          (when minimised?
            [:h4.max-button {:on-click #(session/put! :navbar-minimised? false)} "?"])

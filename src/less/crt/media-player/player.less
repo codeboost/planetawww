@@ -10,6 +10,11 @@
 	//Default, minimised
 	//height: @player-height;
 
+	@media (min-width: 1064px) {
+		margin-left: 20%;
+		margin-right: 20%;
+	}
+
 	&.detail-visible.video {
 		@media (max-height: 800px) {
 			top: 8px;
@@ -17,7 +22,8 @@
 
 		@media (min-height: 800px) {
 			height: 800px;
-		}		
+			max-width: 1064px;
+		}
 	}
 
 	&.detail-visible.audio {

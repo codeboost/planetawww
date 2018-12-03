@@ -21,6 +21,21 @@
    {:on-click on-click}
    title])
 
+(defn action-buttons [state {:keys [selected-item playing-item playing? on-play]}]
+  (let [play-button-text (if (and playing? (= (:id selected-item) (:id playing-item)))
+                           "PAUZA" "PLAY")]
+    [:div.toolbar
+     [toolbar-item play-button-text on-play]
+     (case (:section @state)
+       :info
+       [toolbar-item "ECOURI" #(swap! state assoc :section :ecouri)]
+       :ecouri
+       [toolbar-item "INFO" #(swap! state assoc :section :info)]
+       nil)
+
+     [toolbar-item "SHARE" #(swap! state assoc :share-dialog-visible? true)]
+     [toolbar-item "DOWNLOAD" #()]]))
+
 
 (defn img-container [_]
   (let [dom-el (r/atom nil)
@@ -69,21 +84,18 @@
                     :on-load on-image-load}]]))})))
 
 
+(defn info-component [{:keys [selected-item action-buttons] :as opts}]
+  (let [{:keys [title tags duration id description_plain type publish_on]} selected-item]
+    [:div.media-item-info
+     [:div.title title]
+     [tag-list-component tags #()]
+     [:div.type [:span.key "Tip:" [:span.value type]]]
+     [:div.duration [:span.key "Durata:"] [:span.value (utils/format-duration duration "%sm %ss")]]
+     [:div.det.publish-on [:span.key "Publicat:" [:span.value (utils/format-date publish_on)]]]
+     [:div.album-art-container [img-container selected-item]]
+     [:div.description description_plain]
+     action-buttons]))
 
-(defn info-component [{:keys [title tags duration id description_plain type publish_on] :as item} & [{:keys [show-details?] :or
-                                                                                                            {show-details? true}}]]
-  [:div.media-item-info
-   [:div.title title]
-   [tag-list-component tags #()]
-   [:div.type [:span.key "Tip:" [:span.value type]]]
-   [:div.duration [:span.key "Durata:"] [:span.value (utils/format-duration duration "%sm %ss")]]
-   [:div.det.publish-on [:span.key "Publicat:" [:span.value (utils/format-date publish_on)]]]
-
-   (when show-details?
-     [:div.album-art-container
-      [img-container item]])
-   (when show-details?
-     [:div.description description_plain])])
 
 (defn feedback-component []
   [:div {:style {:padding "10px"
@@ -97,35 +109,36 @@
     [:a {:href "https://twitter.com/planetamoldova_"
          :target "_new-twitter"} "https://twitter.com/planetamoldova_"]]])
 
-(defn item-info-component [{:keys [on-play on-close]} _]
+
+
+(defn item-info-component
+  "Item info component.
+  `opts` should contain the following keys:
+    :on-close  - handler for when the close button is clicked
+    :on-play   - handler for when the play button is clicked
+    :selected-item  - the media item to display
+    :playing-item  - item currently loaded in the player
+    :playing? - boolean true when the player is playing and not paused.
+
+    `:playing-item` and `:playing?` are used to determine the state of the 'play' button.
+    "
+  [_]
   (let [state (r/atom {:section :info
                        :share-dialog-visible? false})]
-    (fn [{:keys [on-play on-close selected-item playing-item playing?]}]
-      (let [play-button-text (if (and playing? (= (:id selected-item) (:id playing-item)))
-                               "PAUZA" "PLAY")]
-        [:div.media-item-info-container
-         (when on-close
-           [:div.min-button [:a {:href :#
-                                 :on-click on-close} "x"]])
-         (case (:section @state)
-           :info
-           [info-component selected-item]
-           :ecouri
-           [feedback-component])
+    (fn [{:keys [on-close selected-item] :as opts}]
+      [:div.media-item-info-container
+       (when on-close
+         [:div.min-button [:a {:on-click on-close :href :#} "x"]])
+       (case (:section @state)
+         :info
+         [info-component (assoc opts :action-buttons [action-buttons state opts])]
+         :ecouri
+         [feedback-component])
 
-         [:div.toolbar
-          [toolbar-item play-button-text on-play]
-          (case (:section @state)
-            :info
-            [toolbar-item "ECOURI" #(swap! state assoc :section :ecouri)]
-            :ecouri
-            [toolbar-item "INFO" #(swap! state assoc :section :info)]
-            nil)
 
-          [toolbar-item "SHARE" #(swap! state assoc :share-dialog-visible? true)]]
-         (when (:share-dialog-visible? @state)
-           [ui/share-dialog-modal {:on-close #(swap! state assoc :share-dialog-visible? false)
-                                   :share-url (paths/full-explorer-path (.-origin (.-location js/window)) (:id selected-item))}])]))))
+       (when (:share-dialog-visible? @state)
+         [ui/share-dialog-modal {:on-close #(swap! state assoc :share-dialog-visible? false)
+                                 :share-url (paths/full-explorer-path (.-origin (.-location js/window)) (:id selected-item))}])])))
 
 
 

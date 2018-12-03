@@ -174,6 +174,10 @@
               navbar-minimised? @navbar-minimised-cursor]
           [:div.explorer
            [:div.media-list
+            (when (:category @state)
+              [plawww.categories.categories/category-component (:category @state) {:url (paths/categories-path "")
+                                                                                   :index 0
+                                                                                   :scale-on-hover? false}])
             (when-not searching?
               (when-not navbar-minimised?
                 [toolbar {:sort-by (:sort-by @state)
@@ -185,10 +189,6 @@
                           :detail-clicked #(swap! state update :detail? not)
                           :tags (:included-tags @state)
                           :tags-clicked #(swap! state assoc :visible-dialog :tag-editor)}]))
-            (when (:category @state)
-              [plawww.categories.categories/category-component (:category @state) {:url (paths/categories-path "")
-                                                                                   :index 0
-                                                                                   :scale-on-hover? false}])
             (into
              [:ul.items {:ref #(reset! scrollable-items-ref %)}]
              (map-indexed #(m->item %1 %2 {:anim-class anim-class

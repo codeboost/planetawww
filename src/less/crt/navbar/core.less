@@ -1,3 +1,4 @@
+@import "../base";
 @import "search-component";
 
 .navbar {
@@ -5,11 +6,19 @@
   .home-button {
       margin-bottom: 8px;
   }
-
+  
   .max-button {
+    @media @iphone-l {
+      display: none;
+    }
   	margin: 0;
   	text-align: center;
   	cursor: pointer;
   }
 
+  @media @iphone-l {
+    .max-button, .min-button, .search-component {
+      display:none;
+    }
+  }
 }

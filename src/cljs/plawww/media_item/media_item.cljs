@@ -31,19 +31,18 @@
           (let [el @dom-el
                 w (.-offsetWidth el)
                 h (.-offsetHeight el)]
-            (js/console.log w "x" h)
             (if (and (pos? w) (pos? h))
               (let [scale-x (when (> w h) (/ h w))
                     scale-y (when (> h w) (/ w h))
                     scale-x (when scale-x (str "scaleX(" scale-x ")"))
                     scale-y (when scale-y (str "scaleY(" scale-y ")"))]
-                (reset! transform-style (or scale-x scale-y))
-                (js/console.log scale-x "-" scale-y))
+                (reset! transform-style (or scale-x scale-y)))
               (reset! transform-style nil))))
         on-image-load
         (fn []
-          (resize-proportionally)
-          (reset! display :block))]
+          (reset! display :block)
+          (resize-proportionally))]
+
 
       (r/create-class
        {:component-did-mount
@@ -60,13 +59,14 @@
           (.removeEventListener js/window "resize" resize-proportionally))
         :reagent-render
         (fn [{:keys [title tags id description_plain type] :as item}]
-          [:div.img-container {:ref #(reset! dom-el %)}
-           [:img {:src (paths/media-image-path id {:show-custom? (= type "video")
-                                                   :category-name (db/any-category-slug item)
-                                                   :size :large})
-                  :style {:transform @transform-style
-                          :display @display}
-                  :on-load on-image-load}]])})))
+          (let [display (and @transform-style @display)]
+            [:div.img-container {:ref #(reset! dom-el %)}
+             [:img {:src (paths/media-image-path id {:show-custom? (= type "video")
+                                                     :category-name (db/any-category-slug item)
+                                                     :size :large})
+                    :style {:transform @transform-style
+                            :display (or display :none)}
+                    :on-load on-image-load}]]))})))
 
 
 

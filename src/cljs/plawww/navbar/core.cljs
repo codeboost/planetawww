@@ -32,7 +32,7 @@
                                            (swap! state assoc :search-string (-> e .-target .-value)))}])
 
          (when minimised?
-           [:h2.max-button {:on-click #(session/put! :navbar-minimised? false)} "?"])
+           [:h4.max-button {:on-click #(session/put! :navbar-minimised? false)} "?"])
 
          [:div]]))))
 

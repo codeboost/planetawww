@@ -14,37 +14,33 @@
             [plawww.navbar.search-component :as search-component]
             [clojure.string :as str]))
 
-(defn search-results [state]
-  (let [ss (:search-string @state)]
-    [medialist/render-search-results
-     (session/get :media-items)
-     ss
-     [search-component/random-not-found-msg (session/get :xx?)]
-     #(swap! state assoc :search-string "")]))
+(defn search-results [ss {:keys [on-close]}]
+  [medialist/render-search-results
+   (session/get :media-items)
+   ss
+   [search-component/random-not-found-msg (session/get :xx?)]
+   on-close])
 
-(defn page-or-search-results [page *state]
-  (fn []
-    (let [ss (:search-string @*state)
+(defn crt-page [_ & _]
+  (fn [page & [detail-page {:keys [navbar-hidden?]}]]
+    (let [ss (:search-string @navbar/state)
           searching? (not (empty? ss))]
-      (when searching?
-        [search-results *state ss]))))
+      [:div.vert-container
+       [:div.tv.noisy
+        [:div.frame.tv
+         [:div.piece.output
+          [:div.planeta-experience
+           [:div.page-layout
+            [:div.primary {:class (when detail-page :detailed)}
+             (when-not navbar-hidden?
+               [:div.nav-area [navbar]])
+             (when (and searching? (not navbar-hidden?))
+               [search-results ss {:on-close #(swap! navbar/state assoc :search-string "")}])
 
-(defn crt-page [page & [detail-page {:keys [navbar-hidden?]}]]
-  [:div.vert-container
-   [:div.tv.noisy
-    [:div.frame.tv
-     [:div.piece.output
-      [:div.planeta-experience
-       [:div.page-layout
-        [:div.primary {:class (when detail-page :detailed)}
-         (when-not navbar-hidden?
-           [:div.nav-area
-            [navbar]
-            [page-or-search-results page navbar/state]])
-         [:div.app-page page]]
-        (when detail-page
-          [:div.detail {:class (when detail-page :detailed)} detail-page])]
-       [:div.player-space]]]]]])
+             [:div.app-page page]]
+            (when detail-page
+              [:div.detail {:class (when detail-page :detailed)} detail-page])]
+           [:div.player-space]]]]]])))
 
 
     

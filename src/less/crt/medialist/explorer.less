@@ -51,9 +51,7 @@
 		}
 
 		.toolbar {
-			border-bottom: 1px dotted @console-color; 
 			padding-top: 16px;
-			padding-bottom: 16px;
 			.toggle-group {
 				display: flex;
 				flex-direction: row; 
@@ -62,6 +60,8 @@
 		}
 
 		.items {
+			border-top: 1px dotted @console-color; 
+
 			@media (min-width: 1366px) {
 				margin-left: 20%;
 				margin-right: 20%;
@@ -193,6 +193,7 @@
 		}
 
 		.taglist {
+			margin-bottom: 16px;
 			margin-top: 15px;
 			text-align: center;
 			cursor: pointer;

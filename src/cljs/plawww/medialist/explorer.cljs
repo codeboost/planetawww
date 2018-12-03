@@ -145,8 +145,7 @@
    [toolbar/explorer-buttons {:sort-by sort-by
                               :clicked sort-by-clicked
                               :detail? detail?
-                              :detail-clicked detail-clicked}]
-   [tags-component tags tags-clicked]])
+                              :detail-clicked detail-clicked}]])
 
 (defn reaction [fn] (reagent.ratom/make-reaction fn))
 
@@ -186,9 +185,8 @@
                                                (set! (.-scrollTop el)  0)
                                                (swap! state assoc :sort-by sort-by)))
                           :detail? (:detail? @state)
-                          :detail-clicked #(swap! state update :detail? not)
-                          :tags (:included-tags @state)
-                          :tags-clicked #(swap! state assoc :visible-dialog :tag-editor)}]))
+                          :detail-clicked #(swap! state update :detail? not)}]))
+            [tags-component (:included-tags @state) #(swap! state assoc :visible-dialog :tag-editor)]
             (into
              [:ul.items {:ref #(reset! scrollable-items-ref %)}]
              (map-indexed #(m->item %1 %2 {:anim-class anim-class

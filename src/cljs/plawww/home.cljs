@@ -37,8 +37,8 @@
 
 (defn home-page []
   [:div.home-page
-   [:h1 "PLANETA MOLDOVA"]
-   [:h3 (rand-title)]
+   [:h2 "PLANETA MOLDOVA"]
+   [:h4 (rand-title)]
    #_[:div
       [:a {:href "/barul"} "Barul"]]
    [:div.menu-items

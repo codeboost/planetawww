@@ -4,21 +4,16 @@
 
 @thumbnail-size: 60px;
 
+.primary.detailed .media-list .items {
+	margin-left: 0;
+	margin-right: 0;
+}
+
 .explorer {
 	display: flex;
 	flex-direction: row;
 	align-items: stretch;
 	overflow: hidden;
-
-	// .device(@iphone, @iphone-l; {
-	// 	margin-left: 16px;
-	// 	margin-right: 16px;
-	// });
-
-	// .device(@ipad, {
-	// 	margin-left: 10%;
-	// 	margin-right: 10%;
-	// });
 
 	.current-item {
 		flex-basis: 60%;
@@ -36,9 +31,6 @@
 		flex-basis: 40%;
 		flex-grow: 1;
 		flex-shrink: 1;
-		//display: flex;
-		//flex-direction: column;
-		//align-items: stretch;
 		overflow-y: auto;
 		.hide-scrollbar();
 
@@ -91,11 +83,7 @@
 				}
 
 				.item-container {
-					//.dialog-shadow();
-					
-					//border: 1px solid @console-color;
 					padding: 10px 14px 10px 10px;
-					//border-radius: 23px;
 					display: flex;
 					flex-direction: column;
 					.primary-info {
@@ -107,7 +95,6 @@
 							height: @thumbnail-size;
 							min-width: @thumbnail-size;
 							border-radius: 50%;
-							//border: 1px solid white;
 							flex-grow: 0;
 							object-fit: cover;
 						}

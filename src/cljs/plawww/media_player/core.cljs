@@ -280,7 +280,9 @@
        [toolbar-item [detail/duration-comp @state]]
        [toolbar-item "SHARE" #(swap! state assoc :share-dialog-visible? true)]
        (when video?
-         [toolbar-item "FULLSCREEN" #(.request js/window.screenfull (r/dom-node @the-player))])])))
+         [toolbar-item "FULLSCREEN" #(do
+                                       (.request js/window.screenfull (r/dom-node @the-player))
+                                       (reagent/flush))])])))
 
 (defn player []
   (let [state mplayer-state]

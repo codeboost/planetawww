@@ -81,23 +81,22 @@
   (reagent.core/flush))
 
 (defn toggle-play [state]
-  (let [{:keys [muted]} @state]
-    (if muted ; Safari restriction - media must be loaded in a muted state.
-      (flush-play! state)
-      (swap! state update :playing not))))
+  (swap! state update :playing not))
+
 
 (defn set-current-item
   "Sets `item` as player's current item, which will cause the player to load the media file and possibly start playback.
   If the same item is already playing, it will be paused. If it is paused, it will be resumed."
   [item]
-  (if (= item (:item @mplayer-state)
+  (if (= item (:item @mplayer-state))
    (toggle-play mplayer-state)
    (swap! mplayer-state merge {:item item
                                :visible true
                                :detail-visible? (= (:type item) "video")
-                               :playing true}))
-     (utils/ga "set" "page" (.-pathname (.-location js/window)))
-     (utils/ga "send" "pageview"))
+                               :playing true
+                               :muted false}))
+  (utils/ga "set" "page" (.-pathname (.-location js/window)))
+  (utils/ga "send" "pageview")
   (reagent.core/flush))
 
 (defn play-button

@@ -143,7 +143,8 @@
                                 :on-click on-close} "x"]]
           [:div.dialog-container
            [:div.dialog-content
-            [:div.title [:strong "SHAREUIESTE URL-ul"]]
+            (when-not copied?
+              [:div.title [:strong "SHAREUIESTE URL-ul"]])
 
             (if copied?
               [:h1 "COPIAT!"]

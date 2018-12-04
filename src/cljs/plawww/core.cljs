@@ -53,8 +53,7 @@
          [explorer/explorer-page]
          (when current-item
            [media-item/item-info-component
-            {:on-play #(do
-                         (player/set-current-item current-item))
+            {:on-play #(player/set-current-item current-item)
              :on-close #(session/put! :current-media-item nil)
              :selected-item current-item
              :playing-item playing-item

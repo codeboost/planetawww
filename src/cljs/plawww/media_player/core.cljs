@@ -90,20 +90,14 @@
   "Sets `item` as player's current item, which will cause the player to load the media file and possibly start playback.
   If the same item is already playing, it will be paused. If it is paused, it will be resumed."
   [item]
-  (if (= item (:item @mplayer-state))
+  (if (= item (:item @mplayer-state)
    (toggle-play mplayer-state)
-   (let [muted (:muted @mplayer-state)
-         playing? (not muted)
-         video? (= (:type item) "video")
-         detail-visible? (or video?
-                             (not (:playing @mplayer-state)))]
-     (js/console.log "player: set-current-item:" item)
-     (swap! mplayer-state merge {:item item
-                                 :visible true
-                                 :detail-visible? video?
-                                 :playing playing?})
+   (swap! mplayer-state merge {:item item
+                               :visible true
+                               :detail-visible? (= (:type item) "video")
+                               :playing true}))
      (utils/ga "set" "page" (.-pathname (.-location js/window)))
-     (utils/ga "send" "pageview")))
+     (utils/ga "send" "pageview"))
   (reagent.core/flush))
 
 (defn play-button

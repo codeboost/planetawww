@@ -22,7 +22,7 @@
    on-close])
 
 (defn crt-page [_ & _]
-  (fn [page & [detail-page {:keys [navbar-hidden?]}]]
+  (fn [page & [{:keys [detail-page navbar-hidden?] :as opts}]]
     (let [ss (:search-string @navbar/state)
           searching? (not (empty? ss))]
       [:div.vert-container

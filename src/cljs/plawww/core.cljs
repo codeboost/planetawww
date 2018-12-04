@@ -51,13 +51,14 @@
             playing? @playing-state-cursor]
         [crt-page
          [explorer/explorer-page]
-         (when current-item
-           [media-item/item-info-component
-            {:on-play #(player/set-current-item current-item)
-             :on-close #(session/put! :current-media-item nil)
-             :selected-item current-item
-             :playing-item playing-item
-             :playing? playing?}])]))))
+         {:detail-page
+          (when current-item
+            [media-item/item-info-component
+             {:on-play #(player/set-current-item current-item)
+              :on-close #(session/put! :current-media-item nil)
+              :selected-item current-item
+              :playing-item playing-item
+              :playing? playing?}])}]))))
 
 (defn categories-page []
   (fn []

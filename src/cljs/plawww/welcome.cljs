@@ -26,13 +26,12 @@ In scurt timp toate tarile de pe Pamant s-au refugiat in spatiu, au cerut azil p
 ")
 
 (defn page []
-  (crt-page
+  [crt-page
     [:div.welcome-content
      [:p#story-text]
      [:h1#continue-button.ok-button
       [:a#cont-a {:href "/home"} "CONTINUARE"]]]
-    nil
-    {:navbar-hidden? true}))
+    {:navbar-hidden? true}])
 
 (defn continue-on-click[]
   (-> (js/$ "body")

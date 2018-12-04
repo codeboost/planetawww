@@ -34,7 +34,7 @@
        nil)
 
      [toolbar-item "SHARE" #(swap! state assoc :share-dialog-visible? true)]
-     [toolbar-item "DOWNLOAD" #()]]))
+     #_[toolbar-item "DOWNLOAD" #()]]))
 
 
 (defn img-container [_]

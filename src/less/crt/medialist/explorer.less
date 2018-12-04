@@ -210,19 +210,21 @@
 	position: absolute;
 	border: 1px solid @console-color;
 	margin: auto;
-	top: 0; bottom: 50px; left: 0; right: 0;
+	top: 0px; bottom: @player-height; left: 8px; right: 8px;
+	@media @ipad, @ipad-l, @desktop-xl {
+		width: 720px;
+		height: 600px;
+		margin: auto;
+		.dialog-shadow();
+	}
 	overflow: hidden;
-	background-color: @console-bg;
 	border-radius: 23px;
 	display: flex;
 	flex-direction: column;
 
-	.app-dialog-dimensions();
-
 	.tags-toolbar {
-		margin-top: 20px;
-		margin-bottom: 20px;
-		border-bottom: 1px solid @console-color;
+		background-color: @console-bg;
+		border-bottom: 1px dotted @console-color;
 		display: flex;
 		flex-direction: column;
 
@@ -248,6 +250,7 @@
 		}
 
 		.buttons {
+			margin-top: 20px;
 			display: flex;
 			align-items: center;
 			justify-content: center;
@@ -277,6 +280,9 @@
 		height:100%;
 		width:100%;
 		overflow-y: auto;
+		background-color: @console-bg;
+		opacity: 0.7;
+
  	   .hide-scrollbar();
 	}
 
@@ -285,6 +291,7 @@
 		flex-direction: row;
 		flex-wrap: wrap;
 		align-content: space-around;
+
 		li.tag {
 			background-color: @console-bg;
 			padding: 10px;

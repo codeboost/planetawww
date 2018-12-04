@@ -101,7 +101,7 @@
 
 (defn tag-editor [_ _ _]
   (let [filter-options (r/atom {:search-string ""})]
-    (fn [all-tags included-tags {:keys [tag-click all-click close-click]}]
+    (fn [all-tags included-tags {:keys [tag-click all-click close-click result-count]}]
       (let [ss (:search-string @filter-options)
             filtered-tags (if-not (empty? ss)
                             (filter #(search-match? % ss) all-tags)
@@ -115,7 +115,7 @@
                          (all-click))
              :class (when (empty? included-tags) :selected)} "TOATE"]
            [:div.gata {:on-click close-click}
-            "GATA"]]
+            (if (empty? included-tags) "GATA" (str "DA " result-count))]]
           [:div.filtering
            [:input.search-box {:type      "text"
                                :on-change #(swap! filter-options assoc :search-string (-> % .-target .-value))
@@ -128,7 +128,7 @@
                       {:class class-name
                        :on-click #(tag-click s)} s])) filtered-tags))]]))))
 
-(defn- tag-editor-modal [state {:keys [included-tags all-tags]}]
+(defn- tag-editor-modal [state {:keys [included-tags all-tags result-count]}]
   [ui/modal
    {:on-close #(swap! state assoc :visible-dialog :none)
     :visible? true}
@@ -138,7 +138,8 @@
      included-tags
      {:tag-click #(swap! state update :included-tags (if (included-tags %) disj conj) %)
       :all-click #(swap! state assoc :included-tags #{})
-      :close-click #(swap! state assoc :visible-dialog :none)}]]])
+      :close-click #(swap! state assoc :visible-dialog :none)
+      :result-count result-count}]]])
 
 (defn toolbar [{:keys [sort-by sort-by-clicked detail? detail-clicked tags tags-clicked]}]
   [:div.toolbar.filters
@@ -195,6 +196,7 @@
            (case visible-dialog
              :tag-editor
              [tag-editor-modal state {:included-tags included-tags
-                                      :all-tags all-tags}]
+                                      :all-tags all-tags
+                                      :result-count (count media-items)}]
              nil)])))))
 

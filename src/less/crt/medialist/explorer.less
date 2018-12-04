@@ -233,7 +233,7 @@
 			align-items: center;
 			justify-content: center;
 			margin-top: 20px;
-			margin-bottom: 20px;
+			margin-bottom: 10px;
 
 			input.search-box {
 				background-color: transparent;
@@ -260,13 +260,19 @@
 				border: 2px solid @console-color;
 				text-align: center;
 				cursor: pointer;
-				max-width: 70px;
+				max-width: 100px;
 				margin-left: 10px;
 				&.selected {
 					background-color: @console-color;
 					color: @console-bg;
 				}
 			}
+		}
+
+		.result-count {
+			text-align: center; 
+			font-size: 0.8em;
+			margin-bottom: 10px;
 		}		
 	}
 
@@ -293,6 +299,7 @@
 		align-content: space-around;
 
 		li.tag {
+			opacity: 1;
 			background-color: @console-bg;
 			padding: 10px;
 			border: 1px solid @console-color;

@@ -34,13 +34,14 @@
 
 
 (defn tag-list-component [tags on-click]
-  (into
-   [:ul.tags]
-   (for [tag tags]
-     (let [tag-text tag]
-       [:li
-        [:a
-         {:href     (paths/explorer-path (str "tag/" tag))
-          :on-click on-click}
-         tag-text]
-        " "]))))
+  [:div.tags-container
+   (into
+    [:ul.tags]
+    (for [tag tags]
+      (let [tag-text tag]
+        [:li
+         [:a
+          {:href     (paths/explorer-path (str "tag/" tag))
+           :on-click on-click}
+          tag-text]
+         " "])))])

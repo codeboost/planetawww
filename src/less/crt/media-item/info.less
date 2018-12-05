@@ -2,7 +2,9 @@
 
 .media-item-info-container {
     z-index: 998;
-    height: 100%;
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+
     display: flex;
     flex-direction: column;
     justify-content: stretch;
@@ -110,24 +112,31 @@
     .type, .duration, .publish-on {
     }
 
+    .tags-container {
+        overflow: hidden; 
+        width: 100%;
+        padding-bottom: 8px;
+    }
+
     .tags {
+        width: 100%;
+        .hide-scrollbar();
         font-size: 1.2rem;
         display: flex;
         justify-content: center;
-        min-height: 40px;
-        height: 40px;
-        overflow-x: auto;
-        .hide-scrollbar();
+        flex-wrap: wrap;
         li {
             overflow: hidden;
             list-style: none;
             margin-left: 8px;
+            margin-top: 8px;
             &:first-child { margin-left: 0; }
             a {
                 display: inline-block;
                 padding: 4px;
                 border: 1px solid @console-color;
                 border-radius: 23px;
+                white-space: nowrap;
             }
         }
         flex-grow: 0;

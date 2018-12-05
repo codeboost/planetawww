@@ -1,0 +1,35 @@
+@import "../base";
+
+
+.book-container {
+    overflow-y: auto;
+}
+
+
+.book, .not-yet {
+
+  display: flex;
+  flex-direction: column; 
+  align-items: center;
+  .hide-scrollbar();
+
+
+  .nekro-title {
+    text-align: center; 
+  }
+
+  .nekro-description {
+    text-align: justify;
+    text-justify: inter-word;
+    margin: 16px;
+  }
+
+  .link-back {
+    margin-left: auto; 
+    margin-right: auto;
+  }
+
+  .coperta {
+    border: 2px solid @console-color;
+  }
+}

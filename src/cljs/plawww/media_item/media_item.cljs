@@ -97,9 +97,8 @@
      action-buttons]))
 
 
-(defn feedback-component []
-  [:div {:style {:padding "10px"
-                 :font-size "18px"}}
+(defn feedback-component [buttons]
+  [:div.feedback-component
    [:h3 "ECOURI"]
    [:p "Inca nu-i gata. Dar poti sa ne scrii un e-mail:"]
    [:p
@@ -107,7 +106,8 @@
    [:p "Sau pe twitter:"]
    [:p
     [:a {:href "https://twitter.com/planetamoldova_"
-         :target "_new-twitter"} "https://twitter.com/planetamoldova_"]]])
+         :target "_new-twitter"} "https://twitter.com/planetamoldova_"]]
+   buttons])
 
 
 
@@ -133,7 +133,7 @@
          :info
          [info-component (assoc opts :action-buttons [action-buttons state opts])]
          :ecouri
-         [feedback-component])
+         [feedback-component [action-buttons state opts]])
 
 
        (when (:share-dialog-visible? @state)

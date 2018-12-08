@@ -8,9 +8,11 @@
 (ns plawww.media-player.core
   (:require
    [cljsjs.react-player]
+   [goog.functions :refer [debounce]]
    [plawww.components.components :refer [minimise-button tag-list-component]]
    [plawww.media-item.media-item :as media-item]
    [plawww.media-player.item-detail :as detail]
+   [plawww.media-player.fullscreen :as fullscreen]
    [plawww.media-player.progress-bar :as progress-bar]
    [plawww.utils :as utils]
    [reagent.interop :refer-macros [$ $!]]
@@ -19,7 +21,8 @@
    [reagent.session :as session]
    [plawww.mediadb.core :as db]
    [plawww.ui :as ui]
-   [reagent.core :as reagent]))
+   [reagent.core :as reagent])
+  (:import [goog.async Debouncer]))
 
 
 
@@ -45,6 +48,7 @@
                                 :detail-visible? false
                                 :volume-visible? false
                                 :fullscreen? false
+                                :fullscreen-controls? true
                                 :share-dialog-visible? false}))
 
 (defn s->ms
@@ -137,20 +141,25 @@
         parent-height (Math/round (* 0.88 parent-height))]
     (swap! state assoc :height parent-height)))
 
+(def fullscreen-toggle-fn (atom nil))
+
+(defn toggle-fullscreen! []
+  (when @fullscreen-toggle-fn
+    (@fullscreen-toggle-fn)))
+
 (defn media-player [state]
-  (let [update-interval (r/atom 0)
+  (let [update-interval (atom 0)
         container-el (r/atom nil)
-        resize-handler #(adjust-player-dimensions! container-el state)]
+        mouse-move #(fullscreen/show-then-hide-fullscreen-controls! state)]
     (r/create-class
      {:component-did-mount
       (fn []
         (start-update-duration-timer mplayer state update-interval)
-        #_(adjust-player-dimensions! container-el state)
-        #_(.addEventListener js/window "resize" resize-handler))
+        (.addEventListener js/document "mousemove" mouse-move))
 
       :component-will-unmount (fn []
                                 (js/clearInterval @update-interval)
-                                #_(.removeEventListener js/window "resize" resize-handler))
+                                (.removeEventListener js/document "mousemove" mouse-move))
 
       :reagent-render
       (fn []
@@ -158,6 +167,7 @@
               audio? (= (:type item) "audio")]
           [:div.pm-media-player
            {:ref #(reset! container-el %)}
+
            [react-player
             {:url (paths/item-path item)
              :class-name :react-player
@@ -182,7 +192,9 @@
              :on-progress (fn [p]
                             ;don't do this - scrolling won't work
                             ;there's a timer that takes care of it
-                            #_(swap! state assoc :played (.. p -played)))}]]))})))
+                            #_(swap! state assoc :played (.. p -played)))
+             :on-mouse-move mouse-move}]]))})))
+
 
 
 
@@ -251,50 +263,38 @@
         (when video?
           [:div.accessory-button
            {:on-click #(do
-                         (.toggle js/window.screenfull (r/dom-node @the-player))
-                         (swap! state update :fullscreen? not))
+                         (set-detail-visible true)
+                         (toggle-fullscreen!))
             :class    (when (:fullscreen? @state) :selected)}
            "F"])
         [volume-control state]]])))
 
-(defn toolbar-item [title on-click]
-  [:div.toolbar-item
-   {:on-click on-click}
-   title])
-
-(defn player-toolbar [state]
-  (fn []
-    (let [item (:item @state)
-          video? (= "video" (get-in @state [:item :type]))]
-      [:div.toolbar
-       [toolbar-item "INFO" (fn []
-                              (swap! state assoc :detail-visible? false)
-                              (session/put! :current-media-item item))]
-       [toolbar-item [detail/duration-comp @state]]
-       [toolbar-item "SHARE" #(swap! state assoc :share-dialog-visible? true)]
-       (when video?
-         [toolbar-item "FULLSCREEN" #(do
-                                       (.request js/window.screenfull (r/dom-node @the-player))
-                                       (reagent/flush))])])))
-
 (defn player []
   (let [state mplayer-state]
     (fn []
-      (let [{:keys [visible item detail-visible? share-dialog-visible? type]} @state
+      (let [{:keys [item detail-visible? share-dialog-visible? fullscreen? fullscreen-controls?]} @state
             item-type (:type item)
             video? (= item-type "video")
-            class (if detail-visible? [:detail-visible item-type] [item-type])]
+            class (remove nil? [item-type
+                                (when detail-visible? :detail-visible)
+                                (when fullscreen? :fullscreen)
+                                (when fullscreen-controls? :controls-visible)])]
+
         [:div.player {:class class
-                      :ref #(reset! the-player %)}
+                      :ref #(do
+                              (reset! the-player %)
+                              (reset! fullscreen-toggle-fn (fullscreen/toggle-fn state (r/dom-node %))))}
          [:div.detail
           [:div.title-container
            #_[:img.item-icon {:src (paths/media-image-path (:id item) {:show-custom? true})}]
            [:h3.title {:on-click #(do
                                      (session/put! :current-media-item item)
                                      (set-detail-visible false))} (:title item)]]
-          (when video? [minimise-button "x" #(set-detail-visible false)])
+          (when video? [minimise-button "x" #(do
+                                               (when fullscreen?
+                                                 (toggle-fullscreen!))
+                                               (set-detail-visible false))])
           [media-player state]]
-         #_(when detail-visible? [player-toolbar state])
          [:div.content [medium-player state]]
          (when share-dialog-visible?
            [ui/share-dialog-modal {:on-close #(swap! state assoc :share-dialog-visible? false)

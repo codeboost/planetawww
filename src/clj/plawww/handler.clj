@@ -24,9 +24,19 @@
   {:media (db/get-media)
    :categories (db/get-categories)})
 
+(def splash-messages ["Se determina coordonatele..."
+                      "Amush..."
+                      "Asteptati oleaca..."
+                      "Shezi ghinishor ca nu-ti fac nica.."
+                      "Se incarca..."
+                      "Se executa cateva sute de miliarde de instructiuni, asteptati."
+                      "Se hraneste procesorul... "
+                      "Incarc hash map-ul..."
+                      "Pragoanele se apropie..."])
+
 (def mount-target
   [:div#app
-   [:h3 "Nu ti graghi..."]])
+   [:h3 (rand-nth splash-messages)]])
 
 (defn google-analytics-include []
   [:script {:async true

@@ -1,5 +1,12 @@
 #Creates uberjar, then builds the docker container and uploads it to docker hub.
 
+if git diff-index --quiet HEAD --; then
+    echo "Repository contains no unstanged changes, that's good."
+else
+	echo "Repository has changes. Please commit changes before deploying."
+	exit 1
+fi
+
 echo "Creating uberjar..."
 lein uberjar
 if [ $? -eq 0 ]; then
@@ -11,6 +18,7 @@ if [ $? -eq 0 ]; then
 		then
 			echo "Incrementing minor version"
 			semver inc minor
+			git add '.semver'
 			git commit -m 'Updated minor version.'
 			git tag -a `semver tag`
 		fi
@@ -19,6 +27,7 @@ if [ $? -eq 0 ]; then
 		then
 			echo "Incrementing patch version"
 			semver inc patch
+			git add '.semver'
 			git commit -m 'Updated patch version.'
 			git tag -a `semver tag`
 		fi

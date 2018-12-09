@@ -183,8 +183,12 @@
                            (swap! state assoc :playing true)))
              :on-ended #(swap! state assoc :playing false)
              :on-ready (fn [])
-             :on-play  #(swap! state assoc :playing true)
-             :on-pause #(swap! state assoc :playing false)
+             :on-play  #(do
+                          (swap! state assoc :playing true)
+                          (fullscreen/hide-controls-after-a-while state))
+             :on-pause #(do
+                          (swap! state assoc :playing false)
+                          (fullscreen/show-fullscreen-controls! state))
              :on-error (fn [err]
                          (swap! state merge {:playing false :error err})
                          (js/console.log "Error: " err))
@@ -290,9 +294,8 @@
            [:h3.title {:on-click #(do
                                      (session/put! :current-media-item item)
                                      (set-detail-visible false))} (:title item)]]
-          (when video? [minimise-button "x" #(do
-                                               (when fullscreen?
-                                                 (toggle-fullscreen!))
+          (when video? [minimise-button "x" #(if fullscreen?
+                                               (toggle-fullscreen!)
                                                (set-detail-visible false))])
           [media-player state]]
          [:div.content [medium-player state]]

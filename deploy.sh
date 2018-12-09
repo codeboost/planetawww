@@ -11,6 +11,7 @@ if [ $? -eq 0 ]; then
 		then
 			echo "Incrementing minor version"
 			semver inc minor
+			git commit -m 'Updated minor version.'
 			git tag -a `semver tag`
 		fi
 
@@ -18,6 +19,7 @@ if [ $? -eq 0 ]; then
 		then
 			echo "Incrementing patch version"
 			semver inc patch
+			git commit -m 'Updated patch version.'
 			git tag -a `semver tag`
 		fi
 

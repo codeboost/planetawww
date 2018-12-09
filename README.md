@@ -42,11 +42,12 @@ Steps:
 
 		source ~/.planeta-env
 		docker login
-		./deploy.sh -v
+		./deploy.sh -vm
 
 
-The -v flag means increment minor version number.
-If you want to bump major version, see here: https://github.com/flazz/semver
+The -vm flag means increment minor version number.
+The -vp flag means increment patch version number.
+If you want to bump major version, do it manually.
 If not supplied, the version is not changed.
 
 ## Development

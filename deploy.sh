@@ -7,12 +7,20 @@ if [ $? -eq 0 ]; then
 	docker build -t florinbraghis/planeta-crt .
 	if [ $? -eq 0 ]; then
 		echo "Pushing..."
-		if [[ $* == *-v* ]]
+		if [[ $* == *-vm ]]
 		then
 			echo "Incrementing minor version"
 			semver inc minor
 			git tag -a `semver tag`
 		fi
+
+		if [[ $* == *-vp ]]
+		then
+			echo "Incrementing patch version"
+			semver inc patch
+			git tag -a `semver tag`
+		fi
+
 		echo "Pushing `semver tag`"			
 		docker push florinbraghis/planeta-crt
 	else

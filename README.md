@@ -34,6 +34,20 @@ Production:
 	docker build -t florinbraghis/planeta-crt .
 	docker push florinbraghis/planeta-crt
 
+##Deployment
+
+You need to `gem install semver` to be able to version automatically.
+
+Steps:
+
+		source ~/.planeta-env
+		docker login
+		./deploy.sh -v
+
+
+The -v flag means increment minor version number.
+If you want to bump major version, see here: https://github.com/flazz/semver
+If not supplied, the version is not changed.
 
 ## Development
 
@@ -52,6 +66,33 @@ The app is accessible at http://localhost:3449/
 The figwheel repl is on localhost:7002
 This will be the Clojure REPL (the Ring server).
 To start ClojureScript REPL: `(figwheel-sidecar.repl-api/cljs-repl)`
+
+Git
+
+`master` always contains the current	 version of the app. 
+All changes to the app are done in external branches. 
+
+Before deployment, tag current master with the new version number.
+		git tag -a v1.0.1 -m "My version 1.0.1"
+
+This way, it will be easy to revert the app to a specific version in case a serious issue is discovered in the newer version.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         
 
 

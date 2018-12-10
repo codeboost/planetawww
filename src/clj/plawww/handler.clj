@@ -69,12 +69,10 @@
 
 (defn main-page []
   (html5
-    (head ["/css/crt/crt.css"
-           "/css/animations.css"])
+    (head [(if (= true (:dev env)) "/css/crt/crt.css" "css/crt/crt.min.css")])
     [:body {:class "body-container"}
      mount-target
-     (include-js "/js/app.js")
-     (include-js "/lib/screenfull.js")]))
+     (include-js "/js/app.js")]))
 
 (defroutes routes
   (GET "/" [] (main-page))

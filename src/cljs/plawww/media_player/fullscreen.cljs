@@ -1,5 +1,6 @@
 (ns plawww.media-player.fullscreen
-  (:require [reagent.core :as r]))
+  (:require [reagent.core :as r]
+            [screenfull]))
 
 
 (def hide-controls-timer (atom 0))

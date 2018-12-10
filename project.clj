@@ -53,7 +53,7 @@
   :resource-paths ["resources" "target/cljsbuild"]
 
   :minify-assets  {:assets
-                   {"resources/public/css/site.min.css" "resources/public/css/site.css"}}
+                   {"resources/public/css/crt/crt.min.css" "resources/public/css/crt/crt.css"}}
 
 
   :cljsbuild
@@ -64,6 +64,8 @@
              {:output-to "target/cljsbuild/public/js/app.js"
               :output-dir "target/uberjar"
               :optimizations :advanced
+              :foreign-libs [{:file "resources/public/lib/screenfull.js"
+                              :provides ["screenfull"]}]
               ;Created by the generate-extern tool
               :externs ["externs.js" "react-player-externs.js"]
               :optimize-constants true
@@ -78,7 +80,9 @@
               :output-dir "target/cljsbuild/public/js/out"
               :source-map true
               :optimizations :none
-              :pretty-print  true}}
+              :pretty-print  true
+              :foreign-libs [{:file "resources/public/lib/screenfull.js"
+                              :provides ["screenfull"]}]}}
 
 
             :devcards

@@ -21,7 +21,8 @@
    [reagent.session :as session]
    [plawww.mediadb.core :as db]
    [plawww.ui :as ui]
-   [reagent.core :as reagent])
+   [reagent.core :as reagent]
+   [screenfull])
   (:import [goog.async Debouncer]))
 
 

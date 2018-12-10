@@ -26,6 +26,10 @@ function bail-if-not-on-branch {
 bail-if-not-on-branch master
 bail-if-changes-exist
 
+echo "Compiling CSS..."
+
+lein less once
+
 echo "Creating uberjar..."
 lein uberjar
 

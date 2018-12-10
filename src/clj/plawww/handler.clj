@@ -69,7 +69,7 @@
 
 (defn main-page []
   (html5
-    (head [(if (= true (:dev env)) "/css/crt/crt.css" "css/crt/crt.min.css")])
+    (head [(if (= true (:dev env)) "/css/crt/crt.css" "/css/crt/crt.min.css")])
     [:body {:class "body-container"}
      mount-target
      (include-js "/js/app.js")]))

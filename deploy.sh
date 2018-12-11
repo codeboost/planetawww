@@ -30,36 +30,28 @@ echo "Compiling CSS..."
 
 lein less once
 
+if [[ $* == *-vm ]];
+then
+	echo "Incrementing minor version"
+	semver inc minor
+	git add '.semver'
+	git commit -m 'Updated minor version.'
+	git tag -a `semver tag`
+fi
+
+if [[ $* == *-vp ]]; then
+	echo "Incrementing patch version"
+	semver inc patch
+	git add '.semver'
+	git commit -m 'Updated patch version.'
+	git tag -a `semver tag`
+fi
+
 echo "Creating uberjar..."
 lein uberjar
 
-if [ $? -eq 0 ]; then
-	if [ $? -eq 0 ]; then
-		if [[ $* == *-vm ]];
-		then
-			echo "Incrementing minor version"
-			semver inc minor
-			git add '.semver'
-			git commit -m 'Updated minor version.'
-			git tag -a `semver tag`
-		fi
+echo "Rebuilding docker container..."
+docker build -t florinbraghis/planeta-crt -t florinbraghis/planeta-crt:`semver tag` .
 
-		if [[ $* == *-vp ]]; then
-			echo "Incrementing patch version"
-			semver inc patch
-			git add '.semver'
-			git commit -m 'Updated patch version.'
-			git tag -a `semver tag`
-		fi
-	
-	    echo "Rebuilding docker container..."
-		docker build -t florinbraghis/planeta-crt -t florinbraghis/planeta-crt:`semver tag` .
-
-		echo "Pushing `semver tag`"			
-		docker push florinbraghis/planeta-crt:`semver tag`
-	else
-		echo "Error: docker build failed."
-	fi
-else
-    echo "Error: lein uberjar failed."
-fi
+echo "Pushing `semver tag`"			
+docker push florinbraghis/planeta-crt:`semver tag`

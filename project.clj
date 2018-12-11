@@ -43,7 +43,6 @@
   :uberjar-name "planeta-crt.jar"
 
   :main plawww.server
-  :filespecs [{:type :path :path ".semver"}]
 
   :clean-targets ^{:protect false}
   [:target-path
@@ -51,7 +50,7 @@
    [:cljsbuild :builds :app :compiler :output-to]]
 
   :source-paths ["src/clj" "src/cljc"]
-  :resource-paths ["resources" "target/cljsbuild"]
+  :resource-paths ["resources" "target/cljsbuild" ".semver"]
 
   :minify-assets  {:assets
                    {"resources/public/css/crt/crt.min.css" "resources/public/css/crt/crt.css"}}

@@ -1,14 +1,17 @@
 (ns plawww.handler
-  (:require [compojure.core :refer [GET defroutes] :as compojure]
-            [clojure.tools.logging :refer [info error]]
-            [compojure.route :refer [not-found resources]]
-            [hiccup.page :refer [include-js include-css html5 html4]]
-            [plawww.middleware :refer [wrap-middleware]]
-            [plawww.db.core :as db]
-            [ring.middleware.file :refer [wrap-file]]
-            [plawww.partial :refer [wrap-partial-content]]
-            [config.core :refer [env]]
-            [clojure.data.json :as json]))
+  (:require
+    [clojure.data.json :as json]
+    [clojure.tools.logging :refer [info error]]
+    [clojure.java.io :as io]
+    [compojure.core :refer [GET defroutes] :as compojure]
+    [compojure.route :refer [not-found resources]]
+    [config.core :refer [env]]
+    [hiccup.page :refer [include-js include-css html5 html4]]
+    [plawww.middleware :refer [wrap-middleware]]
+    [plawww.db.core :as db]
+    [plawww.partial :refer [wrap-partial-content]]
+    [ring.middleware.file :refer [wrap-file]]))
+
 
 (defn media-path [& [file]]
   (let [data-path (or (env :planeta-mediadrop-data) "../planeta-data/mediadrop")
@@ -75,7 +78,7 @@
      (include-js "/js/app.js")]))
 
 (defn show-version []
-  (slurp ".semver"))
+  (slurp (io/resource ".semver")))
 
 (defroutes routes
   (GET "/" [] (main-page))

@@ -74,6 +74,9 @@
      mount-target
      (include-js "/js/app.js")]))
 
+(defn show-version []
+  (slurp ".semver"))
+
 (defroutes routes
   (GET "/" [] (main-page))
   (GET "/menu*" [] (main-page))
@@ -87,6 +90,7 @@
   (GET "/carti*" [] (main-page))
   (GET "/settings*" [] (main-page))
   (GET "/colectii*" [] (main-page))
+  (GET "/version" [] (show-version))
   (resources "/")
   (compojure/context "/data" []
     (->

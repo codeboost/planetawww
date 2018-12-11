@@ -43,6 +43,7 @@
   :uberjar-name "planeta-crt.jar"
 
   :main plawww.server
+  :filespecs [{:type :path :path ".semver"}]
 
   :clean-targets ^{:protect false}
   [:target-path

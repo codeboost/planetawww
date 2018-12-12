@@ -26,7 +26,8 @@
    [:div.centered-text "-----"]
    [:p.about-text {:dangerouslySetInnerHTML {:__html about-text}}]
    [:div.centered-text "-----"]
-   [:p "Ecouri, sugestii, propuneri: " [:a {:href "mailto:planetamoldova@planetamoldova.net"
-                                            :target "_new-mail"} "planetamoldova@planetamoldova.net"]]
-   [:p [:a {:href "https://twitter.com/planetamoldova_"
-            :target "_new-twitter"} "https://twitter.com/planetamoldova_"]]])
+   [:div "Ecouri, sugestii, propuneri: "]
+   [:div [:a {:href "mailto:planetamoldova@planetamoldova.net"
+              :target "_new-mail"} "planetamoldova@planetamoldova.net"]]
+   [:div [:a {:href "https://twitter.com/planetamoldova_"
+              :target "_new-twitter"} "https://twitter.com/planetamoldova_"]]])

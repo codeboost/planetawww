@@ -7,13 +7,23 @@
 //:planeta {:console #ddd :background #383838}
 //:violet {:console #8580BB :background #27226D}
 //:soviet {:console #fed20a :background #A60017 :border 138c24}
-@console-color: #ddd;
-@console-bg: #383838;
-@border-color: #ddd; 
 
-@highlight-color: lighten(@console-color, 50%);
-@thin-border-color: darken(@console-color, 30%);
-@dark-border-color: darken(@console-bg, 10%);
+:root {
+  @color: #8580BB;
+  @background: #27226D;
+  --console-color: @color;
+  --console-bg: @background; 
+  --border-color: @color;
+  --highlight-color: lighten(@color, 50%);
+  --dark-border-color: darken(@background, 10%);
+} 
+
+
+@console-color: var(--console-color);
+@console-bg: var(--console-bg);
+@border-color: var(--border-color);
+@highlight-color: var(--highlight-color);
+@dark-border-color: var(--dark-border-color);
 @the-font: 'VT323';
 @player-height: 44px;
 @ui-border-radius: 23px;

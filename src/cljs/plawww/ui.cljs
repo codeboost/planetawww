@@ -128,38 +128,45 @@
              #_[:div.pm-modal--close {:on-click on-close} "x"]
              content]]]))})))
 
+(defn ui-dialog [{:keys [on-close]} content]
+  [:div.ui-dialog
+   [:div.min-button [:a {:href :#
+                         :on-click on-close} "x"]]
+   [:div.ui-dialog-content content]])
+
+(defn modal-dialog [{:keys [on-close dialog-class]} content]
+  [modal
+   {:visible? true
+    :class [dialog-class]
+    ;Needed for closing with ESC key
+    :on-close on-close}
+   [ui-dialog {:on-close on-close} content]])
 
 (defn share-dialog-modal [_]
   (let [state (r/atom {:copied? false
                        :input-element nil})]
     (fn [{:keys [on-close share-url]}]
       (let [{:keys [copied? input-element]} @state]
-        [modal
-         {:visible? true
-          :class [:share-dialog-modal]
-          :on-close on-close}
-         [:div.share-dialog-content
-          [:div.min-button [:a {:href :#
-                                :on-click on-close} "x"]]
-          [:div.dialog-container
-           [:div.dialog-content
-            (when-not copied?
-              [:div.title [:strong "SHAREUIESTE URL-ul"]])
+        [modal-dialog {:on-close on-close
+                       :dialog-class :share-dialog-modal}
+         [:div.share-dialog
+          (when-not copied?
+            [:div.title [:strong "SHAREUIESTE URL-ul"]])
 
-            (if copied?
-              [:h1 "COPIAT!"]
-              [:div.controls
-               [:input {:type :text
-                        :value share-url
-                        :cols 50
-                        :read-only true
-                        :selected true
-                        :ref #(swap! state assoc :input-element %)}]
-               [:a.toggle-button.copy-button {:href :#
-                                              :on-click (fn []
-                                                          (when input-element
-                                                            (.select input-element)
-                                                            (.execCommand js/document "copy")
-                                                            (swap! state assoc :copied? true))
-                                                          (js/setTimeout #(on-close) 1000))}
-                "COPIAZA"]])]]]]))))
+          (if copied?
+            [:h1 "COPIAT!"]
+            [:div.controls
+             [:input {:type :text
+                      :value share-url
+                      :cols 50
+                      :read-only true
+                      :selected true
+                      :ref #(swap! state assoc :input-element %)}]
+             [:a.toggle-button.copy-button {:href :#
+                                            :on-click (fn []
+                                                        (when input-element
+                                                          (.select input-element)
+                                                          (.execCommand js/document "copy")
+                                                          (swap! state assoc :copied? true))
+                                                        (js/setTimeout #(on-close) 1000))}
+              "COPIAZA"]])]]))))

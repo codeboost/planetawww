@@ -62,16 +62,16 @@
     [:head
      [:title "Planeta Moldova"]
      [:meta {:charset "utf-8"}]
-     [:meta {:name    "viewport"
-             :content "width=device-width, initial-scale=1"}]
-     (map (fn [css-include]
-            (include-css css-include)) css-includes)
+     [:meta {:name    "viewport" :content "width=device-width, initial-scale=1"}]
+     [:meta {:name "description" :content "Site-ul oficial Planeta Moldova. Scenete audio, clipuri video si muzicile noastre."}]
+     [:meta {:name "author" :content "2p-trip"}]
+     (map include-css css-includes)
      [:script (str "var kolbasulPlanetar = " db-json ";")]
      (google-analytics-include)
      (google-analytics-init)]))
 
 (defn main-page []
-  (html5
+  (html5 {:lang "ro"}
     (head [(if (= true (:dev env)) "/css/crt/crt.css" "/css/crt/crt.min.css")])
     [:body {:class "body-container"}
      mount-target

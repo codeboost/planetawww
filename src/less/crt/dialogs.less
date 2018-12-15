@@ -14,7 +14,7 @@
 	}
 }
 
-.share-dialog-content {
+.ui-dialog {
 	position: absolute;
 	border: 1px solid @border-color;
 	margin: auto;
@@ -27,7 +27,7 @@
 	max-height: 160px;
 	max-width: 320px;
 
-	.dialog-container {
+	.ui-dialog-content {
 		display: flex;
 		flex-direction: column;
 		align-content: center;
@@ -36,40 +36,48 @@
 		top: 0; left: 0;
 		bottom: 0; right: 0;
 		overflow: hidden;
-	}
-
-	.dialog-content {
-		.title {
-			align-self: center;
-			text-align: center;
-			vertical-align: middle;
-			width: 100%;
-			margin-bottom: 16px;
-		}
-		.controls {
-			display: flex;
-			align-items: center;
-			justify-content: : center;
-			flex-direction: column;
-
-			input {
-				text-transform: none;
-			}
-
-			.copy-button {
-				margin-top: 10px;
-			}
-		}
-		h1 {
-			align-self: center;
-			text-align: center;
-			vertical-align: middle;
-			margin: 0;
-		}
-
+		overflow-y: auto;
+		.hide-scrollbar();
 	}	
+}
+
+.share-dialog {
+	.title {
+		align-self: center;
+		text-align: center;
+		vertical-align: middle;
+		width: 100%;
+		margin-bottom: 16px;
+	}
+	.controls {
+		display: flex;
+		align-items: center;
+		justify-content: : center;
+		flex-direction: column;
+
+		input {
+			text-transform: none;
+		}
+
+		.copy-button {
+			margin-top: 10px;
+		}
+	}
+	h1 {
+		align-self: center;
+		text-align: center;
+		vertical-align: middle;
+		margin: 0;
+	}
 }
 
 .pm-overlay.share-dialog-modal {
 	z-index: 4000;
+}
+
+.theme-picker-dialog .ui-dialog{
+	max-height: 600px;
+	max-width: 400px;
+	overflow-y: auto;
+	.hide-scrollbar();
 }

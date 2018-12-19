@@ -25,7 +25,6 @@
                           :selected-id ""}))
 
 (defn set-opts [opts]
-  (js/console.log "media-page/set-opts: " opts)
   (swap! *state* merge opts))
 
 (defn- mtype-str [type]

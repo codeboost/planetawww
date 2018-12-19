@@ -5,7 +5,8 @@
 ;   the terms of this license.
 ;   You must not remove this notice, or any other, from this software.
 
-(ns plawww.paths)
+(ns plawww.paths
+  (:require [clojure.string :as str]))
 
 (def AUDIO_IMAGE_PATH "/images/planeta.png")
 (def EXPLORER_PATH "/pragoane")
@@ -60,12 +61,21 @@
   "Returns the relative path to the media explorer.
   subpath must be a relative path (eg. not start with /).
   If subpath is empty, the root explorer path is returned."
-  [subpath]
-  (*-path EXPLORER_PATH subpath))
+  [subpath & [keep-query?]]
+  (let [subpath (if keep-query?
+                  (str subpath (.-search (.-location js/window)))
+                  subpath)]
+    (*-path EXPLORER_PATH subpath)))
 
 (defn full-explorer-path [basename subpath]
   (str basename (explorer-path subpath)))
 
+(defn tags-path
+  [tags]
+  (let [tags (if (string? tags) (str/split tags #"\+") tags)
+        tags (if (coll? tags) (str/join "+" tags) tags)
+        query (if-not (empty? tags) (str "?taguit=" tags) "")]
+    (*-path EXPLORER_PATH query)))
 
 (defn categories-path [subpath]
   (*-path CATEGORIES_PATH subpath))

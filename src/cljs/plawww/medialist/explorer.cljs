@@ -54,7 +54,7 @@
   ^{:key id}
   [:li.item
    [:a {:href :#
-        :on-click #(accountant.core/navigate! (explorer-path id))}
+        :on-click #(accountant.core/navigate! (explorer-path id true))}
     [:span.item-container
      [:div.primary-info
       [:img.thumbnail {:src (paths/media-image-path id {:show-custom? (= type "video")
@@ -79,7 +79,6 @@
     :new   - sorts items by :publish_on (date)
     :old   - sorts items by :pulish_on, descending (date)."
   [sk]
-  (js/console.log sk)
   (case sk
     :title #(sort-by :title %)
     :title-desc #(reverse (sort-by :title %))
@@ -138,7 +137,9 @@
      included-tags
      {:tag-click #(swap! state update :included-tags (if (included-tags %) disj conj) %)
       :all-click #(swap! state assoc :included-tags #{})
-      :close-click #(swap! state assoc :visible-dialog :none)
+      :close-click #(do
+                      (swap! state assoc :visible-dialog :none)
+                      (accountant.core/navigate! (paths/tags-path included-tags)))
       :result-count result-count}]]])
 
 (defn toolbar [{:keys [sort-by sort-by-clicked detail? detail-clicked tags tags-clicked]}]
@@ -163,40 +164,39 @@
         sort-fn (reaction #(sorter @sort-by-cursor))
         media-items (reaction #(@sort-fn @items-for-tags-reaction))]
     (fn []
-      (time
-        (let [included-tags @included-tags-cursor
-              media-items @media-items
-              all-tags @unique-tags-reaction
-              ;visible-dialog (or (and @current-item :media-info) (:visible-dialog @state))
-              visible-dialog (:visible-dialog @state)
-              searching? (not (empty? (:search-string @state)))
-              anim-class :show-scaled-y
-              navbar-minimised? @navbar-minimised-cursor]
-          [:div.explorer
-           [:div.media-list
-            (when (:category @state)
-              [plawww.categories.categories/category-component (:category @state) {:url (paths/categories-path "")
-                                                                                   :index 0
-                                                                                   :scale-on-hover? false}])
-            (when-not searching?
-              (when-not navbar-minimised?
-                [toolbar {:sort-by (:sort-by @state)
-                          :sort-by-clicked (fn [sort-by]
-                                             (let [el @scrollable-items-ref]
-                                               (set! (.-scrollTop el)  0)
-                                               (swap! state assoc :sort-by sort-by)))
-                          :detail? (:detail? @state)
-                          :detail-clicked #(swap! state update :detail? not)}]))
-            [tags-component (:included-tags @state) #(swap! state assoc :visible-dialog :tag-editor)]
-            (into
-             [:ul.items {:ref #(reset! scrollable-items-ref %)}]
-             (map-indexed #(m->item %1 %2 {:anim-class anim-class
-                                           :category-name (db/any-category-slug %2)
-                                           :detail? (:detail? @state)}) media-items))]
-           (case visible-dialog
-             :tag-editor
-             [tag-editor-modal state {:included-tags included-tags
-                                      :all-tags all-tags
-                                      :result-count (count media-items)}]
-             nil)])))))
+      (let [included-tags @included-tags-cursor
+            media-items @media-items
+            all-tags @unique-tags-reaction
+            ;visible-dialog (or (and @current-item :media-info) (:visible-dialog @state))
+            visible-dialog (:visible-dialog @state)
+            searching? (not (empty? (:search-string @state)))
+            anim-class :show-scaled-y
+            navbar-minimised? @navbar-minimised-cursor]
+        [:div.explorer
+         [:div.media-list
+          (when (:category @state)
+            [plawww.categories.categories/category-component (:category @state) {:url (paths/categories-path "")
+                                                                                 :index 0
+                                                                                 :scale-on-hover? false}])
+          (when-not searching?
+            (when-not navbar-minimised?
+              [toolbar {:sort-by (:sort-by @state)
+                        :sort-by-clicked (fn [sort-by]
+                                           (let [el @scrollable-items-ref]
+                                             (set! (.-scrollTop el)  0)
+                                             (swap! state assoc :sort-by sort-by)))
+                        :detail? (:detail? @state)
+                        :detail-clicked #(swap! state update :detail? not)}]))
+          [tags-component (:included-tags @state) #(swap! state assoc :visible-dialog :tag-editor)]
+          (into
+           [:ul.items {:ref #(reset! scrollable-items-ref %)}]
+           (map-indexed #(m->item %1 %2 {:anim-class anim-class
+                                         :category-name (db/any-category-slug %2)
+                                         :detail? (:detail? @state)}) media-items))]
+         (case visible-dialog
+           :tag-editor
+           [tag-editor-modal state {:included-tags included-tags
+                                    :all-tags all-tags
+                                    :result-count (count media-items)}]
+           nil)]))))
 

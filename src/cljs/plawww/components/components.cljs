@@ -41,7 +41,7 @@
       (let [tag-text tag]
         [:li
          [:a
-          {:href     (paths/explorer-path (str "tag/" tag))
+          {:href     (paths/tags-path tag)
            :on-click on-click}
           tag-text]
          " "])))])

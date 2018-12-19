@@ -114,27 +114,42 @@
   (welcome/on-init)
   (session/put! :current-page #'welcome/page))
 
-(defroute "/about" []
+(defroute #"/despre|/about" []
   (session/put! :current-page #'about-page))
 
 (defroute #"/barul/?" []
   (session/put! :current-page #'barul-page))
 
+(defn extract-tags [query-tags]
+  (as-> query-tags qt
+        (str/split qt #"\+")
+        (remove empty? qt)
+        (set qt)))
+
+(defn tags-query-param [qp]
+  (or
+   (get-in qp [:query-params :taguit])
+   (get-in qp [:query-params :tags])))
+
+
+(defn query->opts [qp]
+  (let [tags (extract-tags (tags-query-param qp))
+        category (category-from-query-params qp)]
+    {:included-tags tags
+     :category category}))
+
 (defroute (explorer-path-regex "?") [p qp]
-  (js/console.log qp)
-  (show-explorer-page nil {:category (category-from-query-params qp)
-                           :included-tags #{}}))
+  (show-explorer-page nil (query->opts qp)))
 
 (defroute (explorer-path-regex "(\\d+)") [id qp]
-  (show-explorer-page id))
+    (show-explorer-page id (query->opts qp)))
 
 (defroute (explorer-path-regex "tag/?") []
   (show-explorer-page nil {:tag-editor-visible? true}))
 
 (defroute (explorer-path "tag/:tag") [tag]
-  (let [tag-set (set (str/split tag #"\+"))]
-    (show-explorer-page nil {:included-tags tag-set
-                             :category nil})))
+  (let [tags (str/split tag #"\+")]
+    (secretary.core/dispatch! (plawww.paths/tags-path tags))))
 
 (defroute (categories-path-regex "?") []
   (show-categories-page))

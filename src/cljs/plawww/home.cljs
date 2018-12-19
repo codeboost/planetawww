@@ -7,7 +7,7 @@
 
 (ns plawww.home
   (:require
-   [plawww.paths :refer [explorer-path]]
+   [plawww.paths :refer [explorer-path tags-path]]
    [plawww.themes.themes :as themes]
    [reagent.core :as r])
   (:require-macros [reagent.interop :refer [$ $!]]))
@@ -51,13 +51,13 @@
        [:div.menu-items
         [menu-item "/colectii" "Colectii"]
         [menu-item "" "Exploreaza"]
-        [menu-item "tag/music" "Muzica"]
-        [menu-item "tag/radio+guerilla" "Emisiuni Radio"]
-        [menu-item "tag/tv" "Emisiuni TV"]
-        [menu-item "tag/animatie" "Animatie"]
-        [menu-item "tag/scurtmetraj" "Scurtmetraje"]
+        [menu-item (tags-path "music") "Muzica"]
+        [menu-item (tags-path "radio+guerilla") "Emisiuni Radio"]
+        [menu-item (tags-path "tv") "Emisiuni TV"]
+        [menu-item (tags-path "animatie") "Animatie"]
+        [menu-item (tags-path "scurtmetraj") "Scurtmetraje"]
         [menu-item "/text" "Carti si texte"]
-        [menu-item "/about" "Despre proiect"]
+        [menu-item "/despre" "Despre proiect"]
         [:a {:on-click #(reset! visible-dialog :theme-picker)
              :href :#}
          "Culoare"]

@@ -81,18 +81,6 @@
   (slurp (io/resource ".semver")))
 
 (defroutes routes
-  (GET "/" [] (main-page))
-  (GET "/menu*" [] (main-page))
-  (GET "/media*" [] (main-page))
-  (GET "/home*" [] (main-page))
-  (GET "/about*" [] (main-page))
-  (GET "/barul*" [] (main-page))
-  (GET "/explorer*" [] (main-page))
-  (GET "/pragoane*" [] (main-page))
-  (GET "/text*" [] (main-page))
-  (GET "/carti*" [] (main-page))
-  (GET "/settings*" [] (main-page))
-  (GET "/colectii*" [] (main-page))
   (GET "/version" [] (show-version))
   (resources "/")
   (compojure/context "/data" []
@@ -100,6 +88,7 @@
      (not-found "File Not Found")
      (wrap-file (media-path))
      (wrap-partial-content)))
+  (GET "/*" [] (main-page))
 
   (not-found "Not Found"))
 

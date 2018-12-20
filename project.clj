@@ -6,6 +6,7 @@
 
   :dependencies [[binaryage/devtools "0.9.10"]
                  [binaryage/dirac "1.2.36"]
+                 [com.cemerick/url "0.1.1"]
                  [clj-http "3.9.0"]
                  [cljsjs/typedjs "1.1.1-0"] ;jquery plugin that types
                  ;[cljsjs/react-draggable "3.0.3-0"] ;draggable

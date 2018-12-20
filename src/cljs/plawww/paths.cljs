@@ -6,7 +6,8 @@
 ;   You must not remove this notice, or any other, from this software.
 
 (ns plawww.paths
-  (:require [clojure.string :as str]))
+  (:require [clojure.string :as str]
+            [cemerick.url :as url]))
 
 (def AUDIO_IMAGE_PATH "/images/planeta.png")
 (def EXPLORER_PATH "/pragoane")
@@ -70,11 +71,18 @@
 (defn full-explorer-path [basename subpath]
   (str basename (explorer-path subpath)))
 
+(defn current-url-query
+  "Parse URL parameters into a hashmap"
+  []
+  (or (:query (url/url (-> js/window .-location .-href))) {}))
+
 (defn tags-path
   [tags]
   (let [tags (if (string? tags) (str/split tags #"\+") tags)
         tags (if (coll? tags) (str/join "+" tags) tags)
-        query (if-not (empty? tags) (str "?taguit=" tags) "")]
+        q (current-url-query)
+        q (if-not (empty? tags) (assoc q "taguit" tags) q)
+        query (str "?" (-> (url/map->query q) (str/replace "%2B" "+")))]
     (*-path EXPLORER_PATH query)))
 
 (defn categories-path [subpath]

@@ -43,6 +43,7 @@
     <orderEntry type="library" name="Leiningen: co.deps/ring-etag-middleware:0.2.0" level="project" />
     <orderEntry type="library" name="Leiningen: com.cemerick/clojurescript.test:0.2.3-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Leiningen: com.cemerick/piggieback:0.2.2" level="project" />
+    <orderEntry type="library" name="Leiningen: com.cemerick/url:0.1.1" level="project" />
     <orderEntry type="library" name="Leiningen: com.cognitect/transit-clj:0.8.309" level="project" />
     <orderEntry type="library" name="Leiningen: com.cognitect/transit-cljs:0.8.239" level="project" />
     <orderEntry type="library" name="Leiningen: com.cognitect/transit-java:0.8.332" level="project" />
@@ -129,6 +130,7 @@
     <orderEntry type="library" name="Leiningen: org.msgpack/msgpack:0.6.12" level="project" />
     <orderEntry type="library" name="Leiningen: org.omcljs/om:1.0.0-alpha48" level="project" />
     <orderEntry type="library" name="Leiningen: org.ow2.asm/asm-all:4.2" level="project" />
+    <orderEntry type="library" name="Leiningen: pathetic:0.5.0" level="project" />
     <orderEntry type="library" name="Leiningen: pjstadig/humane-test-output:0.8.3" level="project" />
     <orderEntry type="library" name="Leiningen: potemkin:0.4.5" level="project" />
     <orderEntry type="library" name="Leiningen: prone:1.6.0" level="project" />

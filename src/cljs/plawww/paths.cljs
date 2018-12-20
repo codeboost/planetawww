@@ -46,9 +46,6 @@
       (s-image-path id show-custom?)
       (l-image-path id show-custom?))))
 
-
-
-
 (defn media-path [filename]
   (str "/data/media/" filename))
 

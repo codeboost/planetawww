@@ -7,6 +7,7 @@
 
 (ns plawww.medialist.explorer
   (:require
+   [clojure.string :as str]
    [plawww.paths :as paths]
    [reagent.session :as session]
    [plawww.medialist.toolbar :as toolbar]
@@ -53,8 +54,7 @@
 (defn m->item [i {:keys [title id tags publish_on description_plain type duration] :as m} {:keys [anim-class category-name detail?]}]
   ^{:key id}
   [:li.item
-   [:a {:href :#
-        :on-click #(accountant.core/navigate! (explorer-path id true))}
+   [:a {:href (explorer-path (js/encodeURIComponent (str/replace title " " "_") true))}
     [:span.item-container
      [:div.primary-info
       [:img.thumbnail {:src (paths/media-image-path id {:show-custom? (= type "video")

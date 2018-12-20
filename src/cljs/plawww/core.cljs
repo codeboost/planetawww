@@ -81,6 +81,10 @@
 (defn media-item-for-id [id]
   (first (filter #(= id (:id %)) (session/get :media-items))))
 
+(defn media-item-for-title [title]
+  (js/console.log "media-item-for-title: " title)
+  (first (filter #(= title (:title %)) (session/get :media-items))))
+
 (defn category-for-slug [slug]
   (plawww.mediadb.core/category-by-slug (session/get :categories) slug))
 
@@ -88,7 +92,9 @@
   (when-not (= (session/get :current-page) #'explorer-page)
     (session/put! :current-page #'explorer-page))
   (explorer/set-opts (or opts {:included-tags #{}}))
-  (let [item (and id (media-item-for-id (js/parseInt id)))]
+  (let [item (if (js/isNaN id)
+               (and id (media-item-for-title (str/replace id "_" " ")))
+               (media-item-for-id (js/parseInt id)))]
     (session/put! :current-media-item item)))
 
 (defn show-categories-page []
@@ -141,8 +147,8 @@
 (defroute (explorer-path-regex "?") [p qp]
   (show-explorer-page nil (query->opts qp)))
 
-(defroute (explorer-path-regex "(\\d+)") [id qp]
-    (show-explorer-page id (query->opts qp)))
+(defroute (explorer-path ":id") [id qp]
+  (show-explorer-page id (query->opts qp)))
 
 (defroute (explorer-path-regex "tag/?") []
   (show-explorer-page nil {:tag-editor-visible? true}))

@@ -22,7 +22,7 @@
    [plawww.media-item.media-item :as media-item]
    [plawww.utils :as utils]))
 
-(defonce *state* (r/atom {:sort-by :title
+(defonce *state* (r/atom {:sort-by :new
                           :included-tags #{}
                           :visible-dialog :none
                           :category nil

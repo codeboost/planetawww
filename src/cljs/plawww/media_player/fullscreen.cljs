@@ -27,6 +27,12 @@
     (swap! state assoc :fullscreen-controls? true)
     (hide-controls-after-a-while state)))
 
+(defn restore-fullscreen [state el]
+  (if js/screenfull
+    (.exit js/screenfull el)
+    (do
+      (swap! state assoc :fullscreen? false))))
+
 (defn toggle-fn
   "Returns a function, which, when called, toggles `el` into/out of fullscreen mode.
   If `screenfull` is supported, calls `screenfull.toggle()`.

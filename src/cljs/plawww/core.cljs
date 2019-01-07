@@ -82,7 +82,6 @@
   (first (filter #(= id (:id %)) (session/get :media-items))))
 
 (defn media-item-for-title [title]
-  (js/console.log "media-item-for-title: " title)
   (first (filter #(= title (:title %)) (session/get :media-items))))
 
 (defn category-for-slug [slug]

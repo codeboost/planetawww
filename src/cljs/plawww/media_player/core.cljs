@@ -49,7 +49,7 @@
                                 :detail-visible? false
                                 :volume-visible? false
                                 :fullscreen? false
-                                :fullscreen-controls? true
+                                :fullscreen-controls? true ;ignored if :fullscreen? is false
                                 :share-dialog-visible? false}))
 
 (defn s->ms
@@ -166,6 +166,7 @@
       (fn []
         (let [{:keys [item playing volume muted height fullscreen?]} @state
               audio? (= (:type item) "audio")]
+          (js/console.log "Playing: " playing)
           [:div.pm-media-player
            {:ref #(reset! container-el %)}
 
@@ -182,7 +183,9 @@
                          (if muted ; Safari restriction - media must be loaded in a muted state.
                            (flush-play! state)
                            (swap! state assoc :playing true)))
-             :on-ended #(swap! state assoc :playing false)
+             :on-ended #(do
+                          (fullscreen/restore-fullscreen state @the-player)
+                          (swap! state assoc :playing false))
              :on-ready (fn [])
              :on-play  #(do
                           (swap! state assoc :playing true)
@@ -198,7 +201,10 @@
                             ;don't do this - scrolling won't work
                             ;there's a timer that takes care of it
                             #_(swap! state assoc :played (.. p -played)))
-             :on-mouse-move mouse-move}]]))})))
+             :on-mouse-move mouse-move
+             :youtube {:player-vars {:controls 0
+                                     :rel 0
+                                     :showinfo 0}}}]]))})))
 
 
 

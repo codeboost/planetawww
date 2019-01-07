@@ -50,6 +50,8 @@ The -vp flag means increment patch version number.
 If you want to bump major version, do it manually.
 If not supplied, the version is not changed.
 
+To see current version of the deployed application, use the `/version` route.
+
 ## Development
 
 Start the app:

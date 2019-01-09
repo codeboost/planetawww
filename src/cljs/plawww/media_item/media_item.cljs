@@ -138,7 +138,7 @@
 
        (when (:share-dialog-visible? @state)
          [ui/share-dialog-modal {:on-close #(swap! state assoc :share-dialog-visible? false)
-                                 :share-url (paths/full-explorer-path (.-href (.-location js/window)) (:id selected-item))}])])))
+                                 :share-url (.-href (.-location js/window))}])])))
 
 
 

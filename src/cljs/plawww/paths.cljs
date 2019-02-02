@@ -68,6 +68,12 @@
 (defn full-explorer-path [basename subpath]
   (str basename (explorer-path subpath)))
 
+;Too many `path` functions, clean this up please, too lazy now.
+(defn path-for-item-with-title
+  "Returns the full path for the media item with title"
+  [title]
+  (explorer-path (js/encodeURIComponent (str/replace title " " "_") :keep-query)))
+
 (defn current-url-query
   "Parse URL parameters into a hashmap"
   []

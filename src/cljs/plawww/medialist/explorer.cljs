@@ -13,7 +13,7 @@
    [plawww.medialist.toolbar :as toolbar]
    [plawww.components.components :refer [minimise-button]]
    [plawww.mediadb.core :as db]
-   [plawww.paths :refer [explorer-path]]
+   [plawww.paths :refer [explorer-path path-for-item-with-title]]
    [plawww.ui :as ui]
    [plawww.utils :refer [search-match?]]
    [reagent.core :as r]
@@ -54,7 +54,7 @@
 (defn m->item [i {:keys [title id tags publish_on description_plain type duration] :as m} {:keys [anim-class category-name detail?]}]
   ^{:key id}
   [:li.item
-   [:a {:href (explorer-path (js/encodeURIComponent (str/replace title " " "_") true))}
+   [:a {:href (path-for-item-with-title title)}
     [:span.item-container
      [:div.primary-info
       [:img.thumbnail {:src (paths/media-image-path id {:show-custom? (= type "video")

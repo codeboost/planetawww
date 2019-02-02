@@ -16,7 +16,7 @@
   (:require
    [clojure.string :as str]
    [plawww.mediadb.core :as media-db]
-   [plawww.paths :refer [explorer-path]]
+   [plawww.paths :refer [explorer-path path-for-item-with-title]]
    [plawww.utils :as utils]
    [reagent.core :as r]))
 
@@ -42,7 +42,7 @@
         title     (if detail-items? (detail-title item) title)]
     ^{:key id}
     [:li.media-item
-     [:a {:href  (explorer-path id)
+     [:a {:href  (path-for-item-with-title title)
           :class (when selected? :selected)}
       title]
      (when detail-items?

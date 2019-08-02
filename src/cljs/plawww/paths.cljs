@@ -63,6 +63,7 @@
   (let [subpath (if keep-query?
                   (str subpath (.-search (.-location js/window)))
                   subpath)]
+    (js/console.log "subpath=" keep-query?)
     (*-path EXPLORER_PATH subpath)))
 
 (defn full-explorer-path [basename subpath]
@@ -72,7 +73,7 @@
 (defn path-for-item-with-title
   "Returns the full path for the media item with title"
   [title]
-  (explorer-path (js/encodeURIComponent (str/replace title " " "_") :keep-query)))
+  (explorer-path (js/encodeURIComponent (str/replace title " " "_")) :keep-query))
 
 (defn current-url-query
   "Parse URL parameters into a hashmap"

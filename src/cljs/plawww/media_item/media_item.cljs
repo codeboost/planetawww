@@ -24,6 +24,7 @@
 (defn action-buttons [state {:keys [selected-item playing-item playing? on-play]}]
   (let [play-button-text (if (and playing? (= (:id selected-item) (:id playing-item)))
                            "PAUZA" "PLAY")]
+    (js/console.log "type:" (:type selected-item))
     [:div.toolbar
      [toolbar-item play-button-text on-play]
      (case (:section @state)
@@ -34,7 +35,11 @@
        nil)
 
      [toolbar-item "SHARE" #(swap! state assoc :share-dialog-visible? true)]
-     #_[toolbar-item "DOWNLOAD" #()]]))
+     (when (= "audio" (:type selected-item))
+       [:div.toolbar-item
+        [:a {:href (paths/item-path selected-item)
+             :target :download-the-pragon}
+         "DOWNLOAD"]])]))
 
 
 (defn img-container [_]

@@ -55,7 +55,7 @@
           (when current-item
             [media-item/item-info-component
              {:on-play #(player/set-current-item current-item)
-              :on-close #(accountant.core/navigate! (plawww.paths/explorer-path ""))
+              :on-close #(accountant.core/navigate! (plawww.paths/explorer-path "" :keep-query))
               :selected-item current-item
               :playing-item playing-item
               :playing? playing?}])}]))))

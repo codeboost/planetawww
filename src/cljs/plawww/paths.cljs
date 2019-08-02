@@ -63,11 +63,11 @@
   (let [subpath (if keep-query?
                   (str subpath (.-search (.-location js/window)))
                   subpath)]
-    (js/console.log "subpath=" keep-query?)
     (*-path EXPLORER_PATH subpath)))
 
 (defn full-explorer-path [basename subpath]
   (str basename (explorer-path subpath)))
+
 
 ;Too many `path` functions, clean this up please, too lazy now.
 (defn path-for-item-with-title

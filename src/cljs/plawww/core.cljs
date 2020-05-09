@@ -20,8 +20,7 @@
    [plawww.welcome :as welcome]
    [plawww.about.core :as about]
    [plawww.medialist.explorer :as explorer]
-   [reagent.core :as reagent :refer [atom]]
-   [reagent.dom :as reagent-dom]
+   [reagent.core :refer [atom]]
    [reagent.session :as session]
    [secretary.core :as secretary :refer [defroute]]
    [plawww.media-player.core :as player]
@@ -89,6 +88,7 @@
   (plawww.mediadb.core/category-by-slug (session/get :categories) slug))
 
 (defn show-explorer-page [id & [opts]]
+  (js/console.log "opts=" (pr-str opts))
   (when-not (= (session/get :current-page) #'explorer-page)
     (session/put! :current-page #'explorer-page))
   (explorer/set-opts (or opts {:included-tags #{}}))
@@ -132,23 +132,24 @@
         (remove empty? qt)
         (set qt)))
 
-(defn tags-query-param [qp]
-  (or
-   (get-in qp [:query-params :taguit])
-   (get-in qp [:query-params :tags])))
-
-
-(defn query->opts [qp]
-  (let [tags (extract-tags (tags-query-param qp))
-        category (category-from-query-params qp)]
+(defn query->opts [query-params]
+  (let [tags (extract-tags (or
+                            (:taguit query-params)
+                            (:tags query-params)))
+        category (category-from-query-params query-params)]
     {:included-tags tags
      :category category}))
 
-(defroute (explorer-path-regex "?") [p qp]
-  (show-explorer-page nil (query->opts qp)))
+;This thing with query params is so fucking confusing, damn it.
+;If it's a regex - it will come as `{:query-params {}}`, if it's not a regex route, it's `{}`.
 
-(defroute (explorer-path ":id") [id qp]
-  (show-explorer-page id (query->opts qp)))
+(defroute (explorer-path-regex "?") [p qp]
+  (do
+    (js/console.log (pr-str qp))
+    (show-explorer-page nil (query->opts (:query-params qp)))))
+
+(defroute (explorer-path ":id") [id query-params]
+  (show-explorer-page id (query->opts query-params)))
 
 (defroute (explorer-path-regex "tag/?") []
   (show-explorer-page nil {:tag-editor-visible? true}))

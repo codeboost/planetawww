@@ -26,12 +26,6 @@
                            "PAUZA" "PLAY")]
     [:div.toolbar
      [toolbar-item play-button-text on-play]
-     (case (:section @state)
-       :info
-       [toolbar-item "ECOURI" #(swap! state assoc :section :ecouri)]
-       :ecouri
-       [toolbar-item "INFO" #(swap! state assoc :section :info)]
-       nil)
 
      [toolbar-item "SHARE" #(swap! state assoc :share-dialog-visible? true)]
      (when (= "audio" (:type selected-item))
@@ -100,21 +94,6 @@
      [:div.description description_plain]
      action-buttons]))
 
-
-(defn feedback-component [buttons]
-  [:div.feedback-component
-   [:h3 "ECOURI"]
-   [:p "Inca nu-i gata. Dar poti sa ne scrii un e-mail:"]
-   [:p
-    [:a {:href "mailto:planetamoldova@planetamoldova.net"} "planetamoldova@planetamoldova.net"]]
-   [:p "Sau pe twitter:"]
-   [:p
-    [:a {:href "https://twitter.com/planetamoldova_"
-         :target "_new-twitter"} "https://twitter.com/planetamoldova_"]]
-   buttons])
-
-
-
 (defn item-info-component
   "Item info component.
   `opts` should contain the following keys:
@@ -135,9 +114,7 @@
          [:div.min-button [:a {:on-click on-close :href :#} "x"]])
        (case (:section @state)
          :info
-         [info-component (assoc opts :action-buttons [action-buttons state opts])]
-         :ecouri
-         [feedback-component [action-buttons state opts]])
+         [info-component (assoc opts :action-buttons [action-buttons state opts])])
 
 
        (when (:share-dialog-visible? @state)

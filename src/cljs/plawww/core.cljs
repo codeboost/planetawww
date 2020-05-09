@@ -101,7 +101,7 @@
   (session/put! :current-page #'categories-page))
 
 (defn category-from-query-params [qp]
-  (let [slug (get-in qp [:query-params :colectia])]
+  (let [slug (:colectia qp)]
     (when slug
       (plawww.mediadb.core/category-by-slug (session/get :categories) slug))))
 
@@ -140,13 +140,12 @@
     {:included-tags tags
      :category category}))
 
-;This thing with query params is so fucking confusing, damn it.
-;If it's a regex - it will come as `{:query-params {}}`, if it's not a regex route, it's `{}`.
+;This thing with query params is confusing in secretary.
+;If it's a regex route - it will come as `{:query-params {}}`, if it's not a regex route, it's `{}`, but the argument needs to
+;'query-params', if you name it otherwise, it will silently be `nil`.
 
 (defroute (explorer-path-regex "?") [p qp]
-  (do
-    (js/console.log (pr-str qp))
-    (show-explorer-page nil (query->opts (:query-params qp)))))
+  (show-explorer-page nil (query->opts (:query-params qp))))
 
 (defroute (explorer-path ":id") [id query-params]
   (show-explorer-page id (query->opts query-params)))
@@ -163,7 +162,6 @@
 
 (defroute #"/home/?" []
   (session/put! :current-page #'show-home-page))
-
 
 (defroute #"/text/?|/carti/?" []
   (show-text-page {:sub-menu nil}))

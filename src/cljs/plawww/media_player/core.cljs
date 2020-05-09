@@ -166,7 +166,6 @@
       (fn []
         (let [{:keys [item playing volume muted height fullscreen?]} @state
               audio? (= (:type item) "audio")]
-          (js/console.log "Playing: " playing)
           [:div.pm-media-player
            {:ref #(reset! container-el %)}
 

@@ -24,7 +24,6 @@
 (defn action-buttons [state {:keys [selected-item playing-item playing? on-play]}]
   (let [play-button-text (if (and playing? (= (:id selected-item) (:id playing-item)))
                            "PAUZA" "PLAY")]
-    (js/console.log "type:" (:type selected-item))
     [:div.toolbar
      [toolbar-item play-button-text on-play]
      (case (:section @state)

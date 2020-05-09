@@ -7,17 +7,16 @@
 
 (ns plawww.media-player.progress-bar
   (:require
-    [reagent.core :as r]
-    [reagent.interop :refer-macros [$ $!]]))
+    [reagent.core :as r]))
 
 
 (defn percent-width [object x]
-  (let [width ($ object width)]
+  (let [width (. object width)]
     (cond (pos? width) (/ x width)
           :else 0)))
 
 (defn percent-height [object y]
-  (let [height ($ object height)]
+  (let [height (. object height)]
     (cond (pos? height) (/ y height)
           :else 0)))
 
@@ -25,13 +24,14 @@
 (defn progress-bar [progress callback]
     [:div.progress-bar {:on-click (fn [e]
                                     (let [_this (r/current-component)
-                                          target (js/$ ($ e :target))
-                                          pagex ($ e :pageX)
-                                          offset ($ target offset)
-                                          offsetLeft ($ offset :left)
+                                          target (js/$ (. e -target))
+                                          pagex (. e -pageX)
+                                          offset (. target offset)
+                                          offsetLeft (. offset -left)
                                           offsetx (- pagex offsetLeft)
                                           offsetx (if (<= offsetx 8) 0 offsetx) ;trim to 0 if clicked within 8 pixels.
                                           percent (percent-width target offsetx)]
+                                      (js/console.log (pr-str [target pagex offset offsetLeft offsetx percent]))
                                       (callback percent)))}
      [:div.progress-bar-progress
       (let [percent (* 100 (min 1 progress))]
@@ -56,10 +56,10 @@
       :on-click
       (fn [e]
         (let [_this (r/current-component)
-              target (js/$ ($ e :target))
-              height ($ target height)
-              bottom (+ height (.. ($ target offset) -top))
-              click-y ($ e :pageY)
+              target (js/$ (. e -target))
+              height (. target height)
+              bottom (+ height (.. (. target offset) -top))
+              click-y (. e -pageY)
               click-pos (- bottom click-y)
               percent (if (pos? height) (/ click-pos height) 0)
               percent (clamp-v percent 0.1 0.95)]

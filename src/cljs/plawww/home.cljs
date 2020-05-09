@@ -9,8 +9,7 @@
   (:require
    [plawww.paths :refer [explorer-path tags-path]]
    [plawww.themes.themes :as themes]
-   [reagent.core :as r])
-  (:require-macros [reagent.interop :refer [$ $!]]))
+   [reagent.core :as r]))
 
 (def titles
   ["MENIU"

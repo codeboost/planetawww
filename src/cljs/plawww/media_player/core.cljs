@@ -15,9 +15,9 @@
    [plawww.media-player.fullscreen :as fullscreen]
    [plawww.media-player.progress-bar :as progress-bar]
    [plawww.utils :as utils]
-   [reagent.interop :refer-macros [$ $!]]
    [plawww.paths :as paths]
    [reagent.core :as r]
+   [reagent.dom :as rdom]
    [reagent.session :as session]
    [plawww.mediadb.core :as db]
    [plawww.ui :as ui]
@@ -294,7 +294,7 @@
         [:div.player {:class class
                       :ref #(do
                               (reset! the-player %)
-                              (reset! fullscreen-toggle-fn (fullscreen/toggle-fn state (r/dom-node %))))}
+                              (reset! fullscreen-toggle-fn (fullscreen/toggle-fn state (rdom/dom-node %))))}
          [:div.detail
           [:div.title-container
            #_[:img.item-icon {:src (paths/media-image-path (:id item) {:show-custom? true})}]

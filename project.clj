@@ -4,31 +4,29 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
 
-  :dependencies [[binaryage/devtools "0.9.10"]
-                 [binaryage/dirac "1.2.36"]
+  :dependencies [[binaryage/devtools "1.0.0"]
+                 [binaryage/dirac "1.5.11"]
                  [com.cemerick/url "0.1.1"]
-                 [clj-http "3.9.0"]
+                 [clj-http "3.10.1"]
                  [cljsjs/typedjs "1.1.1-0"] ;jquery plugin that types
-                 ;[cljsjs/react-draggable "3.0.3-0"] ;draggable
-                 [cljsjs/react-player "1.5.1-0"]
+                 [cljsjs/react-player "1.11.0-0"]
                  [compojure "1.6.1"]
-                 [garden "1.3.5"]
-                 [cljsjs/google-analytics "2015.04.13-0"]
+                 [cljsjs/google-analytics "2017.09.21-0"]
                  [hiccup "1.0.5"]
-                 [honeysql "0.9.3"]
-                 [mysql/mysql-connector-java "6.0.5"]
-                 [org.clojure/java.jdbc "0.7.7"]
+                 [honeysql "0.9.10"]
+                 [mysql/mysql-connector-java "8.0.20"]
+                 [org.clojure/java.jdbc "0.7.11"]
                  [org.clojure/clojure "1.9.0"]
                  [org.clojure/clojurescript "1.10.339" :scope "provided"]
-                 [org.clojure/core.async "0.4.474"]
+                 [org.clojure/core.async "1.1.587"]
                  [reagent "0.8.1"]
                  [reagent-utils "0.3.1"]
-                 [ring "1.6.3"]
+                 [ring "1.8.0"]
                  [ring-server "0.5.0"]
                  [ring/ring-defaults "0.3.2"]
                  [secretary "1.2.3"]
                  [venantius/accountant "0.2.4" :exclusions [org.clojure/tools.reader]]
-                 [yogthos/config "1.1.1"]]
+                 [yogthos/config "1.1.7"]]
 
 
   :plugins [[lein-environ "1.0.2"]
@@ -116,18 +114,18 @@
   :profiles {:dev {:repl-options {:init-ns plawww.repl
                                   :nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
 
-                   :dependencies [[ring/ring-mock "0.3.2"]
-                                  [ring/ring-devel "1.6.3"]
-                                  [prone "1.6.0"]
-                                  [figwheel-sidecar "0.5.16"]
+                   :dependencies [[ring/ring-mock "0.4.0"]
+                                  [ring/ring-devel "1.8.0"]
+                                  [prone "2020-01-17"]
+                                  [figwheel-sidecar "0.5.19"]
                                   [org.clojure/tools.nrepl "0.2.13"]
                                   [com.cemerick/piggieback "0.2.2"]
-                                  [devcards "0.2.5"]
-                                  [pjstadig/humane-test-output "0.8.3"]]
+                                  [devcards "0.2.6"]
+                                  [pjstadig/humane-test-output "0.10.0"]]
 
 
                    :source-paths ["env/dev/clj"]
-                   :plugins [[lein-figwheel "0.5.16"]
+                   :plugins [[lein-figwheel "0.5.19"]
                              [lein-less "1.7.5"]]
 
                    :injections [(require 'pjstadig.humane-test-output)

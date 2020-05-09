@@ -10,8 +10,7 @@
             [plawww.paths :as paths]
             [plawww.utils :as utils]
             [cljs.test :refer-macros [deftest is testing run-tests]]
-            [cljs.core.async :refer [put!]]
-            [reagent.interop :refer-macros [$ $!]])
+            [cljs.core.async :refer [put!]])
   (:import [goog.async Debouncer]))
 
 (defn debounce [f interval]

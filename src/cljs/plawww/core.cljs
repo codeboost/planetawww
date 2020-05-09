@@ -21,6 +21,7 @@
    [plawww.about.core :as about]
    [plawww.medialist.explorer :as explorer]
    [reagent.core :as reagent :refer [atom]]
+   [reagent.dom :as reagent-dom]
    [reagent.session :as session]
    [secretary.core :as secretary :refer [defroute]]
    [plawww.media-player.core :as player]
@@ -188,7 +189,7 @@
             [:div "Dapu-kaneshna-kiar-amush ! Nu-i asa ceva, nu-i ! "])))))
 
 (defn mount-root []
-  (reagent/render [current-page] (.getElementById js/document "app")))
+  (reagent.dom/render [current-page] (js/document.getElementById "app")))
 
 (defn parse-dates [media-items]
   (map #(update-in % [:publish_on] (fn [s]

@@ -1,8 +1,7 @@
 (ns plawww.themes.themes
   (:require
    [plawww.ui :as ui]
-   [reagent.core :as r])
-  (:require-macros [reagent.interop :refer [$ $!]]))
+   [reagent.core :as r]))
 
 (def themes
   [{:name "Planeta"
@@ -45,19 +44,17 @@
     :border "white"}])
 
 
-
-
 (defn apply-theme [{:keys [color background highlight border dark-border]
                     :or {highlight color
                          border color
                          dark-border background}}]
-  (let [document-element ($ js/document :documentElement)
-        style ($ document-element :style)]
-    ($ style setProperty "--console-bg" background)
-    ($ style setProperty "--console-color" color)
-    ($ style setProperty "--border-color" border)
-    ($ style setProperty "--highlight-color" highlight)
-    ($ style setProperty "--dark-border-color" dark-border)))
+  (let [document-element (. js/document -documentElement)
+        style (. document-element -style)]
+    (. style setProperty "--console-bg" background)
+    (. style setProperty "--console-color" color)
+    (. style setProperty "--border-color" border)
+    (. style setProperty "--highlight-color" highlight)
+    (. style setProperty "--dark-border-color" dark-border)))
 
 
 (defn theme-component [{:keys [name color background border]
@@ -81,10 +78,3 @@
      [:div.themes]
      (mapv theme-component themes))]])
 
-
-
-(comment
- (apply-style (get styles 2))
- (let [document-element ($ js/document :documentElement)
-       style ($ document-element :style)]
-   ($ style setProperty "--console-bg" "#222")))

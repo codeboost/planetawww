@@ -99,4 +99,4 @@ Use the ./deploy.sh script to build, tag and deploy the production build.
 
 # License
 
-MIT License for all the code. 
+Common Public License 1.0 (http://opensource.org/licenses/cpl.php).

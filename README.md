@@ -29,6 +29,11 @@ Anyway, what follows are boring details of how to set up and deploy the code. So
 ## Data directory
 
 Clone the `git@github.com:codeboost/planeta-data.git` repository in the dir above current dir (../).
+
+Note that that repo is private because it contains all the media files. Even though we distribute everything for free, I'd still like to keep it private out of fear that I might be exposing something which shouldn't be exposed to the public Internet.
+
+If you really want to do it, drop me a line and I'll give you access.
+
 The tree looks like this:
 
   	planeta-data

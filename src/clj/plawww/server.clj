@@ -13,5 +13,8 @@
                       {:path (handler/media-path "/catalog.json")}
                       e))))
 
-  (let [port (Integer/parseInt (or (env :port) "3333"))]
+  ;; yogthos/config yields numbers for numeric env values (eg. PORT=3444),
+  ;; and strings otherwise - accept both.
+  (let [port (or (env :port) 3333)
+        port (if (string? port) (Integer/parseInt port) port)]
     (run-jetty app {:port port :join? false})))

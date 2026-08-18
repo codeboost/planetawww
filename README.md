@@ -20,7 +20,7 @@ So I chose Clojure and Clojurescript and suffered through the impossibly steep l
 
 On the bright side, this is the kind of project that you do 'for fun', where you can disregard 'best practices', 'test driven', 'agile' and all the other horrible ideas we have to put up during our 'serious' work. 
 
-Note that I only wrote the front-end of the site. The media is published and managed using [Mediadrop](https://github.com/mediadrop/mediadrop), but it is not exposed to the Internet; the front end reads data from the database and statically serves the media files.
+Note that I only wrote the front-end of the site. The media was originally published and managed using [Mediadrop](https://github.com/mediadrop/mediadrop); the front end reads the catalog from a static `catalog.json` file in the data directory and statically serves the media files.
 
 While I wrote this text, my girlfriend baked an amazingly looking cake. I ended up with 22 lines of text where I'm trying hard to be funny and she created this beautiful thing... Sometimes I wonder..
 
@@ -55,9 +55,13 @@ Start the app:
 
     $ lein figwheel app
 
-Start the less watcher:
+Build the CSS (requires Node; compiles the LESS sources and minifies):
 
-    $ lein less auto
+    $ scripts/build-css.sh
+
+Or keep it recompiling on changes while developing:
+
+    $ scripts/build-css.sh --watch
 
 Ports
 
@@ -69,11 +73,15 @@ To start ClojureScript REPL: `(figwheel-sidecar.repl-api/cljs-repl)`
 
 
 ### Production:
-	
+
+Build the CSS first - the uberjar packs `crt.min.css` from `resources/`, which the production page serves:
+
+	scripts/build-css.sh
 	lein uberjar
 	java -jar target/planeta-crt.jar
 
 ## Docker
+	scripts/build-css.sh
 	lein uberjar
 	docker build -t florinbraghis/planeta-crt .
 	docker push florinbraghis/planeta-crt

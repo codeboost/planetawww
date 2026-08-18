@@ -25,9 +25,7 @@
 
 
   :plugins [[lein-environ "1.0.2"]
-            [lein-cljsbuild "1.1.7"]
-            [lein-asset-minifier "0.2.7"
-             :exclusions [org.clojure/clojure]]]
+            [lein-cljsbuild "1.1.7"]]
 
   :ring {:handler plawww.handler/app
          :uberwar-name "plawww.war"}
@@ -46,9 +44,9 @@
   :source-paths ["src/clj" "src/cljc"]
   :resource-paths ["resources" "target/cljsbuild" ".semver"]
 
-  :minify-assets  {:assets
-                   {"resources/public/css/crt/crt.min.css" "resources/public/css/crt/crt.css"}}
-
+  ;; CSS (crt.css and crt.min.css) is built by scripts/build-css.sh (Node lessc +
+  ;; clean-css); lein-less and lein-asset-minifier were dropped - both are broken
+  ;; on JDK 15+ (Nashorn removal / ancient core.async in the plugin).
 
   :cljsbuild
   {:builds {
@@ -87,10 +85,6 @@
    :css-dirs ["resources/public/css"]
    :ring-handler plawww.handler/app}
 
-  :less {:source-paths ["src/less"]
-         :target-path "resources/public/css"}
-
-
   :profiles {:dev {:repl-options {:init-ns plawww.repl
                                   :nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
 
@@ -104,16 +98,14 @@
 
 
                    :source-paths ["env/dev/clj"]
-                   :plugins [[lein-figwheel "0.5.16"]
-                             [lein-less "1.7.5"]]
+                   :plugins [[lein-figwheel "0.5.16"]]
 
                    :injections [(require 'pjstadig.humane-test-output)
                                 (pjstadig.humane-test-output/activate!)]
 
                    :env {:dev true}}
 
-             :uberjar {:hooks [minify-assets.plugin/hooks]
-                       :source-paths ["env/prod/clj"]
+             :uberjar {:source-paths ["env/prod/clj"]
                        :prep-tasks ["compile" ["cljsbuild" "once" "min"]]
                        :env {:production true}
                        :aot :all

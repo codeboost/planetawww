@@ -28,7 +28,7 @@ bail-if-changes-exist
 
 echo "Compiling CSS..."
 
-lein less once
+bash scripts/build-css.sh
 
 if [[ $* == *-vm ]];
 then

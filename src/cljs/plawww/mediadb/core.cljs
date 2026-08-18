@@ -6,7 +6,8 @@
 ;   You must not remove this notice, or any other, from this software.
 
 (ns plawww.mediadb.core
-  (:require [clojure.string :as str]
+  (:require [clojure.set :as set]
+            [clojure.string :as str]
             [plawww.utils :as utils :refer [search-match?]]
             [reagent.session :as session]))
 
@@ -29,15 +30,16 @@
   [items set-of-tags]
   (if (empty? set-of-tags)
     items
-    (filter
-     (fn [{:keys [tags]}]
-       (->> tags
-            (map str/lower-case)
-            (set)
-            (clojure.set/intersection set-of-tags)
-            (count)
-            (pos?)))
-     items)))
+    (let [set-of-tags (into #{} (map str/lower-case) set-of-tags)]
+      (filter
+       (fn [{:keys [tags]}]
+         (->> tags
+              (map str/lower-case)
+              (set)
+              (set/intersection set-of-tags)
+              (count)
+              (pos?)))
+       items))))
 
 (defn items-for-tag [items tag]
   (items-for-tags items #{(str/lower-case tag)}))

@@ -8,9 +8,7 @@
 (ns plawww.media-player.item-detail
   (:require [reagent.core :as r]
             [plawww.paths :as paths]
-            [plawww.utils :as utils]
-            [cljs.test :refer-macros [deftest is testing run-tests]]
-            [cljs.core.async :refer [put!]])
+            [plawww.utils :as utils])
   (:import [goog.async Debouncer]))
 
 (defn debounce [f interval]

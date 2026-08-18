@@ -8,24 +8,53 @@
 (ns plawww.components.components
   (:require
    [reagent.core :as r]
-   [cljsjs.typedjs]
    [plawww.paths :as paths]))
 
-(defn typed-text-component
-  "Renders a p element and applies typedjs on it, passing `opts` to it.
-  See typed.js documentation for the potential options."
-  [opts]
-  (let [dom-el (atom nil)]
+(defn typewriter
+  "Renders `text` with a typing effect, one character per `speed-ms` (default 25).
+  Options:
+    :text        - the full text to type out.
+    :speed-ms    - delay between characters, in milliseconds.
+    :on-complete - called once, when the full text is displayed (also after a skip).
+    :skip-atom   - optional atom; the component stores a 0-arg `skip!` fn in it,
+                   which the parent can call to jump to the full text."
+  [{:keys [text speed-ms on-complete skip-atom] :or {speed-ms 25}}]
+  (let [pos (r/atom 0)
+        interval-id (atom nil)
+        completed? (atom false)
+        complete! (fn []
+                    (js/clearInterval @interval-id)
+                    (when-not @completed?
+                      (reset! completed? true)
+                      (when on-complete (on-complete))))
+        skip! (fn []
+                (reset! pos (count text))
+                (complete!))]
+    (when skip-atom
+      (reset! skip-atom skip!))
     (r/create-class
-     {:component-did-mount
-      (fn []
-        (->
-         (js/$ @dom-el)
-         (.typed (clj->js opts))))
-      :reagent-render
-      (fn [] [:p.description {:ref #(reset! dom-el %)}])})))
+     {:display-name "typewriter"
 
-(defn- minimise-button
+      :component-did-mount
+      (fn []
+        (reset! interval-id
+                (js/setInterval
+                 (fn []
+                   (if (< @pos (count text))
+                     (swap! pos inc)
+                     (complete!)))
+                 speed-ms)))
+
+      :component-will-unmount
+      (fn []
+        (js/clearInterval @interval-id)
+        (when skip-atom (reset! skip-atom nil)))
+
+      :reagent-render
+      (fn []
+        [:span.typewriter (subs text 0 @pos)])})))
+
+(defn minimise-button
   [text on-click]
   [:div.min-button
    {:on-click on-click
@@ -38,10 +67,10 @@
    (into
     [:ul.tags]
     (for [tag tags]
-      (let [tag-text tag]
-        [:li
-         [:a
-          {:href     (paths/tags-path tag)
-           :on-click on-click}
-          tag-text]
-         " "])))])
+      ^{:key tag}
+      [:li
+       [:a
+        {:href     (paths/tags-path tag)
+         :on-click on-click}
+        tag]
+       " "]))])

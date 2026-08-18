@@ -1,6 +1,5 @@
 (ns plawww.media-player.fullscreen
-  (:require [reagent.core :as r]
-            [screenfull]))
+  (:require [screenfull]))
 
 
 (def hide-controls-timer (atom 0))
@@ -27,31 +26,43 @@
     (swap! state assoc :fullscreen-controls? true)
     (hide-controls-after-a-while state)))
 
-(defn restore-fullscreen [state el]
+(defn restore-fullscreen
+  "Exits fullscreen mode, if currently active."
+  [state]
   (if js/screenfull
-    (.exit js/screenfull el)
-    (do
-      (swap! state assoc :fullscreen? false))))
+    (when (.-isFullscreen js/screenfull)
+      (.exit js/screenfull))
+    (swap! state assoc :fullscreen? false)))
 
-(defn toggle-fn
-  "Returns a function, which, when called, toggles `el` into/out of fullscreen mode.
-  If `screenfull` is supported, calls `screenfull.toggle()`.
-  When in fullscreen mode, the controls will become hidden (:fullscreen-controls? will be set to false) after a while.
-  If screenfull is not supported (eg. on iOS Safari), the fullscreen controls will immediately be hidden.
-  To restore controls, call `show-fullscreen-controls!` from the mousemove or touch handlers.
-  "
+(defn register-change-listener!
+  "Registers a screenfull 'change' listener which syncs :fullscreen? in `state`
+  and schedules hiding the controls when entering fullscreen.
+  Returns the handler, to be passed to `unregister-change-listener!` on teardown.
+  Call once per player instance - registering on every render leaks listeners."
+  [state]
+  (when js/screenfull
+    (let [handler (fn []
+                    (let [fullscreen? (.-isFullscreen js/screenfull)]
+                      (swap! state assoc :fullscreen? fullscreen?)
+                      (when fullscreen?
+                        (hide-controls-after-a-while state))))]
+      (.on js/screenfull "change" handler)
+      handler)))
 
+(defn unregister-change-listener! [handler]
+  (when (and js/screenfull handler)
+    (.off js/screenfull "change" handler)))
+
+(defn toggle
+  "Toggles `el` into/out of fullscreen mode.
+  If `screenfull` is supported, calls `screenfull.toggle()` and the change
+  listener keeps `state` in sync. Otherwise (eg. iOS Safari), tracks the
+  fullscreen state manually and immediately hides the controls; to restore
+  them, call `show-fullscreen-controls!` from mousemove/touch handlers."
   [state el]
   (if js/screenfull
-    (.on js/screenfull "change" #(let [fullscreen? (.-isFullscreen js/screenfull)]
-                                   (swap! state assoc :fullscreen? fullscreen?)
-                                   (when fullscreen?
-                                     (hide-controls-after-a-while state)))))
-  (fn []
-    (if js/screenfull
-      (.toggle js/screenfull el)
-      (do
-        (swap! state update :fullscreen? not)
-        (if (:fullscreen? @state)
-          (swap! state assoc :fullscreen-controls? false))))))
-
+    (.toggle js/screenfull el)
+    (do
+      (swap! state update :fullscreen? not)
+      (when (:fullscreen? @state)
+        (swap! state assoc :fullscreen-controls? false)))))

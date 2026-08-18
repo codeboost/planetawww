@@ -19,7 +19,8 @@
 (defn- toggle-group [buttons]
   (into
    [:div.toggle-group]
-   (for [[text tooltip on? on-click ] buttons]
+   (for [[text tooltip on? on-click] buttons]
+     ^{:key (str text tooltip)}
      [toggle-item text tooltip on? on-click])))
 
 (defn alphabetic-button [sort-by clicked]

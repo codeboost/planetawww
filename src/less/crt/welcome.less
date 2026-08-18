@@ -2,6 +2,7 @@
 
 .welcome-content {
 	text-align: justify;
+	white-space: pre-line;
 	margin: auto;
 	overflow-y: auto;
 	.hide-scrollbar();
@@ -20,7 +21,14 @@
 h1.ok-button {
 	width: 100%;
 	text-align: center;
-	display: none;
+	visibility: hidden;
+	opacity: 0;
+	transition: opacity 1s ease-in;
+
+	&.visible {
+		visibility: visible;
+		opacity: 1;
+	}
 }
 
 .scale-out-animation

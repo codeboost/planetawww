@@ -35,7 +35,7 @@
     letter))
 
 (defn format-date [d]
-  (gstring/format "%d-%02d-%02d" (.getFullYear d) (.getMonth d) (.getDay d)))
+  (gstring/format "%d-%02d-%02d" (.getFullYear d) (inc (.getMonth d)) (.getDate d)))
 
 (defn starts-with-letter?
   "Returns true if `word` starts with the letter.
@@ -46,15 +46,6 @@
     (zero? (count letter)) false
     (= "#" letter) (some? (re-matches #"[0-9]+" (first (str/trim word))))
     :else (str/starts-with? (str/lower-case word) (str/lower-case letter))))
-
-(defn items-starting-with-letter
-  "Filters `coll`, keeping items which start with the substring in `letter`.
-  Uses `starts-with-letter?`, so the same matching semantics apply to every item in `coll`.
-  Note that `letter` can be any substring of one or more characters.
-  Returns:
-    Potentially empty collection of strings from `coll`, which start with `letter`."
-  [coll letter]
-  (filter #(starts-with-letter? % letter)) coll)
 
 (defn first-letters [items]
    (into (sorted-set) (map #(extract-first-letter (:title %)) items)))
@@ -76,12 +67,6 @@
       (str/starts-with?
        (str/lower-case title)
        (str/lower-case search-string))))
-
-
-(defn ga [& more]
-  (when (aget js/window "ga")
-    (.. (aget js/window "ga")
-        (apply nil (clj->js more)))))
 
 (comment
   ;TODO: Move to unit test

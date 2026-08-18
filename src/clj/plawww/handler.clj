@@ -1,6 +1,7 @@
 (ns plawww.handler
   (:require
     [clojure.data.json :as json]
+    [clojure.string :as str]
     [clojure.tools.logging :refer [info error]]
     [clojure.java.io :as io]
     [compojure.core :refer [GET defroutes] :as compojure]
@@ -39,24 +40,15 @@
   [:div#app
    [:h3 (rand-nth splash-messages)]])
 
-(defn google-analytics-include []
-  [:script {:async true
-            :src "https://www.googletagmanager.com/gtag/js?id=UA-128602722-1"}])
-
-(defn google-analytics-init []
-  [:script
-   "window.dataLayer = window.dataLayer || [];\n
-  function gtag(){dataLayer.push(arguments);}\n
-  gtag('js', new Date());
-  gtag('config', 'UA-128602722-1');"])
-
 (defn head
   "Head tag for the website, including css and scripts required by the app.
   The head also contains the media database, which should be accessible on the client
   as `kolbasulPlanetar` global javascript variable."
   [css-includes]
   (let [db-data (load-db-data)
-        db-json (json/write-str db-data)]
+        ;; <-escape so catalog content can never contain a literal
+        ;; </script> sequence that terminates the inline script tag.
+        db-json (str/replace (json/write-str db-data) "<" "\\u003c")]
     [:head
      [:title "Planeta Moldova"]
      [:meta {:charset "utf-8"}]
@@ -64,9 +56,7 @@
      [:meta {:name "description" :content "Site-ul oficial Planeta Moldova. Scenete audio, clipuri video si muzicile noastre."}]
      [:meta {:name "author" :content "2p-trip"}]
      (map include-css css-includes)
-     [:script (str "var kolbasulPlanetar = " db-json ";")]
-     (google-analytics-include)
-     (google-analytics-init)]))
+     [:script (str "var kolbasulPlanetar = " db-json ";")]]))
 
 (defn main-page []
   (html5 {:lang "ro"}

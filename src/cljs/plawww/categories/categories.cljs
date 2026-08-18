@@ -13,7 +13,7 @@
                         :or {scale-on-hover? true}}]
   (let [url (or url (paths/explorer-path (str "?colectia=" slug)))]
     [:div.category {:class (when scale-on-hover? :scale-on-hover)}
-     [:div.cat-container.show-scaled {:style {:animation-delay  50 * index}}
+     [:div.cat-container.show-scaled {:style {:animation-delay (str (* 50 index) "ms")}}
       [:a {:href url}
        [:img.category-image {:src (paths/category-image slug)}]
        [:div.title name]]]]))

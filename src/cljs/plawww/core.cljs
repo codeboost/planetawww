@@ -8,23 +8,23 @@
 (ns plawww.core
   (:require
    [accountant.core :as accountant]
-   [cljs.core.async :refer [put!]]
-   [cljsjs.typedjs]
    [clojure.string :as str]
    [plawww.barul.core :as barul]
    [plawww.categories.categories :as categories]
    [plawww.crt :refer [crt-page]]
    [plawww.home :refer [home-page]]
-   [plawww.paths :refer [explorer-path categories-path]]
+   [plawww.mediadb.core :as db]
+   [plawww.navbar.core :as navbar]
+   [plawww.paths :as paths :refer [explorer-path categories-path]]
    [plawww.texts.core :as texts-section]
    [plawww.welcome :as welcome]
    [plawww.about.core :as about]
    [plawww.medialist.explorer :as explorer]
    [reagent.core :refer [atom]]
+   [reagent.dom :as rdom]
    [reagent.session :as session]
    [secretary.core :as secretary :refer [defroute]]
    [plawww.media-player.core :as player]
-   [plawww.utils :as utils]
    [plawww.media-item.media-item :as media-item]))
 
 (defonce ^:export ALLMEDIA (js->clj js/kolbasulPlanetar :keywordize-keys true))
@@ -55,7 +55,7 @@
           (when current-item
             [media-item/item-info-component
              {:on-play #(player/set-current-item current-item)
-              :on-close #(accountant.core/navigate! (plawww.paths/explorer-path "" :keep-query))
+              :on-close #(accountant/navigate! (paths/explorer-path "" :keep-query))
               :selected-item current-item
               :playing-item playing-item
               :playing? playing?}])}]))))
@@ -67,7 +67,6 @@
 
 ;Home - shown when (*) is clicked
 (defn show-home-page []
-  (swap! plawww.navbar.core/state assoc :search-string "")
   [crt-page
    [home-page]])
 
@@ -85,10 +84,9 @@
   (first (filter #(= title (:title %)) (session/get :media-items))))
 
 (defn category-for-slug [slug]
-  (plawww.mediadb.core/category-by-slug (session/get :categories) slug))
+  (db/category-by-slug (session/get :categories) slug))
 
 (defn show-explorer-page [id & [opts]]
-  (js/console.log "opts=" (pr-str opts))
   (when-not (= (session/get :current-page) #'explorer-page)
     (session/put! :current-page #'explorer-page))
   (explorer/set-opts (or opts {:included-tags #{}}))
@@ -103,7 +101,7 @@
 (defn category-from-query-params [qp]
   (let [slug (:colectia qp)]
     (when slug
-      (plawww.mediadb.core/category-by-slug (session/get :categories) slug))))
+      (db/category-by-slug (session/get :categories) slug))))
 
 ;; -------------------------
 ;; Routes
@@ -117,7 +115,6 @@
 (secretary/set-config! :prefix "#")
 
 (defroute "/" []
-  (welcome/on-init)
   (session/put! :current-page #'welcome/page))
 
 (defroute #"/despre|/about" []
@@ -155,12 +152,13 @@
 
 (defroute (explorer-path "tag/:tag") [tag]
   (let [tags (str/split tag #"\+")]
-    (secretary.core/dispatch! (plawww.paths/tags-path tags))))
+    (secretary/dispatch! (paths/tags-path tags))))
 
 (defroute (categories-path-regex "?") []
   (show-categories-page))
 
 (defroute #"/home/?" []
+  (swap! navbar/state assoc :search-string "")
   (session/put! :current-page #'show-home-page))
 
 (defroute #"/text/?|/carti/?" []
@@ -188,14 +186,13 @@
             [:div "Dapu-kaneshna-kiar-amush ! Nu-i asa ceva, nu-i ! "])))))
 
 (defn mount-root []
-  (reagent.dom/render [current-page] (js/document.getElementById "app")))
+  (rdom/render [current-page] (js/document.getElementById "app")))
 
 (defn parse-dates [media-items]
   (map #(update-in % [:publish_on] (fn [s]
                                      (when s
                                        (js/Date. s)))) media-items))
 (defn init! []
-  (utils/ga "create" "UA-128602722-1" "auto")
   (session/put! :media-items (parse-dates (:media ALLMEDIA)))
   (session/put! :categories (:categories ALLMEDIA))
   (accountant/configure-navigation!

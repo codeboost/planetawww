@@ -1,8 +1,6 @@
 (ns plawww.texts.core
   (:require
-   [plawww.components.components :refer [typed-text-component]]
-   [reagent.core :as r]
-   [cljsjs.typedjs]))
+   [reagent.core :as r]))
 
 (defonce state (r/atom {:sub-menu nil}))
 
@@ -16,8 +14,6 @@
    [:div.book
     [:a.link-back {:href "javascript:history.back()"} ".."]
     [:h2.nekro-title "NEKROTITANIUM"]
-    #_[typed-text-component {:strings nekro-description
-                             :showCursor false}]
     [:div.nekro-description nekro-description] ; the name, lol :)
     [:div.link-cartier
      [:a {:href "http://www.cartier.md/carti/nekrotitanium/855.html"

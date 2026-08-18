@@ -7,9 +7,7 @@
   :dependencies [[binaryage/devtools "1.0.0"]
                  [binaryage/dirac "1.5.11"]
                  [clj-http "3.10.1"]
-                 [cljsjs/google-analytics "2017.09.21-0"]
                  [cljsjs/react-player "1.11.0-0"]
-                 [cljsjs/typedjs "1.1.1-0"] ;jquery plugin that types
                  [com.cemerick/url "0.1.1"]
                  [compojure "1.6.1"]
                  [hiccup "1.0.5"]

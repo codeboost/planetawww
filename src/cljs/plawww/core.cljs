@@ -54,7 +54,7 @@
          {:detail-page
           (when current-item
             [media-item/item-info-component
-             {:on-play #(player/set-current-item current-item)
+             {:on-play #(player/set-current-item! current-item)
               :on-close #(accountant/navigate! (paths/explorer-path "" :keep-query))
               :selected-item current-item
               :playing-item playing-item

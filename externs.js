@@ -18,5 +18,6 @@ screenfull.prototype = {
 	"onerror" : function(){},
 	"toggle" : function() {},
 	"on" : function() {},
+	"off" : function() {},
 	"isFullscreen" : {}
 }

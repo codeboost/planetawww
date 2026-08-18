@@ -49,10 +49,10 @@
 (defn state-cursor [keys]
   (r/cursor mplayer-state keys))
 
-(defn set-detail-visible [visible?]
+(defn set-detail-visible! [visible?]
   (swap! mplayer-state assoc :detail-visible? visible? :volume-visible? false))
 
-(defn- set-audio-volume [percent]
+(defn- set-audio-volume! [percent]
   (swap! mplayer-state assoc :volume percent))
 
 
@@ -66,16 +66,16 @@
                       :playing true})
   (r/flush))
 
-(defn toggle-play [state]
+(defn toggle-play! [state]
   (swap! state update :playing not))
 
 
-(defn set-current-item
+(defn set-current-item!
   "Sets `item` as player's current item, which will cause the player to load the media file and possibly start playback.
   If the same item is already playing, it will be paused. If it is paused, it will be resumed."
   [item]
   (if (= item (:item @mplayer-state))
-   (toggle-play mplayer-state)
+   (toggle-play! mplayer-state)
    (swap! mplayer-state merge {:item item
                                :visible true
                                :detail-visible? (= (:type item) "video")
@@ -91,7 +91,7 @@
           text (if playing "||" ">>")]
       [:div.accessory-button.play-button
        {:class (when playing :selected)
-        :on-click #(toggle-play state)}
+        :on-click #(toggle-play! state)}
        text])))
 
 (defn- update-played-time! [mplayer state]
@@ -101,7 +101,7 @@
       (swap! state merge {:played played :duration duration})))
 
 
-(defn- start-update-duration-timer
+(defn- start-update-duration-timer!
   "update-interval is an atom which will contain the interval id.
    state is the atom where the :duration and :played values will be stored."
   [mplayer state update-interval]
@@ -115,21 +115,23 @@
 
 (defn toggle-fullscreen! []
   (when-let [el @the-player]
-    (fullscreen/toggle mplayer-state el)))
+    (fullscreen/toggle! mplayer-state el)))
 
 (defn media-player [state]
   (let [update-interval (atom 0)
         container-el (r/atom nil)
-        mouse-move #(fullscreen/show-then-hide-fullscreen-controls! state)]
+        show-controls! #(fullscreen/show-then-hide-fullscreen-controls! state)]
     (r/create-class
      {:component-did-mount
       (fn []
-        (start-update-duration-timer mplayer state update-interval)
-        (.addEventListener js/document "mousemove" mouse-move))
+        (start-update-duration-timer! mplayer state update-interval)
+        (.addEventListener js/document "mousemove" show-controls!)
+        (.addEventListener js/document "touchstart" show-controls!))
 
       :component-will-unmount (fn []
                                 (js/clearInterval @update-interval)
-                                (.removeEventListener js/document "mousemove" mouse-move))
+                                (.removeEventListener js/document "mousemove" show-controls!)
+                                (.removeEventListener js/document "touchstart" show-controls!))
 
       :reagent-render
       (fn []
@@ -152,12 +154,12 @@
                            (flush-play! state)
                            (swap! state assoc :playing true)))
              :on-ended #(do
-                          (fullscreen/restore-fullscreen state)
+                          (fullscreen/restore-fullscreen! state)
                           (swap! state assoc :playing false))
              :on-ready (fn [])
              :on-play  #(do
                           (swap! state assoc :playing true)
-                          (fullscreen/hide-controls-after-a-while state))
+                          (fullscreen/hide-controls-after-a-while! state))
              :on-pause #(do
                           (swap! state assoc :playing false)
                           (fullscreen/show-fullscreen-controls! state))
@@ -169,7 +171,7 @@
                             ;don't do this - scrolling won't work
                             ;there's a timer that takes care of it
                             #_(swap! state assoc :played (.. p -played)))
-             :on-mouse-move mouse-move
+             :on-mouse-move show-controls!
              :youtube {:player-vars {:controls 0
                                      :rel 0
                                      :showinfo 0}}}]]))})))
@@ -232,7 +234,7 @@
         (when video?
           [:div.accessory-button
            {:on-click #(do
-                         (set-detail-visible true)
+                         (set-detail-visible! true)
                          (toggle-fullscreen!))
             :class    (when (:fullscreen? @state) :selected)}
            "F"])
@@ -269,10 +271,10 @@
            #_[:img.item-icon {:src (paths/media-image-path (:id item) {:show-custom? true})}]
            [:h3.title {:on-click #(do
                                      (session/put! :current-media-item item)
-                                     (set-detail-visible false))} (:title item)]]
+                                     (set-detail-visible! false))} (:title item)]]
           (when video? [minimise-button "x" #(if fullscreen?
                                                (toggle-fullscreen!)
-                                               (set-detail-visible false))])
+                                               (set-detail-visible! false))])
           [media-player state]]
          [:div.content [medium-player state]]
          (when share-dialog-visible?

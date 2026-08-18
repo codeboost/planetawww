@@ -1,20 +1,17 @@
 (ns plawww.server
-  (:require [plawww.handler :refer [app]]
+  (:require [plawww.handler :as handler :refer [app]]
             [config.core :refer [env]]
             [ring.adapter.jetty :refer [run-jetty]])
   (:gen-class))
 
-(defn missing-env-vars []
-  (cond-> []
-    (not (env :planeta-mysql-pwd))
-    (conj "PLANETA_MYSQL_PWD")))
-    ;(not (env :planeta-mediadrop-data))
-    ;(conj "PLANETA_MEDIADROP_DATA")))
-
 (defn -main [& args]
-  (let [missing-vars (missing-env-vars)]
-    (when (seq missing-vars)
-      (throw (ex-info "Missing environment variables" {:missing missing-vars}))))
+  ;; Fail fast if the catalog is missing or unparseable.
+  (try
+    (handler/load-db-data)
+    (catch Exception e
+      (throw (ex-info (str "Cannot load catalog: " (handler/media-path "/catalog.json"))
+                      {:path (handler/media-path "/catalog.json")}
+                      e))))
 
   (let [port (Integer/parseInt (or (env :port) "3333"))]
     (run-jetty app {:port port :join? false})))

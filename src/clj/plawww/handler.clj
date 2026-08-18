@@ -8,7 +8,6 @@
     [config.core :refer [env]]
     [hiccup.page :refer [include-js include-css html5 html4]]
     [plawww.middleware :refer [wrap-middleware]]
-    [plawww.db.core :as db]
     [plawww.partial :refer [wrap-partial-content]]
     [ring.middleware.file :refer [wrap-file]]))
 
@@ -19,13 +18,12 @@
     ret-path))
 
 (defn load-db-data
-  "Loads the media info from database.
+  "Loads the media catalog from `catalog.json` in the media data directory.
   Returns a map, containing:
     :media - published media items.
     :categories - media categories."
   []
-  {:media (db/get-media)
-   :categories (db/get-categories)})
+  (json/read-str (slurp (media-path "/catalog.json")) :key-fn keyword))
 
 (def splash-messages ["Se determina coordonatele..."
                       "Amush..."

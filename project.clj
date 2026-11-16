@@ -7,18 +7,13 @@
   :dependencies [[binaryage/devtools "1.0.0"]
                  [binaryage/dirac "1.5.11"]
                  [clj-http "3.10.1"]
-                 [cljsjs/google-analytics "2017.09.21-0"]
                  [cljsjs/react-player "1.11.0-0"]
-                 [cljsjs/typedjs "1.1.1-0"] ;jquery plugin that types
                  [com.cemerick/url "0.1.1"]
                  [compojure "1.6.1"]
                  [hiccup "1.0.5"]
-                 [honeysql "0.9.10"]
-                 [mysql/mysql-connector-java "8.0.20"]
                  [org.clojure/clojure "1.9.0"]
                  [org.clojure/clojurescript "1.10.339" :scope "provided"]
                  [org.clojure/core.async "1.1.587"]
-                 [org.clojure/java.jdbc "0.7.11"]
                  [reagent "0.8.1"]
                  [reagent-utils "0.3.1"]
                  [ring "1.8.1"]
@@ -30,9 +25,7 @@
 
 
   :plugins [[lein-environ "1.0.2"]
-            [lein-cljsbuild "1.1.7"]
-            [lein-asset-minifier "0.2.7"
-             :exclusions [org.clojure/clojure]]]
+            [lein-cljsbuild "1.1.7"]]
 
   :ring {:handler plawww.handler/app
          :uberwar-name "plawww.war"}
@@ -51,9 +44,9 @@
   :source-paths ["src/clj" "src/cljc"]
   :resource-paths ["resources" "target/cljsbuild" ".semver"]
 
-  :minify-assets  {:assets
-                   {"resources/public/css/crt/crt.min.css" "resources/public/css/crt/crt.css"}}
-
+  ;; CSS (crt.css and crt.min.css) is built by scripts/build-css.sh (Node lessc +
+  ;; clean-css); lein-less and lein-asset-minifier were dropped - both are broken
+  ;; on JDK 15+ (Nashorn removal / ancient core.async in the plugin).
 
   :cljsbuild
   {:builds {
@@ -92,10 +85,6 @@
    :css-dirs ["resources/public/css"]
    :ring-handler plawww.handler/app}
 
-  :less {:source-paths ["src/less"]
-         :target-path "resources/public/css"}
-
-
   :profiles {:dev {:repl-options {:init-ns plawww.repl
                                   :nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
 
@@ -109,16 +98,14 @@
 
 
                    :source-paths ["env/dev/clj"]
-                   :plugins [[lein-figwheel "0.5.16"]
-                             [lein-less "1.7.5"]]
+                   :plugins [[lein-figwheel "0.5.16"]]
 
                    :injections [(require 'pjstadig.humane-test-output)
                                 (pjstadig.humane-test-output/activate!)]
 
                    :env {:dev true}}
 
-             :uberjar {:hooks [minify-assets.plugin/hooks]
-                       :source-paths ["env/prod/clj"]
+             :uberjar {:source-paths ["env/prod/clj"]
                        :prep-tasks ["compile" ["cljsbuild" "once" "min"]]
                        :env {:production true}
                        :aot :all

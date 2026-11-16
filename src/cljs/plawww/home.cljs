@@ -31,7 +31,7 @@
    "?"])
 
 (defn rand-title []
-  (nth titles (rand (count titles))))
+  (nth titles (rand-int (count titles))))
 
 (defn menu-item [path title]
   (let [href (if (= "/" (first path)) path (explorer-path path))]

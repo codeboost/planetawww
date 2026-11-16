@@ -2,17 +2,21 @@
 
 .welcome-content {
 	text-align: justify;
+	white-space: pre-line;
 	margin: auto;
+	//Full width up to the max-width below, instead of shrinking to fit the text.
+	//No max-height: the box is as tall as the full story (the typewriter reserves
+	//the untyped text's space), and only scrolls if the screen itself is too short.
+	width: 100%;
 	overflow-y: auto;
 	.hide-scrollbar();
 	.multi-media ({ //mobile
 		margin: 16px;
+		width: auto;
 	}, { //tablet
-		max-width: 640px; 
-		max-height: 480px;
+		max-width: 640px;
 	}, { //desktop
-		max-width: 800px; 
-		max-height: 600px;
+		max-width: 800px;
 	});
 
 }
@@ -20,7 +24,14 @@
 h1.ok-button {
 	width: 100%;
 	text-align: center;
-	display: none;
+	visibility: hidden;
+	opacity: 0;
+	transition: opacity 1s ease-in;
+
+	&.visible {
+		visibility: visible;
+		opacity: 1;
+	}
 }
 
 .scale-out-animation

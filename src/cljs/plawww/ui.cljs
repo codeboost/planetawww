@@ -118,15 +118,14 @@
 
       :reagent-render
       (fn [{:keys [on-close visible? class] :or {visible? false} :as props} content]
-        (let [class (remove nil? (if (seq? class) class [class]))])
-        (when visible?
+        (let [class (remove nil? (if (sequential? class) class [class]))]
+         (when visible?
           [overlay {:class (into [:pm-modal--overlay :show-scaled] class)
                     :on-mouse-down mouse-down-handler
                     :style {:animation-duration "0.2s"}}
            [:div.pm-modal--container
-            [:div.pm-modal (dissoc props :on-close :visible?)
-             #_[:div.pm-modal--close {:on-click on-close} "x"]
-             content]]]))})))
+            [:div.pm-modal (dissoc props :on-close :visible? :class)
+             content]]])))})))
 
 (defn ui-dialog [{:keys [on-close]} content]
   [:div.ui-dialog

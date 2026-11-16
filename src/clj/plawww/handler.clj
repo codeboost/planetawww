@@ -1,6 +1,7 @@
 (ns plawww.handler
   (:require
     [clojure.data.json :as json]
+    [clojure.string :as str]
     [clojure.tools.logging :refer [info error]]
     [clojure.java.io :as io]
     [compojure.core :refer [GET defroutes] :as compojure]
@@ -8,7 +9,6 @@
     [config.core :refer [env]]
     [hiccup.page :refer [include-js include-css html5 html4]]
     [plawww.middleware :refer [wrap-middleware]]
-    [plawww.db.core :as db]
     [plawww.partial :refer [wrap-partial-content]]
     [ring.middleware.file :refer [wrap-file]]))
 
@@ -19,13 +19,12 @@
     ret-path))
 
 (defn load-db-data
-  "Loads the media info from database.
+  "Loads the media catalog from `catalog.json` in the media data directory.
   Returns a map, containing:
     :media - published media items.
     :categories - media categories."
   []
-  {:media (db/get-media)
-   :categories (db/get-categories)})
+  (json/read-str (slurp (media-path "/catalog.json")) :key-fn keyword))
 
 (def splash-messages ["Se determina coordonatele..."
                       "Amush..."
@@ -41,24 +40,15 @@
   [:div#app
    [:h3 (rand-nth splash-messages)]])
 
-(defn google-analytics-include []
-  [:script {:async true
-            :src "https://www.googletagmanager.com/gtag/js?id=UA-128602722-1"}])
-
-(defn google-analytics-init []
-  [:script
-   "window.dataLayer = window.dataLayer || [];\n
-  function gtag(){dataLayer.push(arguments);}\n
-  gtag('js', new Date());
-  gtag('config', 'UA-128602722-1');"])
-
 (defn head
   "Head tag for the website, including css and scripts required by the app.
   The head also contains the media database, which should be accessible on the client
   as `kolbasulPlanetar` global javascript variable."
   [css-includes]
   (let [db-data (load-db-data)
-        db-json (json/write-str db-data)]
+        ;; <-escape so catalog content can never contain a literal
+        ;; </script> sequence that terminates the inline script tag.
+        db-json (str/replace (json/write-str db-data) "<" "\\u003c")]
     [:head
      [:title "Planeta Moldova"]
      [:meta {:charset "utf-8"}]
@@ -66,9 +56,7 @@
      [:meta {:name "description" :content "Site-ul oficial Planeta Moldova. Scenete audio, clipuri video si muzicile noastre."}]
      [:meta {:name "author" :content "2p-trip"}]
      (map include-css css-includes)
-     [:script (str "var kolbasulPlanetar = " db-json ";")]
-     (google-analytics-include)
-     (google-analytics-init)]))
+     [:script (str "var kolbasulPlanetar = " db-json ";")]]))
 
 (defn main-page []
   (html5 {:lang "ro"}

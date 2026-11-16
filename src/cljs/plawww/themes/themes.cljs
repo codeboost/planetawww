@@ -76,5 +76,7 @@
     [:h3.title "Alege"]
     (into
      [:div.themes]
-     (mapv theme-component themes))]])
+     (for [{:keys [name] :as theme} themes]
+       ^{:key name}
+       [theme-component theme]))]])
 

@@ -7,8 +7,9 @@
 
 (ns plawww.welcome
   (:require
+   [plawww.components.components :refer [typewriter]]
    [plawww.crt :refer [crt-page]]
-   [cljsjs.typedjs]))
+   [reagent.core :as r]))
 
 (def welcome-text "Anul 3000.
 Bespredelu', marazmu' si gruzul au crescut considerabil in Moldova.
@@ -26,23 +27,49 @@ In scurt timp toate tarile de pe Pamant s-au refugiat in spatiu, au cerut azil p
 ")
 
 (defn page []
-  [crt-page
-    [:div.welcome-content
-     [:p#story-text]
-     [:h1#continue-button.ok-button
-      [:a#cont-a {:href "/home"} "CONTINUARE"]]]
-    {:navbar-hidden? true}])
+  (let [continue-visible? (r/atom false)
+        skip-typing (atom nil)
+        skipped? (atom false)
+        ;First click/tap anywhere skips the typing; the typewriter's
+        ;on-complete shows the continue button in both cases.
+        ;Document-level listener: the CRT frame overlays the content,
+        ;so a handler on the content div would never receive the click.
+        skip! (fn []
+                (when-let [skip @skip-typing]
+                  (reset! skipped? true)
+                  (skip)))
+        ;When the story is taller than the screen (phones), bring the button
+        ;into view once the typing reaches the end. After a skip the reader
+        ;is left where they were, to read on at their own pace.
+        on-typing-complete (fn []
+                             (reset! continue-visible? true)
+                             (when-not @skipped?
+                               (some-> (.getElementById js/document "continue-button")
+                                       (.scrollIntoView #js {:block "nearest"
+                                                             :behavior "smooth"}))))]
+    (r/create-class
+     {:display-name "welcome-page"
 
-(defn continue-on-click[]
-  (-> (js/$ "body")
-      (.on "click touchstart" (fn[]
-                               (-> (js/jQuery "#continue-button")
-                                   (.fadeIn 1000))))))
+      :component-did-mount
+      (fn []
+        (.addEventListener js/document "click" skip!)
+        (.addEventListener js/document "touchstart" skip!))
 
-(defn on-init[]
-  (js/$ (fn []
-          (continue-on-click)
-          (->
-            (js/$ "#story-text")
-            (.typed (clj->js {:strings [welcome-text]
-                              :showCursor false}))))))
+      :component-will-unmount
+      (fn []
+        (.removeEventListener js/document "click" skip!)
+        (.removeEventListener js/document "touchstart" skip!))
+
+      :reagent-render
+      (fn []
+        [crt-page
+         [:div.welcome-content
+          [:p#story-text
+           [typewriter {:text welcome-text
+                        :speed-ms 25
+                        :skip-atom skip-typing
+                        :on-complete on-typing-complete}]]
+          [:h1#continue-button.ok-button
+           {:class (when @continue-visible? :visible)}
+           [:a#cont-a {:href "/home"} "CONTINUARE"]]]
+         {:navbar-hidden? true}])})))

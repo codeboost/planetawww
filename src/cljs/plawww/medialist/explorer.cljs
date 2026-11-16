@@ -7,19 +7,18 @@
 
 (ns plawww.medialist.explorer
   (:require
+   [accountant.core :as accountant]
    [clojure.string :as str]
+   [plawww.categories.categories :as categories]
    [plawww.paths :as paths]
    [reagent.session :as session]
    [plawww.medialist.toolbar :as toolbar]
-   [plawww.components.components :refer [minimise-button]]
    [plawww.mediadb.core :as db]
    [plawww.paths :refer [explorer-path path-for-item-with-title]]
    [plawww.ui :as ui]
    [plawww.utils :refer [search-match?]]
    [reagent.core :as r]
-   [goog.string :as gstring]
-   [goog.string.format]
-   [plawww.media-item.media-item :as media-item]
+   [reagent.ratom :as ratom]
    [plawww.utils :as utils]))
 
 (defonce *state* (r/atom {:sort-by :new
@@ -36,6 +35,7 @@
    [:ul.inline-tags]
    (for [tag tags]
      (let [tag-text (if (= tag (last tags)) tag (str tag ", "))]
+       ^{:key tag}
        [:li tag-text]))))
 
 (defn m->detail [state {:keys [title id type tags publish_on description_plain] :as m}]
@@ -139,7 +139,7 @@
       :all-click #(swap! state assoc :included-tags #{})
       :close-click #(do
                       (swap! state assoc :visible-dialog :none)
-                      (accountant.core/navigate! (paths/tags-path included-tags)))
+                      (accountant/navigate! (paths/tags-path included-tags)))
       :result-count result-count}]]])
 
 (defn toolbar [{:keys [sort-by sort-by-clicked detail? detail-clicked tags tags-clicked]}]
@@ -149,7 +149,7 @@
                               :detail? detail?
                               :detail-clicked detail-clicked}]])
 
-(defn reaction [fn] (reagent.ratom/make-reaction fn))
+(defn reaction [fn] (ratom/make-reaction fn))
 
 (defn explorer-page []
   (let [state *state*
@@ -175,9 +175,9 @@
         [:div.explorer
          [:div.media-list
           (when (:category @state)
-            [plawww.categories.categories/category-component (:category @state) {:url (paths/categories-path "")
-                                                                                 :index 0
-                                                                                 :scale-on-hover? false}])
+            [categories/category-component (:category @state) {:url (paths/categories-path "")
+                                                               :index 0
+                                                               :scale-on-hover? false}])
           (when-not searching?
             (when-not navbar-minimised?
               [toolbar {:sort-by (:sort-by @state)

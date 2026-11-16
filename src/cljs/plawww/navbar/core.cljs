@@ -24,7 +24,7 @@
            [search-component {:search-string (:search-string @state)
                               :on-change (fn [e]
                                            ;I don't like this, but will do for now; this thing needs a proper refactor.
-                                           (media-player/set-detail-visible false)
+                                           (media-player/set-detail-visible! false)
                                            (swap! state assoc :search-string (-> e .-target .-value)))
                               :search-title-clicked #(session/put! :navbar-minimised? true)}])
 
@@ -32,4 +32,3 @@
            [:h4.max-button {:on-click #(session/put! :navbar-minimised? false)} "?"])
 
          [:div]]))))
-

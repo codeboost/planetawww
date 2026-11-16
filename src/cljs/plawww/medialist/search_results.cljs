@@ -36,8 +36,9 @@
 (defn- detail-title [{:keys [title duration type]}]
   (str (mtype-str type) title " - " (utils/format-duration duration)))
 
-(defn render-menu-item [{:keys [title id description] :as item} {:keys [detail-items? selected-id]}]
+(defn render-menu-item
   "Menu item."
+  [{:keys [title id description] :as item} {:keys [detail-items? selected-id]}]
   (let [selected? (= id selected-id)
         title     (if detail-items? (detail-title item) title)]
     ^{:key id}
@@ -51,9 +52,10 @@
                                    (str/replace "<p>" "")   ;Rudimentary and temporary
                                    (str/replace "</p>" "")))]])]))
 
-(defn render-menu [{:keys [title items]} {:keys [expanded? detail-items? on-title-clicked] :as opts}]
+(defn render-menu
   "A 'menu' in this context is a div which displays a title and optionally a `ul` containing  child items.
   The name `menu` stuck around, so I'll keep it."
+  [{:keys [title items]} {:keys [expanded? detail-items? on-title-clicked] :as opts}]
   (let [disp-title (if detail-items?
                        (str title " - " (count items))
                        title)]
@@ -130,5 +132,5 @@
                [:div "---"]])
             [:ul.items
              (if (seq items)
-               (doall (map render-menu-item items))
+               (doall (map #(render-menu-item % {}) items))
                [:li.no-results no-results-fn])]]]))})))

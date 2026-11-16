@@ -85,7 +85,11 @@
   (let [tags (if (string? tags) (str/split tags #"\+") tags)
         tags (if (coll? tags) (str/join "+" tags) tags)
         q (current-url-query)
-        q (if-not (empty? tags) (assoc q "taguit" tags) q)
+        q (if-not (empty? tags)
+            (-> q
+                (assoc "taguit" tags)
+                (dissoc "tags"))
+            (dissoc q "taguit" "tags"))
         query (str "?" (-> (url/map->query q) (str/replace "%2B" "+")))]
     (*-path EXPLORER_PATH query)))
 

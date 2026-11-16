@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "planeta",
+      "runtimeExecutable": "lein",
+      "runtimeArgs": ["run"],
+      "port": 3333
+    }
+  ]
+}

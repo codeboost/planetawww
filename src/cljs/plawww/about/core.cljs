@@ -5,8 +5,7 @@
 ;   the terms of this license.
 ;   You must not remove this notice, or any other, from this software.
 
-(ns plawww.about.core
-  (:require [plawww.components.components :refer [typed-text-component]]))
+(ns plawww.about.core)
 
 (def about-text
   "

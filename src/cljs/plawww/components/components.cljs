@@ -17,17 +17,23 @@
     :speed-ms    - delay between characters, in milliseconds.
     :on-complete - called once, when the full text is displayed (also after a skip).
     :skip-atom   - optional atom; the component stores a 0-arg `skip!` fn in it,
-                   which the parent can call to jump to the full text."
+                   which the parent can call to jump to the full text.
+  While typing, the typing position is kept in view when the text is taller than
+  its scroll container (e.g. on phones). A skip leaves the scroll position alone."
   [{:keys [text speed-ms on-complete skip-atom] :or {speed-ms 25}}]
   (let [pos (r/atom 0)
         interval-id (atom nil)
         completed? (atom false)
+        skipped? (atom false)
+        cursor-el (atom nil)
+        cursor-ref #(reset! cursor-el %)
         complete! (fn []
                     (js/clearInterval @interval-id)
                     (when-not @completed?
                       (reset! completed? true)
                       (when on-complete (on-complete))))
         skip! (fn []
+                (reset! skipped? true)
                 (reset! pos (count text))
                 (complete!))]
     (when skip-atom
@@ -45,6 +51,14 @@
                      (complete!)))
                  speed-ms)))
 
+      :component-did-update
+      (fn []
+        ;Follow the typing: scrolls only when the current line is out of view.
+        ;Not after completion, so a late render can't cut short a scroll
+        ;started by the parent's on-complete.
+        (when-let [el (and (not @skipped?) (not @completed?) @cursor-el)]
+          (.scrollIntoView el #js {:block "nearest"})))
+
       :component-will-unmount
       (fn []
         (js/clearInterval @interval-id)
@@ -52,7 +66,18 @@
 
       :reagent-render
       (fn []
-        [:span.typewriter (subs text 0 @pos)])})))
+        ;The not-yet-typed remainder is rendered invisibly, so the text is
+        ;laid out at its final size and line breaks from the first frame;
+        ;nothing reflows (or scrolls) while typing.
+        [:span.typewriter
+         (subs text 0 @pos)
+         ;Empty marker at the typing position. scrollIntoView treats it as a
+         ;zero-height point at the top of its line; the scroll margin makes the
+         ;whole line (plus some breathing room) count as the target.
+         [:span.typewriter-cursor {:ref cursor-ref
+                                   :style {:scroll-margin-bottom "2em"}}]
+         [:span.typewriter-rest {:style {:visibility "hidden"}}
+          (subs text @pos)]])})))
 
 (defn minimise-button
   [text on-click]
